@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiArrowRight } from 'react-icons/fi';
+import { FiMenu, FiX, FiArrowRight, FiSearch, FiShield, FiLayers, FiBookOpen } from 'react-icons/fi';
 import Logo from './Logo';
 import { companiesData } from '../data/companies';
 import CompareForm from './CompareForm';
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false); // Mobile drawer open
   const [dropdownOpen, setDropdownOpen] = useState(false); // Desktop hover open
-  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false); // Mobile click open
   const [compareDropdownOpen, setCompareDropdownOpen] = useState(false); // Desktop compare hover open
-  const [mobileCompareOpen, setMobileCompareOpen] = useState(false); // Mobile compare click open
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
   const [isHoveringCompare, setIsHoveringCompare] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -52,15 +49,14 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-6">
-        <div className="flex items-center justify-between h-12">
-          
+        
+        {/* Desktop Layout - EXACTLY as it currently is */}
+        <div className="hidden md:flex items-center justify-between h-12">
           {/* Left Brand Logo */}
           <Link
             to="/"
             onClick={() => {
-              setIsOpen(false);
               setDropdownOpen(false);
-              setMobileDropdownOpen(false);
             }}
             className="flex items-center shrink-0 cursor-pointer"
           >
@@ -68,8 +64,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Main Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            
+          <div className="flex items-center gap-8">
             {/* Insurance (Hover menu, no arrow) */}
             <div 
               className="relative py-2"
@@ -231,137 +226,25 @@ export default function Navbar() {
               Insurance Academy
             </Link>
           </div>
-
-          {/* Mobile Drawer Trigger Button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-slate-600 hover:text-slate-900 p-1.5 rounded-xl hover:bg-slate-100/60 transition-colors"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <FiX className="text-2xl" /> : <FiMenu className="text-2xl" />}
-            </button>
-          </div>
-
         </div>
+
+        {/* Mobile Layout - Restructured */}
+        <div className="md:hidden flex flex-col w-full py-1">
+          {/* Row 1: Logo & Insurance Academy */}
+          <div className="flex items-center justify-between h-10">
+            <Link to="/" className="flex items-center shrink-0 cursor-pointer">
+              <Logo className="h-7" />
+            </Link>
+            <Link
+              to="/academy"
+              className="text-[10px] font-bold px-3.5 py-1.5 rounded-full border border-emerald-500 bg-gradient-to-r from-emerald-50 to-emerald-100/50 text-[#064e3b] hover:from-emerald-100 hover:to-emerald-200/50 hover:shadow-xs transition-all duration-200 cursor-pointer shadow-xs"
+            >
+              Insurance Academy
+            </Link>
+          </div>
+        </div>
+
       </div>
-
-      {/* Mobile Glass Menu Drawer */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="md:hidden border-t border-slate-200/50 bg-white/95 backdrop-blur-xl rounded-b-[20px] shadow-xl"
-            style={{
-              maxHeight: 'calc(100dvh - 100px)',
-              overflowY: 'auto',
-              overflowX: 'hidden',
-              scrollbarWidth: 'thin',
-              WebkitOverflowScrolling: 'touch'
-            }}
-          >
-            <div className="px-5 py-5 space-y-3">
-              
-              {/* Expandable Insurance List */}
-              <div className="border-b border-slate-50 pb-2">
-                <button
-                  onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
-                  className="w-full flex items-center justify-between py-2 text-base font-bold text-slate-700 hover:text-emerald-600 transition-colors cursor-pointer"
-                >
-                  <span>Insurance</span>
-                </button>
-
-                <AnimatePresence>
-                  {mobileDropdownOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="pl-3 mt-1.5 space-y-1.5 overflow-hidden"
-                    >
-                      {companiesData.map((company) => (
-                        <Link
-                          key={company.id}
-                          to={`/insurance/${company.id}`}
-                          onClick={() => {
-                            setIsOpen(false);
-                            setMobileDropdownOpen(false);
-                          }}
-                          className="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer"
-                        >
-                          <div className="w-7 h-7 flex items-center justify-center bg-slate-50 border border-slate-100 rounded-lg p-1 shrink-0">
-                            <img 
-                              src={company.logo} 
-                              alt={company.name} 
-                              className="w-full h-full object-contain" 
-                            />
-                          </div>
-                          <span className="text-xs font-bold text-slate-600">
-                            {company.name}
-                          </span>
-                        </Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Compare Mobile Accordion */}
-              <div className="border-b border-slate-50 pb-2">
-                <button
-                  onClick={() => setMobileCompareOpen(!mobileCompareOpen)}
-                  className="w-full flex items-center justify-between py-2 text-base font-bold text-slate-700 hover:text-emerald-600 transition-colors cursor-pointer text-left"
-                >
-                  <span>Compare</span>
-                </button>
-                <AnimatePresence>
-                  {mobileCompareOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: 'easeInOut' }}
-                      className={`mt-2 bg-slate-50/50 rounded-2xl p-4 border border-slate-100 transition-all duration-300 ${mobileCompareOpen ? 'overflow-visible' : 'overflow-hidden'}`}
-                    >
-                      <CompareForm onClose={() => {
-                        setIsOpen(false);
-                        setMobileCompareOpen(false);
-                      }} />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Claim */}
-              <Link
-                to="/claim"
-                onClick={() => setIsOpen(false)}
-                className={`block py-2 text-base font-bold rounded-xl transition-colors cursor-pointer ${
-                  isActive('/claim') ? 'text-emerald-600' : 'text-slate-700 hover:text-emerald-600'
-                }`}
-              >
-                Claim
-              </Link>
-
-              {/* Academy */}
-              <Link
-                to="/academy"
-                onClick={() => setIsOpen(false)}
-                className={`block py-2 text-base font-bold rounded-xl transition-colors cursor-pointer ${
-                  isActive('/academy') ? 'text-emerald-600' : 'text-slate-700 hover:text-emerald-600'
-                }`}
-              >
-                Insurance Academy
-              </Link>
-
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </nav>
   );
 }

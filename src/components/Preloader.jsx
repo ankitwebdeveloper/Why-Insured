@@ -7,10 +7,10 @@ export default function Preloader({ onComplete }) {
   const [startLoading, setStartLoading] = useState(false);
 
   useEffect(() => {
-    // Stage 1: Logo fades in first. Trigger progress loading after 500ms.
+    // Stage 1: Logo fades in first. Trigger progress loading after 200ms.
     const startTimer = setTimeout(() => {
       setStartLoading(true);
-    }, 500);
+    }, 200);
 
     return () => clearTimeout(startTimer);
   }, []);
@@ -18,9 +18,9 @@ export default function Preloader({ onComplete }) {
   useEffect(() => {
     if (!startLoading) return;
 
-    // Stage 2 & 3: Gradual progress increment from 0 to 100 over ~1.8 seconds
-    const duration = 1800; // total animation time in ms
-    const intervalTime = 30; // update frequency
+    // Stage 2 & 3: Gradual progress increment from 0 to 100 over ~0.7 seconds
+    const duration = 700; // total animation time in ms
+    const intervalTime = 25; // update frequency
     const steps = duration / intervalTime;
     let stepCount = 0;
 
@@ -34,7 +34,7 @@ export default function Preloader({ onComplete }) {
         // Stage 4: Pause briefly at 100% and then complete the loading sequence
         const exitTimer = setTimeout(() => {
           if (onComplete) onComplete();
-        }, 400);
+        }, 150);
         return () => clearTimeout(exitTimer);
       }
     }, intervalTime);

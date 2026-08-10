@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiSearch, FiArrowRight } from 'react-icons/fi';
+import { FiSearch, FiArrowRight, FiShield, FiBookOpen, FiLayers } from 'react-icons/fi';
 import { companiesData } from '../data/companies';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [showMobileInsurance, setShowMobileInsurance] = useState(false);
 
   // Filter companies based on case-insensitive query match
   const filteredCompanies = searchQuery.trim()
@@ -65,7 +66,7 @@ export default function Home() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="text-[34px] sm:text-[48px] md:text-[64px] lg:text-[72px] font-black tracking-tight text-[#0F172A] mb-12 font-display leading-[1.12] text-center"
+          className="text-[26px] sm:text-[38px] md:text-[50px] lg:text-[56px] font-black tracking-tight text-[#0F172A] mb-12 font-display leading-[1.12] text-center"
         >
           {words.map((word, idx) => {
             const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
@@ -159,6 +160,81 @@ export default function Home() {
             )}
           </AnimatePresence>
 
+        </motion.div>
+
+        {/* Mobile Navigation Buttons (Insurance, Compare, Claim) - Visible only on mobile */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: 'easeOut' }}
+          className="md:hidden flex flex-col items-center justify-center gap-4 mt-6 px-1 max-w-xl mx-auto"
+        >
+          <div className="flex flex-wrap items-center justify-center gap-2.5 w-full">
+            <button
+              onClick={() => setShowMobileInsurance(!showMobileInsurance)}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full border text-xs font-bold transition-all duration-200 cursor-pointer ${
+                showMobileInsurance
+                  ? 'border-emerald-500 bg-emerald-100/90 text-emerald-800 shadow-sm'
+                  : 'border-slate-200/80 bg-white text-slate-700 hover:text-emerald-600 shadow-sm hover:shadow-md'
+              }`}
+            >
+              <FiShield className="text-[#059669] text-sm shrink-0" />
+              <span>Insurance</span>
+            </button>
+            <Link
+              to="/compare"
+              className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200/80 rounded-full shadow-sm hover:shadow-md hover:border-slate-300 text-slate-700 hover:text-emerald-600 text-xs font-bold transition-all duration-200 cursor-pointer"
+            >
+              <FiLayers className="text-[#059669] text-sm shrink-0" />
+              <span>Compare</span>
+            </Link>
+            <Link
+              to="/claim"
+              className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200/80 rounded-full shadow-sm hover:shadow-md hover:border-slate-300 text-slate-700 hover:text-emerald-600 text-xs font-bold transition-all duration-200 cursor-pointer"
+            >
+              <FiShield className="text-[#059669] text-sm shrink-0" />
+              <span>Claim</span>
+            </Link>
+          </div>
+
+          {/* Supported Providers Grid for Mobile Insurance Button */}
+          <AnimatePresence>
+            {showMobileInsurance && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.2, ease: 'easeInOut' }}
+                className="w-full bg-white border border-slate-100 rounded-2xl p-4 shadow-xl overflow-hidden text-left"
+              >
+                <div className="mb-3 pl-1">
+                  <span className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400">
+                    Supported Providers
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {companiesData.map((company) => (
+                    <Link
+                      key={company.id}
+                      to={`/insurance/${company.id}`}
+                      className="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50/80 rounded-xl border border-slate-50 hover:border-slate-100 transition-all duration-200 cursor-pointer group"
+                    >
+                      <div className="w-8 h-8 flex items-center justify-center bg-slate-50 border border-slate-100 rounded-lg p-1 shrink-0 transition-transform duration-200 group-hover:scale-105">
+                        <img 
+                          src={company.logo} 
+                          alt={company.name} 
+                          className="w-full h-full object-contain" 
+                        />
+                      </div>
+                      <span className="text-xs font-bold text-slate-600 group-hover:text-emerald-600 transition-colors font-sans">
+                        {company.name}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
 
       </div>
