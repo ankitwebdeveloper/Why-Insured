@@ -36,7 +36,7 @@ export default function PlanDetail() {
   };
 
   return (
-    <div style={themeStyles} className="min-h-screen font-sans pt-24 pb-20 relative transition-colors duration-300" style={{ ...themeStyles, backgroundColor: 'var(--bg)' }}>
+    <div style={{ ...themeStyles, backgroundColor: 'var(--bg)' }} className="min-h-screen font-sans pt-24 pb-20 relative transition-colors duration-300">
       <div 
         className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none"
         style={{ backgroundColor: 'var(--primary)' }}
