@@ -263,6 +263,7 @@ export default function ComparisonPage() {
   const c2 = searchParams.get('c2');
   const p1 = searchParams.get('p1');
   const p2 = searchParams.get('p2');
+  const selectedCoverage = searchParams.get('cov') || '20';
 
 
 
@@ -441,8 +442,69 @@ export default function ComparisonPage() {
           </p>
         </div>
 
-        {/* Plans Header Cards */}
-        <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-stretch max-w-4xl mx-auto mb-10 comparison-header-cards">
+        {/* Mobile Header Selection (Stacked) */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          className="md:hidden space-y-4 max-w-md mx-auto mb-8 px-1"
+        >
+          {/* Card 1 */}
+          <div 
+            className="bg-white rounded-2xl border border-slate-100 p-4 shadow-xs relative overflow-hidden"
+            style={{ borderLeft: `4px solid ${company1.theme.primary}` }}
+          >
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                  {company1.name}
+                </span>
+                <h2 className="text-sm font-bold text-slate-800">
+                  {plan1.name}
+                </h2>
+                <span className="text-[11px] font-semibold text-emerald-600 block mt-0.5">
+                  ₹{selectedCoverage} Lakh Coverage
+                </span>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 p-1.5 flex items-center justify-center shrink-0">
+                <img src={company1.logo} alt={company1.name} className="w-full h-full object-contain" />
+              </div>
+            </div>
+          </div>
+
+          {/* VS Divider */}
+          <div className="flex items-center justify-center gap-3">
+            <div className="h-[1px] flex-grow bg-gradient-to-r from-transparent to-slate-200" />
+            <span className="text-xs font-black text-slate-400 tracking-wider animate-pulse">VS</span>
+            <div className="h-[1px] flex-grow bg-gradient-to-l from-transparent to-slate-200" />
+          </div>
+
+          {/* Card 2 */}
+          <div 
+            className="bg-white rounded-2xl border border-slate-100 p-4 shadow-xs relative overflow-hidden"
+            style={{ borderLeft: `4px solid ${company2.theme.primary}` }}
+          >
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                  {company2.name}
+                </span>
+                <h2 className="text-sm font-bold text-slate-800">
+                  {plan2.name}
+                </h2>
+                <span className="text-[11px] font-semibold text-emerald-600 block mt-0.5">
+                  ₹{selectedCoverage} Lakh Coverage
+                </span>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100/80 p-1.5 flex items-center justify-center shrink-0">
+                <img src={company2.logo} alt={company2.name} className="w-full h-full object-contain" />
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Plans Header Cards (Desktop/Tablet) */}
+        <div className="hidden md:grid grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-stretch max-w-4xl mx-auto mb-10 comparison-header-cards">
           {/* Plan 1 Header Card */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -473,8 +535,8 @@ export default function ComparisonPage() {
               <span className="text-sm sm:text-base lg:text-lg font-black text-emerald-600 block">
                 {plan1.premium}
               </span>
-              <span className="text-[9px] sm:text-xs font-bold text-slate-400 block uppercase tracking-wider mt-0.5">
-                {plan1.coverage} Cover
+              <span className="text-[9px] sm:text-xs font-bold text-slate-400 block uppercase tracking-wider mt-0.5 animate-fade-in">
+                ₹{selectedCoverage} Lakh Coverage
               </span>
             </div>
           </motion.div>
@@ -509,8 +571,8 @@ export default function ComparisonPage() {
               <span className="text-sm sm:text-base lg:text-lg font-black text-emerald-600 block">
                 {plan2.premium}
               </span>
-              <span className="text-[9px] sm:text-xs font-bold text-slate-400 block uppercase tracking-wider mt-0.5">
-                {plan2.coverage} Cover
+              <span className="text-[9px] sm:text-xs font-bold text-slate-400 block uppercase tracking-wider mt-0.5 animate-fade-in">
+                ₹{selectedCoverage} Lakh Coverage
               </span>
             </div>
           </motion.div>

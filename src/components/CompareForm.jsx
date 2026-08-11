@@ -18,6 +18,11 @@ export default function CompareForm({ onClose, onSubmenuStateChange }) {
   const [c2Open, setC2Open] = useState(false);
   const [p1Open, setP1Open] = useState(false);
   const [p2Open, setP2Open] = useState(false);
+  const [covOpen, setCovOpen] = useState(false);
+
+  // Coverage selection state (default to ₹20 Lakh)
+  const [coverage, setCoverage] = useState(20);
+  const coverageOptions = [10, 15, 20, 25, 30, 35, 40, 45, 50];
 
   // Validation flag: Plan selectors are enabled only after both companies are selected
   const plansEnabled = company1 !== null && company2 !== null;
@@ -25,7 +30,7 @@ export default function CompareForm({ onClose, onSubmenuStateChange }) {
   // Validation flag: "Compare Now" enabled only if all selections are complete
   const canCompare = company1 && company2 && plan1 && plan2;
 
-  const anyOpen = c1Open || c2Open || p1Open || p2Open;
+  const anyOpen = c1Open || c2Open || p1Open || p2Open || covOpen;
   useEffect(() => {
     if (onSubmenuStateChange) {
       onSubmenuStateChange(anyOpen);
@@ -58,8 +63,8 @@ export default function CompareForm({ onClose, onSubmenuStateChange }) {
   const handleCompareNow = () => {
     if (!canCompare) return;
 
-    // Navigate to ComparisonPage with selected parameters
-    navigate(`/compare?c1=${company1.id}&c2=${company2.id}&p1=${plan1.id}&p2=${plan2.id}`);
+    // Navigate to ComparisonPage with selected parameters and coverage
+    navigate(`/compare?c1=${company1.id}&c2=${company2.id}&p1=${plan1.id}&p2=${plan2.id}&cov=${coverage}`);
 
     // Close the dropdown parent if provided (e.g. Navbar menu)
     if (onClose) {
@@ -329,6 +334,69 @@ export default function CompareForm({ onClose, onSubmenuStateChange }) {
                       >
                         <span className="text-xs font-bold text-slate-700">{plan.name}</span>
                         <span className="text-[10px] text-slate-400 font-semibold line-clamp-1">{plan.description}</span>
+                      </button>
+                    ))}
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* ==================== 5. COVERAGE ==================== */}
+        <div className="md:col-span-2 space-y-1.5">
+          <label className="block text-[11px] font-extrabold uppercase tracking-widest text-slate-400 pl-0.5">
+            Coverage
+          </label>
+          <div className="relative">
+            <button
+              type="button"
+              disabled={!plan1 || !plan2}
+              onClick={() => {
+                setCovOpen(!covOpen);
+                setC1Open(false);
+                setC2Open(false);
+                setP1Open(false);
+                setP2Open(false);
+              }}
+              className={`w-full min-h-[46px] flex items-center justify-between px-4 py-2.5 border rounded-2xl transition-all duration-200 text-left text-sm font-semibold cursor-pointer ${
+                (plan1 && plan2) 
+                  ? 'bg-slate-50 border-slate-200/80 hover:bg-slate-100/50 hover:border-slate-300 text-slate-700' 
+                  : 'bg-slate-100/60 border-slate-200/50 text-slate-400 cursor-not-allowed'
+              }`}
+            >
+              {(plan1 && plan2) ? (
+                <span className="text-slate-700">₹{coverage} Lakh</span>
+              ) : (
+                <span className="text-slate-400">Select Coverage</span>
+              )}
+              <FiChevronDown className={`text-slate-400 transition-transform duration-200 ${covOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            <AnimatePresence>
+              {covOpen && plan1 && plan2 && (
+                <>
+                  <div className="fixed inset-0 z-30" onClick={() => setCovOpen(false)} />
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-0 right-0 mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl z-40 max-h-52 overflow-y-auto py-2"
+                  >
+                    {coverageOptions.map((cov) => (
+                      <button
+                        key={cov}
+                        type="button"
+                        onClick={() => {
+                          setCoverage(cov);
+                          setCovOpen(false);
+                        }}
+                        className={`w-full px-4 py-2.5 hover:bg-slate-50 text-left transition-colors text-xs font-bold ${
+                          coverage === cov ? 'text-emerald-600 bg-emerald-50/40' : 'text-slate-600'
+                        }`}
+                      >
+                        ₹{cov} Lakh
                       </button>
                     ))}
                   </motion.div>
