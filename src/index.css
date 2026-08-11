@@ -89,3 +89,79 @@
 input:focus, select:focus, textarea:focus {
   outline: none;
 }
+
+/* Word wrapping and shrink rules for table components to prevent text forcing columns to overflow */
+.comparison-feature-title,
+.comparison-value-text {
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  white-space: normal !important;
+}
+
+/* Specific optimizations for ultra-small viewports (<= 340px) like iPhone SE / 320px screens */
+@media (max-width: 340px) {
+  .comparison-page-wrapper {
+    padding-top: 5.5rem !important; /* Reduce top spacing to fit screens nicely */
+  }
+
+  .comparison-container {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .comparison-header-cards {
+    gap: 8px !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .comparison-header-card {
+    padding: 10px 8px !important;
+    border-radius: 12px !important;
+  }
+
+  .comparison-header-card h2 {
+    font-size: 11px !important;
+  }
+
+  .comparison-header-card span {
+    font-size: 9px !important;
+  }
+
+  .comparison-sticky-header {
+    top: 76px !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    gap: 4px !important;
+    border-radius: 12px !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .comparison-sticky-header span {
+    font-size: 9px !important;
+  }
+
+  .comparison-grid-row {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    gap: 4px !important;
+  }
+
+  .comparison-cell {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+  }
+
+  .comparison-feature-title {
+    font-size: 10px !important;
+  }
+
+  .comparison-badge {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+    font-size: 8.5px !important;
+  }
+
+  .comparison-value-text {
+    font-size: 9.5px !important;
+  }
+}
