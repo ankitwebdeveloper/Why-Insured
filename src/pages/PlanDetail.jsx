@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiArrowLeft, FiShield, FiAlertTriangle, FiCheckCircle } from 'react-icons/fi';
 import { companiesData } from '../data/companies';
+import { getPlanDetailData } from '../utils/compareDataHelper';
 
 export default function PlanDetail() {
   const { companyId, planId } = useParams();
@@ -25,6 +26,55 @@ export default function PlanDetail() {
   }
 
   const { theme, name, logo } = company;
+
+  const detailSections = getPlanDetailData(plan, company);
+
+  const renderDetailValue = (val) => {
+    if (Array.isArray(val)) {
+      return (
+        <ul className="text-left space-y-1 list-none pl-0 w-full">
+          {val.slice(0, 4).map((item, idx) => (
+            <li key={idx} className="flex items-start gap-1.5 text-xs font-semibold text-slate-600 leading-tight">
+              <span className="text-emerald-500 shrink-0 select-none">•</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      );
+    }
+    
+    const textVal = String(val || "").trim();
+    const lowerVal = textVal.toLowerCase();
+    
+    const isYes = lowerVal === 'yes' || lowerVal === 'available' || lowerVal.includes('✓') || lowerVal === 'covered' || lowerVal.startsWith('covered');
+    const isNo = lowerVal === 'no' || lowerVal === 'not available' || lowerVal.includes('✕') || lowerVal === 'not covered' || lowerVal.startsWith('not covered');
+    
+    if (isYes) {
+      const cleanText = textVal.replace(/^[✓\s]+/, '').replace(/covered/i, 'Covered').replace(/available/i, 'Available').replace(/yes/i, 'Yes');
+      return (
+        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100/50">
+          <span className="text-[11px] sm:text-xs select-none">✓</span>
+          <span>{cleanText || "Covered"}</span>
+        </span>
+      );
+    }
+    
+    if (isNo) {
+      const cleanText = textVal.replace(/^[✕\s]+/, '').replace(/not covered/i, 'Not Covered').replace(/not available/i, 'Not Available').replace(/no/i, 'No');
+      return (
+        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-bold bg-rose-50 text-rose-600 border border-rose-100/50">
+          <span className="text-[11px] sm:text-xs select-none">✕</span>
+          <span>{cleanText || "Not Covered"}</span>
+        </span>
+      );
+    }
+    
+    return (
+      <span className="text-slate-700 font-semibold text-xs sm:text-sm leading-normal break-words">
+        {textVal}
+      </span>
+    );
+  };
 
   // Apply custom CSS variables for the theme
   const themeStyles = {
@@ -127,64 +177,63 @@ export default function PlanDetail() {
         </div>
 
         {/* Policy Details Grid */}
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden mb-8">
-          <div className="px-6 py-5 border-b border-slate-50 flex items-center gap-2">
-            <FiCheckCircle className="text-lg shrink-0" style={{ color: 'var(--primary)' }} />
-            <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider font-display">
-              Policy Benefits & Details
-            </h2>
-          </div>
-          
-          <div className="divide-y divide-slate-50">
-            <div className="p-5 sm:grid sm:grid-cols-3 sm:gap-4">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Eligibility Criteria</span>
-              <span className="text-xs sm:text-sm font-semibold text-slate-700 sm:col-span-2 mt-1 sm:mt-0 block">
-                {plan.details.eligibility}
-              </span>
-            </div>
+        {/* Dynamic Policy Details Sections */}
+        <div className="space-y-8 mb-8">
+          {detailSections.map((section, secIdx) => (
+            <div key={secIdx} className="space-y-4">
+              {/* Category Header */}
+              <div className="flex items-center gap-3 px-1 pt-4">
+                <div className="h-[1.5px] w-4 rounded-full bg-[var(--primary)]" style={{ backgroundColor: 'var(--primary)' }} />
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-500">
+                  {section.title}
+                </h3>
+                <div className="h-[1px] flex-grow bg-slate-200/60" />
+              </div>
 
-            <div className="p-5 sm:grid sm:grid-cols-3 sm:gap-4">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Waiting Periods</span>
-              <span className="text-xs sm:text-sm font-semibold text-slate-700 sm:col-span-2 mt-1 sm:mt-0 block">
-                {plan.details.waitingPeriod}
-              </span>
+              {/* Category Card */}
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                {section.isGrouped ? (
+                  section.groups.map((group, groupIdx) => (
+                    <div key={groupIdx} className="border-b border-slate-100 last:border-b-0">
+                      {/* Sub-Group Header */}
+                      <div className="bg-slate-50/50 px-5 py-2 border-b border-slate-100">
+                        <span className="text-[10px] font-extrabold uppercase tracking-widest" style={{ color: 'var(--primary)' }}>
+                          {group.title}
+                        </span>
+                      </div>
+                      
+                      {/* Sub-Group Features */}
+                      <div className="divide-y divide-slate-50">
+                        {group.features.map((feat, featIdx) => (
+                          <div key={featIdx} className="p-5 sm:grid sm:grid-cols-3 sm:gap-4 items-center hover:bg-slate-50/20 transition-colors">
+                            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block sm:inline">
+                              {feat.title}
+                            </span>
+                            <div className="sm:col-span-2 mt-1 sm:mt-0 flex text-left">
+                              {renderDetailValue(feat.value)}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="divide-y divide-slate-50">
+                    {section.features.map((feat, featIdx) => (
+                      <div key={featIdx} className="p-5 sm:grid sm:grid-cols-3 sm:gap-4 items-center hover:bg-slate-50/20 transition-colors">
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block sm:inline">
+                          {feat.title}
+                        </span>
+                        <div className="sm:col-span-2 mt-1 sm:mt-0 flex text-left">
+                          {renderDetailValue(feat.value)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-
-            <div className="p-5 sm:grid sm:grid-cols-3 sm:gap-4">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Room Rent Terms</span>
-              <span className="text-xs sm:text-sm font-semibold text-slate-700 sm:col-span-2 mt-1 sm:mt-0 block">
-                {plan.details.roomRent}
-              </span>
-            </div>
-
-            <div className="p-5 sm:grid sm:grid-cols-3 sm:gap-4">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Hospitalization Limits</span>
-              <span className="text-xs sm:text-sm font-semibold text-slate-700 sm:col-span-2 mt-1 sm:mt-0 block">
-                {plan.details.hospitalization}
-              </span>
-            </div>
-
-            <div className="p-5 sm:grid sm:grid-cols-3 sm:gap-4">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Pre & Post Hospitalization</span>
-              <span className="text-xs sm:text-sm font-semibold text-slate-700 sm:col-span-2 mt-1 sm:mt-0 block">
-                {plan.details.prePostHospital}
-              </span>
-            </div>
-
-            <div className="p-5 sm:grid sm:grid-cols-3 sm:gap-4">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Day-Care Coverage</span>
-              <span className="text-xs sm:text-sm font-semibold text-slate-700 sm:col-span-2 mt-1 sm:mt-0 block">
-                {plan.details.dayCare}
-              </span>
-            </div>
-
-            <div className="p-5 sm:grid sm:grid-cols-3 sm:gap-4">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">No Claim Bonus (NCB)</span>
-              <span className="text-xs sm:text-sm font-semibold text-slate-700 sm:col-span-2 mt-1 sm:mt-0 block">
-                {plan.details.noClaimBonus}
-              </span>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Policy Exclusions Card */}
