@@ -14,6 +14,7 @@ import PlanDetail from './pages/PlanDetail';
 import ComparisonPage from './pages/ComparisonPage';
 import ClaimPage from './pages/ClaimPage';
 import AcademyPage from './pages/AcademyPage';
+import HospitalPage from './pages/HospitalPage';
 
 // Helper to detect if the page was refreshed (F5/Ctrl+R/Browser Reload)
 const isPageRefresh = () => {
@@ -94,6 +95,7 @@ function App() {
                   <Route path="/insurance/:companyId/:planId" element={<PlanDetail />} />
                   <Route path="/compare" element={<ComparisonPage />} />
                   <Route path="/claim" element={<ClaimPage />} />
+                  <Route path="/hospital" element={<HospitalPage />} />
                   <Route path="/academy" element={<AcademyPage />} />
                   <Route path="*" element={<Home />} />
                 </Routes>

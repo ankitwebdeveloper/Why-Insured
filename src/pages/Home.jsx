@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiSearch, FiArrowRight, FiShield, FiBookOpen, FiLayers } from 'react-icons/fi';
+import { FiSearch, FiArrowRight, FiShield, FiBookOpen, FiLayers, FiActivity } from 'react-icons/fi';
 import { companiesData } from '../data/companies';
 
 export default function Home() {
@@ -194,6 +194,13 @@ export default function Home() {
             >
               <FiShield className="text-[#059669] text-sm shrink-0" />
               <span>Claim</span>
+            </Link>
+            <Link
+              to="/hospital"
+              className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200/80 rounded-full shadow-sm hover:shadow-md hover:border-slate-300 text-slate-700 hover:text-emerald-600 text-xs font-bold transition-all duration-200 cursor-pointer"
+            >
+              <FiActivity className="text-[#059669] text-sm shrink-0" />
+              <span>Hospital</span>
             </Link>
           </div>
 

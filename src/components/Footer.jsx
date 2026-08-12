@@ -85,6 +85,14 @@ export default function Footer() {
                     Claims
                   </Link>
                 </li>
+                <li>
+                  <Link 
+                    to="/hospital" 
+                    className="hover:text-white transition-all duration-200 hover:translate-x-[3px] inline-block cursor-pointer text-[#CBD5E1]"
+                  >
+                    Hospitals
+                  </Link>
+                </li>
               </ul>
             </div>
 

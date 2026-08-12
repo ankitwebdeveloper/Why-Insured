@@ -211,6 +211,22 @@ export default function Navbar() {
               )}
             </Link>
 
+            {/* Hospital Link */}
+            <Link
+              to="/hospital"
+              className={`relative py-1 text-sm font-semibold transition-colors duration-250 cursor-pointer ${
+                isActive('/hospital') ? 'text-[#0F172A]' : 'text-slate-500 hover:text-[#0F172A]'
+              }`}
+            >
+              <span>Hospital</span>
+              {isActive('/hospital') && (
+                <motion.span 
+                  layoutId="nav-active-dot"
+                  className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-emerald-600"
+                />
+              )}
+            </Link>
+
           </div>
 
           {/* Right Side: Insurance Academy Pill */}

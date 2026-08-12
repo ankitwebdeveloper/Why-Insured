@@ -210,80 +210,13 @@ export default function ComparisonPage() {
 
         {/* Header Title Grid */}
         <div className="text-center space-y-3 mb-12">
-          <span className="text-[10px] font-extrabold uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100/60 px-3 py-1 rounded-full">
-            Side-By-Side Evaluation
-          </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight tracking-tight font-display">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight tracking-tight font-display animate-fade-in">
             Compare Plans
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 font-semibold max-w-lg mx-auto">
-            Reviewing details for {company1.name} — {plan1.name} VS {company2.name} — {plan2.name}.
-          </p>
         </div>
 
-        {/* Mobile Header Selection (Stacked) */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-          className="md:hidden space-y-4 max-w-md mx-auto mb-8 px-1"
-        >
-          {/* Card 1 */}
-          <div 
-            className="bg-white rounded-2xl border border-slate-100 p-4 shadow-xs relative overflow-hidden"
-            style={{ borderLeft: `4px solid ${company1.theme.primary}` }}
-          >
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
-                  {company1.name}
-                </span>
-                <h2 className="text-sm font-bold text-slate-800">
-                  {plan1.name}
-                </h2>
-                <span className="text-[11px] font-semibold text-emerald-600 block mt-0.5">
-                  ₹{selectedCoverage} Lakh Coverage
-                </span>
-              </div>
-              <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 p-1.5 flex items-center justify-center shrink-0">
-                <img src={company1.logo} alt={company1.name} className="w-full h-full object-contain" />
-              </div>
-            </div>
-          </div>
-
-          {/* VS Divider */}
-          <div className="flex items-center justify-center gap-3">
-            <div className="h-[1px] flex-grow bg-gradient-to-r from-transparent to-slate-200" />
-            <span className="text-xs font-black text-slate-400 tracking-wider animate-pulse">VS</span>
-            <div className="h-[1px] flex-grow bg-gradient-to-l from-transparent to-slate-200" />
-          </div>
-
-          {/* Card 2 */}
-          <div 
-            className="bg-white rounded-2xl border border-slate-100 p-4 shadow-xs relative overflow-hidden"
-            style={{ borderLeft: `4px solid ${company2.theme.primary}` }}
-          >
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
-                  {company2.name}
-                </span>
-                <h2 className="text-sm font-bold text-slate-800">
-                  {plan2.name}
-                </h2>
-                <span className="text-[11px] font-semibold text-emerald-600 block mt-0.5">
-                  ₹{selectedCoverage} Lakh Coverage
-                </span>
-              </div>
-              <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100/80 p-1.5 flex items-center justify-center shrink-0">
-                <img src={company2.logo} alt={company2.name} className="w-full h-full object-contain" />
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Plans Header Cards (Desktop/Tablet) */}
-        <div className="hidden md:grid grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-stretch max-w-4xl mx-auto mb-10 comparison-header-cards">
+        {/* Plans Header Cards (Responsive: Side-by-side on desktop/tablet, stacked on mobile) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-stretch max-w-4xl mx-auto mb-10 comparison-header-cards">
           {/* Plan 1 Header Card */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
