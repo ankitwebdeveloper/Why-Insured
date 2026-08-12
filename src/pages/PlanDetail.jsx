@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { FiArrowLeft, FiShield, FiAlertTriangle, FiCheckCircle } from 'react-icons/fi';
 import { companiesData } from '../data/companies';
 import { getPlanDetailData } from '../utils/compareDataHelper';
+import PlanHealthSnapshot from '../components/PlanHealthSnapshot';
 
 export default function PlanDetail() {
   const { companyId, planId } = useParams();
@@ -27,7 +28,10 @@ export default function PlanDetail() {
 
   const { theme, name, logo } = company;
 
-  const detailSections = getPlanDetailData(plan, company);
+  const rawDetailSections = getPlanDetailData(plan, company);
+  const detailSections = company.id === 'tata-aig'
+    ? rawDetailSections.filter(section => section.title !== 'Ratio' && section.title !== 'Fundamentals')
+    : rawDetailSections;
 
   const renderDetailValue = (val) => {
     if (Array.isArray(val)) {
@@ -175,6 +179,11 @@ export default function PlanDetail() {
             </div>
           </div>
         </div>
+
+        {/* Plan Health Snapshot Section (Tata AIG Plans ONLY) */}
+        {company.id === 'tata-aig' && (
+          <PlanHealthSnapshot plan={plan} company={company} />
+        )}
 
         {/* Policy Details Grid */}
         {/* Dynamic Policy Details Sections */}
