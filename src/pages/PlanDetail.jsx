@@ -46,13 +46,13 @@ export default function PlanDetail() {
         </ul>
       );
     }
-    
+
     const textVal = String(val || "").trim();
     const lowerVal = textVal.toLowerCase();
-    
+
     const isYes = lowerVal === 'yes' || lowerVal === 'available' || lowerVal.includes('✓') || lowerVal === 'covered' || lowerVal.startsWith('covered');
     const isNo = lowerVal === 'no' || lowerVal === 'not available' || lowerVal.includes('✕') || lowerVal === 'not covered' || lowerVal.startsWith('not covered');
-    
+
     if (isYes) {
       const cleanText = textVal.replace(/^[✓\s]+/, '').replace(/covered/i, 'Covered').replace(/available/i, 'Available').replace(/yes/i, 'Yes');
       return (
@@ -62,7 +62,7 @@ export default function PlanDetail() {
         </span>
       );
     }
-    
+
     if (isNo) {
       const cleanText = textVal.replace(/^[✕\s]+/, '').replace(/not covered/i, 'Not Covered').replace(/not available/i, 'Not Available').replace(/no/i, 'No');
       return (
@@ -72,7 +72,7 @@ export default function PlanDetail() {
         </span>
       );
     }
-    
+
     return (
       <span className="text-slate-700 font-semibold text-xs sm:text-sm leading-normal break-words">
         {textVal}
@@ -91,13 +91,13 @@ export default function PlanDetail() {
 
   return (
     <div style={{ ...themeStyles, backgroundColor: 'var(--bg)' }} className="min-h-screen font-sans pt-24 pb-20 relative transition-colors duration-300">
-      <div 
+      <div
         className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none"
         style={{ backgroundColor: 'var(--primary)' }}
       />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        
+
         {/* Back Link */}
         <div className="mb-8">
           <Link
@@ -110,20 +110,20 @@ export default function PlanDetail() {
 
         {/* Plan Header Card */}
         <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-100 mb-8 relative overflow-hidden">
-          <div 
-            className="absolute top-0 left-0 right-0 h-1.5" 
+          <div
+            className="absolute top-0 left-0 right-0 h-1.5"
             style={{ background: theme.gradient ? theme.gradient : 'var(--primary)' }}
           />
 
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
             <div className="space-y-2">
               <div className="flex items-center gap-3">
-                <span 
+                <span
                   className="text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded border"
-                  style={{ 
-                    backgroundColor: 'var(--bg)', 
-                    color: 'var(--primary)', 
-                    borderColor: `${theme.primary}20` 
+                  style={{
+                    backgroundColor: 'var(--bg)',
+                    color: 'var(--primary)',
+                    borderColor: `${theme.primary}20`
                   }}
                 >
                   Health Policy
@@ -150,7 +150,7 @@ export default function PlanDetail() {
         {/* Key Metrics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div 
+            <div
               className="p-3.5 rounded-xl shrink-0 animate-pulse"
               style={{ backgroundColor: 'var(--bg)' }}
             >
@@ -165,7 +165,7 @@ export default function PlanDetail() {
           </div>
 
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div 
+            <div
               className="p-3.5 rounded-xl shrink-0 flex items-center justify-center w-12 h-12"
               style={{ backgroundColor: 'var(--bg)' }}
             >
@@ -210,7 +210,7 @@ export default function PlanDetail() {
                           {group.title}
                         </span>
                       </div>
-                      
+
                       {/* Sub-Group Features */}
                       <div className="divide-y divide-slate-50">
                         {group.features.map((feat, featIdx) => (
