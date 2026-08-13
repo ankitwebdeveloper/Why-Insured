@@ -159,20 +159,20 @@ export default function Home() {
               </motion.div>
             )}
           </AnimatePresence>
-
         </motion.div>
 
-        {/* Mobile Navigation Buttons (Insurance, Compare, Claim) - Visible only on mobile */}
+        {/* Mobile Hero Navigation Buttons (Insurance, Compare, Hospital, Claim) - Visible ONLY on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6, ease: 'easeOut' }}
-          className="md:hidden flex flex-col items-center justify-center gap-4 mt-6 px-1 max-w-xl mx-auto"
+          className="md:hidden flex flex-col items-center justify-center gap-2.5 mt-6 px-1 w-full max-w-sm mx-auto"
         >
-          <div className="flex flex-wrap items-center justify-center gap-2.5 w-full">
+          {/* ROW 1: [ Insurance ] [ Compare ] */}
+          <div className="grid grid-cols-2 gap-2.5 w-full">
             <button
               onClick={() => setShowMobileInsurance(!showMobileInsurance)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full border text-xs font-bold transition-all duration-200 cursor-pointer ${
+              className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border text-xs font-bold transition-all duration-200 cursor-pointer w-full ${
                 showMobileInsurance
                   ? 'border-emerald-500 bg-emerald-100/90 text-emerald-800 shadow-sm'
                   : 'border-slate-200/80 bg-white text-slate-700 hover:text-emerald-600 shadow-sm hover:shadow-md'
@@ -181,27 +181,33 @@ export default function Home() {
               <FiShield className="text-[#059669] text-sm shrink-0" />
               <span>Insurance</span>
             </button>
+
             <Link
               to="/compare"
-              className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200/80 rounded-full shadow-sm hover:shadow-md hover:border-slate-300 text-slate-700 hover:text-emerald-600 text-xs font-bold transition-all duration-200 cursor-pointer"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-slate-200/80 rounded-full shadow-sm hover:shadow-md hover:border-slate-300 text-slate-700 hover:text-emerald-600 text-xs font-bold transition-all duration-200 cursor-pointer w-full"
             >
               <FiLayers className="text-[#059669] text-sm shrink-0" />
               <span>Compare</span>
             </Link>
-            <Link
-              to="/claim"
-              className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200/80 rounded-full shadow-sm hover:shadow-md hover:border-slate-300 text-slate-700 hover:text-emerald-600 text-xs font-bold transition-all duration-200 cursor-pointer"
-            >
-              <FiShield className="text-[#059669] text-sm shrink-0" />
-              <span>Claim</span>
-            </Link>
+          </div>
+
+          {/* ROW 2: [ Hospital ] [ Claim ] */}
+          <div className="grid grid-cols-2 gap-2.5 w-full">
             <a
               href="https://panel-hospital.vercel.app/"
-              className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200/80 rounded-full shadow-sm hover:shadow-md hover:border-slate-300 text-slate-700 hover:text-emerald-600 text-xs font-bold transition-all duration-200 cursor-pointer"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-slate-200/80 rounded-full shadow-sm hover:shadow-md hover:border-slate-300 text-slate-700 hover:text-emerald-600 text-xs font-bold transition-all duration-200 cursor-pointer w-full"
             >
               <FiActivity className="text-[#059669] text-sm shrink-0" />
               <span>Hospital</span>
             </a>
+
+            <Link
+              to="/claim"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-slate-200/80 rounded-full shadow-sm hover:shadow-md hover:border-slate-300 text-slate-700 hover:text-emerald-600 text-xs font-bold transition-all duration-200 cursor-pointer w-full"
+            >
+              <FiShield className="text-[#059669] text-sm shrink-0" />
+              <span>Claim</span>
+            </Link>
           </div>
 
           {/* Supported Providers Grid for Mobile Insurance Button */}
@@ -212,7 +218,7 @@ export default function Home() {
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.2, ease: 'easeInOut' }}
-                className="w-full bg-white border border-slate-100 rounded-2xl p-4 shadow-xl overflow-hidden text-left"
+                className="w-full bg-white border border-slate-100 rounded-2xl p-4 shadow-xl overflow-hidden text-left mt-1"
               >
                 <div className="mb-3 pl-1">
                   <span className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400">
@@ -243,6 +249,8 @@ export default function Home() {
             )}
           </AnimatePresence>
         </motion.div>
+
+
 
       </div>
     </div>
