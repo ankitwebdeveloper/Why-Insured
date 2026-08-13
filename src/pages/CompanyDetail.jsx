@@ -211,19 +211,11 @@ export default function CompanyDetail() {
                 </div>
               </div>
 
-              {/* Card Footer: Premium & CTA */}
-              <div className="border-t border-slate-50 pt-4 mt-4 flex items-center justify-between gap-4">
-                <div>
-                  <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">
-                    Annual Premium
-                  </span>
-                  <div className="text-base font-black text-slate-900">{plan.coverage} Cover</div>
-                  <div className="text-xs font-bold text-slate-500 mt-0.5">{plan.premium}</div>
-                </div>
-
+              {/* Card Footer: CTA */}
+              <div className="border-t border-slate-50 pt-4 mt-auto w-full">
                 <Link
                   to={`/insurance/${company.id}/${plan.id}`}
-                  className="inline-flex items-center gap-1 text-xs font-bold py-2.5 px-4 rounded-xl border transition-all duration-200 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-1.5 text-xs font-bold py-3 px-4 rounded-xl border transition-all duration-200 cursor-pointer"
                   style={getButtonStyle()}
                   onMouseEnter={handleButtonEnter}
                   onMouseLeave={handleButtonLeave}
