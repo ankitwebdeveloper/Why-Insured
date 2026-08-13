@@ -86,12 +86,12 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link 
-                    to="/hospital" 
+                  <a 
+                    href="https://panel-hospital.vercel.app/" 
                     className="hover:text-white transition-all duration-200 hover:translate-x-[3px] inline-block cursor-pointer text-[#CBD5E1]"
                   >
                     Hospitals
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
