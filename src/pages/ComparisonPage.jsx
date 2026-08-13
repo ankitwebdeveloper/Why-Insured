@@ -215,39 +215,39 @@ export default function ComparisonPage() {
           </h1>
         </div>
 
-        {/* Plans Header Cards (Responsive: Side-by-side on desktop/tablet, stacked on mobile) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-stretch max-w-4xl mx-auto mb-10 comparison-header-cards">
+        {/* Plans Header Cards (Responsive: Side-by-side on all screens, styled smaller on mobile) */}
+        <div className="grid grid-cols-2 gap-2 sm:gap-6 lg:gap-8 items-stretch max-w-4xl mx-auto mb-6 sm:mb-10 comparison-header-cards">
           {/* Plan 1 Header Card */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="rounded-2xl sm:rounded-3xl border border-slate-100 bg-white p-4 sm:p-6 lg:p-8 shadow-xs flex flex-col justify-between relative overflow-hidden comparison-header-card"
+            className="rounded-xl sm:rounded-3xl border border-slate-100 bg-white p-3 sm:p-6 lg:p-8 shadow-xs flex flex-col justify-between relative overflow-hidden comparison-header-card"
             style={{ borderTop: `4px solid ${company1.theme.primary}` }}
           >
-            <div className="space-y-3 sm:space-y-4 flex flex-col items-center text-center">
+            <div className="space-y-2 sm:space-y-4 flex flex-col items-center text-center">
               <motion.div 
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 0.15, duration: 0.4 }}
-                className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100/80 p-1.5 sm:p-2 flex items-center justify-center shrink-0"
+                className="w-10 h-10 sm:w-16 sm:h-16 rounded-lg sm:rounded-2xl bg-slate-50 border border-slate-100/80 p-1 sm:p-2 flex items-center justify-center shrink-0"
               >
                 <img src={company1.logo} alt={company1.name} className="w-full h-full object-contain" />
               </motion.div>
               <div className="space-y-0.5 sm:space-y-1 w-full min-w-0">
-                <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-slate-400 block truncate">
+                <span className="text-[8px] sm:text-[10px] font-extrabold uppercase tracking-widest text-slate-400 block truncate">
                   {company1.name}
                 </span>
-                <h2 className="text-sm sm:text-lg lg:text-xl font-black text-slate-900 tracking-tight leading-tight truncate">
+                <h2 className="text-xs sm:text-lg lg:text-xl font-black text-slate-900 tracking-tight leading-tight truncate">
                   {plan1.name}
                 </h2>
               </div>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-100/80 text-center">
-              <span className="text-sm sm:text-base lg:text-lg font-black text-emerald-600 block">
+            <div className="mt-2.5 sm:mt-4 pt-2 sm:pt-3 border-t border-slate-100/80 text-center">
+              <span className="text-xs sm:text-base lg:text-lg font-black text-emerald-600 block">
                 {plan1.premium}
               </span>
-              <span className="text-[9px] sm:text-xs font-bold text-slate-400 block uppercase tracking-wider mt-0.5 animate-fade-in">
+              <span className="text-[8px] sm:text-xs font-bold text-slate-400 block uppercase tracking-wider mt-0.5 animate-fade-in">
                 ₹{selectedCoverage} Lakh Coverage
               </span>
             </div>
@@ -258,32 +258,32 @@ export default function ComparisonPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="rounded-2xl sm:rounded-3xl border border-slate-100 bg-white p-4 sm:p-6 lg:p-8 shadow-xs flex flex-col justify-between relative overflow-hidden comparison-header-card"
+            className="rounded-xl sm:rounded-3xl border border-slate-100 bg-white p-3 sm:p-6 lg:p-8 shadow-xs flex flex-col justify-between relative overflow-hidden comparison-header-card"
             style={{ borderTop: `4px solid ${company2.theme.primary}` }}
           >
-            <div className="space-y-3 sm:space-y-4 flex flex-col items-center text-center">
+            <div className="space-y-2 sm:space-y-4 flex flex-col items-center text-center">
               <motion.div 
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 0.15, duration: 0.4 }}
-                className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100/80 p-1.5 sm:p-2 flex items-center justify-center shrink-0"
+                className="w-10 h-10 sm:w-16 sm:h-16 rounded-lg sm:rounded-2xl bg-slate-50 border border-slate-100/80 p-1 sm:p-2 flex items-center justify-center shrink-0"
               >
                 <img src={company2.logo} alt={company2.name} className="w-full h-full object-contain" />
               </motion.div>
               <div className="space-y-0.5 sm:space-y-1 w-full min-w-0">
-                <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-slate-400 block truncate">
+                <span className="text-[8px] sm:text-[10px] font-extrabold uppercase tracking-widest text-slate-400 block truncate">
                   {company2.name}
                 </span>
-                <h2 className="text-sm sm:text-lg lg:text-xl font-black text-slate-900 tracking-tight leading-tight truncate">
+                <h2 className="text-xs sm:text-lg lg:text-xl font-black text-slate-900 tracking-tight leading-tight truncate">
                   {plan2.name}
                 </h2>
               </div>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-100/80 text-center">
-              <span className="text-sm sm:text-base lg:text-lg font-black text-emerald-600 block">
+            <div className="mt-2.5 sm:mt-4 pt-2 sm:pt-3 border-t border-slate-100/80 text-center">
+              <span className="text-xs sm:text-base lg:text-lg font-black text-emerald-600 block">
                 {plan2.premium}
               </span>
-              <span className="text-[9px] sm:text-xs font-bold text-slate-400 block uppercase tracking-wider mt-0.5 animate-fade-in">
+              <span className="text-[8px] sm:text-xs font-bold text-slate-400 block uppercase tracking-wider mt-0.5 animate-fade-in">
                 ₹{selectedCoverage} Lakh Coverage
               </span>
             </div>
