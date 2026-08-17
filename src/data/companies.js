@@ -24,24 +24,24 @@ export const companiesData = [
     plans: [
       {
         id: "optima-secure",
-        name: "Optima Secure",
-        description: "Double the coverage amount from Day 1 with zero deductions on non-medical items.",
+        name: "Optima Secure+",
+        description: "Unlimited Protection. Added Every Year.",
         coverage: "₹10 Lakh",
         premium: "₹14,500/year",
         benefits: [
-          "2x Instant Coverage from Day 1",
-          "Zero non-medical item deductions",
-          "Restore Benefit (100% sum insured refill)",
-          "Home Healthcare coverage included"
+          "2X Secure Benefit Coverage from Day 1",
+          "Infinite Benefit: 100% Base SI added every year",
+          "Unlimited Restoration of Sum Insured",
+          "Zero Deductions on Non-Medical Consumables"
         ],
         details: {
           eligibility: "18 to 65 Years (Children: 91 days to 25 years)",
           waitingPeriod: "30 Days initial, 36 Months for Pre-existing diseases",
-          roomRent: "No capping on room rent - Single Private A/C Room",
+          roomRent: "Any Room Category - 100% Cashless with Zero Restriction",
           hospitalization: "Covered up to 100% of sum insured",
           prePostHospital: "60 Days Pre & 180 Days Post Hospitalization covered",
-          dayCare: "All Day Care procedures covered",
-          noClaimBonus: "50% increase in sum insured per claim-free year (Max 100%)",
+          dayCare: "All Day Care procedures covered (<24 hours admission)",
+          noClaimBonus: "100% Base SI added every year (Infinite Benefit)",
           exclusions: "Cosmetic surgery, self-inflicted injuries, drug/alcohol abuse"
         }
       },

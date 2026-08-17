@@ -4,6 +4,7 @@ import { FiArrowLeft, FiShield, FiAlertTriangle, FiCheckCircle } from 'react-ico
 import { companiesData } from '../data/companies';
 import { getPlanDetailData } from '../utils/compareDataHelper';
 import PlanHealthSnapshot from '../components/PlanHealthSnapshot';
+import OptimaSecurePlusSection from '../components/OptimaSecurePlusSection';
 
 export default function PlanDetail() {
   const { companyId, planId } = useParams();
@@ -185,35 +186,55 @@ export default function PlanDetail() {
           <PlanHealthSnapshot plan={plan} company={company} />
         )}
 
-        {/* Policy Details Grid */}
-        {/* Dynamic Policy Details Sections */}
-        <div className="space-y-8 mb-8">
-          {detailSections.map((section, secIdx) => (
-            <div key={secIdx} className="space-y-4">
-              {/* Category Header */}
-              <div className="flex items-center gap-3 px-1 pt-4">
-                <div className="h-[1.5px] w-4 rounded-full bg-[var(--primary)]" style={{ backgroundColor: 'var(--primary)' }} />
-                <h3 className="text-xs font-black uppercase tracking-widest text-slate-500">
-                  {section.title}
-                </h3>
-                <div className="h-[1px] flex-grow bg-slate-200/60" />
-              </div>
+        {/* HDFC ERGO Optima Secure+ Custom Redesigned Section */}
+        {company.id === 'hdfc-life' && (plan.id === 'optima-secure' || plan.id === 'optima-secure-plus') ? (
+          <OptimaSecurePlusSection plan={plan} company={company} />
+        ) : (
+          <>
+            {/* Policy Details Grid */}
+            {/* Dynamic Policy Details Sections */}
+            <div className="space-y-8 mb-8">
+              {detailSections.map((section, secIdx) => (
+                <div key={secIdx} className="space-y-4">
+                  {/* Category Header */}
+                  <div className="flex items-center gap-3 px-1 pt-4">
+                    <div className="h-[1.5px] w-4 rounded-full bg-[var(--primary)]" style={{ backgroundColor: 'var(--primary)' }} />
+                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-500">
+                      {section.title}
+                    </h3>
+                    <div className="h-[1px] flex-grow bg-slate-200/60" />
+                  </div>
 
-              {/* Category Card */}
-              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                {section.isGrouped ? (
-                  section.groups.map((group, groupIdx) => (
-                    <div key={groupIdx} className="border-b border-slate-100 last:border-b-0">
-                      {/* Sub-Group Header */}
-                      <div className="bg-slate-50/50 px-5 py-2 border-b border-slate-100">
-                        <span className="text-[10px] font-extrabold uppercase tracking-widest" style={{ color: 'var(--primary)' }}>
-                          {group.title}
-                        </span>
-                      </div>
+                  {/* Category Card */}
+                  <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                    {section.isGrouped ? (
+                      section.groups.map((group, groupIdx) => (
+                        <div key={groupIdx} className="border-b border-slate-100 last:border-b-0">
+                          {/* Sub-Group Header */}
+                          <div className="bg-slate-50/50 px-5 py-2 border-b border-slate-100">
+                            <span className="text-[10px] font-extrabold uppercase tracking-widest" style={{ color: 'var(--primary)' }}>
+                              {group.title}
+                            </span>
+                          </div>
 
-                      {/* Sub-Group Features */}
+                          {/* Sub-Group Features */}
+                          <div className="divide-y divide-slate-50">
+                            {group.features.map((feat, featIdx) => (
+                              <div key={featIdx} className="p-5 sm:grid sm:grid-cols-3 sm:gap-4 items-center hover:bg-slate-50/20 transition-colors">
+                                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block sm:inline">
+                                  {feat.title}
+                                </span>
+                                <div className="sm:col-span-2 mt-1 sm:mt-0 flex text-left">
+                                  {renderDetailValue(feat.value)}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
                       <div className="divide-y divide-slate-50">
-                        {group.features.map((feat, featIdx) => (
+                        {section.features.map((feat, featIdx) => (
                           <div key={featIdx} className="p-5 sm:grid sm:grid-cols-3 sm:gap-4 items-center hover:bg-slate-50/20 transition-colors">
                             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block sm:inline">
                               {feat.title}
@@ -224,39 +245,26 @@ export default function PlanDetail() {
                           </div>
                         ))}
                       </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="divide-y divide-slate-50">
-                    {section.features.map((feat, featIdx) => (
-                      <div key={featIdx} className="p-5 sm:grid sm:grid-cols-3 sm:gap-4 items-center hover:bg-slate-50/20 transition-colors">
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block sm:inline">
-                          {feat.title}
-                        </span>
-                        <div className="sm:col-span-2 mt-1 sm:mt-0 flex text-left">
-                          {renderDetailValue(feat.value)}
-                        </div>
-                      </div>
-                    ))}
+                    )}
                   </div>
-                )}
+                </div>
+              ))}
+            </div>
+
+            {/* Policy Exclusions Card */}
+            <div className="bg-amber-50/50 rounded-2xl border border-amber-100/60 p-6 flex gap-4">
+              <FiAlertTriangle className="text-xl text-amber-500 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <h3 className="text-xs font-extrabold uppercase tracking-widest text-amber-800">
+                  Important Exclusions
+                </h3>
+                <p className="text-xs sm:text-sm text-amber-700 leading-relaxed font-semibold">
+                  {plan.details.exclusions}. Refer to the official policy document for full terms.
+                </p>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Policy Exclusions Card */}
-        <div className="bg-amber-50/50 rounded-2xl border border-amber-100/60 p-6 flex gap-4">
-          <FiAlertTriangle className="text-xl text-amber-500 shrink-0 mt-0.5" />
-          <div className="space-y-1">
-            <h3 className="text-xs font-extrabold uppercase tracking-widest text-amber-800">
-              Important Exclusions
-            </h3>
-            <p className="text-xs sm:text-sm text-amber-700 leading-relaxed font-semibold">
-              {plan.details.exclusions}. Refer to the official policy document for full terms.
-            </p>
-          </div>
-        </div>
+          </>
+        )}
 
       </div>
     </div>
