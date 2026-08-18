@@ -363,11 +363,11 @@ export const companiesData = [
     logo: iciciLogo,
     description: "A financial giant in health care, providing rich reward structures, OPD consultations, and donor protection plans.",
     theme: {
-      primary: "#C8102E",      // ICICI Crimson Red
-      secondary: "#0A1128",    // Deep Navy
-      accent: "#C8102E",
-      background: "#FFF5F6",   // Soft Red Tinted Light Gray
-      text: "#0F172A"
+      primary: "#F58220",      // ICICI Lombard Primary Orange
+      secondary: "#D94A0B",    // Deep Orange
+      accent: "#F58220",
+      background: "#FFF4E8",   // Soft Light Orange Tint
+      text: "#1F2937"
     },
     plans: [
       {
