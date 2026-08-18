@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import {
-  FiShield,
   FiActivity,
   FiClock,
   FiCheckCircle,
@@ -10,228 +9,96 @@ import {
   FiTrendingUp,
   FiHeart,
   FiUserCheck,
-  FiTruck,
   FiDollarSign,
   FiPlusCircle,
-  FiLayers,
-  FiArrowRight,
-  FiStar,
-  FiSun,
   FiAward,
-  FiCornerDownRight,
-  FiHelpCircle
+  FiCheckSquare
 } from 'react-icons/fi';
-import { FaHospital, FaUserMd, FaStethoscope, FaSyringe, FaShieldAlt } from 'react-icons/fa';
+import { FaHospital, FaUserMd, FaStethoscope, FaSyringe, FaShieldAlt, FaAmbulance, FaMedkit } from 'react-icons/fa';
+import hdfcErgoLogo from '../assets/hdfc-ergo-logo.png';
 
-export default function OptimaSecurePlusSection({ plan, company }) {
-  const [selectedSum, setSelectedSum] = useState('10');
-
-  // Animation variants
+export default function OptimaSecurePlusSection() {
+  // Motion Animation Variants
   const sectionVariants = {
-    hidden: { opacity: 0, y: 25 },
+    hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: 'easeOut', staggerChildren: 0.1 }
+      transition: { duration: 0.3, ease: 'easeOut', staggerChildren: 0.04 }
     }
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } }
+    hidden: { opacity: 0, y: 6 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.2, ease: 'easeOut' } }
   };
 
-  // Base SI calculation preview numbers for visual indicator
-  const baseSI = parseInt(selectedSum, 10);
-  const secureSI = baseSI * 2;
-  const year1SI = baseSI * 2 + baseSI * 1;
-  const year2SI = baseSI * 2 + baseSI * 2;
-  const year3SI = baseSI * 2 + baseSI * 3;
+  // Shared Compact Section Header Component
+  const SectionHeader = ({ title, subtitle, badgeText }) => (
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-[#E2E8F0] pb-2.5 mb-4 sm:mb-6">
+      <div className="flex items-center gap-2.5">
+        <div className="w-2 h-5 rounded-full bg-[#E30613] shrink-0" />
+        <div>
+          <h2 className="text-sm sm:text-xl font-black text-[#0F172A] tracking-tight font-display uppercase leading-tight">
+            {title}
+          </h2>
+          {subtitle && (
+            <p className="text-[11px] sm:text-xs text-[#475569] font-medium mt-0.5">
+              {subtitle}
+            </p>
+          )}
+        </div>
+      </div>
+      {badgeText && (
+        <span className="bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] text-[9px] sm:text-xs font-black uppercase tracking-wider px-2 py-0.5 rounded-full self-start sm:self-center">
+          {badgeText}
+        </span>
+      )}
+    </div>
+  );
 
   return (
-    <div className="space-y-10 font-sans w-full max-w-full overflow-hidden text-slate-800">
+    <div className="space-y-4 sm:space-y-7 font-sans w-full max-w-full overflow-x-hidden text-[#0F172A] bg-[#FFFFFF] p-2 sm:p-4 rounded-2xl sm:rounded-3xl">
 
       {/* ========================================================================= */}
-      {/* COMPACT PLAN HEADER & PROTECTION GROWTH INDICATOR                         */}
+      {/* HEADER: COMPACT HDFC ERGO BRANDED HEADER                                 */}
       {/* ========================================================================= */}
       <motion.div
         variants={sectionVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
-        className="bg-gradient-to-br from-red-950 via-slate-900 to-slate-950 rounded-3xl p-5 sm:p-8 md:p-10 shadow-xl border border-red-900/40 relative overflow-hidden text-white"
+        className="bg-[#FFFFFF] rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-sm border border-[#E2E8F0] relative overflow-hidden"
       >
-        {/* Background Decorative Accent */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-red-800/10 rounded-full blur-2xl pointer-events-none" />
-        
-        {/* Subtle grid pattern background */}
-        <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+        {/* Top Accent Line */}
+        <div className="absolute top-0 inset-x-0 h-1 bg-[#E30613]" />
 
-        <div className="relative z-10 space-y-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           
-          {/* Header Row */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-red-900/40 pb-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="bg-red-600/20 text-red-400 border border-red-500/30 text-[10px] sm:text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                  HDFC ERGO Official
-                </span>
-                <span className="bg-slate-800/80 text-slate-300 border border-slate-700 text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full">
-                  Flagship Health Plan
-                </span>
-              </div>
-
-              <h1 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-white font-display">
-                Optima Secure<span className="text-red-500">+</span>
-              </h1>
-
-              <p className="text-red-200/90 text-sm sm:text-base font-semibold tracking-wide flex items-center gap-2">
-                <FiZap className="text-red-400 shrink-0" />
-                “Unlimited Protection. Added Every Year.”
-              </p>
+          {/* LEFT: HDFC ERGO Official Logo */}
+          <div className="flex items-center gap-3">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] rounded-xl p-2 shrink-0 shadow-sm">
+              <img
+                src={hdfcErgoLogo}
+                alt="HDFC ERGO"
+                className="w-24 sm:w-36 h-auto max-h-9 sm:max-h-12 object-contain"
+              />
             </div>
-
-            {/* HDFC ERGO Logo Badge */}
-            {company?.logo && (
-              <div className="bg-white/95 backdrop-blur-md rounded-2xl p-3 sm:p-4 shrink-0 shadow-lg border border-white/20 self-start sm:self-center">
-                <img
-                  src={company.logo}
-                  alt="HDFC ERGO"
-                  className="w-28 sm:w-36 h-auto max-h-10 sm:max-h-12 object-contain"
-                />
-              </div>
-            )}
+            <div className="hidden sm:block h-10 w-px bg-[#E2E8F0]" />
           </div>
 
-          {/* Protection Growth Indicator (Infinite Benefit Visual) */}
-          <div className="space-y-3 pt-2">
-            <div className="flex items-center justify-between gap-2 flex-wrap">
-              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-red-300 flex items-center gap-1.5">
-                <FiTrendingUp className="text-red-400" />
-                Visual Protection-Growth Indicator (Infinite Benefit)
-              </span>
-              
-              {/* Interactive Sum Insured Selector */}
-              <div className="flex items-center gap-1.5 bg-slate-900/90 p-1 rounded-xl border border-red-900/50">
-                <span className="text-[10px] text-slate-400 font-bold px-1.5 hidden xs:inline">Base SI:</span>
-                {['5', '10', '20', '50'].map((sum) => (
-                  <button
-                    key={sum}
-                    onClick={() => setSelectedSum(sum)}
-                    className={`px-2.5 py-1 rounded-lg text-[11px] font-black transition-all cursor-pointer ${
-                      selectedSum === sum
-                        ? 'bg-red-600 text-white shadow-md'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-800'
-                    }`}
-                  >
-                    ₹{sum}L
-                  </button>
-                ))}
-              </div>
+          {/* CENTER / RIGHT: Title & Subtitle */}
+          <div className="space-y-0.5 text-left sm:text-right">
+            <div className="inline-flex items-center gap-1 bg-[#FFF5F5] border border-[#FECDD3] text-[#E30613] text-[9px] sm:text-xs font-black uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E30613] animate-pulse" />
+              Official Health Policy
             </div>
-
-            {/* Growth Timeline Steps */}
-            <div className="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-5 gap-2.5 sm:gap-3 pt-2">
-              
-              {/* Step 1: Base SI */}
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="bg-slate-900/80 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center relative group overflow-hidden"
-              >
-                <div className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-                  Base Cover
-                </div>
-                <div className="text-base sm:text-xl md:text-2xl font-black text-white mt-1 font-display">
-                  ₹{baseSI} Lakh
-                </div>
-                <div className="text-[9px] text-slate-400 mt-1 font-medium">
-                  Chosen Base SI
-                </div>
-                <div className="hidden md:block absolute -right-2 top-1/2 -translate-y-1/2 z-20 text-slate-600">
-                  <FiArrowRight className="text-sm" />
-                </div>
-              </motion.div>
-
-              {/* Step 2: Day 1 (Secure Benefit) */}
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="bg-red-950/60 border border-red-700/50 rounded-2xl p-3 sm:p-4 text-center relative group overflow-hidden shadow-inner"
-              >
-                <span className="inline-block bg-red-600 text-white text-[8px] sm:text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md mb-0.5">
-                  Day 1 (2X)
-                </span>
-                <div className="text-base sm:text-xl md:text-2xl font-black text-red-400 mt-0.5 font-display">
-                  ₹{secureSI} Lakh
-                </div>
-                <div className="text-[9px] text-red-200/80 mt-1 font-semibold">
-                  Secure Benefit
-                </div>
-                <div className="hidden md:block absolute -right-2 top-1/2 -translate-y-1/2 z-20 text-red-700">
-                  <FiArrowRight className="text-sm" />
-                </div>
-              </motion.div>
-
-              {/* Step 3: Year 1 Add */}
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="bg-slate-900/80 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center relative group overflow-hidden"
-              >
-                <div className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-                  After Year 1
-                </div>
-                <div className="text-base sm:text-xl md:text-2xl font-black text-white mt-1 font-display">
-                  ₹{year1SI} Lakh
-                </div>
-                <div className="text-[9px] text-slate-400 mt-1 font-medium">
-                  +100% SI Added
-                </div>
-                <div className="hidden md:block absolute -right-2 top-1/2 -translate-y-1/2 z-20 text-slate-600">
-                  <FiArrowRight className="text-sm" />
-                </div>
-              </motion.div>
-
-              {/* Step 4: Year 2 Add */}
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="bg-slate-900/80 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center relative group overflow-hidden"
-              >
-                <div className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-                  After Year 2
-                </div>
-                <div className="text-base sm:text-xl md:text-2xl font-black text-white mt-1 font-display">
-                  ₹{year2SI} Lakh
-                </div>
-                <div className="text-[9px] text-slate-400 mt-1 font-medium">
-                  +100% SI Added
-                </div>
-                <div className="hidden md:block absolute -right-2 top-1/2 -translate-y-1/2 z-20 text-slate-600">
-                  <FiArrowRight className="text-sm" />
-                </div>
-              </motion.div>
-
-              {/* Step 5: Infinite Cover */}
-              <motion.div
-                whileHover={{ scale: 1.04 }}
-                className="col-span-2 xs:col-span-1 bg-gradient-to-br from-red-600 to-red-700 border border-red-400/50 rounded-2xl p-3 sm:p-4 text-center relative group overflow-hidden shadow-lg"
-              >
-                <div className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-red-100">
-                  Every Year (+)
-                </div>
-                <div className="text-xl sm:text-2xl md:text-3xl font-black text-white mt-0.5 font-display flex items-center justify-center gap-1">
-                  <span>∞</span>
-                  <span className="text-xs font-bold">Infinite</span>
-                </div>
-                <div className="text-[9px] text-red-100 mt-1 font-bold">
-                  Unlimited Growth
-                </div>
-              </motion.div>
-
-            </div>
-
-            <p className="text-[11px] sm:text-xs text-red-200/70 font-medium italic text-center sm:text-left pt-1">
-              *100% of Base Sum Insured is added every policy year, regardless of whether claims were made.
+            <h1 className="text-xl sm:text-4xl font-black tracking-tight font-display leading-tight">
+              <span className="text-[#E30613]">Optima</span>{' '}
+              <span className="text-[#0F172A]">Secure+</span>
+            </h1>
+            <p className="text-[11px] sm:text-sm text-[#475569] font-medium">
+              Comprehensive Health Insurance Policy by HDFC ERGO
             </p>
           </div>
 
@@ -240,718 +107,649 @@ export default function OptimaSecurePlusSection({ plan, company }) {
 
 
       {/* ========================================================================= */}
-      {/* SECTION 1: MOST IMPORTANT FEATURES (RED THEMED)                          */}
+      {/* SECTION 1 — MOST IMPORTANT FEATURES (COMPACT MOBILE GRID — NO EMPTY SPACE)*/}
       {/* ========================================================================= */}
       <motion.div
         variants={sectionVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
-        className="bg-white rounded-3xl p-5 sm:p-8 shadow-sm border border-red-100 relative overflow-hidden"
+        className="bg-[#FFFFFF] rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-sm border border-[#E2E8F0] relative overflow-hidden"
       >
-        {/* Subtle top border accent line */}
-        <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-red-600 via-red-500 to-rose-600" />
+        <SectionHeader
+          title="Most Important Features"
+          subtitle="Core hospitalisation coverage built into HDFC ERGO Optima Secure+."
+          badgeText="Core Coverage"
+        />
 
-        {/* Desktop Accent Watermark Graphic */}
-        <div className="hidden lg:block absolute -right-6 -bottom-10 text-red-500/5 pointer-events-none">
-          <FaHospital className="w-64 h-64" />
-        </div>
-
-        <div className="relative z-10 space-y-6">
+        {/* Compact Mobile Composition: Full-width Hero + 2x2 Mobile Grid */}
+        <div className="space-y-3">
           
-          {/* Section Header */}
-          <div className="flex items-center justify-between gap-4">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse" />
-                <h2 className="text-lg sm:text-2xl font-black text-slate-900 tracking-tight font-display uppercase">
-                  Most Important Features
-                </h2>
+          {/* FEATURED HERO CARD (Full Width on Mobile, Spans 2 Cols on Desktop) */}
+          <motion.div
+            variants={cardVariants}
+            whileHover={{ y: -2 }}
+            className="bg-[#FFF5F5]/40 border-2 border-[#E30613]/30 hover:border-[#E30613] rounded-xl sm:rounded-2xl p-3.5 sm:p-6 transition-all flex flex-col justify-between shadow-sm"
+          >
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center shrink-0 shadow-sm">
+                  <FaHospital className="text-base sm:text-xl" />
+                </div>
+                <span className="bg-[#E30613] text-[#FFFFFF] text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">
+                  Featured Core Cover
+                </span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-500 font-semibold pl-4">
-                Core hospitalisation protection built into HDFC ERGO Optima Secure+.
-              </p>
+              <div>
+                <h3 className="text-sm sm:text-lg font-black text-[#0F172A] font-display">
+                  Any Room Category
+                </h3>
+                <p className="text-xs sm:text-sm text-[#E30613] font-extrabold mt-0.5">
+                  100% Cashless Policy
+                </p>
+                <p className="text-[11px] sm:text-sm text-[#475569] mt-1 sm:mt-2 font-medium leading-relaxed">
+                  Choose any room category in cashless network hospitals with zero room rent capping.
+                </p>
+              </div>
             </div>
+            <div className="mt-3 sm:mt-5 pt-2 sm:pt-3 border-t border-[#FECDD3] flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-[#E30613]">
+              <FiCheckCircle className="text-xs sm:text-base shrink-0" />
+              <span>Zero Room Capping</span>
+            </div>
+          </motion.div>
 
-            <span className="bg-red-50 text-red-600 border border-red-200/60 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full shrink-0 hidden xs:inline-block">
-              5 Core Benefits
-            </span>
-          </div>
-
-          {/* 5 Compact Icon-Based Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* 2x2 Grid on Mobile (Grid-cols-2) & 4-col on Desktop */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4">
             
-            {/* Feature 1: Any Room Category */}
+            {/* Feature 2: No Limit on ICU */}
             <motion.div
               variants={cardVariants}
-              whileHover={{ y: -3 }}
-              className="bg-red-50/40 hover:bg-red-50/80 border border-red-100 hover:border-red-200 rounded-2xl p-4 sm:p-5 transition-all duration-200 flex flex-col justify-between"
+              whileHover={{ y: -2 }}
+              className="bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 rounded-xl sm:rounded-2xl p-3 sm:p-5 transition-all flex flex-col justify-between"
             >
-              <div className="space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shadow-md shadow-red-600/20 shrink-0">
-                  <FaHospital className="text-lg" />
+              <div className="space-y-2">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center shrink-0">
+                  <FiActivity className="text-sm sm:text-lg" />
                 </div>
                 <div>
-                  <h3 className="text-sm sm:text-base font-black text-slate-900 font-display">
-                    Any Room Category
+                  <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display leading-tight">
+                    No Limit on ICU
                   </h3>
-                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">
-                    100% cashless policy with no room category restriction.
+                  <p className="text-[10px] sm:text-xs text-[#E30613] font-bold mt-0.5">
+                    No ICU room category limit.
+                  </p>
+                  <p className="text-[10px] sm:text-xs text-[#475569] mt-1 font-medium leading-normal hidden sm:block">
+                    Full coverage for intensive care unit charges with zero daily sub-limits.
                   </p>
                 </div>
               </div>
-              <div className="mt-4 pt-3 border-t border-red-100/60 flex items-center gap-1.5 text-[11px] font-bold text-red-700">
-                <FiCheckCircle className="text-red-600 shrink-0" />
-                <span>Zero Room Rent Capping</span>
-              </div>
-            </motion.div>
-
-            {/* Feature 2: No ICU Limit */}
-            <motion.div
-              variants={cardVariants}
-              whileHover={{ y: -3 }}
-              className="bg-red-50/40 hover:bg-red-50/80 border border-red-100 hover:border-red-200 rounded-2xl p-4 sm:p-5 transition-all duration-200 flex flex-col justify-between"
-            >
-              <div className="space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shadow-md shadow-red-600/20 shrink-0">
-                  <FiActivity className="text-lg" />
-                </div>
-                <div>
-                  <h3 className="text-sm sm:text-base font-black text-slate-900 font-display">
-                    No ICU Limit
-                  </h3>
-                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">
-                    No limit on ICU room charges during critical medical treatment.
-                  </p>
-                </div>
-              </div>
-              <div className="mt-4 pt-3 border-t border-red-100/60 flex items-center gap-1.5 text-[11px] font-bold text-red-700">
-                <FiCheckCircle className="text-red-600 shrink-0" />
-                <span>Actual ICU Expenses Covered</span>
+              <div className="mt-2.5 pt-2 border-t border-[#E2E8F0] flex items-center gap-1 text-[9px] sm:text-[11px] font-bold text-[#E30613]">
+                <FiCheckCircle className="shrink-0 text-[10px]" />
+                <span className="truncate">Actual ICU Charges</span>
               </div>
             </motion.div>
 
             {/* Feature 3: Pre & Post Hospitalisation */}
             <motion.div
               variants={cardVariants}
-              whileHover={{ y: -3 }}
-              className="bg-red-50/40 hover:bg-red-50/80 border border-red-100 hover:border-red-200 rounded-2xl p-4 sm:p-5 transition-all duration-200 flex flex-col justify-between"
+              whileHover={{ y: -2 }}
+              className="bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 rounded-xl sm:rounded-2xl p-3 sm:p-5 transition-all flex flex-col justify-between"
             >
-              <div className="space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shadow-md shadow-red-600/20 shrink-0">
-                  <FiClock className="text-lg" />
+              <div className="space-y-2">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center shrink-0">
+                  <FiClock className="text-sm sm:text-lg" />
                 </div>
                 <div>
-                  <h3 className="text-sm sm:text-base font-black text-slate-900 font-display">
+                  <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display leading-tight">
                     Pre & Post Hospitalisation
                   </h3>
-                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">
-                    60 days pre-hospitalisation + 180 days post-hospitalisation.
+                  <p className="text-[10px] sm:text-xs text-[#E30613] font-bold mt-0.5">
+                    60 & 180 Days
+                  </p>
+                  <p className="text-[10px] sm:text-xs text-[#475569] mt-1 font-medium leading-normal hidden sm:block">
+                    Covers 60 days before hospital admission and 180 days after discharge.
                   </p>
                 </div>
               </div>
-              <div className="mt-4 pt-3 border-t border-red-100/60 flex items-center gap-1.5 text-[11px] font-bold text-red-700">
-                <FiCheckCircle className="text-red-600 shrink-0" />
-                <span>Diagnostics & Medicines Covered</span>
+              <div className="mt-2.5 pt-2 border-t border-[#E2E8F0] flex items-center gap-1 text-[9px] sm:text-[11px] font-bold text-[#E30613]">
+                <FiCheckCircle className="shrink-0 text-[10px]" />
+                <span className="truncate">Medical Tests Included</span>
               </div>
             </motion.div>
 
             {/* Feature 4: All Day Care Diseases Covered */}
             <motion.div
               variants={cardVariants}
-              whileHover={{ y: -3 }}
-              className="bg-red-50/40 hover:bg-red-50/80 border border-red-100 hover:border-red-200 rounded-2xl p-4 sm:p-5 transition-all duration-200 flex flex-col justify-between"
+              whileHover={{ y: -2 }}
+              className="bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 rounded-xl sm:rounded-2xl p-3 sm:p-5 transition-all flex flex-col justify-between"
             >
-              <div className="space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shadow-md shadow-red-600/20 shrink-0">
-                  <FaUserMd className="text-lg" />
+              <div className="space-y-2">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center shrink-0">
+                  <FaUserMd className="text-sm sm:text-lg" />
                 </div>
                 <div>
-                  <h3 className="text-sm sm:text-base font-black text-slate-900 font-display">
+                  <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display leading-tight">
                     All Day Care Diseases Covered
                   </h3>
-                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">
-                    Eligible daycare procedures covered even when hospitalisation is less than 24 hours.
+                  <p className="text-[10px] sm:text-xs text-[#475569] mt-1 font-medium leading-normal hidden sm:block">
+                    All medical procedures and daycare treatments requiring less than 24 hours stay.
                   </p>
                 </div>
               </div>
-              <div className="mt-4 pt-3 border-t border-red-100/60 flex items-center gap-1.5 text-[11px] font-bold text-red-700">
-                <FiCheckCircle className="text-red-600 shrink-0" />
-                <span>Includes Modern Surgeries</span>
+              <div className="mt-2.5 pt-2 border-t border-[#E2E8F0] flex items-center gap-1 text-[9px] sm:text-[11px] font-bold text-[#E30613]">
+                <FiCheckCircle className="shrink-0 text-[10px]" />
+                <span className="truncate">Daycare Cover</span>
               </div>
             </motion.div>
 
             {/* Feature 5: Modern Treatment & Robotic Surgery */}
             <motion.div
               variants={cardVariants}
-              whileHover={{ y: -3 }}
-              className="col-span-1 sm:col-span-2 lg:col-span-1 bg-red-50/40 hover:bg-red-50/80 border border-red-100 hover:border-red-200 rounded-2xl p-4 sm:p-5 transition-all duration-200 flex flex-col justify-between"
+              whileHover={{ y: -2 }}
+              className="bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 rounded-xl sm:rounded-2xl p-3 sm:p-5 transition-all flex flex-col justify-between"
             >
-              <div className="space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shadow-md shadow-red-600/20 shrink-0">
-                  <FaStethoscope className="text-lg" />
+              <div className="space-y-2">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center shrink-0">
+                  <FaStethoscope className="text-sm sm:text-lg" />
                 </div>
                 <div>
-                  <h3 className="text-sm sm:text-base font-black text-slate-900 font-display">
+                  <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display leading-tight">
                     Modern Treatment & Robotic Surgery
                   </h3>
-                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">
-                    Coverage for eligible modern medical treatments and robotic surgery procedures.
+                  <p className="text-[10px] sm:text-xs text-[#475569] mt-1 font-medium leading-normal hidden sm:block">
+                    Advanced surgical technology, robotic surgeries, and stem cell therapy covered up to Sum Insured.
                   </p>
                 </div>
               </div>
-              <div className="mt-4 pt-3 border-t border-red-100/60 flex items-center gap-1.5 text-[11px] font-bold text-red-700">
-                <FiCheckCircle className="text-red-600 shrink-0" />
-                <span>Advanced Medical Tech</span>
+              <div className="mt-2.5 pt-2 border-t border-[#E2E8F0] flex items-center gap-1 text-[9px] sm:text-[11px] font-bold text-[#E30613]">
+                <FiCheckCircle className="shrink-0 text-[10px]" />
+                <span className="truncate">Robotic Surgery</span>
               </div>
             </motion.div>
 
           </div>
 
-        </div>
-      </motion.div>
-
-
-      {/* ========================================================================= */}
-      {/* SECTION 2: VALUE ADDED FEATURES (DEEP BLUE / SLATE THEMED - HERO SECTION)*/}
-      {/* ========================================================================= */}
-      <motion.div
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-        className="bg-slate-900 rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl border border-slate-800 relative overflow-hidden text-white"
-      >
-        {/* Gradient backdrop glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-tr from-blue-900/30 via-slate-900 to-red-950/20 pointer-events-none" />
-
-        <div className="relative z-10 space-y-8">
-          
-          {/* Section Title */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-5">
-            <div>
-              <span className="text-xs font-black uppercase tracking-widest text-red-400 block mb-1">
-                High-Impact Protection Perks
-              </span>
-              <h2 className="text-xl sm:text-3xl font-black tracking-tight text-white font-display uppercase">
-                Value Added Features
-              </h2>
+          {/* Compact Network Banner Bar (Eliminates empty space on Mobile) */}
+          <div className="bg-[#FFF5F5] border border-[#FECDD3] rounded-xl p-3 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <FaShieldAlt className="text-base sm:text-xl text-[#E30613] shrink-0" />
+              <div>
+                <h4 className="text-xs sm:text-sm font-black text-[#0F172A] leading-tight">100% Cashless Network</h4>
+                <p className="text-[10px] sm:text-xs text-[#475569] font-medium">
+                  Access over 13,000+ cashless network hospitals across India.
+                </p>
+              </div>
             </div>
-            <span className="bg-red-600/20 text-red-300 border border-red-500/30 text-xs font-extrabold px-3 py-1 rounded-full self-start sm:self-center">
-              ⭐ Most Visually Impressive Benefits
+            <span className="hidden sm:block text-[10px] font-black uppercase text-[#E30613] bg-[#FFFFFF] px-2.5 py-1 rounded-full border border-[#FECDD3]">
+              Verified Network
             </span>
           </div>
 
-          {/* Grid Layout: 5 Cards with Infinite Benefit as HERO card */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            
-            {/* HERO CARD: Infinite Benefit (Larger Card) */}
-            <motion.div
-              variants={cardVariants}
-              whileHover={{ y: -4 }}
-              className="md:col-span-2 lg:col-span-2 bg-gradient-to-br from-slate-800 via-slate-900 to-red-950/60 border-2 border-red-500/50 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden flex flex-col justify-between"
-            >
-              <div className="absolute top-0 right-0 bg-gradient-to-l from-red-600 to-red-700 text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-bl-2xl shadow-md">
-                Major Selling Point
-              </div>
-
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-red-600 text-white flex items-center justify-center shadow-lg shadow-red-600/30">
-                  <FiTrendingUp className="text-2xl" />
-                </div>
-
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-black text-white font-display flex items-center gap-2">
-                    Infinite Benefit
-                    <span className="text-xs font-bold text-red-400 bg-red-950/80 px-2.5 py-0.5 rounded-full border border-red-800/60">
-                      100% Every Year
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 mt-2 font-medium leading-relaxed max-w-2xl">
-                    100% of Base Sum Insured is added every policy year, irrespective of claims made in previous years.
-                  </p>
-                </div>
-
-                {/* Example Visual Badge */}
-                <div className="bg-slate-950/80 border border-red-900/50 rounded-2xl p-4 mt-2">
-                  <div className="text-[10px] font-extrabold uppercase tracking-wider text-red-400 mb-2">
-                    Example Growth Visualization:
-                  </div>
-                  <div className="flex items-center gap-2 text-xs sm:text-sm font-black text-white flex-wrap">
-                    <span className="bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">₹20 Lakh</span>
-                    <FiArrowRight className="text-red-500 shrink-0" />
-                    <span className="bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">₹40 Lakh</span>
-                    <FiArrowRight className="text-red-500 shrink-0" />
-                    <span className="bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">₹60 Lakh</span>
-                    <FiArrowRight className="text-red-500 shrink-0" />
-                    <span className="bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">₹80 Lakh</span>
-                    <FiArrowRight className="text-red-500 shrink-0" />
-                    <span className="bg-gradient-to-r from-red-600 to-red-700 text-white px-3 py-1 rounded-lg shadow-md font-extrabold flex items-center gap-1">
-                      <span>∞</span> Infinite
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs font-semibold text-slate-400">
-                <span>Claims do NOT reduce annual SI additions</span>
-                <span className="text-red-400 font-bold">Automatic Addition</span>
-              </div>
-            </motion.div>
-
-
-            {/* Card 2: Unlimited Restoration */}
-            <motion.div
-              variants={cardVariants}
-              whileHover={{ y: -3 }}
-              className="bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 rounded-3xl p-6 transition-all duration-200 flex flex-col justify-between"
-            >
-              <div className="space-y-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shrink-0">
-                  <FiRefreshCw className="text-xl" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-blue-400">
-                    Auto-Refill Guarantee
-                  </span>
-                  <h3 className="text-lg font-black text-white font-display mt-0.5">
-                    Unlimited Restoration
-                  </h3>
-                  <p className="text-xs text-slate-300 mt-2 font-medium leading-relaxed">
-                    Sum Insured is restored 100% infinitely upon exhaustion for any subsequent illness.
-                  </p>
-                </div>
-
-                <div className="bg-slate-900/90 border border-slate-700 rounded-xl p-3 text-[11px] font-bold text-slate-300 space-y-1">
-                  <div className="text-slate-400 text-[10px]">Restoration Formula:</div>
-                  <div className="text-blue-300 leading-tight">
-                    ₹10L Base SI → ₹10L restored again → ₹10L → ₹10L…
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-5 pt-3 border-t border-slate-700/60 flex items-center gap-1.5 text-xs font-bold text-blue-400">
-                <FiCheckCircle className="shrink-0" />
-                <span>Unlimited Refills Per Year</span>
-              </div>
-            </motion.div>
-
-
-            {/* Card 3: Secure Benefit */}
-            <motion.div
-              variants={cardVariants}
-              whileHover={{ y: -3 }}
-              className="bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 rounded-3xl p-6 transition-all duration-200 flex flex-col justify-between"
-            >
-              <div className="space-y-4">
-                <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shadow-md shrink-0">
-                  <FaShieldAlt className="text-xl" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-400">
-                    Instant Double Cover
-                  </span>
-                  <h3 className="text-lg font-black text-white font-display mt-0.5">
-                    Secure Benefit
-                  </h3>
-                  <p className="text-xs text-slate-300 mt-2 font-medium leading-relaxed">
-                    Get 2X coverage right from Day 1 of policy issuance without waiting.
-                  </p>
-                </div>
-
-                <div className="bg-slate-900/90 border border-slate-700 rounded-xl p-3 text-[11px] font-bold text-slate-300">
-                  <span className="text-slate-400 text-[10px] block">Example:</span>
-                  <span className="text-red-300">₹20 Lakh Base Cover → </span>
-                  <strong className="text-white">₹40 Lakh from Day 1</strong>
-                </div>
-              </div>
-
-              <div className="mt-5 pt-3 border-t border-slate-700/60 flex items-center gap-1.5 text-xs font-bold text-red-400">
-                <FiCheckCircle className="shrink-0" />
-                <span>2X Multiplier Active Day 1</span>
-              </div>
-            </motion.div>
-
-
-            {/* Card 4: Protect Benefit */}
-            <motion.div
-              variants={cardVariants}
-              whileHover={{ y: -3 }}
-              className="bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 rounded-3xl p-6 transition-all duration-200 flex flex-col justify-between"
-            >
-              <div className="space-y-4">
-                <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md shrink-0">
-                  <FaSyringe className="text-xl" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400">
-                    Zero Deductions
-                  </span>
-                  <h3 className="text-lg font-black text-white font-display mt-0.5">
-                    Protect Benefit
-                  </h3>
-                  <p className="text-xs text-slate-300 mt-2 font-medium leading-relaxed">
-                    Coverage for eligible non-medical expenses such as gloves, cotton, syringes, masks, PPE kits, etc.
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-5 pt-3 border-t border-slate-700/60 flex items-center gap-1.5 text-xs font-bold text-emerald-400">
-                <FiCheckCircle className="shrink-0" />
-                <span>68+ Non-Medical Items Paid</span>
-              </div>
-            </motion.div>
-
-
-            {/* Card 5: Preventive Health Check-up */}
-            <motion.div
-              variants={cardVariants}
-              whileHover={{ y: -3 }}
-              className="bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 rounded-3xl p-6 transition-all duration-200 flex flex-col justify-between"
-            >
-              <div className="space-y-4">
-                <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-md shrink-0">
-                  <FiHeart className="text-xl" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-400">
-                    Annual Wellness
-                  </span>
-                  <h3 className="text-lg font-black text-white font-display mt-0.5">
-                    Preventive Health Check-up
-                  </h3>
-                  <p className="text-xs text-slate-300 mt-2 font-medium leading-relaxed">
-                    Comprehensive preventive health check-up covered for all insured members every policy year.
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-5 pt-3 border-t border-slate-700/60 flex items-center gap-1.5 text-xs font-bold text-amber-400">
-                <FiCheckCircle className="shrink-0" />
-                <span>Included Every Renewal</span>
-              </div>
-            </motion.div>
-
-          </div>
-
         </div>
       </motion.div>
 
 
       {/* ========================================================================= */}
-      {/* SECTION 3: ADDITIONAL FEATURES (CLEAN GRID)                              */}
+      {/* SECTION 2 — VALUE ADDED FEATURES (COMPACT MOBILE BLOCKS)                   */}
       {/* ========================================================================= */}
       <motion.div
         variants={sectionVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
-        className="bg-white rounded-3xl p-5 sm:p-8 shadow-sm border border-slate-100 space-y-6"
+        className="bg-[#FFFFFF] rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-sm border border-[#E2E8F0] relative overflow-hidden"
       >
-        <div className="flex items-center gap-2 border-b border-slate-100 pb-4">
-          <div className="w-2 h-6 rounded-full bg-slate-800" />
-          <div>
-            <h2 className="text-lg sm:text-xl font-black text-slate-900 font-display uppercase tracking-tight">
-              Additional Features
-            </h2>
-            <p className="text-xs text-slate-500 font-semibold">
-              Comprehensive medical sub-limit details and peripheral care inclusions.
-            </p>
-          </div>
-        </div>
+        <SectionHeader
+          title="Value Added Features"
+          subtitle="High-impact multipliers and infinite coverage restoration benefits."
+          badgeText="Enhanced Value"
+        />
 
-        {/* 2 or 3 Column Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* 2-Column Mobile Grid for Top 4 Features */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
           
-          {/* Item 1: Daily Cash For Shared Room */}
+          {/* Unlimited Restoration */}
           <motion.div
             variants={cardVariants}
-            className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3 hover:border-slate-200 transition-colors"
+            whileHover={{ y: -2 }}
+            className="bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 transition-all flex flex-col justify-between"
           >
-            <div className="p-2.5 rounded-xl bg-red-100 text-red-600 shrink-0 mt-0.5">
-              <FiDollarSign className="text-base" />
+            <div className="space-y-2">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center shrink-0">
+                <FiRefreshCw className="text-sm sm:text-lg" />
+              </div>
+              <div>
+                <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display">
+                  Unlimited Restoration
+                </h3>
+                <div className="mt-2 bg-[#FFF5F5] border border-[#FECDD3] rounded-lg p-2.5 text-xs font-semibold text-[#0F172A]">
+                  <span className="text-[#E30613] block text-[9px] uppercase tracking-wider font-extrabold mb-0.5">Restoration Structure:</span>
+                  <p className="text-[#0F172A] font-mono text-[10px] sm:text-xs">
+                    ₹10 Lakh Base SI → ₹10 Lakh restored again → ₹10 Lakh → ₹10 Lakh...
+                  </p>
+                </div>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-black text-slate-900">
-                Daily Cash For Shared Room
-              </h3>
-              <p className="text-xs text-slate-600 mt-0.5 font-medium">
-                ₹800 per day, up to a maximum of ₹4,800 for shared room occupancy.
-              </p>
+            <div className="mt-3 pt-2 border-t border-[#E2E8F0] flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-[#E30613]">
+              <FiCheckCircle className="shrink-0" />
+              <span>Restores 100% Base Sum Insured</span>
             </div>
           </motion.div>
 
-          {/* Item 2: Domiciliary Treatment */}
+          {/* Secure Benefit */}
           <motion.div
             variants={cardVariants}
-            className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3 hover:border-slate-200 transition-colors"
+            whileHover={{ y: -2 }}
+            className="bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 transition-all flex flex-col justify-between"
           >
-            <div className="p-2.5 rounded-xl bg-red-100 text-red-600 shrink-0 mt-0.5">
-              <FiUserCheck className="text-base" />
+            <div className="space-y-2">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center shrink-0">
+                <FaShieldAlt className="text-sm sm:text-lg" />
+              </div>
+              <div>
+                <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display">
+                  Secure Benefit
+                </h3>
+                <p className="text-[10px] sm:text-xs text-[#E30613] font-bold mt-0.5">
+                  2X coverage from Day 1.
+                </p>
+                <div className="mt-2 bg-[#FFF5F5] border border-[#FECDD3] rounded-lg p-2.5 text-xs font-semibold text-[#0F172A]">
+                  <span className="text-[#E30613] block text-[9px] uppercase tracking-wider font-extrabold mb-0.5">Example:</span>
+                  <p className="text-[#0F172A] text-[10px] sm:text-xs">
+                    ₹20 Lakh Base Cover → <strong className="text-[#E30613] font-black">₹40 Lakh from Day 1</strong>
+                  </p>
+                </div>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-black text-slate-900">
-                Domiciliary Treatment
-              </h3>
-              <p className="text-xs text-slate-600 mt-0.5 font-medium">
-                Hospitalisation expenses for treatment taken at home under medical advice.
-              </p>
+            <div className="mt-3 pt-2 border-t border-[#E2E8F0] flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-[#E30613]">
+              <FiCheckCircle className="shrink-0" />
+              <span>Instant Double Protection</span>
             </div>
           </motion.div>
 
-          {/* Item 3: Organ Treatment */}
+          {/* Infinite Benefit */}
           <motion.div
             variants={cardVariants}
-            className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3 hover:border-slate-200 transition-colors"
+            whileHover={{ y: -2 }}
+            className="bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 transition-all flex flex-col justify-between"
           >
-            <div className="p-2.5 rounded-xl bg-red-100 text-red-600 shrink-0 mt-0.5">
-              <FiHeart className="text-base" />
+            <div className="space-y-2">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center shrink-0">
+                <FiTrendingUp className="text-sm sm:text-lg" />
+              </div>
+              <div>
+                <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display">
+                  Infinite Benefit
+                </h3>
+                <p className="text-[10px] sm:text-xs text-[#E30613] font-bold mt-0.5">
+                  100% Base SI Added Every Year.
+                </p>
+                <div className="mt-2 bg-[#FFF5F5] border border-[#FECDD3] rounded-lg p-2.5 text-xs font-semibold text-[#0F172A]">
+                  <p className="text-[#0F172A] font-mono text-[10px] sm:text-xs tracking-wide font-bold">
+                    ₹20 Lakh → ₹40 Lakh → ₹60 Lakh → ₹80 Lakh → ∞
+                  </p>
+                  <span className="text-[9px] text-[#475569] block mt-0.5 font-medium">
+                    Irrespective of claims.
+                  </span>
+                </div>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-black text-slate-900">
-                Organ Treatment
-              </h3>
-              <p className="text-xs text-slate-600 mt-0.5 font-medium">
-                In-patient hospitalisation costs for organ donor harvesting fully covered.
-              </p>
+            <div className="mt-3 pt-2 border-t border-[#E2E8F0] flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-[#E30613]">
+              <FiCheckCircle className="shrink-0" />
+              <span>Guaranteed Annual SI Growth</span>
             </div>
           </motion.div>
 
-          {/* Item 4: AYUSH Treatment */}
+          {/* Protect Benefit */}
           <motion.div
             variants={cardVariants}
-            className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3 hover:border-slate-200 transition-colors"
+            whileHover={{ y: -2 }}
+            className="bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 transition-all flex flex-col justify-between"
           >
-            <div className="p-2.5 rounded-xl bg-red-100 text-red-600 shrink-0 mt-0.5">
-              <FiSun className="text-base" />
+            <div className="space-y-2">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center shrink-0">
+                <FaSyringe className="text-sm sm:text-lg" />
+              </div>
+              <div>
+                <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display">
+                  Protect Benefit
+                </h3>
+                <p className="text-[11px] sm:text-xs text-[#475569] mt-1 font-medium leading-relaxed">
+                  Covers eligible non-medical expenses such as gloves, cotton, syringes, masks, PPE kits, etc.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-black text-slate-900">
-                AYUSH Treatment
-              </h3>
-              <p className="text-xs text-slate-600 mt-0.5 font-medium">
-                100% cover for Ayurveda, Yoga, Unani, Siddha & Homeopathy in recognized institutes.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Item 5: Road Ambulance Cover */}
-          <motion.div
-            variants={cardVariants}
-            className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3 hover:border-slate-200 transition-colors"
-          >
-            <div className="p-2.5 rounded-xl bg-red-100 text-red-600 shrink-0 mt-0.5">
-              <FiTruck className="text-base" />
-            </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-black text-slate-900">
-                Road Ambulance Cover
-              </h3>
-              <p className="text-xs text-slate-600 mt-0.5 font-medium">
-                Emergency road ambulance expenses covered up to Sum Insured limit.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Item 6: All Day Care Treatment */}
-          <motion.div
-            variants={cardVariants}
-            className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3 hover:border-slate-200 transition-colors"
-          >
-            <div className="p-2.5 rounded-xl bg-red-100 text-red-600 shrink-0 mt-0.5">
-              <FiCheckCircle className="text-base" />
-            </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-black text-slate-900">
-                All Day Care Treatment
-              </h3>
-              <p className="text-xs text-slate-600 mt-0.5 font-medium">
-                Eligible day-care treatments requiring less than 24 hours admission.
-              </p>
+            <div className="mt-3 pt-2 border-t border-[#E2E8F0] flex items-center gap-1 text-[10px] sm:text-[11px] font-bold text-[#E30613]">
+              <FiCheckCircle className="shrink-0" />
+              <span>100% Non-Medical Expenses Covered</span>
             </div>
           </motion.div>
 
         </div>
+
+        {/* FULL-WIDTH BOTTOM FEATURE CARD: Preventive Health Check-up */}
+        <motion.div
+          variants={cardVariants}
+          whileHover={{ y: -2 }}
+          className="bg-[#FFF5F5]/60 border border-[#FECDD3] rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+        >
+          <div className="flex items-center gap-3">
+            <div className="p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-[#FFF5F5] text-[#E30613] shrink-0 border border-[#FECDD3]">
+              <FiCheckSquare className="text-base sm:text-xl" />
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-base font-black text-[#0F172A]">
+                Preventive Health Check-up
+              </h3>
+              <p className="text-[10px] sm:text-xs text-[#475569] font-medium mt-0.5">
+                Covered every policy year for all insured members upon renewal.
+              </p>
+            </div>
+          </div>
+          <span className="bg-[#E30613] text-[#FFFFFF] text-[10px] sm:text-xs font-extrabold px-3 py-1 rounded-full shrink-0">
+            Annual Renewal Benefit
+          </span>
+        </motion.div>
+
       </motion.div>
 
 
       {/* ========================================================================= */}
-      {/* SECTION 4: OPTIONAL RIDERS / ADD-ONS (RED THEMED 3x2 GRID)               */}
+      {/* SECTION 3 — ADDITIONAL FEATURES (COMPACT HORIZONTAL BENEFIT ROWS)         */}
       {/* ========================================================================= */}
       <motion.div
         variants={sectionVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
-        className="bg-slate-900 rounded-3xl p-5 sm:p-8 shadow-md border border-slate-800 text-white space-y-6"
+        className="bg-[#FFFFFF] rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-sm border border-[#E2E8F0] relative overflow-hidden"
       >
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              <h2 className="text-lg sm:text-2xl font-black text-white font-display uppercase tracking-tight">
-                Optional Riders (Add-Ons)
-              </h2>
+        <SectionHeader
+          title="Additional Features"
+          subtitle="Specialized peripheral benefits and emergency medical assistance."
+          badgeText="Extra Safeguards"
+        />
+
+        {/* Compact Horizontal Benefit Rows */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-4">
+          
+          {/* Daily Cash For Shared Room */}
+          <motion.div
+            variants={cardVariants}
+            whileHover={{ x: 2 }}
+            className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 transition-all flex items-center justify-between gap-3"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] shrink-0">
+                <FiDollarSign className="text-sm sm:text-lg" />
+              </div>
+              <div>
+                <h3 className="text-xs sm:text-sm font-black text-[#0F172A] font-display">
+                  Daily Cash For Shared Room
+                </h3>
+                <p className="text-[10px] sm:text-xs text-[#475569] mt-0.5 font-medium">
+                  ₹800 per day up to a maximum of ₹4,800
+                </p>
+              </div>
             </div>
-            <p className="text-xs text-slate-400 font-semibold pl-4">
-              Enhance your policy with tailor-made protective riders.
-            </p>
-          </div>
-          <span className="bg-red-600/20 text-red-300 border border-red-500/30 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full self-start sm:self-center">
-            6 Specialized Riders
-          </span>
+            <FiCheckCircle className="text-[#E30613] shrink-0 text-sm sm:text-base" />
+          </motion.div>
+
+          {/* Domiciliary, Organ & AYUSH Treatment */}
+          <motion.div
+            variants={cardVariants}
+            whileHover={{ x: 2 }}
+            className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 transition-all flex items-center justify-between gap-3"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] shrink-0">
+                <FaMedkit className="text-sm sm:text-lg" />
+              </div>
+              <div>
+                <h3 className="text-xs sm:text-sm font-black text-[#0F172A] font-display">
+                  Domiciliary, Organ & AYUSH Treatment
+                </h3>
+                <p className="text-[10px] sm:text-xs text-[#475569] mt-0.5 font-medium">
+                  Complete coverage for home treatment, organ donor costs, and alternative AYUSH therapies.
+                </p>
+              </div>
+            </div>
+            <FiCheckCircle className="text-[#E30613] shrink-0 text-sm sm:text-base" />
+          </motion.div>
+
+          {/* Road Ambulance Cover Available */}
+          <motion.div
+            variants={cardVariants}
+            whileHover={{ x: 2 }}
+            className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 transition-all flex items-center justify-between gap-3"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] shrink-0">
+                <FaAmbulance className="text-sm sm:text-lg" />
+              </div>
+              <div>
+                <h3 className="text-xs sm:text-sm font-black text-[#0F172A] font-display">
+                  Road Ambulance Cover Available
+                </h3>
+                <p className="text-[10px] sm:text-xs text-[#475569] mt-0.5 font-medium">
+                  Emergency road transportation expenses covered up to Sum Insured limit.
+                </p>
+              </div>
+            </div>
+            <FiCheckCircle className="text-[#E30613] shrink-0 text-sm sm:text-base" />
+          </motion.div>
+
+          {/* All Day Care Treatment */}
+          <motion.div
+            variants={cardVariants}
+            whileHover={{ x: 2 }}
+            className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FFFFFF] hover:bg-[#FFF5F5]/40 border border-[#E2E8F0] hover:border-[#E30613]/50 transition-all flex items-center justify-between gap-3"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] shrink-0">
+                <FiCheckCircle className="text-sm sm:text-lg" />
+              </div>
+              <div>
+                <h3 className="text-xs sm:text-sm font-black text-[#0F172A] font-display">
+                  All Day Care Treatment
+                </h3>
+                <p className="text-[10px] sm:text-xs text-[#475569] mt-0.5 font-medium">
+                  Less than 24 hours admission
+                </p>
+              </div>
+            </div>
+            <FiCheckCircle className="text-[#E30613] shrink-0 text-sm sm:text-base" />
+          </motion.div>
+
         </div>
 
-        {/* 3 x 2 Grid on Desktop / Vertical Stack on Mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      </motion.div>
+
+
+      {/* ========================================================================= */}
+      {/* SECTION 4 — OPTIONAL RIDERS (ADD-ONS) (PURPOSE-BUILT MOBILE CARDS)       */}
+      {/* ========================================================================= */}
+      <motion.div
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+        className="bg-[#FFFFFF] rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-sm border border-[#E2E8F0] relative overflow-hidden"
+      >
+        <SectionHeader
+          title="Optional Riders (Add-Ons)"
+          subtitle="Customizable add-on covers for personalized policy enhancement."
+          badgeText="6 Optional Riders"
+        />
+
+        {/* 3x2 Grid on Desktop | 1-Col Compact Card Stream on Mobile */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-5">
           
           {/* Rider 1: ABCD Chronic Care */}
           <motion.div
             variants={cardVariants}
-            whileHover={{ y: -3 }}
-            className="bg-slate-800/80 hover:bg-slate-800 border border-red-900/40 hover:border-red-600/60 rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between"
+            whileHover={{ y: -2 }}
+            className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613] hover:bg-[#FFF5F5]/30 rounded-xl sm:rounded-2xl p-4 transition-all duration-150 flex flex-col justify-between shadow-sm"
           >
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-400 bg-red-950 px-2 py-0.5 rounded border border-red-900">
-                  Day 31 Coverage
+                <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#FFFFFF] bg-[#E30613] px-2 py-0.5 rounded">
+                  DAY 31 COVERAGE
                 </span>
-                <FiPlusCircle className="text-red-500 text-lg" />
+                <div className="w-7 h-7 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center">
+                  <FiPlusCircle className="text-xs" />
+                </div>
               </div>
-              <h3 className="text-base font-black text-white font-display">
+              <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display">
                 ABCD Chronic Care
               </h3>
-              <p className="text-xs text-slate-300 font-medium leading-relaxed">
+              <p className="text-[11px] sm:text-xs text-[#475569] font-medium leading-relaxed">
                 Pre-existing Asthma, BP, Cholesterol and Diabetes covered from the 31st day.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-700/60 text-[11px] text-red-400 font-bold flex items-center gap-1">
-              <FiCheckCircle /> Shortened Waiting Period
+            <div className="mt-3 pt-2 border-t border-[#E2E8F0] text-[10px] text-[#E30613] font-bold flex items-center gap-1">
+              <FiCheckCircle className="shrink-0 text-[10px]" />
+              <span>31st Day Chronic Cover</span>
             </div>
           </motion.div>
 
           {/* Rider 2: Limitless */}
           <motion.div
             variants={cardVariants}
-            whileHover={{ y: -3 }}
-            className="bg-slate-800/80 hover:bg-slate-800 border border-red-900/40 hover:border-red-600/60 rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between"
+            whileHover={{ y: -2 }}
+            className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613] hover:bg-[#FFF5F5]/30 rounded-xl sm:rounded-2xl p-4 transition-all duration-150 flex flex-col justify-between shadow-sm"
           >
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-400 bg-red-950 px-2 py-0.5 rounded border border-red-900">
-                  Lifetime Unlimited
+                <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#FFFFFF] bg-[#E30613] px-2 py-0.5 rounded">
+                  LIFETIME UNLIMITED
                 </span>
-                <FiZap className="text-red-500 text-lg" />
+                <div className="w-7 h-7 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center">
+                  <FiZap className="text-xs" />
+                </div>
               </div>
-              <h3 className="text-base font-black text-white font-display">
+              <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display">
                 Limitless
               </h3>
-              <p className="text-xs text-slate-300 font-medium leading-relaxed">
-                One unlimited claim in a lifetime — no Sum Insured limit for extreme medical events.
+              <p className="text-[11px] sm:text-xs text-[#475569] font-medium leading-relaxed">
+                One unlimited claim in a lifetime — No Sum Insured limit.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-700/60 text-[11px] text-red-400 font-bold flex items-center gap-1">
-              <FiCheckCircle /> Zero SI Capping
+            <div className="mt-3 pt-2 border-t border-[#E2E8F0] text-[10px] text-[#E30613] font-bold flex items-center gap-1">
+              <FiCheckCircle className="shrink-0 text-[10px]" />
+              <span>No Sum Insured Limit</span>
             </div>
           </motion.div>
 
           {/* Rider 3: Optima Wellbeing */}
           <motion.div
             variants={cardVariants}
-            whileHover={{ y: -3 }}
-            className="bg-slate-800/80 hover:bg-slate-800 border border-red-900/40 hover:border-red-600/60 rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between"
+            whileHover={{ y: -2 }}
+            className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613] hover:bg-[#FFF5F5]/30 rounded-xl sm:rounded-2xl p-4 transition-all duration-150 flex flex-col justify-between shadow-sm"
           >
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-400 bg-red-950 px-2 py-0.5 rounded border border-red-900">
-                  OPD Cover
+                <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#FFFFFF] bg-[#E30613] px-2 py-0.5 rounded">
+                  OUTPATIENT COVER
                 </span>
-                <FiUserCheck className="text-red-500 text-lg" />
+                <div className="w-7 h-7 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center">
+                  <FiUserCheck className="text-xs" />
+                </div>
               </div>
-              <h3 className="text-base font-black text-white font-display">
+              <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display">
                 Optima Wellbeing
               </h3>
-              <p className="text-xs text-slate-300 font-medium leading-relaxed">
-                Covers eligible outpatient benefits including consultations & consultations.
+              <p className="text-[11px] sm:text-xs text-[#475569] font-medium leading-relaxed">
+                Covers outpatient benefits.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-700/60 text-[11px] text-red-400 font-bold flex items-center gap-1">
-              <FiCheckCircle /> Outpatient Consultations
+            <div className="mt-3 pt-2 border-t border-[#E2E8F0] text-[10px] text-[#E30613] font-bold flex items-center gap-1">
+              <FiCheckCircle className="shrink-0 text-[10px]" />
+              <span>OPD Consultations & Diagnostics</span>
             </div>
           </motion.div>
 
           {/* Rider 4: Parenthood */}
           <motion.div
             variants={cardVariants}
-            whileHover={{ y: -3 }}
-            className="bg-slate-800/80 hover:bg-slate-800 border border-red-900/40 hover:border-red-600/60 rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between"
+            whileHover={{ y: -2 }}
+            className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613] hover:bg-[#FFF5F5]/30 rounded-xl sm:rounded-2xl p-4 transition-all duration-150 flex flex-col justify-between shadow-sm"
           >
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-400 bg-red-950 px-2 py-0.5 rounded border border-red-900">
-                  Maternity Protection
+                <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#FFFFFF] bg-[#E30613] px-2 py-0.5 rounded">
+                  MATERNITY COVER
                 </span>
-                <FiHeart className="text-red-500 text-lg" />
+                <div className="w-7 h-7 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center">
+                  <FiHeart className="text-xs" />
+                </div>
               </div>
-              <h3 className="text-base font-black text-white font-display">
+              <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display">
                 Parenthood
               </h3>
-              <p className="text-xs text-slate-300 font-medium leading-relaxed">
-                Covers eligible maternity expenses and newborn baby care costs.
+              <p className="text-[11px] sm:text-xs text-[#475569] font-medium leading-relaxed">
+                Covers maternity expenses.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-700/60 text-[11px] text-red-400 font-bold flex items-center gap-1">
-              <FiCheckCircle /> Delivery & Newborn Expenses
+            <div className="mt-3 pt-2 border-t border-[#E2E8F0] text-[10px] text-[#E30613] font-bold flex items-center gap-1">
+              <FiCheckCircle className="shrink-0 text-[10px]" />
+              <span>Delivery & Newborn Expenses</span>
             </div>
           </motion.div>
 
           {/* Rider 5: Hospital Cash Benefit */}
           <motion.div
             variants={cardVariants}
-            whileHover={{ y: -3 }}
-            className="bg-slate-800/80 hover:bg-slate-800 border border-red-900/40 hover:border-red-600/60 rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between"
+            whileHover={{ y: -2 }}
+            className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613] hover:bg-[#FFF5F5]/30 rounded-xl sm:rounded-2xl p-4 transition-all duration-150 flex flex-col justify-between shadow-sm"
           >
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-400 bg-red-950 px-2 py-0.5 rounded border border-red-900">
-                  Daily Allowance
+                <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#FFFFFF] bg-[#E30613] px-2 py-0.5 rounded">
+                  DAILY ALLOWANCE
                 </span>
-                <FiDollarSign className="text-red-500 text-lg" />
+                <div className="w-7 h-7 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center">
+                  <FiDollarSign className="text-xs" />
+                </div>
               </div>
-              <h3 className="text-base font-black text-white font-display">
+              <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display">
                 Hospital Cash Benefit
               </h3>
-              <p className="text-xs text-slate-300 font-medium leading-relaxed">
-                Get a fixed daily cash amount for each completed day of hospitalisation.
+              <p className="text-[11px] sm:text-xs text-[#475569] font-medium leading-relaxed">
+                Get a daily cash amount for each completed day of hospitalisation.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-700/60 text-[11px] text-red-400 font-bold flex items-center gap-1">
-              <FiCheckCircle /> Daily Cash Paid
+            <div className="mt-3 pt-2 border-t border-[#E2E8F0] text-[10px] text-[#E30613] font-bold flex items-center gap-1">
+              <FiCheckCircle className="shrink-0 text-[10px]" />
+              <span>Fixed Daily Cash Allowance</span>
             </div>
           </motion.div>
 
           {/* Rider 6: Serious Illness Booster */}
           <motion.div
             variants={cardVariants}
-            whileHover={{ y: -3 }}
-            className="bg-slate-800/80 hover:bg-slate-800 border border-red-900/40 hover:border-red-600/60 rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between"
+            whileHover={{ y: -2 }}
+            className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613] hover:bg-[#FFF5F5]/30 rounded-xl sm:rounded-2xl p-4 transition-all duration-150 flex flex-col justify-between shadow-sm"
           >
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-red-400 bg-red-950 px-2 py-0.5 rounded border border-red-900">
-                  2X Critical Booster
+                <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#FFFFFF] bg-[#E30613] px-2 py-0.5 rounded">
+                  2X CRITICAL BOOSTER
                 </span>
-                <FiAward className="text-red-500 text-lg" />
+                <div className="w-7 h-7 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#FECDD3] flex items-center justify-center">
+                  <FiAward className="text-xs" />
+                </div>
               </div>
-              <h3 className="text-base font-black text-white font-display">
+              <h3 className="text-xs sm:text-base font-black text-[#0F172A] font-display">
                 Serious Illness Booster
               </h3>
-              <p className="text-xs text-slate-300 font-medium leading-relaxed">
-                2X Sum Insured for listed critical illnesses like Cancer, Heart Attack, etc.
+              <p className="text-[11px] sm:text-xs text-[#475569] font-medium leading-relaxed">
+                2X Sum Insured for listed critical illnesses.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-700/60 text-[11px] text-red-400 font-bold flex items-center gap-1">
-              <FiCheckCircle /> Double Cover for Critical Illnesses
+            <div className="mt-3 pt-2 border-t border-[#E2E8F0] text-[10px] text-[#E30613] font-bold flex items-center gap-1">
+              <FiCheckCircle className="shrink-0 text-[10px]" />
+              <span>2X Critical Sum Insured</span>
             </div>
           </motion.div>
 
@@ -960,37 +758,10 @@ export default function OptimaSecurePlusSection({ plan, company }) {
 
 
       {/* ========================================================================= */}
-      {/* SECTION 5: CONVERSION CTA & DISCLAIMER FOOTER                            */}
+      {/* MANDATORY FOOTER DISCLAIMER                                               */}
       {/* ========================================================================= */}
-      <motion.div
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-        className="bg-gradient-to-r from-red-600 via-red-700 to-red-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6"
-      >
-        <div className="space-y-1 text-center sm:text-left">
-          <h3 className="text-xl sm:text-2xl font-black font-display tracking-tight">
-            Ready to secure HDFC ERGO Optima Secure+?
-          </h3>
-          <p className="text-xs sm:text-sm text-red-100 font-medium">
-            Get instant quote calculation or connect with our certified health advisor.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3 shrink-0 flex-wrap justify-center">
-          <a
-            href="tel:18001234567"
-            className="px-5 py-3 rounded-xl bg-white text-red-700 hover:bg-red-50 font-black text-xs transition-all shadow-md flex items-center gap-2 cursor-pointer"
-          >
-            <FiZap /> Get Instant Quote
-          </a>
-        </div>
-      </motion.div>
-
-      {/* Footer Disclaimer */}
-      <div className="text-center text-xs text-slate-400 font-medium pb-2">
-        *T&C Apply. Policy features and benefit terms as per official HDFC ERGO General Insurance Co. Ltd. guidelines.
+      <div className="text-center text-[11px] sm:text-xs text-[#475569] font-medium pt-1 pb-3">
+        *T&C Apply
       </div>
 
     </div>

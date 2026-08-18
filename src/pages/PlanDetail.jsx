@@ -105,92 +105,92 @@ export default function PlanDetail() {
             to={`/insurance/${company.id}`}
             className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors"
           >
-            <FiArrowLeft className="text-sm" /> Back to {name} Plans
+            <FiArrowLeft className="text-sm" /> Back to {(company.id === 'hdfc-life' || company.id === 'hdfc-ergo') && (plan.id === 'optima-secure' || plan.id === 'optima-secure-plus') ? 'HDFC ERGO' : name} Plans
           </Link>
         </div>
 
-        {/* Plan Header Card */}
-        <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-100 mb-8 relative overflow-hidden">
-          <div
-            className="absolute top-0 left-0 right-0 h-1.5"
-            style={{ background: theme.gradient ? theme.gradient : 'var(--primary)' }}
-          />
-
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-3">
-                <span
-                  className="text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded border"
-                  style={{
-                    backgroundColor: 'var(--bg)',
-                    color: 'var(--primary)',
-                    borderColor: `${theme.primary}20`
-                  }}
-                >
-                  Health Policy
-                </span>
-                <span className="text-[10px] font-bold text-slate-400">{name}</span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight font-display">
-                {plan.name}
-              </h1>
-              <p className="text-xs sm:text-sm text-slate-500 max-w-xl font-medium">
-                {plan.description}
-              </p>
-            </div>
-
-            {/* Logo - Clean view without outer card or frame */}
-            <img
-              src={logo}
-              alt={name}
-              className="w-28 sm:w-36 h-auto max-h-12 sm:max-h-16 object-contain select-none self-start sm:self-center shrink-0"
-            />
-          </div>
-        </div>
-
-        {/* Key Metrics */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div
-              className="p-3.5 rounded-xl shrink-0 animate-pulse"
-              style={{ backgroundColor: 'var(--bg)' }}
-            >
-              <FiShield className="text-xl" style={{ color: 'var(--primary)' }} />
-            </div>
-            <div>
-              <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">
-                Coverage Amount
-              </span>
-              <div className="text-lg font-black text-slate-900 mt-0.5">{plan.coverage} Cover</div>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div
-              className="p-3.5 rounded-xl shrink-0 flex items-center justify-center w-12 h-12"
-              style={{ backgroundColor: 'var(--bg)' }}
-            >
-              <span className="text-lg font-black" style={{ color: 'var(--primary)' }}>₹</span>
-            </div>
-            <div>
-              <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">
-                Estimated Price
-              </span>
-              <div className="text-lg font-black text-slate-900 mt-0.5">{plan.premium}</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Plan Health Snapshot Section (Tata AIG Plans ONLY) */}
-        {company.id === 'tata-aig' && (
-          <PlanHealthSnapshot plan={plan} company={company} />
-        )}
-
         {/* HDFC ERGO Optima Secure+ Custom Redesigned Section */}
-        {company.id === 'hdfc-life' && (plan.id === 'optima-secure' || plan.id === 'optima-secure-plus') ? (
+        {(company.id === 'hdfc-life' || company.id === 'hdfc-ergo') && (plan.id === 'optima-secure' || plan.id === 'optima-secure-plus') ? (
           <OptimaSecurePlusSection plan={plan} company={company} />
         ) : (
           <>
+            {/* Plan Header Card */}
+            <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-100 mb-8 relative overflow-hidden">
+              <div
+                className="absolute top-0 left-0 right-0 h-1.5"
+                style={{ background: theme.gradient ? theme.gradient : 'var(--primary)' }}
+              />
+
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded border"
+                      style={{
+                        backgroundColor: 'var(--bg)',
+                        color: 'var(--primary)',
+                        borderColor: `${theme.primary}20`
+                      }}
+                    >
+                      Health Policy
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-400">{name}</span>
+                  </div>
+                  <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight font-display">
+                    {plan.name}
+                  </h1>
+                  <p className="text-xs sm:text-sm text-slate-500 max-w-xl font-medium">
+                    {plan.description}
+                  </p>
+                </div>
+
+                {/* Logo - Clean view without outer card or frame */}
+                <img
+                  src={logo}
+                  alt={name}
+                  className="w-28 sm:w-36 h-auto max-h-12 sm:max-h-16 object-contain select-none self-start sm:self-center shrink-0"
+                />
+              </div>
+            </div>
+
+            {/* Key Metrics */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+                <div
+                  className="p-3.5 rounded-xl shrink-0 animate-pulse"
+                  style={{ backgroundColor: 'var(--bg)' }}
+                >
+                  <FiShield className="text-xl" style={{ color: 'var(--primary)' }} />
+                </div>
+                <div>
+                  <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">
+                    Coverage Amount
+                  </span>
+                  <div className="text-lg font-black text-slate-900 mt-0.5">{plan.coverage} Cover</div>
+                </div>
+              </div>
+
+              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+                <div
+                  className="p-3.5 rounded-xl shrink-0 flex items-center justify-center w-12 h-12"
+                  style={{ backgroundColor: 'var(--bg)' }}
+                >
+                  <span className="text-lg font-black" style={{ color: 'var(--primary)' }}>₹</span>
+                </div>
+                <div>
+                  <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">
+                    Estimated Price
+                  </span>
+                  <div className="text-lg font-black text-slate-900 mt-0.5">{plan.premium}</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Plan Health Snapshot Section (Tata AIG Plans ONLY) */}
+            {company.id === 'tata-aig' && (
+              <PlanHealthSnapshot plan={plan} company={company} />
+            )}
+
             {/* Policy Details Grid */}
             {/* Dynamic Policy Details Sections */}
             <div className="space-y-8 mb-8">
