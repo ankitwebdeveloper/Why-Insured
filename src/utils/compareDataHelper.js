@@ -3,6 +3,7 @@
 
 export const getCompanyRatioValue = (companyId, ratioType) => {
   const ratios = {
+    'hdfc-ergo': { complaint: '12.4 per 10k', settlement: '98.6%', incurred: '54%', solvency: '1.90' },
     'hdfc-life': { complaint: '12.4 per 10k', settlement: '98.6%', incurred: '54%', solvency: '1.90' },
     'tata-aig': { complaint: '14.2 per 10k', settlement: '99.0%', incurred: '68%', solvency: '1.85' },
     'star-health': { complaint: '18.5 per 10k', settlement: '97.9%', incurred: '63%', solvency: '1.72' },
@@ -91,6 +92,7 @@ export const getDerivedValue = (plan, company, key) => {
     }
     case 'cashlessHospitals': {
       const networkSizes = {
+        'hdfc-ergo': "12,000+ Hospitals",
         'hdfc-life': "12,000+ Hospitals",
         'tata-aig': "10,000+ Hospitals",
         'star-health': "14,000+ Hospitals",

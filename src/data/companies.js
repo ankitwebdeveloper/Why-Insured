@@ -1,4 +1,4 @@
-import hdfcLogo from '../assets/hdfc-ergo.png';
+import hdfcLogo from '../assets/hdfc-ergo-logo.png';
 import tataLogo from '../assets/tata-aig.png';
 import starLogo from '../assets/star-health.png';
 import nivaLogo from '../assets/niva-bupa.png';
@@ -7,13 +7,13 @@ import careLogo from '../assets/care-health.png';
 
 export const companiesData = [
   {
-    id: "hdfc-life",
-    name: "HDFC Life",
-    fullName: "HDFC Life Insurance Company",
-    slug: "hdfc-life",
+    id: "hdfc-ergo",
+    name: "HDFC ERGO",
+    fullName: "HDFC ERGO General Insurance Company",
+    slug: "hdfc-ergo",
     category: "Health Insurance",
     logo: hdfcLogo,
-    description: "One of India's leading private life and health insurance providers, delivering corporate security and digital-first support.",
+    description: "One of India's leading health insurance providers, delivering comprehensive coverage, instant cashless claims, and digital-first support.",
     theme: {
       primary: "#DC2626",      // HDFC Red
       secondary: "#0A1128",    // Navy Blue

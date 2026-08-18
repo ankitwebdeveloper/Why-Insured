@@ -6,7 +6,7 @@ import logoImg from '../assets/logo.png';
 export default function Footer() {
   // 5 exact companies to show in footer
   const footerCompanies = [
-    { name: "HDFC ERGO", path: "/insurance/hdfc-life" },
+    { name: "HDFC ERGO", path: "/insurance/hdfc-ergo" },
     { name: "Tata AIG", path: "/insurance/tata-aig" },
     { name: "Star Health", path: "/insurance/star-health" },
     { name: "Niva Bupa", path: "/insurance/niva-bupa" },

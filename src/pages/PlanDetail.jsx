@@ -10,7 +10,7 @@ export default function PlanDetail() {
   const { companyId, planId } = useParams();
 
   const company = companiesData.find(
-    c => c.slug === companyId || c.id === companyId
+    c => c.slug === companyId || c.id === companyId || (companyId === 'hdfc-life' && (c.id === 'hdfc-ergo' || c.slug === 'hdfc-ergo'))
   );
 
   const plan = company?.plans.find(p => p.id === planId);

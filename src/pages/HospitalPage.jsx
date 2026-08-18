@@ -12,42 +12,42 @@ export default function HospitalPage() {
       address: "Jubilee Hills, Hyderabad, Telangana - 500033",
       contact: "+91 40 2360 7777",
       specialties: ["Cardiology", "Neurology", "Oncology", "Orthopedics"],
-      partners: ["hdfc-life", "tata-aig", "star-health", "niva-bupa", "icici-lombard", "care-health"]
+      partners: ["hdfc-ergo", "tata-aig", "star-health", "niva-bupa", "icici-lombard", "care-health"]
     },
     {
       name: "Fortis Memorial Research Institute",
       address: "Sector 44, Gurugram, Haryana - 122002",
       contact: "+91 124 4921 021",
       specialties: ["Pediatrics", "Pulmonology", "Gastroenterology", "Cardiology"],
-      partners: ["hdfc-life", "tata-aig", "star-health", "icici-lombard", "care-health"]
+      partners: ["hdfc-ergo", "tata-aig", "star-health", "icici-lombard", "care-health"]
     },
     {
       name: "Max Super Speciality Hospital",
       address: "Saket, New Delhi, Delhi - 110017",
       contact: "+91 11 2651 5050",
       specialties: ["Nephrology", "Urology", "Oncology", "Organ Transplant"],
-      partners: ["hdfc-life", "tata-aig", "star-health", "niva-bupa", "icici-lombard"]
+      partners: ["hdfc-ergo", "tata-aig", "star-health", "niva-bupa", "icici-lombard"]
     },
     {
       name: "Manipal Hospital",
       address: "HAL Airport Road, Bengaluru, Karnataka - 560017",
       contact: "+91 80 2502 4444",
       specialties: ["Emergency Care", "Neuro Surgery", "Spine Surgery", "Orthopedics"],
-      partners: ["hdfc-life", "tata-aig", "niva-bupa", "icici-lombard", "care-health"]
+      partners: ["hdfc-ergo", "tata-aig", "niva-bupa", "icici-lombard", "care-health"]
     },
     {
       name: "Kokilaben Dhirubhai Ambani Hospital",
       address: "Andheri West, Mumbai, Maharashtra - 400053",
       contact: "+91 22 3099 9999",
       specialties: ["Robotic Surgery", "Rehabilitation", "Oncology", "Cardiology"],
-      partners: ["hdfc-life", "star-health", "niva-bupa", "icici-lombard", "care-health"]
+      partners: ["hdfc-ergo", "star-health", "niva-bupa", "icici-lombard", "care-health"]
     },
     {
       name: "Medanta - The Medicity",
       address: "CH Baktawar Singh Road, Sector 38, Gurugram - 122001",
       contact: "+91 124 4141 414",
       specialties: ["Liver Transplant", "Heart Institute", "Bone & Joint", "Neurology"],
-      partners: ["hdfc-life", "tata-aig", "star-health", "niva-bupa", "care-health"]
+      partners: ["hdfc-ergo", "tata-aig", "star-health", "niva-bupa", "care-health"]
     }
   ];
 
