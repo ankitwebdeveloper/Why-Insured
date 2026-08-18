@@ -127,7 +127,7 @@ export const getDerivedValue = (plan, company, key) => {
       return hasRewards ? "✓ Up to 10% Discount" : "✕ Not Available";
     }
     case 'dailyCash': {
-      return (plan.id === 'optima-secure' || plan.id.includes('premier') || plan.id.includes('gold')) ? "✓ Optional Add-on" : "✕ Not Available";
+      return (plan.id === 'optima-secure' || plan.id.includes('premier') || plan.id.includes('select') || plan.id.includes('gold')) ? "✓ Optional Add-on" : "✕ Not Available";
     }
     case 'infinityCover': {
       if (plan.id === 'optima-secure') {

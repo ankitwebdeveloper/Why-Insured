@@ -5,6 +5,8 @@ import { companiesData } from '../data/companies';
 import { getPlanDetailData } from '../utils/compareDataHelper';
 import PlanHealthSnapshot from '../components/PlanHealthSnapshot';
 import OptimaSecurePlusSection from '../components/OptimaSecurePlusSection';
+import MedicareSelectSection from '../components/MedicareSelectSection';
+import IciciCompleteHealthSection from '../components/IciciCompleteHealthSection';
 
 export default function PlanDetail() {
   const { companyId, planId } = useParams();
@@ -13,7 +15,8 @@ export default function PlanDetail() {
     c => c.slug === companyId || c.id === companyId || (companyId === 'hdfc-life' && (c.id === 'hdfc-ergo' || c.slug === 'hdfc-ergo'))
   );
 
-  const plan = company?.plans.find(p => p.id === planId);
+  const plan = company?.plans.find(p => p.id === planId) || 
+    (company?.id === 'tata-aig' && (planId === 'medicare-premier' || planId === 'medicare-select') ? company?.plans[0] : null);
 
   if (!company || !plan) {
     return (
@@ -109,8 +112,12 @@ export default function PlanDetail() {
           </Link>
         </div>
 
-        {/* HDFC ERGO Optima Secure+ Custom Redesigned Section */}
-        {(company.id === 'hdfc-life' || company.id === 'hdfc-ergo') && (plan.id === 'optima-secure' || plan.id === 'optima-secure-plus') ? (
+        {/* ICICI Lombard Custom Section */}
+        {company.id === 'icici-lombard' ? (
+          <IciciCompleteHealthSection plan={plan} company={company} />
+        ) : company.id === 'tata-aig' && (plan.id === 'medicare-select' || plan.id === 'medicare-premier' || planId === 'medicare-select' || planId === 'medicare-premier') ? (
+          <MedicareSelectSection plan={plan} company={company} />
+        ) : (company.id === 'hdfc-life' || company.id === 'hdfc-ergo') && (plan.id === 'optima-secure' || plan.id === 'optima-secure-plus') ? (
           <OptimaSecurePlusSection plan={plan} company={company} />
         ) : (
           <>

@@ -110,26 +110,26 @@ export const companiesData = [
     },
     plans: [
       {
-        id: "medicare-premier",
-        name: "MediCare Premier",
-        description: "Elite cover featuring global emergency treatments and high-end room options.",
-        coverage: "₹15 Lakh",
-        premium: "₹18,500/year",
+        id: "medicare-select",
+        name: "MediCare Select",
+        description: "Comprehensive health insurance plan delivering full inpatient coverage, restoration, and cumulative bonus.",
+        coverage: "₹5 Lakh",
+        premium: "₹10,500/year",
         benefits: [
-          "Global emergency cover included",
-          "Consumables cover included",
-          "Maternity cover up to ₹50,000",
-          "High Cumulative Bonus (50% per year)"
+          "100% Restoration of Sum Insured for unrelated illnesses",
+          "Consumables & In-patient Hospitalization Covered",
+          "Cumulative Bonus of 10% per claim-free year (Max 50%)",
+          "AYUSH & All Day Care Procedures Covered"
         ],
         details: {
-          eligibility: "18 to 65 Years",
-          waitingPeriod: "30 Days initial, 24 Months for Pre-existing diseases",
-          roomRent: "No capping - Any room category up to Suite",
-          hospitalization: "Actual hospitalization charges covered",
-          prePostHospital: "90 Days Pre & 180 Days Post Hospitalization covered",
-          dayCare: "All Day Care procedures covered",
-          noClaimBonus: "50% increase in sum insured per claim-free year (Max 100%)",
-          exclusions: "Adherence to experimental treatments, rest cures, obesity treatments"
+          eligibility: "18 to 65 Years (Children: 91 days to 25 years)",
+          waitingPeriod: "30 Days initial, 24 Months for Specified Diseases, 36 Months for Pre-existing diseases",
+          roomRent: "Shared Room / Single Private Room Coverage",
+          hospitalization: "Actual inpatient hospitalization expenses covered up to Sum Insured",
+          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization covered",
+          dayCare: "All Day Care procedures covered (<24 hours admission)",
+          noClaimBonus: "10% increase in sum insured per claim-free year (Max 50%)",
+          exclusions: "Cosmetic surgery, self-inflicted injuries, substance abuse, rest cures"
         }
       },
       {
@@ -363,11 +363,10 @@ export const companiesData = [
     logo: iciciLogo,
     description: "A financial giant in health care, providing rich reward structures, OPD consultations, and donor protection plans.",
     theme: {
-      primary: "#F97316",      // Orange
-      secondary: "#EF4444",    // Red
-      accent: "#EF4444",
-      gradient: "linear-gradient(135deg, #F97316, #EF4444)", // Orange-Red Gradient
-      background: "#FFF7ED",   // Soft Orange-White
+      primary: "#C8102E",      // ICICI Crimson Red
+      secondary: "#0A1128",    // Deep Navy
+      accent: "#C8102E",
+      background: "#FFF5F6",   // Soft Red Tinted Light Gray
       text: "#0F172A"
     },
     plans: [
