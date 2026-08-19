@@ -81,7 +81,7 @@ const getVideoEmbedUrl = (url) => {
   return { type: 'iframe', url };
 };
 
-// Compact Feature-Wise Inline Video Button Component (Positioned Immediately After Feature Title)
+// Compact Feature-Wise Inline Video Button Component
 const VideoButton = ({ featureTitle, onOpenVideo }) => {
   const videoUrl = FEATURE_VIDEOS[featureTitle];
   if (!videoUrl || videoUrl.trim() === '') return null;
@@ -93,7 +93,7 @@ const VideoButton = ({ featureTitle, onOpenVideo }) => {
         e.stopPropagation();
         onOpenVideo(featureTitle, videoUrl);
       }}
-      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group ml-1.5"
+      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group ml-1.5 align-middle"
     >
       <FiPlay className="text-[9px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
       <span>Video</span>
@@ -159,7 +159,7 @@ const VideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
 // Main Section Container Component with Split-Border (Top+Right: Red #E30613, Left+Bottom: Orange #FF5722)
 const MainSectionContainer = ({ children, title, subtitle }) => {
   return (
-    <div className="relative bg-[#FFFFFF] rounded-2xl p-4 sm:p-6 shadow-xs border border-[#E2E8F0] overflow-hidden">
+    <div className="relative bg-[#FFFFFF] rounded-2xl p-4 sm:p-7 shadow-xs border border-[#E2E8F0] overflow-hidden">
       {/* TOP BORDER (RED) */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#E30613] z-10" />
       {/* RIGHT BORDER (RED) */}
@@ -250,7 +250,7 @@ export default function OptimaSecurePlusSection() {
   };
 
   return (
-    <div className="space-y-8 sm:space-y-12 font-sans w-full max-w-full overflow-x-hidden text-[#0F172A] bg-[#FFFFFF]">
+    <div className="space-y-8 sm:space-y-10 font-sans w-full max-w-full overflow-x-hidden text-[#0F172A] bg-[#FFFFFF]">
       
       {/* ========================================================================= */}
       {/* COMPACT HDFC ERGO BRANDED HEADER                                         */}
@@ -295,89 +295,115 @@ export default function OptimaSecurePlusSection() {
           subtitle="Essential hospitalisation coverage offered under Optima Secure+"
         >
           {/* DESKTOP LAYOUT (768px & ABOVE) */}
-          <div className="hidden md:block space-y-5">
+          <div className="hidden md:block space-y-6">
             {/* Top Row: 3 Cards */}
-            <div className="grid grid-cols-3 gap-5">
+            <div className="grid grid-cols-3 gap-6 items-stretch">
               {/* Card 1 */}
-              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200">
-                <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-3.5">
-                  <FaHospital />
+              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-4">
+                    <FaHospital />
+                  </div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      Any Room Category
+                      <VideoButton featureTitle="Any Room Category" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <div className="min-h-[28px] mt-2 flex items-center">
+                    <span className="inline-block text-xs font-bold text-[#E30613] bg-[#FFF5F5] px-2.5 py-0.5 rounded-md border border-[#E30613]/20">
+                      100% Cashless Policy
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#475569] mt-3 leading-relaxed font-normal">
+                    Choose any room category in cashless network hospitals with zero room rent capping.
+                  </p>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">Any Room Category</h3>
-                  <VideoButton featureTitle="Any Room Category" onOpenVideo={handleOpenVideo} />
-                </div>
-                <span className="inline-block mt-2 text-xs font-bold text-[#E30613] bg-[#FFF5F5] px-2.5 py-0.5 rounded-md border border-[#E30613]/20">
-                  100% Cashless Policy
-                </span>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
-                  Choose any room category in cashless network hospitals with zero room rent capping.
-                </p>
               </div>
 
               {/* Card 2 */}
-              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200">
-                <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-3.5">
-                  <FiActivity />
+              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-4">
+                    <FiActivity />
+                  </div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      No Limit on ICU
+                      <VideoButton featureTitle="No Limit on ICU" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <div className="min-h-[28px] mt-2 flex items-center">
+                    <span className="inline-block text-xs font-bold text-[#E30613] bg-[#FFF5F5] px-2.5 py-0.5 rounded-md border border-[#E30613]/20">
+                      No ICU room category limit.
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#475569] mt-3 leading-relaxed font-normal">
+                    Full coverage for intensive care unit charges with zero daily sub-limits.
+                  </p>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">No Limit on ICU</h3>
-                  <VideoButton featureTitle="No Limit on ICU" onOpenVideo={handleOpenVideo} />
-                </div>
-                <span className="inline-block mt-2 text-xs font-bold text-[#E30613] bg-[#FFF5F5] px-2.5 py-0.5 rounded-md border border-[#E30613]/20">
-                  No ICU room category limit.
-                </span>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
-                  Full coverage for intensive care unit charges with zero daily sub-limits.
-                </p>
               </div>
 
               {/* Card 3 */}
-              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200">
-                <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-3.5">
-                  <FiClock />
+              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-4">
+                    <FiClock />
+                  </div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      Pre & Post Hospitalisation
+                      <VideoButton featureTitle="Pre & Post Hospitalisation" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <div className="min-h-[28px] mt-2 flex items-center">
+                    <span className="inline-block text-xs font-bold text-[#E30613] bg-[#FFF5F5] px-2.5 py-0.5 rounded-md border border-[#E30613]/20">
+                      60 & 180 Days
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#475569] mt-3 leading-relaxed font-normal">
+                    Covers medical expenses incurred 60 days before hospital admission and 180 days after discharge.
+                  </p>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">Pre & Post Hospitalisation</h3>
-                  <VideoButton featureTitle="Pre & Post Hospitalisation" onOpenVideo={handleOpenVideo} />
-                </div>
-                <span className="inline-block mt-2 text-xs font-bold text-[#E30613] bg-[#FFF5F5] px-2.5 py-0.5 rounded-md border border-[#E30613]/20">
-                  60 & 180 Days
-                </span>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
-                  Covers medical expenses incurred 60 days before hospital admission and 180 days after discharge.
-                </p>
               </div>
             </div>
 
             {/* Bottom Row: 2 Cards */}
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-6 items-stretch">
               {/* Card 4 */}
-              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200">
-                <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-3.5">
-                  <FaUserMd />
+              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-4">
+                    <FaUserMd />
+                  </div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      All Day Care Diseases Covered
+                      <VideoButton featureTitle="All Day Care Diseases Covered" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#475569] mt-3 leading-relaxed font-normal">
+                    Covers all medical procedures and daycare treatments requiring less than 24 hours of hospital stay due to technological advancement.
+                  </p>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">All Day Care Diseases Covered</h3>
-                  <VideoButton featureTitle="All Day Care Diseases Covered" onOpenVideo={handleOpenVideo} />
-                </div>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
-                  Covers all medical procedures and daycare treatments requiring less than 24 hours of hospital stay due to technological advancement.
-                </p>
               </div>
 
               {/* Card 5 */}
-              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200">
-                <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-3.5">
-                  <FaStethoscope />
+              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-4">
+                    <FaStethoscope />
+                  </div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      Modern Treatment & Robotic Surgery
+                      <VideoButton featureTitle="Modern Treatment & Robotic Surgery" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#475569] mt-3 leading-relaxed font-normal">
+                    Advanced surgical technology, robotic surgeries, stem cell therapy, and modern treatments covered up to full Sum Insured.
+                  </p>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">Modern Treatment & Robotic Surgery</h3>
-                  <VideoButton featureTitle="Modern Treatment & Robotic Surgery" onOpenVideo={handleOpenVideo} />
-                </div>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
-                  Advanced surgical technology, robotic surgeries, stem cell therapy, and modern treatments covered up to full Sum Insured.
-                </p>
               </div>
             </div>
           </div>
@@ -495,101 +521,114 @@ export default function OptimaSecurePlusSection() {
           subtitle="Automatic multipliers and restoring coverage benefits"
         >
           {/* DESKTOP LAYOUT (768px & ABOVE) */}
-          <div className="hidden md:block space-y-5">
-            <div className="grid grid-cols-2 gap-5">
+          <div className="hidden md:block space-y-6">
+            <div className="grid grid-cols-2 gap-6 items-stretch">
               {/* Unlimited Restoration */}
-              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200">
-                <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-3.5">
-                  <FiRefreshCw />
+              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-4">
+                    <FiRefreshCw />
+                  </div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      Unlimited Restoration
+                      <VideoButton featureTitle="Unlimited Restoration" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <div className="bg-[#FFF5F5] border border-[#E2E8F0] rounded-xl p-3 my-3 text-xs sm:text-sm font-semibold text-[#0F172A] font-mono leading-relaxed min-h-[56px] flex items-center">
+                    ₹10 Lakh Base SI → ₹10 Lakh restored again → ₹10 Lakh → ₹10 Lakh...
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-normal">
+                    Restores 100% Base Sum Insured automatically for subsequent unrelated or related claims within the policy year.
+                  </p>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">Unlimited Restoration</h3>
-                  <VideoButton featureTitle="Unlimited Restoration" onOpenVideo={handleOpenVideo} />
-                </div>
-                <div className="bg-[#FFF5F5] border border-[#E2E8F0] rounded-xl p-3 my-3 text-xs sm:text-sm font-semibold text-[#0F172A] font-mono leading-relaxed">
-                  ₹10 Lakh Base SI → ₹10 Lakh restored again → ₹10 Lakh → ₹10 Lakh...
-                </div>
-                <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-normal">
-                  Restores 100% Base Sum Insured automatically for subsequent unrelated or related claims within the policy year.
-                </p>
               </div>
 
               {/* Infinite Benefit */}
-              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200">
-                <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-3.5">
-                  <FiTrendingUp />
+              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-4">
+                    <FiTrendingUp />
+                  </div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      Infinite Benefit
+                      <VideoButton featureTitle="Infinite Benefit" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <div className="bg-[#FFF5F5] border border-[#E2E8F0] rounded-xl p-3 my-3 text-xs sm:text-sm font-semibold text-[#0F172A] font-mono leading-relaxed min-h-[56px] flex items-center">
+                    ₹20 Lakh → ₹40 Lakh → ₹60 Lakh → ₹80 Lakh → ∞
+                  </div>
+                  <p className="text-xs text-[#475569] font-semibold mb-1">
+                    Irrespective of claims.
+                  </p>
+                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-normal">
+                    100% of your Base Sum Insured is added automatically every policy year regardless of whether claims were made.
+                  </p>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">Infinite Benefit</h3>
-                  <VideoButton featureTitle="Infinite Benefit" onOpenVideo={handleOpenVideo} />
-                </div>
-                <span className="inline-block mt-1 text-xs font-bold text-[#E30613]">
-                  100% Base SI Added Every Year.
-                </span>
-                <div className="bg-[#FFF5F5] border border-[#E2E8F0] rounded-xl p-3 my-3 text-xs sm:text-sm font-semibold text-[#0F172A] font-mono leading-relaxed">
-                  ₹20 Lakh → ₹40 Lakh → ₹60 Lakh → ₹80 Lakh → ∞
-                </div>
-                <p className="text-xs text-[#475569] font-semibold mb-1">
-                  Irrespective of claims.
-                </p>
-                <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-normal">
-                  100% of your Base Sum Insured is added automatically every policy year regardless of whether claims were made.
-                </p>
               </div>
 
               {/* Secure Benefit */}
-              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200">
-                <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-3.5">
-                  <FaShieldAlt />
+              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-4">
+                    <FaShieldAlt />
+                  </div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      Secure Benefit
+                      <VideoButton featureTitle="Secure Benefit" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <div className="bg-[#FFF5F5] border border-[#E2E8F0] rounded-xl p-3 my-3 text-xs sm:text-sm font-semibold text-[#0F172A] min-h-[56px] flex flex-col justify-center">
+                    <span className="text-[#475569] font-mono text-[11px] block uppercase">Example:</span>
+                    ₹20 Lakh Base Cover → ₹40 Lakh from Day 1
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-normal">
+                    Instantly doubles your sum insured right from day 1 without paying extra premium.
+                  </p>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">Secure Benefit</h3>
-                  <VideoButton featureTitle="Secure Benefit" onOpenVideo={handleOpenVideo} />
-                </div>
-                <span className="inline-block mt-1 text-xs font-bold text-[#E30613]">
-                  2X coverage from Day 1.
-                </span>
-                <div className="bg-[#FFF5F5] border border-[#E2E8F0] rounded-xl p-3 my-3 text-xs sm:text-sm font-semibold text-[#0F172A]">
-                  <span className="text-[#475569] font-mono text-[11px] block uppercase">Example:</span>
-                  ₹20 Lakh Base Cover → ₹40 Lakh from Day 1
-                </div>
-                <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-normal">
-                  Instantly doubles your sum insured right from day 1 without paying extra premium.
-                </p>
               </div>
 
               {/* Protect Benefit */}
-              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200">
-                <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-3.5">
-                  <FaSyringe />
+              <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0 mb-4">
+                    <FaSyringe />
+                  </div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      Protect Benefit
+                      <VideoButton featureTitle="Protect Benefit" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <div className="bg-[#FFF5F5] border border-[#E2E8F0] rounded-xl p-3 my-3 text-xs sm:text-sm font-semibold text-[#0F172A] min-h-[56px] flex items-center">
+                    Gloves, PPE Kits, Masks & Syringes 100% Covered
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-normal">
+                    Covers eligible non-medical expenses such as gloves, cotton, syringes, masks, PPE kits, and other essential medical consumables.
+                  </p>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">Protect Benefit</h3>
-                  <VideoButton featureTitle="Protect Benefit" onOpenVideo={handleOpenVideo} />
-                </div>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
-                  Covers eligible non-medical expenses such as gloves, cotton, syringes, masks, PPE kits, and other essential medical consumables.
-                </p>
               </div>
             </div>
 
             {/* Bottom Full-Width Card */}
-            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200 flex items-center justify-between gap-4">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0">
                   <FiCheckSquare />
                 </div>
                 <div>
-                  <div className="flex items-center flex-wrap gap-1.5">
-                    <h3 className="text-base font-bold text-[#0F172A]">Preventive Health Check-up</h3>
+                  <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                    Preventive Health Check-up
                     <VideoButton featureTitle="Preventive Health Check-up" onOpenVideo={handleOpenVideo} />
-                  </div>
+                  </h3>
                   <p className="text-xs sm:text-sm text-[#475569] font-normal mt-0.5">
                     Covered every policy year for all insured members upon renewal.
                   </p>
                 </div>
               </div>
-              <span className="bg-[#FFF5F5] text-[#E30613] text-xs font-bold px-3 py-1 rounded-full shrink-0 border border-[#E30613]/20">
+              <span className="bg-[#FFF5F5] text-[#E30613] text-xs font-bold px-3.5 py-1 rounded-full shrink-0 border border-[#E30613]/20">
                 Annual Benefit
               </span>
             </div>
@@ -722,74 +761,96 @@ export default function OptimaSecurePlusSection() {
           subtitle="Comprehensive healthcare allowances and emergency services"
         >
           {/* DESKTOP LAYOUT (768px & ABOVE) */}
-          <div className="hidden md:grid grid-cols-2 gap-5">
+          <div className="hidden md:grid grid-cols-2 gap-6 items-stretch">
             {/* Daily Cash For Shared Room */}
-            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200 flex items-start gap-4">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex items-start gap-4 h-full">
               <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0">
                 <FiDollarSign />
               </div>
-              <div className="flex-1">
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">Daily Cash For Shared Room</h3>
-                  <VideoButton featureTitle="Daily Cash For Shared Room" onOpenVideo={handleOpenVideo} />
+              <div className="flex-1 flex flex-col justify-between h-full">
+                <div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      Daily Cash For Shared Room
+                      <VideoButton featureTitle="Daily Cash For Shared Room" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm font-bold text-[#E30613] mt-1">
+                    ₹800 per day up to a maximum of ₹4,800
+                  </p>
+                  <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed font-normal">
+                    Receive daily cash allowance when opting for shared room accommodation during hospitalisation.
+                  </p>
                 </div>
-                <p className="text-xs sm:text-sm font-bold text-[#E30613] mt-1">
-                  ₹800 per day up to a maximum of ₹4,800
-                </p>
-                <p className="text-xs sm:text-sm text-[#475569] mt-1.5 leading-relaxed font-normal">
-                  Receive daily cash allowance when opting for shared room accommodation during hospitalisation.
-                </p>
               </div>
             </div>
 
             {/* Domiciliary, Organ & AYUSH Treatment */}
-            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200 flex items-start gap-4">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex items-start gap-4 h-full">
               <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0">
                 <FaMedkit />
               </div>
-              <div className="flex-1">
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">Domiciliary, Organ & AYUSH Treatment</h3>
-                  <VideoButton featureTitle="Domiciliary, Organ & AYUSH Treatment" onOpenVideo={handleOpenVideo} />
+              <div className="flex-1 flex flex-col justify-between h-full">
+                <div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      Domiciliary, Organ & AYUSH Treatment
+                      <VideoButton featureTitle="Domiciliary, Organ & AYUSH Treatment" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm font-bold text-[#E30613] mt-1">
+                    Full Coverage Included
+                  </p>
+                  <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed font-normal">
+                    Complete coverage for home hospitalisation treatment, medical expenses of organ donors, and alternative AYUSH therapies.
+                  </p>
                 </div>
-                <p className="text-xs sm:text-sm text-[#475569] mt-1.5 leading-relaxed font-normal">
-                  Complete coverage for home hospitalisation treatment, medical expenses of organ donors, and alternative AYUSH therapies.
-                </p>
               </div>
             </div>
 
             {/* Road Ambulance Cover Available */}
-            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200 flex items-start gap-4">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex items-start gap-4 h-full">
               <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0">
                 <FaAmbulance />
               </div>
-              <div className="flex-1">
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">Road Ambulance Cover Available</h3>
-                  <VideoButton featureTitle="Road Ambulance Cover Available" onOpenVideo={handleOpenVideo} />
+              <div className="flex-1 flex flex-col justify-between h-full">
+                <div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      Road Ambulance Cover Available
+                      <VideoButton featureTitle="Road Ambulance Cover Available" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm font-bold text-[#E30613] mt-1">
+                    Emergency Transport
+                  </p>
+                  <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed font-normal">
+                    Coverage for emergency road transportation expenses to transfer the insured to the nearest hospital.
+                  </p>
                 </div>
-                <p className="text-xs sm:text-sm text-[#475569] mt-1.5 leading-relaxed font-normal">
-                  Coverage for emergency road transportation expenses to transfer the insured to the nearest hospital.
-                </p>
               </div>
             </div>
 
             {/* All Day Care Treatment */}
-            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200 flex items-start gap-4">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex items-start gap-4 h-full">
               <div className="w-10 h-10 rounded-xl bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-lg shrink-0">
                 <FiCheckCircle />
               </div>
-              <div className="flex-1">
-                <div className="flex items-center flex-wrap gap-1.5">
-                  <h3 className="text-base font-bold text-[#0F172A]">All Day Care Treatment</h3>
-                  <VideoButton featureTitle="All Day Care Treatment" onOpenVideo={handleOpenVideo} />
+              <div className="flex-1 flex flex-col justify-between h-full">
+                <div>
+                  <div className="min-h-[44px] flex items-start">
+                    <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                      All Day Care Treatment
+                      <VideoButton featureTitle="All Day Care Treatment" onOpenVideo={handleOpenVideo} />
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm font-bold text-[#E30613] mt-1">
+                    Less than 24 hours admission
+                  </p>
+                  <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed font-normal">
+                    All medical procedures and treatments requiring hospitalization of less than 24 hours.
+                  </p>
                 </div>
-                <p className="text-xs sm:text-sm font-bold text-[#E30613] mt-1">
-                  Less than 24 hours admission
-                </p>
-                <p className="text-xs sm:text-sm text-[#475569] mt-1.5 leading-relaxed font-normal">
-                  All medical procedures and treatments requiring hospitalization of less than 24 hours.
-                </p>
               </div>
             </div>
           </div>
@@ -900,152 +961,164 @@ export default function OptimaSecurePlusSection() {
           subtitle="Customize your policy with specialized optional add-on covers"
         >
           {/* DESKTOP LAYOUT (768px & ABOVE) */}
-          <div className="hidden md:grid grid-cols-3 gap-5">
+          <div className="hidden md:grid grid-cols-3 gap-6 items-stretch">
             {/* Rider 1 */}
-            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200 flex flex-col justify-between">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
               <div>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-between gap-2 min-h-[32px]">
                   <span className="bg-[#E30613] text-[#FFFFFF] text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase tracking-wider">
                     DAY 31 COVERAGE
                   </span>
-                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm">
+                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm shrink-0">
                     <FiPlusCircle />
                   </div>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5 mt-3">
-                  <h3 className="text-base font-bold text-[#0F172A]">ABCD Chronic Care</h3>
-                  <VideoButton featureTitle="ABCD Chronic Care" onOpenVideo={handleOpenVideo} />
+                <div className="min-h-[44px] flex items-start mt-4">
+                  <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                    ABCD Chronic Care
+                    <VideoButton featureTitle="ABCD Chronic Care" onOpenVideo={handleOpenVideo} />
+                  </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
                   Pre-existing Asthma, BP, Cholesterol and Diabetes covered from the 31st day.
                 </p>
               </div>
-              <div className="pt-3 mt-4 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
+              <div className="pt-3 mt-5 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
                 <FiCheckCircle className="shrink-0" />
                 <span>31st Day Chronic Cover</span>
               </div>
             </div>
 
             {/* Rider 2 */}
-            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200 flex flex-col justify-between">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
               <div>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-between gap-2 min-h-[32px]">
                   <span className="bg-[#E30613] text-[#FFFFFF] text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase tracking-wider">
                     LIFETIME UNLIMITED
                   </span>
-                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm">
+                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm shrink-0">
                     <FiZap />
                   </div>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5 mt-3">
-                  <h3 className="text-base font-bold text-[#0F172A]">Limitless</h3>
-                  <VideoButton featureTitle="Limitless" onOpenVideo={handleOpenVideo} />
+                <div className="min-h-[44px] flex items-start mt-4">
+                  <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                    Limitless
+                    <VideoButton featureTitle="Limitless" onOpenVideo={handleOpenVideo} />
+                  </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
                   One unlimited claim in a lifetime — No Sum Insured limit.
                 </p>
               </div>
-              <div className="pt-3 mt-4 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
+              <div className="pt-3 mt-5 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
                 <FiCheckCircle className="shrink-0" />
                 <span>No Sum Insured Limit</span>
               </div>
             </div>
 
             {/* Rider 3 */}
-            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200 flex flex-col justify-between">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
               <div>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-between gap-2 min-h-[32px]">
                   <span className="bg-[#E30613] text-[#FFFFFF] text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase tracking-wider">
                     OUTPATIENT COVER
                   </span>
-                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm">
+                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm shrink-0">
                     <FiUserCheck />
                   </div>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5 mt-3">
-                  <h3 className="text-base font-bold text-[#0F172A]">Optima Wellbeing</h3>
-                  <VideoButton featureTitle="Optima Wellbeing" onOpenVideo={handleOpenVideo} />
+                <div className="min-h-[44px] flex items-start mt-4">
+                  <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                    Optima Wellbeing
+                    <VideoButton featureTitle="Optima Wellbeing" onOpenVideo={handleOpenVideo} />
+                  </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
                   Covers outpatient benefits including OPD doctor consultations and diagnostic tests.
                 </p>
               </div>
-              <div className="pt-3 mt-4 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
+              <div className="pt-3 mt-5 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
                 <FiCheckCircle className="shrink-0" />
                 <span>OPD Consultations & Diagnostics</span>
               </div>
             </div>
 
             {/* Rider 4 */}
-            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200 flex flex-col justify-between">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
               <div>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-between gap-2 min-h-[32px]">
                   <span className="bg-[#E30613] text-[#FFFFFF] text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase tracking-wider">
                     MATERNITY COVER
                   </span>
-                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm">
+                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm shrink-0">
                     <FiHeart />
                   </div>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5 mt-3">
-                  <h3 className="text-base font-bold text-[#0F172A]">Parenthood</h3>
-                  <VideoButton featureTitle="Parenthood" onOpenVideo={handleOpenVideo} />
+                <div className="min-h-[44px] flex items-start mt-4">
+                  <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                    Parenthood
+                    <VideoButton featureTitle="Parenthood" onOpenVideo={handleOpenVideo} />
+                  </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
                   Covers maternity expenses including delivery and newborn care coverage.
                 </p>
               </div>
-              <div className="pt-3 mt-4 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
+              <div className="pt-3 mt-5 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
                 <FiCheckCircle className="shrink-0" />
                 <span>Delivery & Newborn Expenses</span>
               </div>
             </div>
 
             {/* Rider 5 */}
-            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200 flex flex-col justify-between">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
               <div>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-between gap-2 min-h-[32px]">
                   <span className="bg-[#E30613] text-[#FFFFFF] text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase tracking-wider">
                     DAILY ALLOWANCE
                   </span>
-                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm">
+                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm shrink-0">
                     <FiDollarSign />
                   </div>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5 mt-3">
-                  <h3 className="text-base font-bold text-[#0F172A]">Hospital Cash Benefit</h3>
-                  <VideoButton featureTitle="Hospital Cash Benefit" onOpenVideo={handleOpenVideo} />
+                <div className="min-h-[44px] flex items-start mt-4">
+                  <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                    Hospital Cash Benefit
+                    <VideoButton featureTitle="Hospital Cash Benefit" onOpenVideo={handleOpenVideo} />
+                  </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
                   Get a daily cash amount for each completed day of hospitalisation.
                 </p>
               </div>
-              <div className="pt-3 mt-4 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
+              <div className="pt-3 mt-5 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
                 <FiCheckCircle className="shrink-0" />
                 <span>Fixed Daily Cash Allowance</span>
               </div>
             </div>
 
             {/* Rider 6 */}
-            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-5 shadow-xs transition-all duration-200 flex flex-col justify-between">
+            <div className="bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#E30613]/40 rounded-2xl p-6 shadow-xs transition-all duration-200 flex flex-col justify-between h-full">
               <div>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-between gap-2 min-h-[32px]">
                   <span className="bg-[#E30613] text-[#FFFFFF] text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase tracking-wider">
                     2X CRITICAL BOOSTER
                   </span>
-                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm">
+                  <div className="w-8 h-8 rounded-lg bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/10 flex items-center justify-center text-sm shrink-0">
                     <FiAward />
                   </div>
                 </div>
-                <div className="flex items-center flex-wrap gap-1.5 mt-3">
-                  <h3 className="text-base font-bold text-[#0F172A]">Serious Illness Booster</h3>
-                  <VideoButton featureTitle="Serious Illness Booster" onOpenVideo={handleOpenVideo} />
+                <div className="min-h-[44px] flex items-start mt-4">
+                  <h3 className="text-base font-bold text-[#0F172A] leading-snug">
+                    Serious Illness Booster
+                    <VideoButton featureTitle="Serious Illness Booster" onOpenVideo={handleOpenVideo} />
+                  </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-[#475569] mt-2.5 leading-relaxed font-normal">
                   2X Sum Insured for listed critical illnesses.
                 </p>
               </div>
-              <div className="pt-3 mt-4 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
+              <div className="pt-3 mt-5 border-t border-[#E2E8F0] flex items-center gap-1.5 text-[11px] font-bold text-[#E30613]">
                 <FiCheckCircle className="shrink-0" />
                 <span>2X Critical Sum Insured</span>
               </div>
