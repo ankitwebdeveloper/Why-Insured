@@ -142,10 +142,10 @@ export default function HdfcPlanDetailSection({ plan, company }) {
   // =========================================================================
   return (
     <div className="w-full">
-      {/* Single Viewport Container matching Plan Selection reference */}
-      <div className="max-w-3xl mx-auto flex flex-col justify-between sm:justify-center min-h-[calc(100dvh-95px)] sm:min-h-[calc(100vh-220px)] py-1 sm:py-4 space-y-2 sm:space-y-6">
-        {/* Navigation Breadcrumb - Safe Visible Position inside viewport */}
-        <div className="shrink-0 text-left mb-1 sm:mb-0">
+      {/* Single Viewport Container - Compact Mobile Packing & Unchanged Desktop Layout */}
+      <div className="max-w-3xl mx-auto flex flex-col justify-start sm:justify-center items-stretch sm:min-h-[calc(100vh-220px)] py-1 sm:py-4 space-y-0 sm:space-y-6">
+        {/* Navigation Breadcrumb - Back to Plans (12-16px gap to Logo) */}
+        <div className="shrink-0 text-left mb-3.5 sm:mb-0">
           <Link
             to={`/insurance/${company.id}`}
             className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
@@ -154,29 +154,29 @@ export default function HdfcPlanDetailSection({ plan, company }) {
           </Link>
         </div>
 
-        {/* 1. HDFC ERGO LOGO */}
-        <div className="flex flex-col items-center justify-center shrink-0">
+        {/* 1. HDFC ERGO LOGO (8-12px gap to Plan Name) */}
+        <div className="flex flex-col items-center justify-center shrink-0 mb-2.5 sm:mb-0">
           <img
             src={logo}
             alt={name}
-            className="w-24 sm:w-48 h-auto max-h-10 sm:max-h-20 object-contain select-none"
+            className="w-24 sm:w-48 h-auto max-h-9 sm:max-h-20 object-contain select-none"
           />
         </div>
 
-        {/* 2. PLAN NAME HEADING */}
-        <div className="text-center shrink-0">
-          <h1 className="text-base sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+        {/* 2. PLAN NAME HEADING (12-16px gap to 4 Buttons) */}
+        <div className="text-center shrink-0 mb-3.5 sm:mb-0">
+          <h1 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
             {plan.name}
           </h1>
-          <div className="w-8 sm:w-10 h-0.5 sm:h-1 bg-[#E30613] mx-auto mt-1 sm:mt-1.5 rounded-full" />
+          <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#E30613] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
-        {/* 3. 2-COLUMN BUTTON GRID (Desktop: 2 cols | Mobile: 2 cols) */}
+        {/* 3. 2-COLUMN BUTTON GRID (8-12px gap between rows) */}
         <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
           {/* Card 1: Ratio (Marksheet) */}
           <button
             onClick={() => setActiveModal('ratio')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-3 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
@@ -190,7 +190,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
           {/* Card 2: Fundamental / Family Background */}
           <button
             onClick={() => setActiveModal('fundamental')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-3 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
@@ -204,7 +204,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
           {/* Card 3: Features */}
           <Link
             to={`/insurance/hdfc-ergo/${plan.id}/features`}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-3 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
@@ -218,7 +218,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
           {/* Card 4: Condition */}
           <button
             onClick={() => setActiveModal('condition')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-3 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
