@@ -173,7 +173,7 @@ const MainSectionContainer = ({ children, title, subtitle }) => {
       <div className="relative z-10 flex items-start gap-3 mb-6 sm:mb-8 pb-4 border-b border-[#E2E8F0]">
         <div className="w-1.5 h-6 sm:h-7 bg-[#E30613] rounded-full shrink-0 mt-0.5" />
         <div>
-          <h2 className="text-base sm:text-xl font-extrabold text-[#0F172A] tracking-tight uppercase font-display">
+          <h2 className="text-base sm:text-xl font-extrabold text-emerald-700 tracking-tight uppercase font-display">
             {title}
           </h2>
           {subtitle && (

@@ -4,7 +4,7 @@ import { FiArrowLeft, FiShield, FiAlertTriangle, FiCheckCircle } from 'react-ico
 import { companiesData } from '../data/companies';
 import { getPlanDetailData } from '../utils/compareDataHelper';
 import PlanHealthSnapshot from '../components/PlanHealthSnapshot';
-import OptimaSecurePlusSection from '../components/OptimaSecurePlusSection';
+import HdfcPlanDetailSection from '../components/HdfcPlanDetailSection';
 import MedicareSelectSection from '../components/MedicareSelectSection';
 import IciciCompleteHealthSection from '../components/IciciCompleteHealthSection';
 
@@ -93,35 +93,40 @@ export default function PlanDetail() {
     '--text': theme.text,
   };
 
+  const isHdfc = company.id === 'hdfc-life' || company.id === 'hdfc-ergo';
+
   return (
-    <div style={{ ...themeStyles, backgroundColor: 'var(--bg)' }} className="min-h-screen font-sans pt-24 pb-20 relative transition-colors duration-300">
+    <div style={{ ...themeStyles, backgroundColor: 'var(--bg)' }} className={`min-h-screen font-sans ${isHdfc ? 'pt-[88px] sm:pt-24 pb-2 sm:pb-20' : 'pt-24 pb-20'} relative transition-colors duration-300`}>
       <div
         className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none"
         style={{ backgroundColor: 'var(--primary)' }}
       />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Back Link */}
-        <div className="mb-8">
-          <Link
-            to={`/insurance/${company.id}`}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors"
-          >
-            <FiArrowLeft className="text-sm" /> Back to {(company.id === 'hdfc-life' || company.id === 'hdfc-ergo') && (plan.id === 'optima-secure' || plan.id === 'optima-secure-plus') ? 'HDFC ERGO' : name} Plans
-          </Link>
-        </div>
-
-        {/* ICICI Lombard Custom Section */}
-        {company.id === 'icici-lombard' ? (
-          <IciciCompleteHealthSection plan={plan} company={company} />
-        ) : company.id === 'tata-aig' && (plan.id === 'medicare-select' || plan.id === 'medicare-premier' || planId === 'medicare-select' || planId === 'medicare-premier') ? (
-          <MedicareSelectSection plan={plan} company={company} />
-        ) : (company.id === 'hdfc-life' || company.id === 'hdfc-ergo') && (plan.id === 'optima-secure' || plan.id === 'optima-secure-plus') ? (
-          <OptimaSecurePlusSection plan={plan} company={company} />
+        {/* HDFC ERGO Exclusive Viewport Structure */}
+        {(company.id === 'hdfc-life' || company.id === 'hdfc-ergo') ? (
+          <HdfcPlanDetailSection plan={plan} company={company} />
         ) : (
           <>
-            {/* Plan Header Card */}
+            {/* Back Link */}
+            <div className="mb-8">
+              <Link
+                to={`/insurance/${company.id}`}
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors"
+              >
+                <FiArrowLeft className="text-sm" /> Back to {name} Plans
+              </Link>
+            </div>
+
+            {/* ICICI Lombard Custom Section */}
+            {company.id === 'icici-lombard' ? (
+              <IciciCompleteHealthSection plan={plan} company={company} />
+            ) : company.id === 'tata-aig' && (plan.id === 'medicare-select' || plan.id === 'medicare-premier' || planId === 'medicare-select' || planId === 'medicare-premier') ? (
+              <MedicareSelectSection plan={plan} company={company} />
+            ) : (
+              <>
+                {/* Plan Header Card */}
             <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-100 mb-8 relative overflow-hidden">
               <div
                 className="absolute top-0 left-0 right-0 h-1.5"
@@ -272,6 +277,8 @@ export default function PlanDetail() {
             </div>
           </>
         )}
+      </>
+    )}
 
       </div>
     </div>
