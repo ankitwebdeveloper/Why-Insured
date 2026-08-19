@@ -36,10 +36,10 @@ export default function HdfcPlanDetailSection({ plan, company }) {
   if (isFeaturesPage) {
     return (
       <div className="w-full">
-        {/* Single Viewport Container matching Plan Selection reference */}
-        <div className="max-w-3xl mx-auto flex flex-col justify-between sm:justify-center min-h-[calc(100dvh-95px)] sm:min-h-[calc(100vh-220px)] py-1 sm:py-4 space-y-2 sm:space-y-6">
-          {/* Navigation Breadcrumb - Safe Visible Position inside viewport */}
-          <div className="shrink-0 text-left mb-1 sm:mb-0">
+        {/* Single Viewport Container - Compact Mobile Packing & Unchanged Desktop Layout */}
+        <div className="max-w-3xl mx-auto flex flex-col justify-start sm:justify-center items-stretch sm:min-h-[calc(100vh-220px)] py-1 sm:py-4 space-y-0 sm:space-y-6">
+          {/* Navigation Breadcrumb - Back to Plan (12-16px gap to Logo) */}
+          <div className="shrink-0 text-left mb-3.5 sm:mb-0">
             <Link
               to={`/insurance/${company.id}/${plan.id}`}
               className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
@@ -48,25 +48,25 @@ export default function HdfcPlanDetailSection({ plan, company }) {
             </Link>
           </div>
 
-          {/* 1. HDFC ERGO LOGO */}
-          <div className="flex flex-col items-center justify-center shrink-0">
+          {/* 1. HDFC ERGO LOGO (8-12px gap to Heading) */}
+          <div className="flex flex-col items-center justify-center shrink-0 mb-2.5 sm:mb-0">
             <img
               src={logo}
               alt={name}
-              className="w-24 sm:w-48 h-auto max-h-10 sm:max-h-20 object-contain select-none"
+              className="w-24 sm:w-48 h-auto max-h-9 sm:max-h-20 object-contain select-none"
             />
           </div>
 
-          {/* 2. HEADING */}
-          <div className="text-center shrink-0">
+          {/* 2. HEADING (12-16px gap to Feature Cards) */}
+          <div className="text-center shrink-0 mb-3.5 sm:mb-0">
             <h1 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
               {plan.name} — Features
             </h1>
             <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#E30613] mx-auto mt-1 sm:mt-1.5 rounded-full" />
           </div>
 
-          {/* 3. 2-COLUMN FEATURE GRID (Desktop: 2 cols | Mobile: 2 cols) */}
-          <div className="grid grid-cols-2 gap-2 sm:gap-5 w-full">
+          {/* 3. 2-COLUMN FEATURE GRID (8-12px gap between rows) */}
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
             {/* Feature 1: Cashless */}
             <div className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex flex-col justify-between shadow-2xs relative overflow-hidden group">
               <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/40 group-hover:bg-[#E30613] transition-colors duration-200" />
