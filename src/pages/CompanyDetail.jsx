@@ -98,15 +98,9 @@ export default function CompanyDetail() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {isHdfcErgo ? (
-          /* ========================================================================= */
-          /* HDFC ERGO EXCLUSIVE — PREMIUM ONE-VIEWPORT PLAN SELECTOR                  */
-          /* Fits naturally inside single viewport without requiring scrolling         */
-          /* Desktop: 2 columns | Mobile: 2 columns                                    */
-          /* Cards contain ONLY: Plan Name + Small Arrow (→) + Subtle Red Accent Line  */
-          /* ========================================================================= */
-          <div className="max-w-3xl mx-auto flex flex-col justify-start sm:justify-center items-stretch sm:min-h-[calc(100vh-160px)] py-1 sm:py-4 space-y-0 sm:space-y-6">
-            {/* Navigation Breadcrumb - Back to Search (12-16px gap to Logo) */}
-            <div className="shrink-0 text-left mb-3.5 sm:mb-0">
+          <div className="max-w-3xl mx-auto flex flex-col justify-start sm:justify-center items-stretch sm:min-h-[calc(100vh-160px)] py-1 sm:py-4 space-y-0">
+            {/* Navigation Breadcrumb - Back to Search (Mobile: 14px | Desktop: 20px) */}
+            <div className="shrink-0 text-left mb-3.5 sm:mb-5">
               <Link
                 to="/"
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
@@ -115,8 +109,8 @@ export default function CompanyDetail() {
               </Link>
             </div>
 
-            {/* 1. HDFC ERGO LOGO (8-12px gap to Heading) */}
-            <div className="flex flex-col items-center justify-center shrink-0 mb-2.5 sm:mb-0">
+            {/* 1. HDFC ERGO LOGO (Mobile: 10px | Desktop: 16px gap to Heading) */}
+            <div className="flex flex-col items-center justify-center shrink-0 mb-2.5 sm:mb-4">
               <img
                 src={logo}
                 alt={name}
@@ -124,15 +118,15 @@ export default function CompanyDetail() {
               />
             </div>
 
-            {/* 2. AVAILABLE PLANS HEADING (12-16px gap to Plan Grid) */}
-            <div className="text-center shrink-0 mb-3.5 sm:mb-0">
+            {/* 2. AVAILABLE PLANS HEADING (Mobile: 14px | Desktop: 24px gap to Plan Cards Grid) */}
+            <div className="text-center shrink-0 mb-3.5 sm:mb-6">
               <h2 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
                 Available Plans
               </h2>
               <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#E30613] mx-auto mt-1 sm:mt-1.5 rounded-full" />
             </div>
 
-            {/* 3. 2-COLUMN PLAN GRID (8-12px gap between rows) */}
+            {/* 3. 2-COLUMN PLAN GRID (Unchanged 2-column layout, 10px row gap on Mobile, 20px on Desktop) */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
               {plans.map((plan) => (
                 <Link
