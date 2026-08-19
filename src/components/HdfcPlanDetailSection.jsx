@@ -159,16 +159,19 @@ export default function HdfcPlanDetailSection({ plan, company }) {
 
           {/* SECTION 1: MOST IMPORTANT FEATURES (2-3 columns on desktop, 1 col on mobile) */}
           <div>
-            <motion.h2 
+            <motion.div 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-emerald-700 mb-3.5 sm:mb-4 flex items-center gap-2"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#047857] via-[#065f46] to-[#047857] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-600/30"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block" />
-              MOST IMPORTANT FEATURES
-            </motion.h2>
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
+              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
+                <span className="w-2 h-2 rounded-full bg-emerald-300 inline-block shadow-xs shrink-0" />
+                MOST IMPORTANT FEATURES
+              </h2>
+            </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               <HdfcFeatureAccordionItem
                 id="s1-1"
@@ -220,16 +223,19 @@ export default function HdfcPlanDetailSection({ plan, company }) {
 
           {/* SECTION 2: VALUE ADDED FEATURES (2 columns on desktop, 1 col on mobile) */}
           <div>
-            <motion.h2 
+            <motion.div 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-emerald-700 mb-3.5 sm:mb-4 flex items-center gap-2"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#047857] via-[#065f46] to-[#047857] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-600/30"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block" />
-              VALUE ADDED FEATURES
-            </motion.h2>
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
+              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
+                <span className="w-2 h-2 rounded-full bg-emerald-300 inline-block shadow-xs shrink-0" />
+                VALUE ADDED FEATURES
+              </h2>
+            </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <HdfcFeatureAccordionItem
                 id="s2-1"
@@ -281,16 +287,19 @@ export default function HdfcPlanDetailSection({ plan, company }) {
 
           {/* SECTION 3: ADDITIONAL FEATURES (2 columns on desktop, 1 col on mobile) */}
           <div>
-            <motion.h2 
+            <motion.div 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-emerald-700 mb-3.5 sm:mb-4 flex items-center gap-2"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#047857] via-[#065f46] to-[#047857] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-600/30"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block" />
-              ADDITIONAL FEATURES
-            </motion.h2>
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
+              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
+                <span className="w-2 h-2 rounded-full bg-emerald-300 inline-block shadow-xs shrink-0" />
+                ADDITIONAL FEATURES
+              </h2>
+            </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <HdfcFeatureAccordionItem
                 id="s3-1"
@@ -333,16 +342,19 @@ export default function HdfcPlanDetailSection({ plan, company }) {
 
           {/* SECTION 4: OPTIONAL RIDERS (ADD-ONS) (3 columns x 2 rows on desktop, 1 col on mobile) */}
           <div>
-            <motion.h2 
+            <motion.div 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-emerald-700 mb-3.5 sm:mb-4 flex items-center gap-2"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#047857] via-[#065f46] to-[#047857] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-600/30"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block" />
-              OPTIONAL RIDERS (ADD-ONS)
-            </motion.h2>
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
+              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
+                <span className="w-2 h-2 rounded-full bg-emerald-300 inline-block shadow-xs shrink-0" />
+                OPTIONAL RIDERS (ADD-ONS)
+              </h2>
+            </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               <HdfcFeatureAccordionItem
                 id="s4-1"
