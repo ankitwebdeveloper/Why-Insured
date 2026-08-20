@@ -428,11 +428,11 @@ export default function MedicareSelectSection({ plan, company }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#002B82] via-[#001D5C] to-[#002B82] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-[#0038A8]/40"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
               <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-blue-400 inline-block shadow-xs shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
                 MOST IMPORTANT FEATURES
               </h2>
             </motion.div>
@@ -497,11 +497,11 @@ export default function MedicareSelectSection({ plan, company }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#002B82] via-[#001D5C] to-[#002B82] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-[#0038A8]/40"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
               <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-blue-400 inline-block shadow-xs shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
                 VALUE ADDED FEATURES
               </h2>
             </motion.div>
@@ -566,11 +566,11 @@ export default function MedicareSelectSection({ plan, company }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#002B82] via-[#001D5C] to-[#002B82] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-[#0038A8]/40"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
               <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-blue-400 inline-block shadow-xs shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
                 ADDITIONAL FEATURES
               </h2>
             </motion.div>
@@ -625,11 +625,11 @@ export default function MedicareSelectSection({ plan, company }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#002B82] via-[#001D5C] to-[#002B82] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-[#0038A8]/40"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
               <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-blue-400 inline-block shadow-xs shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
                 OPTIONAL RIDERS (ADD-ONS)
               </h2>
             </motion.div>
