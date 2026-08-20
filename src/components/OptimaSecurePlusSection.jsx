@@ -30,38 +30,39 @@ import {
 import hdfcErgoLogo from '../assets/hdfc-ergo-logo.png';
 
 // =============================================================================
-// CENTRALIZED FEATURE-WISE VIDEOS CONFIGURATION
-// Add/change video links for any feature name below.
-// Leave string empty "" or omit key if no video is available for a feature.
+// CENTRALIZED DEMO VIDEO CONFIGURATION
+// Replace DEMO_VIDEO_URL below with your actual video link whenever needed.
 // =============================================================================
+const DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+
 const FEATURE_VIDEOS = {
   // MOST IMPORTANT FEATURES
-  "Any Room Category": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "No Limit on ICU": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Pre & Post Hospitalisation": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "All Day Care Diseases Covered": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Modern Treatment & Robotic Surgery": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  "Any Room Category": DEMO_VIDEO_URL,
+  "No Limit on ICU": DEMO_VIDEO_URL,
+  "Pre & Post Hospitalisation": DEMO_VIDEO_URL,
+  "All Day Care Diseases Covered": DEMO_VIDEO_URL,
+  "Modern Treatment & Robotic Surgery": DEMO_VIDEO_URL,
 
   // VALUE ADDED FEATURES
-  "Unlimited Restoration": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Secure Benefit": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Infinite Benefit": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Protect Benefit": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Preventive Health Check-up": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  "Unlimited Restoration": DEMO_VIDEO_URL,
+  "Secure Benefit": DEMO_VIDEO_URL,
+  "Infinite Benefit": DEMO_VIDEO_URL,
+  "Protect Benefit": DEMO_VIDEO_URL,
+  "Preventive Health Check-up": DEMO_VIDEO_URL,
 
   // ADDITIONAL FEATURES
-  "Daily Cash For Shared Room": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Domiciliary, Organ & AYUSH Treatment": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Road Ambulance Cover Available": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "All Day Care Treatment": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  "Daily Cash For Shared Room": DEMO_VIDEO_URL,
+  "Domiciliary, Organ & AYUSH Treatment": DEMO_VIDEO_URL,
+  "Road Ambulance Cover Available": DEMO_VIDEO_URL,
+  "All Day Care Treatment": DEMO_VIDEO_URL,
 
   // OPTIONAL RIDERS
-  "ABCD Chronic Care": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Limitless": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Optima Wellbeing": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Parenthood": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Hospital Cash Benefit": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  "Serious Illness Booster": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  "ABCD Chronic Care": DEMO_VIDEO_URL,
+  "Limitless": DEMO_VIDEO_URL,
+  "Optima Wellbeing": DEMO_VIDEO_URL,
+  "Parenthood": DEMO_VIDEO_URL,
+  "Hospital Cash Benefit": DEMO_VIDEO_URL,
+  "Serious Illness Booster": DEMO_VIDEO_URL
 };
 
 // Helper to format YouTube or Direct MP4 URLs

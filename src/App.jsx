@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 // Reusable Components
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import Preloader from './components/Preloader';
 
 // Pages
@@ -73,7 +72,7 @@ function App() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
-          className="min-h-screen bg-[#F8FAFC] flex flex-col justify-between text-slate-800 antialiased font-sans"
+          className="min-h-screen bg-[#F8FAFC] flex flex-col justify-start text-slate-800 antialiased font-sans"
         >
           {/* Header */}
           <Navbar />
@@ -103,9 +102,6 @@ function App() {
               </motion.div>
             </AnimatePresence>
           </main>
-
-          {/* Footer */}
-          <Footer />
         </motion.div>
       )}
     </AnimatePresence>

@@ -1,12 +1,210 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiArrowLeft, FiX, FiCheck, FiArrowRight, FiPlus, FiMinus } from 'react-icons/fi';
+import {
+  FiArrowLeft,
+  FiX,
+  FiCheck,
+  FiArrowRight,
+  FiPlus,
+  FiMinus,
+  FiPlay,
+  FiHome,
+  FiHeart,
+  FiCalendar,
+  FiCheckSquare,
+  FiCpu,
+  FiRefreshCw,
+  FiShield,
+  FiClipboard,
+  FiTrendingUp,
+  FiCreditCard,
+  FiTruck,
+  FiClock,
+  FiSmile,
+  FiDollarSign,
+  FiZap,
+  FiUsers,
+  FiActivity
+} from 'react-icons/fi';
 import { getCompanyRatioValue, getDerivedValue } from '../utils/compareDataHelper';
 
+// =============================================================================
+// DEMO VIDEO CONFIGURATION
+// Replace DEMO_VIDEO_URL below with your actual video link whenever needed.
+// =============================================================================
+const DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+
+// Feature Icons Dictionary (Clean, Corporate Icon per Feature)
+const FEATURE_ICONS = {
+  "s1-1": FiHome,        // Any Room Category
+  "s1-2": FiHeart,       // No Limit on ICU
+  "s1-3": FiCalendar,    // Pre & Post Hospitalisation
+  "s1-4": FiCheckSquare, // All Day Care Diseases Covered
+  "s1-5": FiCpu,         // Modern Treatment & Robotic Surgery
+
+  "s2-1": FiRefreshCw,   // Unlimited Restoration
+  "s2-2": FiShield,      // Secure Benefit
+  "s2-3": FiClipboard,   // Preventive Health Check-up
+  "s2-4": FiTrendingUp,  // Infinite Benefit*
+  "s2-5": FiShield,      // Protect Benefit
+
+  "s3-1": FiCreditCard,  // Daily Cash For Shared Room
+  "s3-2": FiHome,        // Domiciliary, Organ & AYUSH Treatment
+  "s3-3": FiTruck,       // Road Ambulance Cover Available
+  "s3-4": FiClock,       // All Day Care Treatment
+
+  "s4-1": FiHeart,       // ABCD Chronic Care
+  "s4-2": FiSmile,       // Optima Wellbeing
+  "s4-3": FiDollarSign,  // Hospital Cash Benefit
+  "s4-4": FiZap,         // Limitless
+  "s4-5": FiUsers,       // Parenthood
+  "s4-6": FiActivity     // Serious Illness Booster
+};
+
+// Contextual Benefit Badges Dictionary
+const FEATURE_BADGES = {
+  "s1-1": "ROOM RENT COVER",
+  "s1-2": "ICU COVER",
+  "s1-3": "PRE & POST COVER",
+  "s1-4": "DAY CARE PROCEDURES",
+  "s1-5": "ADVANCED SURGERY",
+
+  "s2-1": "RESTORATION BENEFIT",
+  "s2-2": "DAY 1 BENEFIT",
+  "s2-3": "ANNUAL CHECKUP",
+  "s2-4": "YEARLY BENEFIT",
+  "s2-5": "NON-MEDICAL ITEMS",
+
+  "s3-1": "DAILY CASH",
+  "s3-2": "HOME & AYUSH",
+  "s3-3": "AMBULANCE COVER",
+  "s3-4": "DAY CARE",
+
+  "s4-1": "CHRONIC CARE",
+  "s4-2": "OPD BENEFIT",
+  "s4-3": "DAILY ALLOWANCE",
+  "s4-4": "UNLIMITED CLAIM",
+  "s4-5": "MATERNITY",
+  "s4-6": "CRITICAL ILLNESS"
+};
+
+// Visual Numerical Progression Steps Dictionary
+const FEATURE_STEPS = {
+  "s2-1": ["₹10 Lakh Base SI", "₹10 Lakh Restored", "₹10 Lakh Restored", "∞ Unlimited"],
+  "s2-2": ["₹20 Lakh Base Cover", "2X Doubled from Day 1", "₹40 Lakh Effective Cover"],
+  "s2-4": ["₹20 Lakh Base", "₹40 Lakh (Yr 1)", "₹60 Lakh (Yr 2)", "∞ Infinite"],
+  "s3-1": ["₹800 / Day", "Up to Max ₹4,800"],
+  "s4-6": ["1X Base SI", "2X SI for Critical Illnesses"]
+};
+
+// Helper to format YouTube or Direct MP4 URLs
+const getVideoEmbedUrl = (url) => {
+  if (!url) return { type: 'none', url: '' };
+  if (url.includes('youtube.com/embed/')) return { type: 'youtube', url };
+  
+  const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if (ytMatch && ytMatch[1]) {
+    return { type: 'youtube', url: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1` };
+  }
+  
+  if (url.endsWith('.mp4') || url.includes('.mp4?')) {
+    return { type: 'mp4', url };
+  }
+
+  return { type: 'iframe', url };
+};
+
+// Compact Feature-Wise Inline Video Button Component
+const VideoButton = ({ featureTitle, onOpenVideo }) => {
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        onOpenVideo(featureTitle, DEMO_VIDEO_URL);
+      }}
+      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-1"
+      title={`Watch demo video for ${featureTitle}`}
+    >
+      <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
+      <span>Video</span>
+    </button>
+  );
+};
+
+// Premium In-Page Video Lightbox Modal
+const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
+  if (!isOpen || !videoUrl) return null;
+
+  const embedData = getVideoEmbedUrl(videoUrl);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-xs transition-opacity"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-slate-800"
+        style={{ width: 'calc(100vw - 32px)', maxWidth: '900px' }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Modal Header */}
+        <div className="flex items-center justify-between p-3 sm:p-4 bg-slate-950 border-b border-slate-800 text-white">
+          <div className="flex items-center gap-2 font-bold text-xs sm:text-sm">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#E30613]" />
+            <span className="truncate">{videoTitle} — Feature Demo</span>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#E30613] text-slate-300 hover:text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
+            aria-label="Close video"
+          >
+            <FiX />
+          </button>
+        </div>
+
+        {/* Video Player Container (16:9) */}
+        <div className="relative aspect-video w-full bg-black flex items-center justify-center">
+          {embedData.type === 'mp4' ? (
+            <video
+              src={embedData.url}
+              controls
+              autoPlay
+              className="w-full h-full object-contain"
+            />
+          ) : (
+            <iframe
+              src={embedData.url}
+              title={videoTitle}
+              className="w-full h-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Sub-component for HDFC Features Accordion Items with Scroll Reveal & Stagger (HDFC ERGO Red Theme)
-function HdfcFeatureAccordionItem({ id, title, subtitle, summary, isExpanded, onToggle, isRider = false, index = 0 }) {
+function HdfcFeatureAccordionItem({
+  id,
+  title,
+  subtitle,
+  summary,
+  isExpanded,
+  onToggle,
+  isRider = false,
+  index = 0,
+  onOpenVideo
+}) {
   const itemRef = React.useRef(null);
+  const IconComponent = FEATURE_ICONS[id];
+  const badgeText = FEATURE_BADGES[id];
+  const visualSteps = FEATURE_STEPS[id];
 
   return (
     <motion.div
@@ -18,28 +216,40 @@ function HdfcFeatureAccordionItem({ id, title, subtitle, summary, isExpanded, on
       onClick={() => onToggle(id, itemRef)}
       className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${
         isExpanded
-          ? 'bg-[#FFF5F5] border-[#E30613]/60 shadow-md ring-1 ring-[#E30613]/20'
-          : 'bg-white border-slate-200/80 hover:border-slate-300 shadow-2xs'
+          ? 'bg-[#FFF5F5]/80 border-[#E30613]/60 shadow-md ring-1 ring-[#E30613]/20'
+          : 'bg-white border-slate-200/80 hover:border-[#E30613]/40 shadow-2xs'
       }`}
     >
       {/* Header Row */}
-      <div className="p-3.5 sm:p-4.5 flex items-center justify-between gap-3">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="text-xs sm:text-base font-extrabold font-display leading-snug text-[#0F172A]">
-              {title}
-            </h3>
-            {isRider && (
-              <span className="text-[8px] sm:text-[9px] font-black uppercase px-2 py-0.5 rounded bg-[#E30613]/10 text-[#E30613] tracking-wide">
-                Rider
-              </span>
+      <div className="p-3.5 sm:p-4 flex items-center justify-between gap-2.5 sm:gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
+          {IconComponent && (
+            <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+              isExpanded ? 'bg-[#E30613] text-white shadow-xs' : 'bg-[#FFF5F5] text-[#E30613]'
+            }`}>
+              <IconComponent className="text-xs sm:text-base" />
+            </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <h3 className="text-xs sm:text-base font-extrabold font-display leading-snug text-[#0F172A]">
+                {title}
+              </h3>
+              {onOpenVideo && (
+                <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} />
+              )}
+              {isRider && (
+                <span className="text-[8px] sm:text-[9px] font-black uppercase px-2 py-0.5 rounded bg-[#E30613]/10 text-[#E30613] tracking-wide shrink-0">
+                  Rider
+                </span>
+              )}
+            </div>
+            {subtitle && (
+              <p className="text-[10px] sm:text-xs font-semibold mt-0.5 leading-snug text-slate-500">
+                {subtitle}
+              </p>
             )}
           </div>
-          {subtitle && (
-            <p className="text-[10px] sm:text-xs font-semibold mt-1 leading-snug text-slate-500">
-              {subtitle}
-            </p>
-          )}
         </div>
 
         {/* Plus / Minus Button */}
@@ -54,7 +264,7 @@ function HdfcFeatureAccordionItem({ id, title, subtitle, summary, isExpanded, on
         </div>
       </div>
 
-      {/* Expanded Summary */}
+      {/* Expanded Summary & Contextual Badges */}
       <AnimatePresence initial={false}>
         {isExpanded && (
           <motion.div
@@ -64,10 +274,49 @@ function HdfcFeatureAccordionItem({ id, title, subtitle, summary, isExpanded, on
             transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
             className="overflow-hidden"
           >
-            <div className="px-3.5 pb-3.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100 text-slate-600">
-              <div className="pt-2.5 sm:pt-3 text-xs sm:text-sm font-medium leading-relaxed">
+            <div className="px-3.5 pb-3.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2.5">
+              {/* Contextual Badge & Subtitle Checkmark */}
+              <div className="pt-2.5 sm:pt-3 flex flex-wrap items-center gap-2">
+                {badgeText && (
+                  <span className="inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-black uppercase px-2.5 py-0.5 rounded-md bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/20 tracking-wider">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E30613]" />
+                    {badgeText}
+                  </span>
+                )}
+                {subtitle && (
+                  <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-700">
+                    <FiCheck className="text-[#E30613] text-xs shrink-0" /> {subtitle}
+                  </span>
+                )}
+              </div>
+
+              {/* Short explanation / Details */}
+              <div className="text-xs sm:text-sm font-medium leading-relaxed text-slate-600">
                 {summary}
               </div>
+
+              {/* Visual Number Step Progression */}
+              {visualSteps && visualSteps.length > 0 && (
+                <div className="mt-2.5 p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-200/60">
+                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                    Coverage Progression Example
+                  </div>
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    {visualSteps.map((step, sIdx) => (
+                      <React.Fragment key={sIdx}>
+                        <div className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 shadow-2xs text-[11px] sm:text-xs font-black text-[#0F172A] flex items-center gap-1">
+                          {step}
+                        </div>
+                        {sIdx < visualSteps.length - 1 && (
+                          <span className="text-xs font-extrabold text-[#E30613] px-0.5">
+                            →
+                          </span>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </motion.div>
         )}
@@ -78,12 +327,17 @@ function HdfcFeatureAccordionItem({ id, title, subtitle, summary, isExpanded, on
 
 export default function HdfcPlanDetailSection({ plan, company }) {
   const [activeModal, setActiveModal] = useState(null);
+  const [videoModalState, setVideoModalState] = useState({
+    isOpen: false,
+    title: '',
+    url: ''
+  });
   const location = useLocation();
   const isFeaturesPage = location.pathname.endsWith('/features');
 
   // Lock background body scroll when modal is active
   useEffect(() => {
-    if (activeModal) {
+    if (activeModal || videoModalState.isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -91,7 +345,23 @@ export default function HdfcPlanDetailSection({ plan, company }) {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeModal]);
+  }, [activeModal, videoModalState.isOpen]);
+
+  const handleOpenVideo = (title, url) => {
+    setVideoModalState({
+      isOpen: true,
+      title: title || 'Feature Video',
+      url: url || DEMO_VIDEO_URL
+    });
+  };
+
+  const handleCloseVideo = () => {
+    setVideoModalState({
+      isOpen: false,
+      title: '',
+      url: ''
+    });
+  };
 
   const { logo, name } = company;
 
@@ -120,13 +390,16 @@ export default function HdfcPlanDetailSection({ plan, company }) {
   };
 
   // =========================================================================
-  // DEDICATED FEATURES PAGE (MATCHING HDFC ERGO THEME)
+  // DEDICATED FEATURES PAGE (MATCHING HDFC ERGO PLAN DETAIL PAGE THEME EXACTLY)
   // =========================================================================
   if (isFeaturesPage) {
     return (
-      <div className="w-full pb-20 bg-[#F8FAFC] min-h-screen overflow-x-hidden">
+      <div className="w-full pb-20 bg-[#FFF5F5] min-h-screen overflow-x-hidden relative">
+        {/* Subtle Ambient Red Glow matching Plan Detail page */}
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none bg-[#E30613]" />
+
         {/* Page Container — HDFC ERGO Theme */}
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-2 sm:pt-4 space-y-10 sm:space-y-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-2 sm:pt-4 space-y-10 sm:space-y-12 relative z-10">
           
           {/* HEADER */}
           <motion.div 
@@ -164,11 +437,11 @@ export default function HdfcPlanDetailSection({ plan, company }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#047857] via-[#065f46] to-[#047857] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-600/30"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
               <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-300 inline-block shadow-xs shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
                 MOST IMPORTANT FEATURES
               </h2>
             </motion.div>
@@ -181,6 +454,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Zero out-of-pocket expenses at 12,000+ network hospitals with 100% cashless policy across any room category."
                 isExpanded={expandedFeatureId === 's1-1'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s1-2"
@@ -190,6 +464,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Full coverage for ICU room charges without any daily capping or category restriction."
                 isExpanded={expandedFeatureId === 's1-2'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s1-3"
@@ -199,6 +474,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Medical expenses incurred 60 days before hospital admission and 180 days post-discharge are fully covered."
                 isExpanded={expandedFeatureId === 's1-3'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s1-4"
@@ -208,6 +484,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="All medical treatments and day care procedures requiring less than 24 hours of hospitalisation are covered."
                 isExpanded={expandedFeatureId === 's1-4'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s1-5"
@@ -217,6 +494,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Coverage for cutting-edge medical advancements including robotic surgeries, stem cell therapy, and precision procedures."
                 isExpanded={expandedFeatureId === 's1-5'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
             </div>
           </div>
@@ -228,11 +506,11 @@ export default function HdfcPlanDetailSection({ plan, company }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#047857] via-[#065f46] to-[#047857] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-600/30"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
               <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-300 inline-block shadow-xs shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
                 VALUE ADDED FEATURES
               </h2>
             </motion.div>
@@ -245,6 +523,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Unlimited automatic restoration of Sum Insured for subsequent claims in a policy year. ₹10 Lakh Base SI → ₹10 Lakh restored again → ₹10 Lakh → ₹10 Lakh..."
                 isExpanded={expandedFeatureId === 's2-1'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s2-2"
@@ -254,6 +533,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Automatically doubles your base sum insured from Day 1. Example: ₹20 Lakh Base Cover → ₹40 Lakh from Day 1."
                 isExpanded={expandedFeatureId === 's2-2'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s2-3"
@@ -263,6 +543,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Complimentary comprehensive health check-ups covered for all insured members every policy year."
                 isExpanded={expandedFeatureId === 's2-3'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s2-4"
@@ -272,6 +553,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="100% Base SI Added Every Year. ₹20 Lakh → ₹40 Lakh → ₹60 Lakh → ... Infinite times irrespective of claims."
                 isExpanded={expandedFeatureId === 's2-4'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s2-5"
@@ -281,6 +563,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Covers eligible non-medical expenses such as gloves, cotton, syringes, masks, PPE kits, and administrative charges."
                 isExpanded={expandedFeatureId === 's2-5'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
             </div>
           </div>
@@ -292,11 +575,11 @@ export default function HdfcPlanDetailSection({ plan, company }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#047857] via-[#065f46] to-[#047857] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-600/30"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
               <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-300 inline-block shadow-xs shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
                 ADDITIONAL FEATURES
               </h2>
             </motion.div>
@@ -309,6 +592,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Get ₹800 per day up to a maximum of ₹4,800 when opting for a shared room during hospitalisation."
                 isExpanded={expandedFeatureId === 's3-1'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s3-2"
@@ -318,6 +602,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Complete coverage for home treatment (Domiciliary), organ donor expenses, and alternative treatments under Ayurveda, Yoga, Unani, Siddha, and Homeopathy (AYUSH)."
                 isExpanded={expandedFeatureId === 's3-2'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s3-3"
@@ -327,6 +612,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Emergency road ambulance transportation charges to and from the hospital are fully covered."
                 isExpanded={expandedFeatureId === 's3-3'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s3-4"
@@ -336,6 +622,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 summary="Medical procedures and surgeries requiring less than 24 hours of hospital stay are fully covered."
                 isExpanded={expandedFeatureId === 's3-4'}
                 onToggle={toggleAccordionItem}
+                onOpenVideo={handleOpenVideo}
               />
             </div>
           </div>
@@ -347,11 +634,11 @@ export default function HdfcPlanDetailSection({ plan, company }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#047857] via-[#065f46] to-[#047857] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-600/30"
+              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
               <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-300 inline-block shadow-xs shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
                 OPTIONAL RIDERS (ADD-ONS)
               </h2>
             </motion.div>
@@ -365,6 +652,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 isExpanded={expandedFeatureId === 's4-1'}
                 onToggle={toggleAccordionItem}
                 isRider={true}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s4-2"
@@ -375,6 +663,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 isExpanded={expandedFeatureId === 's4-2'}
                 onToggle={toggleAccordionItem}
                 isRider={true}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s4-3"
@@ -385,6 +674,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 isExpanded={expandedFeatureId === 's4-3'}
                 onToggle={toggleAccordionItem}
                 isRider={true}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s4-4"
@@ -395,6 +685,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 isExpanded={expandedFeatureId === 's4-4'}
                 onToggle={toggleAccordionItem}
                 isRider={true}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s4-5"
@@ -405,6 +696,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 isExpanded={expandedFeatureId === 's4-5'}
                 onToggle={toggleAccordionItem}
                 isRider={true}
+                onOpenVideo={handleOpenVideo}
               />
               <HdfcFeatureAccordionItem
                 id="s4-6"
@@ -415,6 +707,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 isExpanded={expandedFeatureId === 's4-6'}
                 onToggle={toggleAccordionItem}
                 isRider={true}
+                onOpenVideo={handleOpenVideo}
               />
             </div>
           </div>
@@ -427,6 +720,14 @@ export default function HdfcPlanDetailSection({ plan, company }) {
           </div>
 
         </div>
+
+        {/* IN-PAGE VIDEO LIGHTBOX MODAL */}
+        <FeatureVideoModal
+          isOpen={videoModalState.isOpen}
+          onClose={handleCloseVideo}
+          videoTitle={videoModalState.title}
+          videoUrl={videoModalState.url}
+        />
       </div>
     );
   }
