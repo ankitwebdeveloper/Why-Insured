@@ -146,7 +146,7 @@ export default function ComparisonPage() {
       setIsGenerating(true);
       setExportStatus('generating');
       
-      const result = await exportComparisonToPDF(plan1, company1, plan2, company2, selectedCoverage);
+      const result = await exportComparisonToPDF(plan1, company1, plan2, company2);
       
       setExportStatus('ready');
       if (result.shared) {
