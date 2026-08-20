@@ -23,7 +23,7 @@ export default function CompanyDetail() {
   }
 
   const { theme, name, fullName, logo, description, plans } = company;
-  const isHdfcErgo = company.id === 'hdfc-ergo' || company.slug === 'hdfc-ergo';
+  const isSpecialCompany = company.id === 'hdfc-ergo' || company.slug === 'hdfc-ergo' || company.id === 'tata-aig' || company.slug === 'tata-aig' || company.id === 'icici-lombard' || company.slug === 'icici-lombard';
 
   // Apply custom CSS variables for the theme
   const themeStyles = {
@@ -88,7 +88,7 @@ export default function CompanyDetail() {
   };
 
   return (
-    <div className={`min-h-screen ${isHdfcErgo ? 'pt-[88px] sm:pt-24 pb-2 sm:pb-16' : 'pt-20 sm:pt-24 pb-12 sm:pb-16'} relative transition-colors duration-300`} style={{ ...themeStyles, backgroundColor: 'var(--bg)' }}>
+    <div className={`min-h-screen ${isSpecialCompany ? 'pt-[88px] sm:pt-24 pb-2 sm:pb-16' : 'pt-20 sm:pt-24 pb-12 sm:pb-16'} relative transition-colors duration-300`} style={{ ...themeStyles, backgroundColor: 'var(--bg)' }}>
       {/* Background Decorative Blur using Company Primary Color */}
       <div 
         className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none transition-all duration-500"
@@ -97,9 +97,9 @@ export default function CompanyDetail() {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {isHdfcErgo ? (
+        {isSpecialCompany ? (
           <div className="max-w-3xl mx-auto flex flex-col justify-start sm:justify-center items-stretch sm:min-h-[calc(100vh-160px)] py-1 sm:py-4 space-y-0">
-            {/* Navigation Breadcrumb - Back to Search (Mobile: 14px | Desktop: 20px) */}
+            {/* Navigation Breadcrumb - Back to Search */}
             <div className="shrink-0 text-left mb-3.5 sm:mb-5">
               <Link
                 to="/"
@@ -109,7 +109,7 @@ export default function CompanyDetail() {
               </Link>
             </div>
 
-            {/* 1. HDFC ERGO LOGO (Mobile: 10px | Desktop: 16px gap to Heading) */}
+            {/* 1. COMPANY LOGO */}
             <div className="flex flex-col items-center justify-center shrink-0 mb-2.5 sm:mb-4">
               <img
                 src={logo}
@@ -118,32 +118,39 @@ export default function CompanyDetail() {
               />
             </div>
 
-            {/* 2. AVAILABLE PLANS HEADING (Mobile: 14px | Desktop: 24px gap to Plan Cards Grid) */}
+            {/* 2. AVAILABLE PLANS HEADING */}
             <div className="text-center shrink-0 mb-3.5 sm:mb-6">
               <h2 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
                 Available Plans
               </h2>
-              <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#E30613] mx-auto mt-1 sm:mt-1.5 rounded-full" />
+              <div 
+                className="w-7 sm:w-10 h-0.5 sm:h-1 mx-auto mt-1 sm:mt-1.5 rounded-full"
+                style={{ backgroundColor: theme.primary }}
+              />
             </div>
 
-            {/* 3. 2-COLUMN PLAN GRID (Unchanged 2-column layout, 10px row gap on Mobile, 20px on Desktop) */}
+            {/* 3. 2-COLUMN PLAN GRID */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
               {plans.map((plan) => (
                 <Link
                   key={plan.id}
                   to={`/insurance/${company.id}/${plan.id}`}
-                  className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+                  className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+                  style={{ '--company-primary': theme.primary }}
                 >
-                  {/* Subtle red bottom accent line */}
-                  <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
+                  {/* Subtle bottom accent line */}
+                  <div 
+                    className="absolute bottom-0 left-0 right-0 h-[2.5px] opacity-40 group-hover:opacity-100 transition-opacity duration-200"
+                    style={{ backgroundColor: theme.primary }}
+                  />
 
-                  {/* Left: Deep navy plan name */}
-                  <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-2">
+                  {/* Left: Plan name */}
+                  <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[var(--primary)] transition-colors duration-200 font-display leading-tight pr-2">
                     {plan.name}
                   </h3>
 
                   {/* Right: Small arrow */}
-                  <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-white group-hover:bg-[var(--primary)] transition-all duration-200 shrink-0">
                     <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
                   </div>
                 </Link>

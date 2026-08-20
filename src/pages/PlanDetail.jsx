@@ -16,7 +16,8 @@ export default function PlanDetail() {
   );
 
   const plan = company?.plans.find(p => p.id === planId) || 
-    (company?.id === 'tata-aig' && (planId === 'medicare-premier' || planId === 'medicare-select') ? company?.plans[0] : null);
+    (company?.id === 'tata-aig' && (planId === 'medicare-premier' || planId === 'medicare-select') ? company?.plans[0] : null) ||
+    (company?.id === 'icici-lombard' ? company?.plans[0] : null);
 
   if (!company || !plan) {
     return (
@@ -93,10 +94,10 @@ export default function PlanDetail() {
     '--text': theme.text,
   };
 
-  const isHdfc = company.id === 'hdfc-life' || company.id === 'hdfc-ergo';
+  const isSpecialCompany = company.id === 'hdfc-life' || company.id === 'hdfc-ergo' || company.id === 'tata-aig' || company.id === 'icici-lombard';
 
   return (
-    <div style={{ ...themeStyles, backgroundColor: 'var(--bg)' }} className={`min-h-screen font-sans ${isHdfc ? 'pt-[88px] sm:pt-24 pb-2 sm:pb-20' : 'pt-24 pb-20'} relative transition-colors duration-300`}>
+    <div style={{ ...themeStyles, backgroundColor: 'var(--bg)' }} className={`min-h-screen font-sans ${isSpecialCompany ? 'pt-[88px] sm:pt-24 pb-2 sm:pb-20' : 'pt-24 pb-20'} relative transition-colors duration-300`}>
       <div
         className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none"
         style={{ backgroundColor: 'var(--primary)' }}
@@ -104,27 +105,14 @@ export default function PlanDetail() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* HDFC ERGO Exclusive Viewport Structure */}
+        {/* HDFC ERGO, Tata AIG & ICICI Lombard Viewport Structure */}
         {(company.id === 'hdfc-life' || company.id === 'hdfc-ergo') ? (
           <HdfcPlanDetailSection plan={plan} company={company} />
+        ) : company.id === 'tata-aig' ? (
+          <MedicareSelectSection plan={plan} company={company} />
+        ) : company.id === 'icici-lombard' ? (
+          <IciciCompleteHealthSection plan={plan} company={company} />
         ) : (
-          <>
-            {/* Back Link */}
-            <div className="mb-8">
-              <Link
-                to={`/insurance/${company.id}`}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors"
-              >
-                <FiArrowLeft className="text-sm" /> Back to {name} Plans
-              </Link>
-            </div>
-
-            {/* ICICI Lombard Custom Section */}
-            {company.id === 'icici-lombard' ? (
-              <IciciCompleteHealthSection plan={plan} company={company} />
-            ) : company.id === 'tata-aig' && (plan.id === 'medicare-select' || plan.id === 'medicare-premier' || planId === 'medicare-select' || planId === 'medicare-premier') ? (
-              <MedicareSelectSection plan={plan} company={company} />
-            ) : (
               <>
                 {/* Plan Header Card */}
             <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-100 mb-8 relative overflow-hidden">
@@ -277,8 +265,6 @@ export default function PlanDetail() {
             </div>
           </>
         )}
-      </>
-    )}
 
       </div>
     </div>
