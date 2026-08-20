@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft, FiShare2, FiDownload, FiCheck } from 'react-icons/fi';
 import { companiesData } from '../data/companies';
 import CompareForm from '../components/CompareForm';
 import { getComparisonSections } from '../utils/compareDataHelper';
+import { exportComparisonToPDF } from '../utils/pdfExportHelper';
 
 
 // Component to render split category sections
@@ -127,6 +128,10 @@ export default function ComparisonPage() {
 
 
 
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [exportStatus, setExportStatus] = useState('idle'); // 'idle' | 'generating' | 'ready'
+  const [toastMessage, setToastMessage] = useState(null);
+
   // Resolve companies and plans from data
   const company1 = companiesData.find(c => c.id === c1 || c.slug === c1);
   const company2 = companiesData.find(c => c.id === c2 || c.slug === c2);
@@ -134,6 +139,39 @@ export default function ComparisonPage() {
   const plan2 = company2?.plans.find(p => p.id === p2);
 
   const hasValidParams = company1 && company2 && plan1 && plan2;
+
+  const handleExportPDF = async () => {
+    if (!hasValidParams || isGenerating) return;
+    try {
+      setIsGenerating(true);
+      setExportStatus('generating');
+      
+      const result = await exportComparisonToPDF(plan1, company1, plan2, company2, selectedCoverage);
+      
+      setExportStatus('ready');
+      if (result.shared) {
+        setToastMessage('Comparison PDF shared successfully!');
+      } else if (result.downloaded) {
+        setToastMessage('PDF downloaded! You can now share it manually.');
+      }
+
+      setTimeout(() => {
+        setExportStatus('idle');
+      }, 3000);
+
+      setTimeout(() => {
+        setToastMessage(null);
+      }, 5000);
+
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+      setExportStatus('idle');
+      setToastMessage('Failed to generate PDF. Please try again.');
+      setTimeout(() => setToastMessage(null), 4000);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   // Render Fallback Selection Page if params are missing/invalid
   if (!hasValidParams) {
@@ -208,11 +246,44 @@ export default function ComparisonPage() {
           </Link>
         </div>
 
-        {/* Header Title Grid */}
-        <div className="text-center space-y-3 mb-12">
+        {/* Header Title Grid & Export Button */}
+        <div className="text-center space-y-3 mb-8 sm:mb-10">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight tracking-tight font-display animate-fade-in">
             Compare Plans
           </h1>
+          <p className="text-xs sm:text-sm font-medium text-slate-400 max-w-md mx-auto">
+            Side-by-side analysis of features, coverage, waiting periods and ratios
+          </p>
+
+          {/* Export to PDF & Direct Share Action */}
+          <div className="pt-2 flex justify-center">
+            <button
+              onClick={handleExportPDF}
+              disabled={isGenerating}
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-extrabold text-xs sm:text-sm transition-all shadow-md active:scale-95 cursor-pointer ${
+                isGenerating
+                  ? 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
+                  : 'bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-500/80 hover:shadow-lg'
+              }`}
+            >
+              {isGenerating ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin shrink-0" />
+                  <span>Generating your comparison report...</span>
+                </>
+              ) : exportStatus === 'ready' ? (
+                <>
+                  <FiCheck className="text-sm sm:text-base text-white shrink-0" />
+                  <span>Comparison PDF Ready</span>
+                </>
+              ) : (
+                <>
+                  <FiShare2 className="text-sm sm:text-base shrink-0" />
+                  <span>Export Comparison to PDF</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Plans Header Cards (Responsive: Side-by-side on all screens, styled smaller on mobile) */}
@@ -346,6 +417,21 @@ export default function ComparisonPage() {
             ))}
           </div>
         </div>
+
+        {/* Feedback Toast Notification */}
+        <AnimatePresence>
+          {toastMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-800 flex items-center gap-3 text-xs font-bold pointer-events-auto"
+            >
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0 animate-pulse" />
+              <span>{toastMessage}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
     </div>
