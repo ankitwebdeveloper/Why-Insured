@@ -52,8 +52,8 @@ const isForbiddenKey = (text) => {
 
 /**
  * Generates an EXACT ONE-PAGE compact WHYINSURED comparison PDF report.
- * Includes Company Logos in Summary Cards and Table Headers.
- * 100% Free of Premium and Coverage references.
+ * Features symmetrical plan cards with aligned [LOGO] COMPANY NAME on top row,
+ * PLAN NAME below, centered VS separator, and zero Premium/Coverage references.
  */
 export const exportComparisonToPDF = async (plan1, company1, plan2, company2) => {
   const doc = new jsPDF({
@@ -82,7 +82,7 @@ export const exportComparisonToPDF = async (plan1, company1, plan2, company2) =>
   const c2Color = company2.theme?.primary || '#002B82';
 
   // ============================================================
-  // COMPACT HEADER (Y: 5 -> 23 mm)
+  // COMPACT HEADER (Y: 5 -> 22 mm)
   // ============================================================
   let currentY = 5;
 
@@ -134,79 +134,89 @@ export const exportComparisonToPDF = async (plan1, company1, plan2, company2) =>
   currentY += 4;
 
   // ============================================================
-  // COMPACT DUAL PLAN SUMMARY CARDS WITH COMPANY LOGOS (Y: 27 -> 47 mm)
-  // NO Premium | NO Coverage
+  // SYMMETRICAL DUAL PLAN SUMMARY CARDS WITH LOGO + NAME + PLAN
   // ============================================================
-  const cardWidth = (pageWidth - (margin * 2) - 5) / 2; // 93.5 mm each
-  const cardHeight = 20;
+  const gapBetweenCards = 8; // 8 mm gap for centered VS badge
+  const cardWidth = (pageWidth - (margin * 2) - gapBetweenCards) / 2; // 92 mm each
+  const cardHeight = 21; // 21 mm height
 
-  // --- Left Card: Company 1 (HDFC ERGO) ---
+  // --- Left Card: HDFC ERGO ---
   doc.setDrawColor(226, 232, 240);
   doc.setFillColor(255, 255, 255);
-  doc.roundedRect(margin, currentY, cardWidth, cardHeight, 2, 2, 'FD');
+  doc.roundedRect(margin, currentY, cardWidth, cardHeight, 2.5, 2.5, 'FD');
   doc.setFillColor(c1Color);
-  doc.rect(margin, currentY, cardWidth, 2.5, 'F');
+  doc.rect(margin, currentY, cardWidth, 2.5, 'F'); // Accent top bar
 
-  let c1Y = currentY + 5;
+  let logoY = currentY + 4.5;
 
-  // Company 1 Logo Image + Name
+  // Top Row: Logo + Company Name on EXACT SAME HORIZONTAL LINE
   if (c1LogoBase64) {
     try {
-      doc.addImage(c1LogoBase64, 'PNG', margin + 3.5, c1Y, 7, 7);
+      doc.addImage(c1LogoBase64, 'PNG', margin + 4, logoY, 6.5, 6.5);
     } catch (e) {}
   }
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8);
+  doc.setFontSize(8.5);
   doc.setTextColor(100, 116, 139);
-  doc.text(company1.name.toUpperCase(), margin + 12, c1Y + 3);
+  doc.text(company1.name.toUpperCase(), margin + 12.5, logoY + 4.8);
 
-  c1Y += 7.5;
-  doc.setFontSize(9.5);
+  // Row Below: Plan Name
+  doc.setFontSize(10);
   doc.setTextColor(15, 23, 42);
-  doc.text(plan1.name, margin + 4, c1Y);
+  doc.text(plan1.name, margin + 4, logoY + 11.5);
 
-  c1Y += 4;
+  // Bottom Detail Line
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
-  doc.setTextColor(51, 65, 85);
-  doc.text(`Cashless: ${getDerivedValue(plan1, company1, 'cashlessHospitals')}  |  Settlement: ${getCompanyRatioValue(company1.id, 'settlement')}`, margin + 4, c1Y);
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Cashless: ${getDerivedValue(plan1, company1, 'cashlessHospitals')}  |  Settlement: ${getCompanyRatioValue(company1.id, 'settlement')}`, margin + 4, logoY + 15.5);
 
-  // --- Right Card: Company 2 (TATA AIG) ---
-  const card2X = margin + cardWidth + 5;
+  // --- VS BADGE (CENTERED BETWEEN CARDS) ---
+  const vsX = margin + cardWidth + (gapBetweenCards / 2);
+  const vsY = currentY + (cardHeight / 2);
+
+  doc.setFillColor(241, 245, 249); // #F1F5F9 Slate
+  doc.setDrawColor(226, 232, 240);
+  doc.circle(vsX, vsY, 3.5, 'FD');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(6.5);
+  doc.setTextColor(100, 116, 139);
+  doc.text('VS', vsX, vsY + 0.8, { align: 'center' });
+
+  // --- Right Card: TATA AIG ---
+  const card2X = margin + cardWidth + gapBetweenCards;
   doc.setDrawColor(226, 232, 240);
   doc.setFillColor(255, 255, 255);
-  doc.roundedRect(card2X, currentY, cardWidth, cardHeight, 2, 2, 'FD');
+  doc.roundedRect(card2X, currentY, cardWidth, cardHeight, 2.5, 2.5, 'FD');
   doc.setFillColor(c2Color);
-  doc.rect(card2X, currentY, cardWidth, 2.5, 'F');
+  doc.rect(card2X, currentY, cardWidth, 2.5, 'F'); // Accent top bar
 
-  let c2Y = currentY + 5;
-
-  // Company 2 Logo Image + Name
+  // Top Row: Logo + Company Name on EXACT SAME HORIZONTAL LINE
   if (c2LogoBase64) {
     try {
-      doc.addImage(c2LogoBase64, 'PNG', card2X + 3.5, c2Y, 7, 7);
+      doc.addImage(c2LogoBase64, 'PNG', card2X + 4, logoY, 6.5, 6.5);
     } catch (e) {}
   }
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8);
+  doc.setFontSize(8.5);
   doc.setTextColor(100, 116, 139);
-  doc.text(company2.name.toUpperCase(), card2X + 12, c2Y + 3);
+  doc.text(company2.name.toUpperCase(), card2X + 12.5, logoY + 4.8);
 
-  c2Y += 7.5;
-  doc.setFontSize(9.5);
+  // Row Below: Plan Name
+  doc.setFontSize(10);
   doc.setTextColor(15, 23, 42);
-  doc.text(plan2.name, card2X + 4, c2Y);
+  doc.text(plan2.name, card2X + 4, logoY + 11.5);
 
-  c2Y += 4;
+  // Bottom Detail Line
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
-  doc.setTextColor(51, 65, 85);
-  doc.text(`Cashless: ${getDerivedValue(plan2, company2, 'cashlessHospitals')}  |  Settlement: ${getCompanyRatioValue(company2.id, 'settlement')}`, card2X + 4, c2Y);
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Cashless: ${getDerivedValue(plan2, company2, 'cashlessHospitals')}  |  Settlement: ${getCompanyRatioValue(company2.id, 'settlement')}`, card2X + 4, logoY + 15.5);
 
   currentY += cardHeight + 4;
 
   // ============================================================
-  // COMPACT DETAILED COMPARISON TABLE WITH HEADER LOGOS (Y: 51 -> 270 mm)
+  // COMPACT DETAILED COMPARISON TABLE WITH HEADER LOGOS (Y: 52 -> 270 mm)
   // NO Premium | NO Coverage
   // ============================================================
   const comparisonSections = getComparisonSections(plan1, company1, plan2, company2);
