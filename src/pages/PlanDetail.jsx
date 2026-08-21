@@ -7,6 +7,9 @@ import PlanHealthSnapshot from '../components/PlanHealthSnapshot';
 import HdfcPlanDetailSection from '../components/HdfcPlanDetailSection';
 import MedicareSelectSection from '../components/MedicareSelectSection';
 import IciciCompleteHealthSection from '../components/IciciCompleteHealthSection';
+import NivaBupaPlanDetailSection from '../components/NivaBupaPlanDetailSection';
+import StarHealthPlanDetailSection from '../components/StarHealthPlanDetailSection';
+import CareHealthPlanDetailSection from '../components/CareHealthPlanDetailSection';
 
 export default function PlanDetail() {
   const { companyId, planId } = useParams();
@@ -17,7 +20,10 @@ export default function PlanDetail() {
 
   const plan = company?.plans.find(p => p.id === planId) || 
     (company?.id === 'tata-aig' && (planId === 'medicare-premier' || planId === 'medicare-select') ? company?.plans[0] : null) ||
-    (company?.id === 'icici-lombard' ? company?.plans[0] : null);
+    (company?.id === 'icici-lombard' ? company?.plans[0] : null) ||
+    (company?.id === 'niva-bupa' ? company?.plans[0] : null) ||
+    (company?.id === 'star-health' ? company?.plans[0] : null) ||
+    (company?.id === 'care-health' ? company?.plans[0] : null);
 
   if (!company || !plan) {
     return (
@@ -94,7 +100,7 @@ export default function PlanDetail() {
     '--text': theme.text,
   };
 
-  const isSpecialCompany = company.id === 'hdfc-life' || company.id === 'hdfc-ergo' || company.id === 'tata-aig' || company.id === 'icici-lombard';
+  const isSpecialCompany = company.id === 'hdfc-life' || company.id === 'hdfc-ergo' || company.id === 'tata-aig' || company.id === 'icici-lombard' || company.id === 'niva-bupa' || company.id === 'star-health' || company.id === 'care-health';
 
   return (
     <div style={{ ...themeStyles, backgroundColor: 'var(--bg)' }} className={`min-h-screen font-sans ${isSpecialCompany ? 'pt-[88px] sm:pt-24 pb-2 sm:pb-20' : 'pt-24 pb-20'} relative transition-colors duration-300`}>
@@ -105,13 +111,19 @@ export default function PlanDetail() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* HDFC ERGO, Tata AIG & ICICI Lombard Viewport Structure */}
+        {/* HDFC ERGO, Tata AIG, ICICI Lombard, Niva Bupa, Star Health & Care Health Viewport Structure */}
         {(company.id === 'hdfc-life' || company.id === 'hdfc-ergo') ? (
           <HdfcPlanDetailSection plan={plan} company={company} />
         ) : company.id === 'tata-aig' ? (
           <MedicareSelectSection plan={plan} company={company} />
         ) : company.id === 'icici-lombard' ? (
           <IciciCompleteHealthSection plan={plan} company={company} />
+        ) : company.id === 'niva-bupa' ? (
+          <NivaBupaPlanDetailSection plan={plan} company={company} />
+        ) : company.id === 'star-health' ? (
+          <StarHealthPlanDetailSection plan={plan} company={company} />
+        ) : company.id === 'care-health' ? (
+          <CareHealthPlanDetailSection plan={plan} company={company} />
         ) : (
               <>
                 {/* Plan Header Card */}

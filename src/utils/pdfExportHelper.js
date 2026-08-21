@@ -475,3 +475,439 @@ export const exportComparisonToPDF = async (plan1, company1, plan2, company2, on
     unsupported: shareUnsupported
   };
 };
+
+/**
+ * Generates an official, comprehensive single-plan PDF document for WHYINSURED.
+ * Includes Company & WHYINSURED logos, Performance Marksheet, Fundamentals,
+ * 4 Feature Categories, Conditions, and Exclusions.
+ */
+export const exportPlanDetailToPDF = async (plan, company, options = {}) => {
+  const { onDownloaded, share = false, featureData = null } = options;
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4'
+  });
+
+  const pageWidth = doc.internal.pageSize.getWidth(); // 210 mm
+  const pageHeight = doc.internal.pageSize.getHeight(); // 297 mm
+  const margin = 10;
+
+  // Load WHYINSURED Logo & Company Logo as Base64
+  const logoBase64 = await getImageBase64(logoAsset);
+  const companyLogoBase64 = await getImageBase64(company.logo);
+
+  const todayStr = new Date().toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  const primaryColor = company.theme?.primary || '#0EA5E9';
+
+  // ============================================================
+  // COMPACT HEADER (Y: 6 -> 24 mm)
+  // ============================================================
+  let currentY = 6;
+
+  // 1. WHYINSURED LOGO
+  if (logoBase64) {
+    try {
+      doc.addImage(logoBase64, 'PNG', margin, currentY, 28, 9);
+    } catch (e) {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(13);
+      doc.setTextColor(15, 23, 42);
+      doc.text('WHYINSURED', margin, currentY + 6);
+    }
+  } else {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(13);
+    doc.setTextColor(15, 23, 42);
+    doc.text('WHYINSURED', margin, currentY + 6);
+  }
+
+  // Right-aligned Date Tag
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7.5);
+  doc.setTextColor(100, 116, 139);
+  doc.text(`Official Plan Specification • ${todayStr}`, pageWidth - margin, currentY + 5, { align: 'right' });
+
+  currentY += 11;
+
+  // Title
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(12);
+  doc.setTextColor(15, 23, 42);
+  doc.text('Comprehensive Policy Document', margin, currentY);
+
+  currentY += 4;
+
+  // Subtitle
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(30, 41, 59);
+  doc.text(`${company.name} — ${plan.name}`, margin, currentY);
+
+  currentY += 3;
+
+  // Colored Divider Bar
+  doc.setFillColor(14, 165, 233); // #0EA5E9 Primary
+  doc.rect(margin, currentY, pageWidth - (margin * 2), 0.8, 'F');
+
+  currentY += 4;
+
+  // ============================================================
+  // PLAN OVERVIEW CARD (Y: 28 -> 48 mm)
+  // ============================================================
+  const cardWidth = pageWidth - (margin * 2);
+  const cardHeight = 18;
+
+  doc.setDrawColor(226, 232, 240);
+  doc.setFillColor(255, 255, 255);
+  doc.roundedRect(margin, currentY, cardWidth, cardHeight, 2, 2, 'FD');
+  doc.setFillColor(primaryColor);
+  doc.rect(margin, currentY, cardWidth, 2, 'F');
+
+  let logoY = currentY + 3.5;
+  if (companyLogoBase64) {
+    try {
+      doc.addImage(companyLogoBase64, 'PNG', margin + 4, logoY, 18, 10);
+    } catch (e) {}
+  }
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(100, 116, 139);
+  doc.text(company.fullName ? company.fullName.toUpperCase() : company.name.toUpperCase(), margin + 25, logoY + 4);
+
+  doc.setFontSize(11);
+  doc.setTextColor(15, 23, 42);
+  doc.text(plan.name, margin + 25, logoY + 9);
+
+  // Network size badge on right
+  const networkSize = getDerivedValue(plan, company, 'cashlessHospitals');
+  const settlementVal = getCompanyRatioValue(company.id, 'settlement');
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Cashless Network: ${networkSize}   |   Claim Settlement: ${settlementVal}`, pageWidth - margin - 4, logoY + 6.5, { align: 'right' });
+
+  currentY += cardHeight + 4;
+
+  // ============================================================
+  // TABLE DATA GENERATION
+  // ============================================================
+  const tableRows = [];
+
+  // SECTION 1: RATIO (MARKSHEET)
+  tableRows.push([
+    {
+      content: '1. PERFORMANCE & RATIO (MARKSHEET)',
+      colSpan: 2,
+      styles: {
+        fillColor: [20, 83, 45], // Dark green gradient reference
+        textColor: [255, 255, 255],
+        fontStyle: 'bold',
+        fontSize: 7.2,
+        cellPadding: 1.5,
+        halign: 'left'
+      }
+    }
+  ]);
+  tableRows.push(['Claim Settlement Ratio', getCompanyRatioValue(company.id, 'settlement')]);
+  tableRows.push(['Incurred Claim Ratio (ICR)', getCompanyRatioValue(company.id, 'incurred')]);
+  tableRows.push(['Solvency Ratio (IRDAI min: 1.50)', getCompanyRatioValue(company.id, 'solvency')]);
+  tableRows.push(['Complaints Ratio (per 10k claims)', getCompanyRatioValue(company.id, 'complaint')]);
+
+  // SECTION 2: FUNDAMENTAL / FAMILY BACKGROUND
+  tableRows.push([
+    {
+      content: '2. FUNDAMENTAL / POLICY ARCHITECTURE',
+      colSpan: 2,
+      styles: {
+        fillColor: [20, 83, 45],
+        textColor: [255, 255, 255],
+        fontStyle: 'bold',
+        fontSize: 7.2,
+        cellPadding: 1.5,
+        halign: 'left'
+      }
+    }
+  ]);
+  tableRows.push(['Eligibility Criteria', plan.details?.eligibility || '18 to 65 Years']);
+  tableRows.push(['Cashless Hospitals Network', getDerivedValue(plan, company, 'cashlessHospitals')]);
+  tableRows.push(['Claim Support System', getDerivedValue(plan, company, 'claimSupport')]);
+  tableRows.push(['Ambulance Cover', getDerivedValue(plan, company, 'ambulance')]);
+
+  // SECTION 3: FEATURES DETAIL (USE CUSTOM FEATURE DATA IF PROVIDED, ELSE COMPOSE)
+  if (featureData) {
+    // 3.1 Most Important Features
+    if (featureData.mostImportant && featureData.mostImportant.length > 0) {
+      tableRows.push([
+        {
+          content: '3. MOST IMPORTANT FEATURES',
+          colSpan: 2,
+          styles: {
+            fillColor: [20, 83, 45],
+            textColor: [255, 255, 255],
+            fontStyle: 'bold',
+            fontSize: 7.2,
+            cellPadding: 1.5,
+            halign: 'left'
+          }
+        }
+      ]);
+      featureData.mostImportant.forEach(feat => {
+        tableRows.push([feat.title, `${feat.subtitle ? `[${feat.subtitle}] ` : ''}${feat.summary}`]);
+      });
+    }
+
+    // 3.2 Value Added Features
+    if (featureData.valueAdded && featureData.valueAdded.length > 0) {
+      tableRows.push([
+        {
+          content: '4. VALUE ADDED FEATURES',
+          colSpan: 2,
+          styles: {
+            fillColor: [20, 83, 45],
+            textColor: [255, 255, 255],
+            fontStyle: 'bold',
+            fontSize: 7.2,
+            cellPadding: 1.5,
+            halign: 'left'
+          }
+        }
+      ]);
+      featureData.valueAdded.forEach(feat => {
+        tableRows.push([feat.title, `${feat.subtitle ? `[${feat.subtitle}] ` : ''}${feat.summary}`]);
+      });
+    }
+
+    // 3.3 Additional Features
+    if (featureData.additional && featureData.additional.length > 0) {
+      tableRows.push([
+        {
+          content: '5. ADDITIONAL FEATURES',
+          colSpan: 2,
+          styles: {
+            fillColor: [20, 83, 45],
+            textColor: [255, 255, 255],
+            fontStyle: 'bold',
+            fontSize: 7.2,
+            cellPadding: 1.5,
+            halign: 'left'
+          }
+        }
+      ]);
+      featureData.additional.forEach(feat => {
+        tableRows.push([feat.title, `${feat.subtitle ? `[${feat.subtitle}] ` : ''}${feat.summary}`]);
+      });
+    }
+
+    // 3.4 Optional Riders
+    if (featureData.riders && featureData.riders.length > 0) {
+      tableRows.push([
+        {
+          content: '6. OPTIONAL RIDERS (ADD-ONS)',
+          colSpan: 2,
+          styles: {
+            fillColor: [20, 83, 45],
+            textColor: [255, 255, 255],
+            fontStyle: 'bold',
+            fontSize: 7.2,
+            cellPadding: 1.5,
+            halign: 'left'
+          }
+        }
+      ]);
+      featureData.riders.forEach(feat => {
+        tableRows.push([feat.title, `${feat.subtitle ? `[${feat.subtitle}] ` : ''}${feat.summary}`]);
+      });
+    }
+  } else {
+    // Fallback: Use standard features
+    tableRows.push([
+      {
+        content: '3. KEY PLAN FEATURES & BENEFITS',
+        colSpan: 2,
+        styles: {
+          fillColor: [20, 83, 45],
+          textColor: [255, 255, 255],
+          fontStyle: 'bold',
+          fontSize: 7.2,
+          cellPadding: 1.5,
+          halign: 'left'
+        }
+      }
+    ]);
+    if (plan.benefits && plan.benefits.length > 0) {
+      plan.benefits.forEach((benefit, bIdx) => {
+        tableRows.push([`Benefit #${bIdx + 1}`, benefit]);
+      });
+    }
+  }
+
+  // SECTION 4: CONDITION & EXCLUSIONS
+  tableRows.push([
+    {
+      content: '7. POLICY CONDITIONS, WAITING PERIODS & EXCLUSIONS',
+      colSpan: 2,
+      styles: {
+        fillColor: [20, 83, 45],
+        textColor: [255, 255, 255],
+        fontStyle: 'bold',
+        fontSize: 7.2,
+        cellPadding: 1.5,
+        halign: 'left'
+      }
+    }
+  ]);
+  tableRows.push(['Initial Waiting Period', getDerivedValue(plan, company, 'initialWaitingPeriod')]);
+  tableRows.push(['Pre-Existing Diseases Waiting', plan.details?.waitingPeriod || '36 Months']);
+  tableRows.push(['Room Rent & ICU Limit', plan.details?.roomRent || 'No Limit']);
+  tableRows.push(['Important Exclusions', plan.details?.exclusions || 'Cosmetic surgery, intentional self-harm']);
+
+  // Render Table
+  autoTable(doc, {
+    startY: currentY,
+    head: [
+      [
+        { content: 'SPECIFICATION / CRITERIA', styles: { halign: 'left', cellWidth: 55 } },
+        { content: `${company.name.toUpperCase()} — ${plan.name.toUpperCase()} DETAILS`, styles: { halign: 'left' } }
+      ]
+    ],
+    body: tableRows,
+    margin: { left: margin, right: margin, bottom: 10 },
+    theme: 'grid',
+    styles: {
+      font: 'helvetica',
+      fontSize: 6.8,
+      cellPadding: 1.4,
+      valign: 'middle',
+      overflow: 'linebreak',
+      textColor: [51, 65, 85]
+    },
+    headStyles: {
+      fillColor: [14, 165, 233], // Primary Cyan
+      textColor: [255, 255, 255],
+      fontStyle: 'bold',
+      fontSize: 7.5,
+      cellPadding: 2
+    },
+    columnStyles: {
+      0: { cellWidth: 55, fontStyle: 'bold', textColor: [15, 23, 42] },
+      1: { cellWidth: 'auto' }
+    },
+    alternateRowStyles: {
+      fillColor: [248, 250, 252]
+    },
+    didDrawPage: (data) => {
+      const totalPages = doc.internal.getNumberOfPages();
+      const currentPage = data.pageNumber;
+
+      doc.setDrawColor(226, 232, 240);
+      doc.line(margin, pageHeight - 8, pageWidth - margin, pageHeight - 8);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.8);
+      doc.setTextColor(148, 163, 184);
+
+      doc.text(
+        'WHYINSURED • Official Policy Document • T&C Apply',
+        margin,
+        pageHeight - 4.5
+      );
+
+      doc.text(
+        `Page ${currentPage} of ${totalPages}`,
+        pageWidth - margin,
+        pageHeight - 4.5,
+        { align: 'right' }
+      );
+    }
+  });
+
+  // Filename
+  const sanitizedPlan = plan.name.replace(/[^a-zA-Z0-9]/g, '-');
+  const fileName = `WHYINSURED_${company.name.replace(/\s+/g, '-')}_${sanitizedPlan}.pdf`;
+
+  console.log('[PDF Export] Generating single plan PDF:', fileName);
+
+  let pdfBlob;
+  try {
+    pdfBlob = doc.output('blob');
+  } catch (e) {
+    const pdfArrayBuffer = doc.output('arraybuffer');
+    pdfBlob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
+  }
+
+  const pdfFile = new File([pdfBlob], fileName, { type: 'application/pdf' });
+
+  // Browser download
+  try {
+    const downloadUrl = URL.createObjectURL(pdfFile);
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 10000);
+  } catch (downloadErr) {
+    console.error('[PDF Export] Fallback to doc.save():', downloadErr);
+    doc.save(fileName);
+  }
+
+  if (typeof onDownloaded === 'function') {
+    try {
+      onDownloaded();
+    } catch (e) {}
+  }
+
+  let shareSuccess = false;
+  let shareCancelled = false;
+  let shareUnsupported = false;
+
+  if (share && typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+    let canShareFiles = false;
+    try {
+      if (typeof navigator.canShare === 'function') {
+        canShareFiles = navigator.canShare({ files: [pdfFile] });
+      } else {
+        canShareFiles = true;
+      }
+    } catch (canShareErr) {
+      canShareFiles = false;
+    }
+
+    if (canShareFiles) {
+      try {
+        await navigator.share({
+          title: `WHYINSURED - ${company.name} ${plan.name}`,
+          text: `Check out ${company.name} ${plan.name} policy specifications and benefits.`,
+          files: [pdfFile]
+        });
+        shareSuccess = true;
+      } catch (shareErr) {
+        const errName = shareErr.name || '';
+        const errMsg = String(shareErr.message || '').toLowerCase();
+        if (errName === 'AbortError' || errMsg.includes('cancel') || errMsg.includes('aborted')) {
+          shareCancelled = true;
+        } else {
+          shareUnsupported = true;
+        }
+      }
+    } else {
+      shareUnsupported = true;
+    }
+  }
+
+  return {
+    success: true,
+    downloaded: true,
+    shared: shareSuccess,
+    cancelled: shareCancelled,
+    unsupported: shareUnsupported
+  };
+};

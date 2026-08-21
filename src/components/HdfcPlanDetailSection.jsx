@@ -35,6 +35,7 @@ import { getCompanyRatioValue, getDerivedValue } from '../utils/compareDataHelpe
 // =============================================================================
 const DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
 
+
 // Feature Icons Dictionary (Clean, Corporate Icon per Feature)
 const FEATURE_ICONS = {
   "s1-1": FiHome,        // Any Room Category
@@ -712,8 +713,9 @@ export default function HdfcPlanDetailSection({ plan, company }) {
             </div>
           </div>
 
+
           {/* FOOTNOTE */}
-          <div className="text-right pt-2">
+          <div className="text-right pt-1">
             <span className="text-xs font-bold text-slate-400">
               *T&C Apply
             </span>

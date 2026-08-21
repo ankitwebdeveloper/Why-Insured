@@ -23,7 +23,7 @@ export default function CompanyDetail() {
   }
 
   const { theme, name, fullName, logo, description, plans } = company;
-  const isSpecialCompany = company.id === 'hdfc-ergo' || company.slug === 'hdfc-ergo' || company.id === 'tata-aig' || company.slug === 'tata-aig' || company.id === 'icici-lombard' || company.slug === 'icici-lombard';
+  const isSpecialCompany = company.id === 'hdfc-ergo' || company.slug === 'hdfc-ergo' || company.id === 'tata-aig' || company.slug === 'tata-aig' || company.id === 'icici-lombard' || company.slug === 'icici-lombard' || company.id === 'niva-bupa' || company.slug === 'niva-bupa' || company.id === 'star-health' || company.slug === 'star-health' || company.id === 'care-health' || company.slug === 'care-health';
 
   // Apply custom CSS variables for the theme
   const themeStyles = {
@@ -129,9 +129,9 @@ export default function CompanyDetail() {
               />
             </div>
 
-            {/* 3. 2-COLUMN PLAN GRID */}
+            {/* 3. PLAN GRID / LIST */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
-              {plans.map((plan) => (
+              {plans.slice(0, 3).map((plan) => (
                 <Link
                   key={plan.id}
                   to={`/insurance/${company.id}/${plan.id}`}
