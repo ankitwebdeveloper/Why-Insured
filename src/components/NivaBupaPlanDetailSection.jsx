@@ -163,7 +163,7 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
         subtitle: "Unlimited Automatic Restoration for Lifetime",
         badge: "RESTORATION BENEFIT",
         summary: "Restores 100% Sum Insured unlimited times from the 1st claim itself for the same or different illnesses across your entire lifetime.",
-        steps: ["₹10 Lakh Base SI", "1st Claim Triggered", "100% Restored", "∞ Unlimited Forever"]
+        steps: ["Base Sum Insured", "1st Claim Triggered", "100% Restored", "∞ Unlimited Forever"]
       },
       {
         id: "r2-s2-2",
@@ -171,7 +171,7 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
         subtitle: "Entry Age Premium Locked until 1st Claim",
         badge: "PREMIUM LOCK-IN",
         summary: "Your premium remains fixed at your age of entry until you make your very first claim, shielding you from age-based premium hikes.",
-        steps: ["Joined at Age 28", "Fixed Age 28 Premium", "Pays Age 28 Rate until Claim #1"]
+        steps: ["Joined at Entry Age", "Locked Premium Rate", "Pays Entry Rate until Claim #1"]
       },
       {
         id: "r2-s2-3",
@@ -179,7 +179,7 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
         subtitle: "Carry Forward Unused Cover up to 10X (1000%)",
         badge: "BOOSTER BENEFIT",
         summary: "Unused Sum Insured carries forward to the following policy year, accumulating up to 5X to 10X of Base Sum Insured.",
-        steps: ["₹10 Lakh Base SI", "Yr 1: ₹20 Lakh", "Yr 2: ₹30 Lakh", "Max 10X Carry Forward"]
+        steps: ["Base Sum Insured", "Yr 1: +100%", "Yr 2: +100%", "Max 10X Carry Forward"]
       },
       {
         id: "r2-s2-4",
@@ -244,10 +244,10 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
       {
         id: "r2-s4-2",
         title: "Hospital Cash Benefit",
-        subtitle: "Daily Cash Allowance from ₹1,000 to ₹5,000/day",
+        subtitle: "Daily Cash Allowance for Hospital Stay",
         badge: "DAILY ALLOWANCE",
         summary: "Provides fixed daily cash allowance for every completed 24 hours of hospitalisation to take care of ancillary expenses.",
-        steps: ["₹1,000 - ₹5,000 / Day", "Up to 30 Days / Year"]
+        steps: ["Daily Allowance", "Up to 30 Days / Year"]
       },
       {
         id: "r2-s4-3",
@@ -326,7 +326,7 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
         subtitle: "100% Automatic Refill of Sum Insured",
         badge: "RESTORATION BENEFIT",
         summary: "Reinstates 100% Base Sum Insured once in a policy year if the base cover gets exhausted due to claims for unrelated illnesses.",
-        steps: ["₹5 Lakh Base SI", "Base SI Exhausted", "100% Reinstated (₹5 Lakh)"]
+        steps: ["Base Sum Insured", "Base SI Exhausted", "100% Reinstated"]
       },
       {
         id: "hc-s2-2",
@@ -334,7 +334,7 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
         subtitle: "20% increase in Sum Insured per claim-free year (Max 100%)",
         badge: "BONUS GROWTH",
         summary: "Increases your Base Sum Insured by 20% for every claim-free policy year, doubling your total coverage up to 100% without extra cost.",
-        steps: ["₹5 Lakh Base", "Yr 1: ₹6 Lakh (+20%)", "Yr 2: ₹7 Lakh (+20%)", "Max ₹10 Lakh (100%)"]
+        steps: ["Base Sum Insured", "Yr 1: +20%", "Yr 2: +20%", "Max 100% Bonus"]
       },
       {
         id: "hc-s2-3",
@@ -373,9 +373,9 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
       {
         id: "hc-s3-2",
         title: "Emergency Road Ambulance",
-        subtitle: "Covered up to ₹3,000 per hospitalisation",
+        subtitle: "Emergency Road Ambulance Covered",
         badge: "AMBULANCE COVER",
-        summary: "Emergency surface road ambulance charges to the nearest hospital are reimbursed up to ₹3,000 per admission.",
+        summary: "Emergency surface road ambulance charges to the nearest hospital are reimbursed as per policy limits per admission.",
         steps: null
       },
       {
@@ -399,10 +399,10 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
       {
         id: "hc-s4-1",
         title: "Hospital Cash Allowance",
-        subtitle: "Daily cash payout up to ₹2,000–₹4,000/day",
+        subtitle: "Daily cash payout during hospitalisation",
         badge: "DAILY CASH",
         summary: "Provides fixed daily cash allowance for every completed 24 hours of hospital stay to offset non-medical expenses.",
-        steps: ["₹2,000 / Day", "Up to 30 Days / Year"]
+        steps: ["Daily Payout", "Up to 30 Days / Year"]
       },
       {
         id: "hc-s4-2",
@@ -481,7 +481,7 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
         subtitle: "Unlimited Restoration of Sum Insured for Seniors",
         badge: "RESTORATION BENEFIT",
         summary: "Restores 100% Sum Insured unlimited times for subsequent hospital admissions within the same policy year.",
-        steps: ["₹7.5 Lakh Base SI", "Claim Paid", "100% Restored", "∞ Unlimited"]
+        steps: ["Base Sum Insured", "Claim Paid", "100% Restored", "∞ Unlimited"]
       },
       {
         id: "sf-s2-2",
@@ -497,7 +497,7 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
         subtitle: "10% increase in Sum Insured per year (Max 50%)",
         badge: "BONUS GROWTH",
         summary: "10% bonus added to Sum Insured for each claim-free year, providing up to 50% extra financial protection.",
-        steps: ["₹7.5 Lakh Base", "Yr 1: ₹8.25 Lakh", "Yr 2: ₹9 Lakh", "Max ₹11.25 Lakh (50%)"]
+        steps: ["Base Sum Insured", "Yr 1: +10%", "Yr 2: +10%", "Max 50% Bonus"]
       },
       {
         id: "sf-s2-4",
@@ -528,9 +528,9 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
       {
         id: "sf-s3-2",
         title: "Emergency Road Ambulance Support",
-        subtitle: "Reimbursed up to ₹2,000 per hospital admission",
+        subtitle: "Emergency Road Ambulance Reimbursed",
         badge: "AMBULANCE COVER",
-        summary: "Emergency surface road ambulance charges to the nearest hospital reimbursed up to ₹2,000 per admission.",
+        summary: "Emergency surface road ambulance charges to the nearest hospital reimbursed as per policy limits per admission.",
         steps: null
       },
       {
@@ -557,7 +557,7 @@ const NIVA_BUPA_FEATURES_BY_PLAN = {
         subtitle: "Daily cash allowance per day of hospital stay",
         badge: "DAILY CASH",
         summary: "Fixed cash payout for each 24-hour day of hospitalisation to support incidental and attendee expenses.",
-        steps: ["₹1,000 / Day", "Up to 30 Days / Year"]
+        steps: ["Daily Cash Payout", "Up to 30 Days / Year"]
       },
       {
         id: "sf-s4-2",

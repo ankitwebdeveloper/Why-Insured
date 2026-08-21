@@ -178,7 +178,7 @@ const CARE_HEALTH_FEATURES_BY_PLAN = {
       {
         id: "c3-1",
         title: "Emergency Road Ambulance",
-        subtitle: "Covered up to ₹3,000 per Hospitalisation",
+        subtitle: "Emergency Road Ambulance Covered",
         summary: "Emergency surface road ambulance charges to the nearest hospital for inpatient hospitalisation are fully covered up to specified policy limits."
       },
       {
@@ -196,8 +196,8 @@ const CARE_HEALTH_FEATURES_BY_PLAN = {
       {
         id: "c3-4",
         title: "Tax Savings under Sec 80D",
-        subtitle: "Deductions up to ₹75,000 Annually",
-        summary: "Avail tax deductions up to ₹75,000 on health insurance premiums paid under Section 80D of the Income Tax Act for family and senior parents."
+        subtitle: "Tax Deductions under Sec 80D",
+        summary: "Avail tax deductions on health insurance premiums paid under Section 80D of the Income Tax Act for family and senior parents."
       }
     ],
     riders: [
@@ -290,8 +290,8 @@ const CARE_HEALTH_FEATURES_BY_PLAN = {
       {
         id: "c3-1",
         title: "Emergency Road Ambulance",
-        subtitle: "Covered up to ₹1,000 per Hospitalisation",
-        summary: "Emergency surface road ambulance charges to the nearest hospital covered up to ₹1,000 per hospitalisation."
+        subtitle: "Emergency Road Ambulance Transit",
+        summary: "Emergency surface road ambulance charges to the nearest hospital covered as per policy limits per hospitalisation."
       },
       {
         id: "c3-2",
@@ -308,8 +308,8 @@ const CARE_HEALTH_FEATURES_BY_PLAN = {
       {
         id: "c3-4",
         title: "Tax Savings under Sec 80D",
-        subtitle: "Deductions up to ₹75,000 Annually",
-        summary: "Avail annual income tax deductions up to ₹75,000 on health insurance premiums paid under Section 80D."
+        subtitle: "Tax Deductions under Sec 80D",
+        summary: "Avail annual income tax deductions on health insurance premiums paid under Section 80D."
       }
     ],
     riders: [
@@ -394,8 +394,8 @@ const CARE_HEALTH_FEATURES_BY_PLAN = {
       {
         id: "c2-5",
         title: "Emergency Road Ambulance",
-        subtitle: "Covered up to ₹2,000 per Hospitalisation",
-        summary: "Emergency surface road ambulance charges to the nearest hospital for critical cardiac events covered up to ₹2,000 per hospitalisation."
+        subtitle: "Emergency Road Ambulance Transit",
+        summary: "Emergency surface road ambulance charges to the nearest hospital for critical cardiac events covered per hospitalisation."
       }
     ],
     additional: [
@@ -420,8 +420,8 @@ const CARE_HEALTH_FEATURES_BY_PLAN = {
       {
         id: "c3-4",
         title: "Tax Savings under Sec 80D",
-        subtitle: "Deductions up to ₹75,000 Annually",
-        summary: "Avail tax deductions up to ₹75,000 on health insurance premiums paid under Section 80D of the Income Tax Act."
+        subtitle: "Tax Deductions under Sec 80D",
+        summary: "Avail tax deductions on health insurance premiums paid under Section 80D of the Income Tax Act."
       }
     ],
     riders: [
@@ -962,7 +962,7 @@ export default function CareHealthPlanDetailSection({ plan, company }) {
           {/* Card 1: Ratio (Marksheet) */}
           <button
             onClick={() => setActiveModal('ratio')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#1E3A8A]/50 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#1E3A8A]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#1E3A8A]/30 group-hover:bg-[#1E3A8A] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#1E3A8A] transition-colors duration-200 font-display leading-tight pr-1">
@@ -976,7 +976,7 @@ export default function CareHealthPlanDetailSection({ plan, company }) {
           {/* Card 2: Fundamental / Family Background */}
           <button
             onClick={() => setActiveModal('fundamental')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#1E3A8A]/50 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#1E3A8A]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#1E3A8A]/30 group-hover:bg-[#1E3A8A] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#1E3A8A] transition-colors duration-200 font-display leading-tight pr-1">
@@ -990,7 +990,7 @@ export default function CareHealthPlanDetailSection({ plan, company }) {
           {/* Card 3: Features */}
           <Link
             to={`/insurance/care-health/${plan.id}/features`}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#1E3A8A]/50 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#1E3A8A]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#1E3A8A]/30 group-hover:bg-[#1E3A8A] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#1E3A8A] transition-colors duration-200 font-display leading-tight pr-1">
@@ -1004,7 +1004,7 @@ export default function CareHealthPlanDetailSection({ plan, company }) {
           {/* Card 4: Condition */}
           <button
             onClick={() => setActiveModal('condition')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#1E3A8A]/50 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#1E3A8A]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#1E3A8A]/30 group-hover:bg-[#1E3A8A] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#1E3A8A] transition-colors duration-200 font-display leading-tight pr-1">
@@ -1032,178 +1032,182 @@ export default function CareHealthPlanDetailSection({ plan, company }) {
               className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
             />
 
-            {/* Modal Dialog Body - Single Viewport Constraint */}
+            {/* Modal Dialog Box */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="relative w-full max-w-lg max-h-[85vh] bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-100 overflow-hidden flex flex-col z-10"
+              className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg overflow-hidden z-10 p-4 sm:p-8 max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto"
             >
-              {/* Modal Header */}
-              <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-slate-100 bg-slate-50/50 shrink-0">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#1E3A8A]" />
-                  <h3 className="text-xs sm:text-base font-black text-slate-900 font-display">
-                    {activeModal === 'ratio' && 'Ratio (Marksheet)'}
-                    {activeModal === 'fundamental' && 'Fundamental / Family Background'}
-                    {activeModal === 'condition' && 'Policy Conditions & Waiting Periods'}
-                  </h3>
-                </div>
+              {/* Close Button */}
+              <button
+                onClick={() => setActiveModal(null)}
+                className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer"
+              >
+                <FiX className="text-base sm:text-lg" />
+              </button>
 
-                <button
-                  onClick={() => setActiveModal(null)}
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
-                >
-                  <FiX className="text-sm sm:text-base" />
-                </button>
-              </div>
+              {/* MODAL 1: RATIO (MARKSHEET) */}
+              {activeModal === 'ratio' && (
+                <div className="space-y-4 sm:space-y-6">
+                  <div>
+                    <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#1E3A8A] block">
+                      Care Health Performance
+                    </span>
+                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
+                      RATIO (MARKSHEET)
+                    </h2>
+                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
+                      Official claim settlement and financial strength metrics.
+                    </p>
+                  </div>
 
-              {/* Modal Scrollable Content Body */}
-              <div className="p-4 sm:p-6 overflow-y-auto space-y-4 text-left">
-                
-                {/* 1. RATIO MODAL VIEW */}
-                {activeModal === 'ratio' && (
-                  <div className="space-y-3.5">
-                    <div className="bg-[#FEFCE8] rounded-xl p-3 border border-[#1E3A8A]/20 flex items-center justify-between">
+                  <div className="space-y-2 sm:space-y-3">
+                    <div className="bg-[#FEFCE8] p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-[#1E3A8A]/20 flex justify-between items-center">
                       <div>
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
-                          Claim Settlement Ratio
-                        </span>
-                        <span className="text-lg sm:text-2xl font-black text-[#1E3A8A]">
-                          {settlementRatio}
-                        </span>
+                        <span className="text-xs font-bold text-slate-600 block">Claim Settlement Ratio</span>
+                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">Verified IRDAI Report</span>
                       </div>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 border border-emerald-200">
-                        Excellent
-                      </span>
+                      <span className="text-base sm:text-lg font-black text-[#1E3A8A]">{settlementRatio}</span>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2.5">
-                      <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
-                          Incurred Claim Ratio
-                        </span>
-                        <span className="text-sm sm:text-lg font-black text-slate-800">
-                          {incurredRatio}
-                        </span>
-                        <span className="text-[9px] text-slate-400 font-medium block mt-0.5">
-                          Ideal: 50% - 90%
-                        </span>
+                    <div className="bg-slate-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 flex justify-between items-center">
+                      <div>
+                        <span className="text-xs font-bold text-slate-600 block">Incurred Claim Ratio (ICR)</span>
+                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">Claims Paid vs Premium</span>
                       </div>
-
-                      <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
-                          Solvency Ratio
-                        </span>
-                        <span className="text-sm sm:text-lg font-black text-slate-800">
-                          {solvencyRatio}
-                        </span>
-                        <span className="text-[9px] text-slate-400 font-medium block mt-0.5">
-                          IRDAI Norm &gt; 1.50
-                        </span>
-                      </div>
+                      <span className="text-sm sm:text-base font-extrabold text-[#0F172A]">{incurredRatio}</span>
                     </div>
 
-                    <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
-                        Complaints per 10,000 Claims
-                      </span>
-                      <span className="text-sm sm:text-base font-black text-slate-800">
-                        {complaintRatio}
-                      </span>
-                      <p className="text-[10px] text-slate-500 font-medium mt-1 leading-normal">
-                        Industry-leading specialized cashless claims settlement with over 21,000+ healthcare network providers nationwide.
-                      </p>
+                    <div className="bg-slate-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 flex justify-between items-center">
+                      <div>
+                        <span className="text-xs font-bold text-slate-600 block">Solvency Ratio</span>
+                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">IRDAI Requirement: 1.50</span>
+                      </div>
+                      <span className="text-sm sm:text-base font-extrabold text-[#0F172A]">{solvencyRatio}</span>
+                    </div>
+
+                    <div className="bg-slate-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 flex justify-between items-center">
+                      <div>
+                        <span className="text-xs font-bold text-slate-600 block">Complaints Ratio</span>
+                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">Per 10,000 Claims</span>
+                      </div>
+                      <span className="text-sm sm:text-base font-extrabold text-[#0F172A]">{complaintRatio}</span>
                     </div>
                   </div>
-                )}
+                </div>
+              )}
 
-                {/* 2. FUNDAMENTAL / FAMILY BACKGROUND MODAL VIEW */}
-                {activeModal === 'fundamental' && (
-                  <div className="space-y-3">
-                    <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
-                        Room Rent Category
-                      </span>
-                      <span className="text-xs sm:text-sm font-bold text-slate-800 mt-0.5 block">
-                        {roomRent}
-                      </span>
-                    </div>
-
-                    <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
-                        Restoration Benefit
-                      </span>
-                      <span className="text-xs sm:text-sm font-bold text-slate-800 mt-0.5 block">
-                        {restoration}
-                      </span>
-                    </div>
-
-                    <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
-                        Pre & Post Hospitalisation
-                      </span>
-                      <span className="text-xs sm:text-sm font-bold text-slate-800 mt-0.5 block">
-                        {prePostHosp}
-                      </span>
-                    </div>
-
-                    <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
-                        Cashless Network Strength
-                      </span>
-                      <span className="text-xs sm:text-sm font-bold text-slate-800 mt-0.5 block">
-                        {cashlessNetwork} nationwide
-                      </span>
-                    </div>
+              {/* MODAL 2: FUNDAMENTAL / FAMILY BACKGROUND */}
+              {activeModal === 'fundamental' && (
+                <div className="space-y-4 sm:space-y-6">
+                  <div>
+                    <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#1E3A8A] block">
+                      Core Policy Details
+                    </span>
+                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
+                      FUNDAMENTAL / FAMILY BACKGROUND
+                    </h2>
+                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
+                      Eligibility criteria and essential plan architecture.
+                    </p>
                   </div>
-                )}
 
-                {/* 3. CONDITION MODAL VIEW */}
-                {activeModal === 'condition' && (
-                  <div className="space-y-3">
-                    <div className="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1">
-                        Waiting Periods
+                  <div className="space-y-2 sm:space-y-3">
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
+                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#1E3A8A]">
+                        Eligibility Criteria
                       </span>
-                      <ul className="space-y-1 text-xs text-slate-700 font-medium">
-                        <li className="flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#1E3A8A]" />
-                          <span><strong>Initial Waiting Period:</strong> 30 Days</span>
-                        </li>
-                        <li className="flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#1E3A8A]" />
-                          <span><strong>Specific Illnesses:</strong> 24 Months</span>
-                        </li>
-                        <li className="flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#1E3A8A]" />
-                          <span><strong>Pre-Existing Diseases (PED):</strong> {plan.details.waitingPeriod.split(',')[1] || '24 - 36 Months'}</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1">
-                        Key Policy Exclusions
-                      </span>
-                      <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                        {plan.details.exclusions || 'Cosmetic surgeries, non-prescribed health supplements, experimental treatments, self-inflicted injuries, and adventure sports.'}
+                      <p className="text-xs font-bold text-[#0F172A]">
+                        {plan.details.eligibility}
                       </p>
                     </div>
 
-                    <div className="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1">
-                        Eligibility
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
+                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#1E3A8A]">
+                        Cashless Network Size
                       </span>
-                      <p className="text-xs text-slate-700 font-bold">
-                        {plan.details.eligibility || 'Adults 18 to 65 Years (Dependent children from 91 days)'}
+                      <p className="text-xs font-bold text-[#0F172A]">
+                        21,000+ Cashless Hospitals across India
+                      </p>
+                    </div>
+
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
+                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#1E3A8A]">
+                        Claim Support System
+                      </span>
+                      <p className="text-xs font-bold text-[#0F172A]">
+                        24/7 Dedicated Cashless Support with Direct Desk Assistance
+                      </p>
+                    </div>
+
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
+                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#1E3A8A]">
+                        Ambulance Cover
+                      </span>
+                      <p className="text-xs font-bold text-[#0F172A]">
+                        {getDerivedValue(plan, company, 'ambulance') || 'Emergency Road Ambulance covered per admission limits'}
                       </p>
                     </div>
                   </div>
-                )}
+                </div>
+              )}
 
-              </div>
+              {/* MODAL 3: CONDITION */}
+              {activeModal === 'condition' && (
+                <div className="space-y-4 sm:space-y-6">
+                  <div>
+                    <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#1E3A8A] block">
+                      Terms & Exclusions
+                    </span>
+                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
+                      CONDITION
+                    </h2>
+                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
+                      Waiting periods, room rent restrictions, and exclusions.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2 sm:space-y-3">
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
+                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#1E3A8A]">
+                        Initial Waiting Period
+                      </span>
+                      <p className="text-xs font-bold text-[#0F172A]">
+                        {getDerivedValue(plan, company, 'initialWaitingPeriod') || '30 Days Initial Waiting Period (accidents covered from Day 1)'}
+                      </p>
+                    </div>
+
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
+                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#1E3A8A]">
+                        Pre-Existing Diseases Waiting
+                      </span>
+                      <p className="text-xs font-bold text-[#0F172A]">
+                        {plan.details.waitingPeriod}
+                      </p>
+                    </div>
+
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
+                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#1E3A8A]">
+                        Room Rent & ICU Capping
+                      </span>
+                      <p className="text-xs font-bold text-[#0F172A]">
+                        {plan.details.roomRent}
+                      </p>
+                    </div>
+
+                    <div className="p-3 sm:p-4 bg-rose-50/60 rounded-xl sm:rounded-2xl border border-rose-100 space-y-0.5 sm:space-y-1">
+                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-rose-600">
+                        Important Policy Exclusions
+                      </span>
+                      <p className="text-xs font-semibold text-rose-900 leading-relaxed">
+                        {plan.details.exclusions}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </motion.div>
           </div>
         )}

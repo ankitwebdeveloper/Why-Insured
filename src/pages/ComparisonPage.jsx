@@ -326,10 +326,7 @@ export default function ComparisonPage() {
               </div>
             </div>
             <div className="mt-2.5 sm:mt-4 pt-2 sm:pt-3 border-t border-slate-100/80 text-center">
-              <span className="text-xs sm:text-base lg:text-lg font-black text-emerald-600 block">
-                {plan1.premium}
-              </span>
-              <span className="text-[8px] sm:text-xs font-bold text-slate-400 block uppercase tracking-wider mt-0.5 animate-fade-in">
+              <span className="text-xs sm:text-base lg:text-lg font-black text-emerald-600 block uppercase tracking-wider animate-fade-in">
                 ₹{selectedCoverage} Lakh Coverage
               </span>
             </div>
@@ -362,10 +359,7 @@ export default function ComparisonPage() {
               </div>
             </div>
             <div className="mt-2.5 sm:mt-4 pt-2 sm:pt-3 border-t border-slate-100/80 text-center">
-              <span className="text-xs sm:text-base lg:text-lg font-black text-emerald-600 block">
-                {plan2.premium}
-              </span>
-              <span className="text-[8px] sm:text-xs font-bold text-slate-400 block uppercase tracking-wider mt-0.5 animate-fade-in">
+              <span className="text-xs sm:text-base lg:text-lg font-black text-emerald-600 block uppercase tracking-wider animate-fade-in">
                 ₹{selectedCoverage} Lakh Coverage
               </span>
             </div>

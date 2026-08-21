@@ -86,8 +86,8 @@ const FEATURE_BADGES = {
 
 // Visual Numerical Progression Steps Dictionary
 const FEATURE_STEPS = {
-  "s2-1": ["₹5 Lakh Base SI", "100% Restored once", "₹5 Lakh Additional Cover"],
-  "s2-2": ["₹5 Lakh Base", "₹5.5 Lakh (Yr 1)", "₹6 Lakh (Yr 2)", "Max ₹7.5 Lakh (50%)"]
+  "s2-1": ["Base Sum Insured", "100% Restored once", "100% Additional Cover"],
+  "s2-2": ["Base Cover", "Yr 1 (+10%)", "Yr 2 (+10%)", "Max 50% Bonus"]
 };
 
 // Helper to format YouTube or Direct MP4 URLs
@@ -580,7 +580,7 @@ export default function MedicareSelectSection({ plan, company }) {
                 id="s3-1"
                 index={0}
                 title="Emergency Road Ambulance"
-                subtitle="Reimbursed up to ₹2,000 per admission"
+                subtitle="Reimbursed as per policy limits per admission"
                 summary="Covers emergency road ambulance transportation charges to transfer the insured patient to the nearest hospital."
                 isExpanded={expandedFeatureId === 's3-1'}
                 onToggle={toggleAccordionItem}
@@ -610,7 +610,7 @@ export default function MedicareSelectSection({ plan, company }) {
                 id="s3-4"
                 index={3}
                 title="Tax Savings under Section 80D"
-                subtitle="Up to ₹25,000 / ₹50,000 tax deduction"
+                subtitle="Tax deduction under Section 80D"
                 summary="Premiums paid qualify for tax deductions under Section 80D of the Income Tax Act for self, family, and parents."
                 isExpanded={expandedFeatureId === 's3-4'}
                 onToggle={toggleAccordionItem}
@@ -916,7 +916,7 @@ export default function MedicareSelectSection({ plan, company }) {
                         Ambulance Cover
                       </span>
                       <p className="text-xs font-bold text-[#0F172A]">
-                        Emergency Road Ambulance Reimbursed up to ₹2,000 per admission
+                        Emergency Road Ambulance Reimbursed per admission limits
                       </p>
                     </div>
                   </div>

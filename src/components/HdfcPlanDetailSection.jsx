@@ -92,10 +92,10 @@ const FEATURE_BADGES = {
 
 // Visual Numerical Progression Steps Dictionary
 const FEATURE_STEPS = {
-  "s2-1": ["₹10 Lakh Base SI", "₹10 Lakh Restored", "₹10 Lakh Restored", "∞ Unlimited"],
-  "s2-2": ["₹20 Lakh Base Cover", "2X Doubled from Day 1", "₹40 Lakh Effective Cover"],
-  "s2-4": ["₹20 Lakh Base", "₹40 Lakh (Yr 1)", "₹60 Lakh (Yr 2)", "∞ Infinite"],
-  "s3-1": ["₹800 / Day", "Up to Max ₹4,800"],
+  "s2-1": ["Base Sum Insured", "100% Restored", "100% Restored", "∞ Unlimited Restores"],
+  "s2-2": ["Base Cover", "2X Doubled from Day 1", "2X Active Coverage"],
+  "s2-4": ["Base Cover", "Year 1 (+100%)", "Year 2 (+100%)", "∞ Infinite Benefit"],
+  "s3-1": ["Shared Room Chosen", "Daily Cash Allowance", "Direct Payout"],
   "s4-6": ["1X Base SI", "2X SI for Critical Illnesses"]
 };
 
@@ -520,8 +520,8 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 id="s2-1"
                 index={0}
                 title="Unlimited Restoration"
-                subtitle="₹10 Lakh Base SI → ₹10 Lakh restored again → ₹10 Lakh → ₹10 Lakh..."
-                summary="Unlimited automatic restoration of Sum Insured for subsequent claims in a policy year. ₹10 Lakh Base SI → ₹10 Lakh restored again → ₹10 Lakh → ₹10 Lakh..."
+                subtitle="100% Base SI restored again and again"
+                summary="Unlimited automatic restoration of Sum Insured for subsequent claims in a policy year. 100% Base SI restored again and again for subsequent unrelated claims."
                 isExpanded={expandedFeatureId === 's2-1'}
                 onToggle={toggleAccordionItem}
                 onOpenVideo={handleOpenVideo}
@@ -531,7 +531,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 index={1}
                 title="Secure Benefit"
                 subtitle="2x coverage from Day 1"
-                summary="Automatically doubles your base sum insured from Day 1. Example: ₹20 Lakh Base Cover → ₹40 Lakh from Day 1."
+                summary="Automatically doubles your base sum insured from Day 1. Example: Base Cover is automatically doubled to 2X from Day 1."
                 isExpanded={expandedFeatureId === 's2-2'}
                 onToggle={toggleAccordionItem}
                 onOpenVideo={handleOpenVideo}
@@ -551,7 +551,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 index={3}
                 title="Infinite Benefit*"
                 subtitle="100% Base SI Added Every Year"
-                summary="100% Base SI Added Every Year. ₹20 Lakh → ₹40 Lakh → ₹60 Lakh → ... Infinite times irrespective of claims."
+                summary="100% Base SI Added Every Year irrespective of claims."
                 isExpanded={expandedFeatureId === 's2-4'}
                 onToggle={toggleAccordionItem}
                 onOpenVideo={handleOpenVideo}
@@ -589,8 +589,8 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 id="s3-1"
                 index={0}
                 title="Daily Cash For Shared Room"
-                subtitle="₹800 per day up to a maximum of ₹4,800"
-                summary="Get ₹800 per day up to a maximum of ₹4,800 when opting for a shared room during hospitalisation."
+                subtitle="Daily cash allowance for shared room"
+                summary="Get a daily cash allowance up to the policy limit when opting for a shared room during hospitalisation."
                 isExpanded={expandedFeatureId === 's3-1'}
                 onToggle={toggleAccordionItem}
                 onOpenVideo={handleOpenVideo}

@@ -88,9 +88,9 @@ const FEATURE_BADGES = {
 
 // Visual Numerical Progression Steps Dictionary
 const FEATURE_STEPS = {
-  "s2-1": ["₹10 Lakh Base SI", "100% Instant Reset", "₹10 Lakh Restored Cover"],
-  "s2-2": ["Track Health Metrics", "Earn Wellness Points", "Up to 20% Premium Discount"],
-  "s3-1": ["₹10 Lakh Base", "10% Bonus (Yr 1)", "20% Bonus (Yr 2)", "Max 50% Bonus"]
+  "s2-1": ["Base Sum Insured", "100% Instant Reset", "100% Restored Cover"],
+  "s2-2": ["Track Health Metrics", "Earn Wellness Points", "Wellness Benefits"],
+  "s3-1": ["Base Cover", "10% Bonus (Yr 1)", "20% Bonus (Yr 2)", "Max 50% Bonus"]
 };
 
 // Helper to format YouTube or Direct MP4 URLs
@@ -523,9 +523,9 @@ export default function IciciCompleteHealthSection({ plan, company }) {
               <IciciFeatureAccordionItem
                 id="s2-2"
                 index={1}
-                title="Wellness Rewards Program"
-                subtitle="Earn up to 20% Premium Discount"
-                summary="Earn wellness points by staying active, tracking health metrics, and completing health check-ups, redeemable for up to 20% premium discount."
+                title="Wellness Program & Rewards"
+                subtitle="Earn Wellness Discounts & Rewards"
+                summary="Earn wellness points by staying active, tracking health metrics, and completing health check-ups, redeemable for wellness discounts and benefits."
                 isExpanded={expandedFeatureId === 's2-2'}
                 onToggle={toggleAccordionItem}
                 onOpenVideo={handleOpenVideo}
@@ -582,9 +582,9 @@ export default function IciciCompleteHealthSection({ plan, company }) {
               <IciciFeatureAccordionItem
                 id="s3-1"
                 index={0}
-                title="No Claim Bonus (NCB)"
-                subtitle="10% Increase per Claim-Free Year (Max 50%)"
-                summary="10% increase in base Sum Insured for every claim-free policy year, up to a maximum cumulative cap of 50%."
+                title="Emergency Road Ambulance"
+                subtitle="Emergency Road Ambulance Covered"
+                summary="Emergency road ambulance transportation charges to and from the network hospital covered as per policy limits per admission."
                 isExpanded={expandedFeatureId === 's3-1'}
                 onToggle={toggleAccordionItem}
                 onOpenVideo={handleOpenVideo}
@@ -592,9 +592,9 @@ export default function IciciCompleteHealthSection({ plan, company }) {
               <IciciFeatureAccordionItem
                 id="s3-2"
                 index={1}
-                title="Emergency Road Ambulance"
-                subtitle="Covered up to ₹5,000 per Admission"
-                summary="Emergency road ambulance transportation charges to and from the network hospital covered up to ₹5,000 per admission."
+                title="Ayush Hospitalisation Cover"
+                subtitle="Ayurveda, Yoga, Unani, Siddha & Homeopathy"
+                summary="Inpatient medical treatment taken under recognized Ayush hospitals across India is covered up to the basic Sum Insured."
                 isExpanded={expandedFeatureId === 's3-2'}
                 onToggle={toggleAccordionItem}
                 onOpenVideo={handleOpenVideo}
@@ -602,9 +602,9 @@ export default function IciciCompleteHealthSection({ plan, company }) {
               <IciciFeatureAccordionItem
                 id="s3-3"
                 index={2}
-                title="Preventive Health Check-up"
-                subtitle="Covered upon continuous renewal"
-                summary="Complimentary comprehensive preventive health check-up coupons provided for all insured family members upon policy renewal."
+                title="Second Medical Opinion"
+                subtitle="World-Class Doctor Consultations"
+                summary="Complimentary expert second medical opinion consultation from international specialists for major listed illnesses."
                 isExpanded={expandedFeatureId === 's3-3'}
                 onToggle={toggleAccordionItem}
                 onOpenVideo={handleOpenVideo}
@@ -612,8 +612,8 @@ export default function IciciCompleteHealthSection({ plan, company }) {
               <IciciFeatureAccordionItem
                 id="s3-4"
                 index={3}
-                title="Tax Savings under Section 80D"
-                subtitle="Tax Deductions up to ₹25,000 / ₹50,000"
+                title="Tax Benefit under Section 80D"
+                subtitle="Tax Deductions under Sec 80D"
                 summary="Premiums paid qualify for tax savings under Section 80D of the Income Tax Act for self, family, and senior citizen parents."
                 isExpanded={expandedFeatureId === 's3-4'}
                 onToggle={toggleAccordionItem}
@@ -919,7 +919,7 @@ export default function IciciCompleteHealthSection({ plan, company }) {
                         Ambulance Cover
                       </span>
                       <p className="text-xs font-bold text-[#0F172A]">
-                        Road Ambulance Covered up to ₹5,000 per admission
+                        Road Ambulance Covered per admission limits
                       </p>
                     </div>
                   </div>

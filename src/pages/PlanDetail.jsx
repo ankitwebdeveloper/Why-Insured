@@ -165,38 +165,7 @@ export default function PlanDetail() {
               </div>
             </div>
 
-            {/* Key Metrics */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-                <div
-                  className="p-3.5 rounded-xl shrink-0 animate-pulse"
-                  style={{ backgroundColor: 'var(--bg)' }}
-                >
-                  <FiShield className="text-xl" style={{ color: 'var(--primary)' }} />
-                </div>
-                <div>
-                  <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">
-                    Coverage Amount
-                  </span>
-                  <div className="text-lg font-black text-slate-900 mt-0.5">{plan.coverage} Cover</div>
-                </div>
-              </div>
 
-              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-                <div
-                  className="p-3.5 rounded-xl shrink-0 flex items-center justify-center w-12 h-12"
-                  style={{ backgroundColor: 'var(--bg)' }}
-                >
-                  <span className="text-lg font-black" style={{ color: 'var(--primary)' }}>₹</span>
-                </div>
-                <div>
-                  <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">
-                    Estimated Price
-                  </span>
-                  <div className="text-lg font-black text-slate-900 mt-0.5">{plan.premium}</div>
-                </div>
-              </div>
-            </div>
 
             {/* Plan Health Snapshot Section (Tata AIG Plans ONLY) */}
             {company.id === 'tata-aig' && (

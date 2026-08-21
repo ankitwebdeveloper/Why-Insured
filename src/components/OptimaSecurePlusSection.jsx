@@ -537,7 +537,7 @@ export default function OptimaSecurePlusSection() {
                     </h3>
                   </div>
                   <div className="bg-[#FFF5F5] border border-[#E2E8F0] rounded-xl p-3 my-3 text-xs sm:text-sm font-semibold text-[#0F172A] font-mono leading-relaxed min-h-[56px] flex items-center">
-                    ₹10 Lakh Base SI → ₹10 Lakh restored again → ₹10 Lakh → ₹10 Lakh...
+                    Base SI → 100% restored again → 100% restored → Unlimited...
                   </div>
                   <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-normal">
                     Restores 100% Base Sum Insured automatically for subsequent unrelated or related claims within the policy year.
@@ -558,7 +558,7 @@ export default function OptimaSecurePlusSection() {
                     </h3>
                   </div>
                   <div className="bg-[#FFF5F5] border border-[#E2E8F0] rounded-xl p-3 my-3 text-xs sm:text-sm font-semibold text-[#0F172A] font-mono leading-relaxed min-h-[56px] flex items-center">
-                    ₹20 Lakh → ₹40 Lakh → ₹60 Lakh → ₹80 Lakh → ∞
+                    Base Cover → +100% (Yr 1) → +100% (Yr 2) → ∞
                   </div>
                   <p className="text-xs text-[#475569] font-semibold mb-1">
                     Irrespective of claims.
@@ -582,8 +582,8 @@ export default function OptimaSecurePlusSection() {
                     </h3>
                   </div>
                   <div className="bg-[#FFF5F5] border border-[#E2E8F0] rounded-xl p-3 my-3 text-xs sm:text-sm font-semibold text-[#0F172A] min-h-[56px] flex flex-col justify-center">
-                    <span className="text-[#475569] font-mono text-[11px] block uppercase">Example:</span>
-                    ₹20 Lakh Base Cover → ₹40 Lakh from Day 1
+                    <span className="text-[#475569] font-mono text-[11px] block uppercase">Coverage Benefit:</span>
+                    2X Base Cover from Day 1
                   </div>
                   <p className="text-xs sm:text-sm text-[#475569] leading-relaxed font-normal">
                     Instantly doubles your sum insured right from day 1 without paying extra premium.
@@ -642,7 +642,7 @@ export default function OptimaSecurePlusSection() {
                 id: 0,
                 title: "Unlimited Restoration",
                 highlight: "Auto 100% SI Restored",
-                calcText: "₹10 Lakh Base SI → ₹10 Lakh restored again → ₹10 Lakh → ₹10 Lakh...",
+                calcText: "Base SI → 100% restored again → 100% restored → Unlimited...",
                 description: "Restores 100% Base Sum Insured automatically for subsequent unrelated or related claims within the policy year.",
                 icon: FiRefreshCw
               },
@@ -650,7 +650,7 @@ export default function OptimaSecurePlusSection() {
                 id: 1,
                 title: "Secure Benefit",
                 highlight: "2X coverage from Day 1.",
-                calcText: "Example: ₹20 Lakh Base Cover → ₹40 Lakh from Day 1",
+                calcText: "2X Base Cover from Day 1",
                 description: "Instantly doubles your sum insured right from day 1 without paying extra premium.",
                 icon: FaShieldAlt
               },
@@ -658,7 +658,7 @@ export default function OptimaSecurePlusSection() {
                 id: 2,
                 title: "Infinite Benefit",
                 highlight: "100% Base SI Added Every Year.",
-                calcText: "₹20 Lakh → ₹40 Lakh → ₹60 Lakh → ₹80 Lakh → ∞",
+                calcText: "Base Cover → +100% (Yr 1) → +100% (Yr 2) → ∞",
                 noteText: "Irrespective of claims.",
                 description: "100% of your Base Sum Insured is added automatically every policy year regardless of whether claims were made.",
                 icon: FiTrendingUp
@@ -777,7 +777,7 @@ export default function OptimaSecurePlusSection() {
                     </h3>
                   </div>
                   <p className="text-xs sm:text-sm font-bold text-[#E30613] mt-1">
-                    ₹800 per day up to a maximum of ₹4,800
+                    Daily cash allowance for shared room
                   </p>
                   <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed font-normal">
                     Receive daily cash allowance when opting for shared room accommodation during hospitalisation.
@@ -862,7 +862,7 @@ export default function OptimaSecurePlusSection() {
               {
                 id: 0,
                 title: "Daily Cash For Shared Room",
-                highlight: "₹800/day (Max ₹4,800)",
+                highlight: "Daily cash allowance",
                 description: "Receive daily cash allowance when opting for shared room accommodation during hospitalisation.",
                 icon: FiDollarSign
               },

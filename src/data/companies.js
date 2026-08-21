@@ -171,7 +171,7 @@ export const companiesData = [
           eligibility: "18 to 70 Years",
           waitingPeriod: "30 Days initial, 36 Months for Pre-existing diseases",
           roomRent: "Single Private A/C Room",
-          hospitalization: "Expenses above deductible covered up to ₹20 Lakh",
+          hospitalization: "Expenses above deductible covered up to Sum Insured",
           prePostHospital: "60 Days Pre & 90 Days Post Hospitalization",
           dayCare: "Covered above defined deductible",
           noClaimBonus: "No cumulative bonus on top-up policies",
@@ -206,7 +206,7 @@ export const companiesData = [
           "No capping on room rent",
           "Maternity & Newborn baby cover from day 1",
           "Ophthalmic & Dental treatments covered",
-          "Air Ambulance coverage up to ₹5 Lakh"
+          "Air Ambulance coverage included"
         ],
         details: {
           eligibility: "18 to 65 Years",
@@ -258,7 +258,7 @@ export const companiesData = [
           eligibility: "30 to 70 Years",
           waitingPeriod: "90 Days for cardiac procedures, 30 days initial for other diseases",
           roomRent: "Single Standard Room covered",
-          hospitalization: "Hospitalization expenses up to ₹7.5 Lakh",
+          hospitalization: "Hospitalization expenses covered up to Sum Insured",
           prePostHospital: "30 Days Pre & 60 Days Post Hospitalization",
           dayCare: "Day Care surgeries covered",
           noClaimBonus: "Cumulative bonus not applicable",
@@ -496,7 +496,7 @@ export const companiesData = [
           eligibility: "91 days to Lifetime",
           waitingPeriod: "30 Days initial, 24 Months for Pre-existing conditions",
           roomRent: "Standard Twin Sharing Room covered",
-          hospitalization: "Standard inpatient cover up to ₹5 Lakh",
+          hospitalization: "Standard inpatient cover up to Sum Insured",
           prePostHospital: "30 Days Pre & 60 Days Post Hospitalization",
           dayCare: "Over 170 Day Care procedures covered",
           noClaimBonus: "10% of sum insured added annually (Max 50%)",
