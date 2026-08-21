@@ -3,10 +3,16 @@ import autoTable from 'jspdf-autotable';
 import logoAsset from '../assets/logo.png';
 import { getComparisonSections, getDerivedValue, getCompanyRatioValue } from './compareDataHelper';
 
+// Image Base64 Cache to ensure fast retrieval
+const imageBase64Cache = new Map();
+
 // Helper to convert an image URL or import into Base64 Data URL for jsPDF
 const getImageBase64 = (url) => {
+  if (!url) return Promise.resolve(null);
+  if (imageBase64Cache.has(url)) {
+    return Promise.resolve(imageBase64Cache.get(url));
+  }
   return new Promise((resolve) => {
-    if (!url) return resolve(null);
     const img = new Image();
     img.crossOrigin = 'Anonymous';
     img.onload = () => {
@@ -16,9 +22,11 @@ const getImageBase64 = (url) => {
         canvas.height = img.height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
-        resolve(canvas.toDataURL('image/png'));
+        const dataUrl = canvas.toDataURL('image/png');
+        imageBase64Cache.set(url, dataUrl);
+        resolve(dataUrl);
       } catch (err) {
-        console.warn('Failed to convert image to base64:', err);
+        console.warn('[PDF Export] Failed to convert image to base64:', err);
         resolve(null);
       }
     };
@@ -55,7 +63,7 @@ const isForbiddenKey = (text) => {
  * Features symmetrical plan cards with aligned [LOGO] COMPANY NAME on top row,
  * PLAN NAME below, centered VS separator, and zero Premium/Coverage references.
  */
-export const exportComparisonToPDF = async (plan1, company1, plan2, company2) => {
+export const exportComparisonToPDF = async (plan1, company1, plan2, company2, onDownloaded) => {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
@@ -361,7 +369,7 @@ export const exportComparisonToPDF = async (plan1, company1, plan2, company2) =>
   });
 
   // ============================================================
-  // EXACT FILENAME & DIRECT SHARE HANDLER
+  // EXACT FILENAME & DOWNLOAD FIRST -> SHARE SECOND FLOW
   // ============================================================
   const sanitizedPlan1 = plan1.name.replace(/[^a-zA-Z0-9]/g, '-');
   const sanitizedPlan2 = plan2.name.replace(/[^a-zA-Z0-9]/g, '-');
@@ -370,27 +378,100 @@ export const exportComparisonToPDF = async (plan1, company1, plan2, company2) =>
     ? 'WHYINSURED_HDFC-ERGO-Optima-Secure-Plus_vs_TATA-AIG-Medicare-Select.pdf'
     : `WHYINSURED_${company1.name.replace(/\s+/g, '-')}-${sanitizedPlan1}_vs_${company2.name.replace(/\s+/g, '-')}-${sanitizedPlan2}.pdf`;
 
-  const pdfArrayBuffer = doc.output('arraybuffer');
-  const pdfBlob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
+  console.log('[PDF Export] Step 1: Generating PDF Blob and single File object for:', fileName);
+
+  // 1. GENERATE PDF BLOB & FILE OBJECT (SINGLE PDF INSTANCE)
+  let pdfBlob;
+  try {
+    pdfBlob = doc.output('blob');
+  } catch (e) {
+    console.warn('[PDF Export] doc.output("blob") failed, using arraybuffer fallback:', e);
+    const pdfArrayBuffer = doc.output('arraybuffer');
+    pdfBlob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
+  }
+
   const pdfFile = new File([pdfBlob], fileName, { type: 'application/pdf' });
 
-  if (navigator.share && navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+  // 2. TRIGGER AUTOMATIC DOWNLOAD (WITHOUT AWAITING DELAYS OR RE-GENERATING)
+  console.log('[PDF Export] Step 2: Triggering browser download using single File object...');
+  try {
+    const downloadUrl = URL.createObjectURL(pdfFile);
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 10000);
+  } catch (downloadErr) {
+    console.error('[PDF Export] Object URL download failed, falling back to doc.save():', downloadErr);
+    doc.save(fileName);
+  }
+
+  if (typeof onDownloaded === 'function') {
     try {
-      await navigator.share({
-        title: `WHYINSURED Comparison: ${plan1.name} vs ${plan2.name}`,
-        text: `Check out this side-by-side health insurance comparison between ${company1.name} ${plan1.name} and ${company2.name} ${plan2.name}.`,
-        files: [pdfFile]
-      });
-      return { shared: true, downloaded: false };
-    } catch (shareErr) {
-      if (shareErr.name !== 'AbortError') {
-        console.warn('Native share failed, executing download fallback:', shareErr);
+      onDownloaded();
+    } catch (e) {}
+  }
+
+  // 3. IMMEDIATELY ATTEMPT NATIVE SHARE USING THE EXACT SAME FILE OBJECT
+  console.log('[PDF Export] Step 3: Checking navigator.share support...');
+
+  let shareSuccess = false;
+  let shareCancelled = false;
+  let shareUnsupported = false;
+
+  const isNavShareSupported = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
+
+  if (isNavShareSupported) {
+    let canShareFiles = false;
+    try {
+      if (typeof navigator.canShare === 'function') {
+        canShareFiles = navigator.canShare({ files: [pdfFile] });
+        console.log('[PDF Export] navigator.canShare({ files: [pdfFile] }) returned:', canShareFiles);
+      } else {
+        canShareFiles = true;
       }
-      doc.save(fileName);
-      return { shared: false, downloaded: true };
+    } catch (canShareErr) {
+      console.error('[PDF Export] Error during navigator.canShare check:', canShareErr);
+      canShareFiles = false;
+    }
+
+    if (canShareFiles) {
+      try {
+        console.log('[PDF Export] Invoking navigator.share with pdfFile...');
+        await navigator.share({
+          title: 'WHYINSURED Insurance Comparison',
+          text: `${company1.name} ${plan1.name} vs ${company2.name} ${plan2.name}`,
+          files: [pdfFile]
+        });
+        console.log('[PDF Export] navigator.share completed successfully!');
+        shareSuccess = true;
+      } catch (shareErr) {
+        console.error('[PDF Export] navigator.share failed or was cancelled:', shareErr);
+        const errName = shareErr.name || '';
+        const errMsg = String(shareErr.message || '').toLowerCase();
+        if (errName === 'AbortError' || errMsg.includes('cancel') || errMsg.includes('aborted')) {
+          console.log('[PDF Export] User cancelled native share sheet.');
+          shareCancelled = true;
+        } else {
+          shareUnsupported = true;
+        }
+      }
+    } else {
+      console.warn('[PDF Export] File sharing is not supported by navigator.canShare on this browser.');
+      shareUnsupported = true;
     }
   } else {
-    doc.save(fileName);
-    return { shared: false, downloaded: true };
+    console.warn('[PDF Export] navigator.share is not supported on this browser/environment.');
+    shareUnsupported = true;
   }
+
+  return {
+    success: true,
+    downloaded: true,
+    shared: shareSuccess,
+    cancelled: shareCancelled,
+    unsupported: shareUnsupported
+  };
 };

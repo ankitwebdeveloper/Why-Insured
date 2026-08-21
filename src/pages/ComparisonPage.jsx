@@ -141,18 +141,27 @@ export default function ComparisonPage() {
   const hasValidParams = company1 && company2 && plan1 && plan2;
 
   const handleExportPDF = async () => {
-    if (!hasValidParams || isGenerating) return;
+    if (!hasValidParams || isGenerating || exportStatus !== 'idle') return;
     try {
       setIsGenerating(true);
       setExportStatus('generating');
       
-      const result = await exportComparisonToPDF(plan1, company1, plan2, company2);
+      const result = await exportComparisonToPDF(
+        plan1,
+        company1,
+        plan2,
+        company2,
+        () => {
+          setExportStatus('downloaded');
+        }
+      );
       
-      setExportStatus('ready');
       if (result.shared) {
-        setToastMessage('Comparison PDF shared successfully!');
-      } else if (result.downloaded) {
-        setToastMessage('PDF downloaded! You can now share it manually.');
+        setToastMessage('PDF downloaded & shared successfully!');
+      } else if (result.unsupported) {
+        setToastMessage('PDF downloaded successfully. Direct sharing is not supported on this browser.');
+      } else {
+        setToastMessage('PDF downloaded successfully.');
       }
 
       setTimeout(() => {
@@ -166,7 +175,7 @@ export default function ComparisonPage() {
     } catch (err) {
       console.error('Error generating PDF:', err);
       setExportStatus('idle');
-      setToastMessage('Failed to generate PDF. Please try again.');
+      setToastMessage('Unable to generate PDF. Please try again.');
       setTimeout(() => setToastMessage(null), 4000);
     } finally {
       setIsGenerating(false);
@@ -261,20 +270,22 @@ export default function ComparisonPage() {
               onClick={handleExportPDF}
               disabled={isGenerating}
               className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-extrabold text-xs sm:text-sm transition-all shadow-md active:scale-95 cursor-pointer ${
-                isGenerating
+                exportStatus === 'generating'
                   ? 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
+                  : exportStatus === 'downloaded'
+                  ? 'bg-emerald-700 text-white border border-emerald-600 cursor-not-allowed'
                   : 'bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-500/80 hover:shadow-lg'
               }`}
             >
-              {isGenerating ? (
+              {exportStatus === 'generating' ? (
                 <>
                   <span className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin shrink-0" />
-                  <span>Generating your comparison report...</span>
+                  <span>Generating PDF...</span>
                 </>
-              ) : exportStatus === 'ready' ? (
+              ) : exportStatus === 'downloaded' ? (
                 <>
                   <FiCheck className="text-sm sm:text-base text-white shrink-0" />
-                  <span>Comparison PDF Ready</span>
+                  <span>PDF Downloaded</span>
                 </>
               ) : (
                 <>
