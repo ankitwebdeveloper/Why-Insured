@@ -197,14 +197,14 @@ const MainSectionContainer = ({ children, title, subtitle }) => {
 const DualAccentCard = ({ children, onClick, className = '' }) => (
   <div
     onClick={onClick}
-    className={`relative bg-[#FFFFFF] rounded-2xl shadow-xs transition-all duration-200 overflow-hidden cursor-pointer border border-[#E2E8F0] ${className}`}
+    className={`relative bg-[#FFFFFF] rounded-xl sm:rounded-2xl shadow-xs transition-all duration-200 overflow-hidden cursor-pointer border border-[#E2E8F0] ${className}`}
   >
     <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#E30613] z-10" />
     <div className="absolute top-0 right-0 bottom-0 w-[2px] bg-[#E30613] z-10" />
     <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#FF5722] z-10" />
     <div className="absolute top-0 left-0 bottom-0 w-[2px] bg-[#FF5722] z-10" />
 
-    <div className="relative z-0 p-4">
+    <div className="relative z-0 p-2.5 sm:p-4">
       {children}
     </div>
   </div>
@@ -410,7 +410,7 @@ export default function OptimaSecurePlusSection() {
           </div>
 
           {/* MOBILE INTERACTIVE FEATURE BOXES (BELOW 768px) */}
-          <div className="block md:hidden space-y-3.5">
+          <div className="grid grid-cols-2 gap-2.5 md:hidden">
             {[
               {
                 id: 0,
@@ -636,7 +636,7 @@ export default function OptimaSecurePlusSection() {
           </div>
 
           {/* MOBILE INTERACTIVE FEATURE BOXES (BELOW 768px) */}
-          <div className="block md:hidden space-y-3.5">
+          <div className="grid grid-cols-2 gap-2.5 md:hidden">
             {[
               {
                 id: 0,
@@ -857,7 +857,7 @@ export default function OptimaSecurePlusSection() {
           </div>
 
           {/* MOBILE INTERACTIVE FEATURE BOXES (BELOW 768px) */}
-          <div className="block md:hidden space-y-3.5">
+          <div className="grid grid-cols-2 gap-2.5 md:hidden">
             {[
               {
                 id: 0,
@@ -1127,7 +1127,7 @@ export default function OptimaSecurePlusSection() {
           </div>
 
           {/* MOBILE OPTIONAL RIDERS (BELOW 768px) */}
-          <div className="block md:hidden space-y-3.5">
+          <div className="grid grid-cols-2 gap-2.5 md:hidden">
             {[
               {
                 id: 0,
