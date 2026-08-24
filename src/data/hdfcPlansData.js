@@ -170,53 +170,48 @@ export const HDFC_PLANS_DATA = {
       ]
     },
 
-    // --- 4. MUST KNOW (INDEPENDENT) ---
+    // --- 4. MUST KNOW (INDEPENDENT) — Details modal layout ---
     mustKnow: {
-      heading: 'MUST KNOW',
-      subheading: 'Crucial Policy Highlights',
-      description: 'Vital terms, unique benefits, and essential facts you must know before choosing Optima Secure+.',
-      highlights: [
+      heading: 'MUST-KNOW DETAILS',
+      subheading: 'things a customer could easily miss or misunderstand',
+      buttonLabel: 'MUST KNOW DETAILS',
+      layout: 'details-modal',
+      items: [
         {
-          badge: '2X Cover on Day 1',
-          tag: 'Day 1 Active',
-          title: 'Secure Benefit (Instant 2X Doubling)',
-          description: 'Instantly doubles your base Sum Insured from Day 1 with zero extra waiting period. A ₹10 Lakh cover gives you ₹20 Lakh protection immediately.',
-          theme: 'primary'
+          id: 'discount-premium',
+          icon: '💰',
+          title: 'DISCOUNT & PREMIUM',
+          paragraphs: [
+            "Today's premium may not be tomorrow's premium.",
+            'Discounts may change or be removed as per the policy terms.'
+          ]
         },
         {
-          badge: '+100% Every Year',
-          tag: 'Regardless of Claims',
-          title: 'Infinite Benefit (Yearly Bonus)',
-          description: 'Adds 100% Base Sum Insured every single year up to policy terms, even if you make claims during the policy year.',
-          theme: 'neutral'
+          id: 'room-category',
+          icon: '🏥',
+          title: 'ROOM CATEGORY',
+          paragraphs: [
+            'Check your eligible room category before buying.',
+            'Don\u2019t assume \u201cAny Room\u201d means every room category is available without conditions.'
+          ]
         },
         {
-          badge: '∞ Unlimited Restores',
-          tag: 'Subsequent Claims',
-          title: '100% Automatic Restoration',
-          description: '100% of your Base Sum Insured gets automatically restored unlimited times in a policy year for subsequent unrelated claims.',
-          theme: 'neutral'
+          id: 'health-checkup',
+          icon: '🩺',
+          title: 'HEALTH CHECK-UP',
+          paragraphs: [
+            "Free doesn't always mean anytime.",
+            'The benefit is available at renewal, subject to the policy terms.'
+          ]
         },
         {
-          badge: 'Zero Deductions',
-          tag: 'Consumables Covered',
-          title: 'Protect Benefit (Consumables Covered)',
-          description: 'Covers non-medical items like gloves, masks, PPE kits, nebulizers, cotton, and administrative charges with 0 deduction.',
-          theme: 'neutral'
-        },
-        {
-          badge: 'No Capping',
-          tag: '100% Cashless',
-          title: 'Any Room Category & Zero ICU Limits',
-          description: 'Stay in any room category (including single deluxe / private rooms) and ICU without any proportionate deductions or room rent limits.',
-          theme: 'neutral'
-        },
-        {
-          badge: '60 & 180 Days',
-          tag: 'Comprehensive',
-          title: 'Pre & Post Hospitalisation Coverage',
-          description: 'Complete coverage for diagnostic and medical expenses incurred 60 days prior to hospitalisation and 180 days post-discharge.',
-          theme: 'neutral'
+          id: 'cataract',
+          icon: '👁️',
+          title: 'CATARACT',
+          paragraphs: [
+            "No amount limit doesn't necessarily mean every lens is covered.",
+            'Check the eligible lens category before relying on this benefit.'
+          ]
         }
       ]
     },

@@ -91,8 +91,8 @@ const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
 };
 
 // Premium "WATCH VIDEO" button — matches Report Card design
-const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '' }) => (
-  <div className={`pt-1.5 border-t border-slate-100/80 flex justify-center ${className}`}>
+const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '', align = 'center' }) => (
+  <div className={`pt-1.5 border-t border-slate-100/80 ${align === 'center' ? 'flex justify-center' : ''} ${className}`}>
     <button
       type="button"
       onClick={(e) => {
@@ -162,6 +162,67 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
     </div>
   );
 };
+
+// Shared limitation detail body — plan-specific content only (not Report Card data)
+function LimitationDetailContent({ item }) {
+  return (
+    <>
+      <p className="font-medium leading-relaxed text-slate-700 text-[11px] sm:text-xs">
+        {item.summary}
+      </p>
+
+      {item.highlight && (
+        <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 font-semibold flex items-center gap-2 text-xs sm:text-sm">
+          <span className="text-emerald-600 font-bold">✓</span>
+          <span>{item.highlight}</span>
+        </div>
+      )}
+
+      {item.diseaseList && (
+        <div className="p-3 sm:p-4 rounded-xl bg-[#FFF5F5]/60 border border-[#E30613]/15 space-y-2">
+          <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-[#E30613] block">
+            Covered after 24 Months Continuous Coverage
+          </span>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+            {item.diseaseList.map((disease, dIdx) => (
+              <li key={dIdx} className="flex items-start gap-1.5">
+                <span className="text-[#E30613] font-bold">•</span>
+                <span>{disease}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {item.exclusionsList && (
+        <div className="p-3 sm:p-4 rounded-xl bg-rose-50/50 border border-rose-200/60 space-y-2">
+          <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-rose-600 block">
+            Permanently Excluded from Coverage
+          </span>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+            {item.exclusionsList.map((excl, eIdx) => (
+              <li key={eIdx} className="flex items-start gap-1.5">
+                <span className="text-rose-600 font-bold">•</span>
+                <span>{excl}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {(item.policyRef || item.durationTag) && (
+        <div className={`pt-3 border-t ${item.id === 'permanent' ? 'border-rose-200/60' : 'border-slate-200/60'} flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-semibold`}>
+          <span>{item.policyRef}</span>
+          {item.durationTag && (
+            <span className={item.id === 'permanent' ? 'text-rose-600 font-bold' : 'text-[#E30613]'}>
+              {item.durationTag}
+            </span>
+          )}
+        </div>
+      )}
+    </>
+  );
+}
 
 // Sub-component for HDFC Features Accordion Items with Scroll Reveal & Stagger (HDFC ERGO Red Theme)
 function HdfcFeatureAccordionItem({
@@ -434,6 +495,10 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
     }
   };
 
+  const isOptimaSecurePlusMustKnow =
+    isHdfcPlan(currentPlanId, 'hdfc-optima-secure-plus') &&
+    planData.mustKnow?.layout === 'details-modal';
+
   // =========================================================================
   // DEDICATED LIMITATIONS & WAITING PERIODS PAGE (FOR ALL 5 HDFC ERGO PLANS)
   // =========================================================================
@@ -519,11 +584,10 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
 
         </div>
 
-        {/* PREMIUM DETAIL BOX MODAL WITH BLURRED BACKDROP */}
+        {/* DETAIL BOX MODAL — Optima Secure+ uses Report Card style; other plans unchanged */}
         <AnimatePresence>
           {activeLimitationModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
-              {/* Backdrop Overlay */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -532,105 +596,67 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
               />
 
-              {/* Detail Box */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg overflow-hidden z-10 p-4 sm:p-8 max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto space-y-4 sm:space-y-5"
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg overflow-hidden z-10 p-4 sm:p-8 max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto"
+                onClick={(e) => e.stopPropagation()}
               >
-                {/* Close X Button */}
                 <button
                   type="button"
                   onClick={() => setActiveLimitationModal(null)}
-                  className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer"
+                  className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer z-10"
                   aria-label="Close details"
                 >
                   <FiX className="text-base sm:text-lg" />
                 </button>
 
-                {/* Modal Header */}
-                <div className="pr-8">
-                  <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613] block">
-                    {planData.planName} • Policy Details
-                  </span>
-                  <h2 className="text-base sm:text-xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                    {activeLimitationModal.title}
-                  </h2>
-                </div>
-
-                {/* Modal Body */}
-                <div className="text-xs sm:text-sm text-slate-600 space-y-3 pt-1">
-                  {/* Summary */}
-                  <p className="font-medium leading-relaxed text-slate-700">
-                    {activeLimitationModal.summary}
-                  </p>
-
-                  {/* Highlight Box (Day 1 accident cover) */}
-                  {activeLimitationModal.highlight && (
-                    <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 font-semibold flex items-center gap-2 text-xs sm:text-sm">
-                      <span className="text-emerald-600 font-bold">✓</span>
-                      <span>{activeLimitationModal.highlight}</span>
-                    </div>
-                  )}
-
-                  {/* 2-Col Specific Disease List */}
-                  {activeLimitationModal.diseaseList && (
-                    <div className="p-3 sm:p-4 rounded-xl bg-[#FFF5F5]/60 border border-[#E30613]/15 space-y-2">
-                      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-[#E30613] block">
-                        Covered after 24 Months Continuous Coverage
+                {isHdfcPlan(currentPlanId, 'hdfc-optima-secure-plus') ? (
+                  /* Report Card pattern — limitations content only */
+                  <div className="space-y-4 sm:space-y-5">
+                    <div className="pr-8">
+                      <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#E30613] block font-display">
+                        {planData.limitationsWaitingPeriods.subheading}
                       </span>
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
-                        {activeLimitationModal.diseaseList.map((disease, dIdx) => (
-                          <li key={dIdx} className="flex items-start gap-1.5">
-                            <span className="text-[#E30613] font-bold">•</span>
-                            <span>{disease}</span>
-                          </li>
-                        ))}
-                      </ul>
+                      <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display mt-0.5">
+                        {activeLimitationModal.title}
+                      </h2>
+                      <p className="text-xs text-slate-500 font-normal mt-0.5">
+                        {planData.limitationsWaitingPeriods.description}
+                      </p>
                     </div>
-                  )}
 
-                  {/* 2-Col Permanent Exclusions List */}
-                  {activeLimitationModal.exclusionsList && (
-                    <div className="p-3 sm:p-4 rounded-xl bg-rose-50/50 border border-rose-200/60 space-y-2">
-                      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-rose-600 block">
-                        Permanently Excluded from Coverage
+                    <div className="rounded-xl sm:rounded-2xl border border-[#E30613]/35 bg-white overflow-hidden shadow-2xs">
+                      <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                        <LimitationDetailContent item={activeLimitationModal} />
+                        <WatchVideoButton
+                          title={activeLimitationModal.title}
+                          onOpenVideo={handleOpenVideo}
+                          videoUrl={activeLimitationModal.videoUrl ?? demoVideoUrl}
+                          align="start"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  /* Standard detail box — other HDFC plans */
+                  <div className="space-y-4 sm:space-y-5">
+                    <div className="pr-8">
+                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613] block">
+                        {planData.planName} • Policy Details
                       </span>
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
-                        {activeLimitationModal.exclusionsList.map((excl, eIdx) => (
-                          <li key={eIdx} className="flex items-start gap-1.5">
-                            <span className="text-rose-600 font-bold">•</span>
-                            <span>{excl}</span>
-                          </li>
-                        ))}
-                      </ul>
+                      <h2 className="text-base sm:text-xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
+                        {activeLimitationModal.title}
+                      </h2>
                     </div>
-                  )}
 
-                  {/* Footer Policy Reference & Duration */}
-                  {(activeLimitationModal.policyRef || activeLimitationModal.durationTag) && (
-                    <div className={`pt-3 border-t ${activeLimitationModal.id === 'permanent' ? 'border-rose-200/60' : 'border-slate-200/60'} flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-semibold`}>
-                      <span>{activeLimitationModal.policyRef}</span>
-                      {activeLimitationModal.durationTag && (
-                        <span className={activeLimitationModal.id === 'permanent' ? 'text-rose-600 font-bold' : 'text-[#E30613]'}>
-                          {activeLimitationModal.durationTag}
-                        </span>
-                      )}
+                    <div className="text-xs sm:text-sm text-slate-600 space-y-3 pt-1">
+                      <LimitationDetailContent item={activeLimitationModal} />
                     </div>
-                  )}
-
-                  {/* WATCH VIDEO — Optima Secure+ only */}
-                  {isHdfcPlan(currentPlanId, 'hdfc-optima-secure-plus') && (
-                    <WatchVideoButton
-                      title={activeLimitationModal.title}
-                      onOpenVideo={handleOpenVideo}
-                      videoUrl={activeLimitationModal.videoUrl ?? demoVideoUrl}
-                      className="pt-3"
-                    />
-                  )}
-                </div>
+                  </div>
+                )}
               </motion.div>
             </div>
           )}
@@ -834,7 +860,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           </Link>
         </div>
 
-        {/* 4. HIGHLIGHTED "MUST KNOW" BUTTON */}
+        {/* 5. MUST KNOW DETAILS button */}
         <div className="flex justify-center w-full mt-2.5 sm:mt-5">
           <button
             onClick={() => setActiveModal('mustKnow')}
@@ -852,7 +878,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 ✦
               </span>
               <h3 className="text-xs sm:text-base font-black text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display tracking-wide uppercase leading-tight truncate">
-                MUST KNOW
+                {isOptimaSecurePlusMustKnow ? planData.mustKnow.buttonLabel : 'MUST KNOW'}
               </h3>
             </div>
 
@@ -1667,8 +1693,45 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 </div>
               )}
 
-              {/* MODAL 4: MUST KNOW */}
-              {activeModal === 'mustKnow' && (
+              {/* MODAL 4: MUST KNOW — Optima Secure+ details modal */}
+              {activeModal === 'mustKnow' && isOptimaSecurePlusMustKnow && (
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
+                      {planData.mustKnow.heading}
+                    </h2>
+                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-1 leading-relaxed">
+                      {planData.mustKnow.subheading}
+                    </p>
+                  </div>
+
+                  <div className="space-y-3 sm:space-y-3.5">
+                    {planData.mustKnow.items.map((item) => (
+                      <div
+                        key={item.id}
+                        className="p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-[#E30613]/20 bg-[#FFF5F5]/40 space-y-2"
+                      >
+                        <h4 className="text-xs sm:text-sm font-semibold tracking-wide text-[#0F172A] font-display">
+                          {item.icon} {item.title}
+                        </h4>
+                        <div className="space-y-1.5">
+                          {item.paragraphs.map((paragraph, pIdx) => (
+                            <p
+                              key={pIdx}
+                              className="text-[11px] sm:text-xs text-slate-600 font-medium leading-relaxed"
+                            >
+                              {paragraph}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* MODAL 4: MUST KNOW (other HDFC plans) */}
+              {activeModal === 'mustKnow' && !isOptimaSecurePlusMustKnow && planData.mustKnow?.highlights && (
                 <div className="space-y-4 sm:space-y-6">
                   <div>
                     <div className="flex items-center gap-1.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613]">
