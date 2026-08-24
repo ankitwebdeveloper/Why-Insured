@@ -23,7 +23,7 @@ export const companiesData = [
     },
     plans: [
       {
-        id: "optima-secure",
+        id: "hdfc-optima-secure-plus",
         name: "Optima Secure+",
         description: "Unlimited Protection. Added Every Year.",
         coverage: "₹10 Lakh",
@@ -46,49 +46,95 @@ export const companiesData = [
         }
       },
       {
-        id: "my-health-suraksha",
-        name: "my:health Suraksha",
-        description: "Flexible, high-value insurance with recovery benefits and health incentives.",
-        coverage: "₹5 Lakh",
-        premium: "₹9,800/year",
+        id: "hdfc-optima-secure",
+        name: "Optima Secure",
+        description: "4X Coverage with Secure, Plus, Restore & Protect benefits.",
+        coverage: "₹10 Lakh",
+        premium: "₹13,200/year",
         benefits: [
-          "Air Ambulance cover included",
-          "Cumulative Bonus up to 100%",
-          "Tax Savings under Section 80D",
-          "Free health check-ups at renewals"
+          "2X Cover from Day 1 (Secure Benefit)",
+          "100% Increase in 2 Years (Plus Benefit)",
+          "Automatic Restoration up to 100%",
+          "Consumables & Non-Medical items covered"
         ],
         details: {
           eligibility: "18 to 65 Years",
-          waitingPeriod: "30 Days initial, 48 Months for Pre-existing diseases",
-          roomRent: "Covered up to Single Private Room",
-          hospitalization: "Actual expenses covered",
-          prePostHospital: "60 Days Pre & 90 Days Post Hospitalization covered",
-          dayCare: "Over 580 procedures covered",
-          noClaimBonus: "10% of sum insured per year (Max 100%)",
-          exclusions: "Pregnancy/maternity expenses (unless add-on purchased), dental treatments"
+          waitingPeriod: "30 Days initial, 36 Months for Pre-existing diseases",
+          roomRent: "Any Room Category with no sub-limits",
+          hospitalization: "Covered up to Sum Insured",
+          prePostHospital: "60 Days Pre & 180 Days Post Hospitalization",
+          dayCare: "All Day Care procedures covered",
+          noClaimBonus: "50% increase per claim-free year (Max 100%)",
+          exclusions: "Cosmetic surgery, intentional self-injury, substance abuse"
         }
       },
       {
-        id: "energy-plan",
-        name: "Energy Plan",
-        description: "Specialized health insurance covering individuals with diabetes or hypertension from day one.",
-        coverage: "₹7.5 Lakh",
-        premium: "₹18,200/year",
+        id: "hdfc-optima-restore",
+        name: "Optima Restore",
+        description: "Instant 100% Restoration with Stay Active and Multiply benefits.",
+        coverage: "₹5 Lakh - ₹50 Lakh",
+        premium: "₹11,500/year",
         benefits: [
-          "Covers Diabetes & Hypertension from Day 1",
-          "Wellness coaching and rewards",
-          "No pre-policy medical check-up required for select profiles",
-          "E-consultations covered"
+          "Instant 100% Restoration for unrelated illnesses",
+          "Stay Active discount on premium up to 8%",
+          "Multiply Benefit: 50% No Claim Bonus every year",
+          "Zero co-payment across India"
         ],
         details: {
-          eligibility: "18 to 70 Years",
-          waitingPeriod: "No waiting period for Diabetes/Hypertension; 30 days for others",
-          roomRent: "Up to 1% of Sum Insured per day",
+          eligibility: "18 to 65 Years",
+          waitingPeriod: "30 Days initial, 36 Months for Pre-existing diseases",
+          roomRent: "Single Private Room",
           hospitalization: "Covered up to Sum Insured",
-          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization covered",
-          dayCare: "Day Care treatments covered up to Sum Insured",
-          noClaimBonus: "Cumulative bonus not applicable for high-risk plans",
-          exclusions: "Weight loss treatments, cosmetic therapies, congenital disorders"
+          prePostHospital: "60 Days Pre & 180 Days Post Hospitalization",
+          dayCare: "All Day Care procedures covered",
+          noClaimBonus: "50% increase per claim-free year (Max 100%)",
+          exclusions: "Cosmetic treatments, experimental treatments, maternity"
+        }
+      },
+      {
+        id: "hdfc-energy",
+        name: "Energy",
+        description: "Specialized health insurance covering Diabetes & Hypertension from Day 1.",
+        coverage: "₹5 Lakh - ₹50 Lakh",
+        premium: "₹18,200/year",
+        benefits: [
+          "Covers Diabetes Type 1, Type 2 & Hypertension from Day 1",
+          "Personalized health coaching and rewards",
+          "Annual comprehensive health check-ups",
+          "E-consultations with specialists included"
+        ],
+        details: {
+          eligibility: "18 to 65 Years",
+          waitingPeriod: "Day 1 for Diabetes & Hypertension; 30 days for others",
+          roomRent: "Single Private A/C Room",
+          hospitalization: "Covered up to Sum Insured",
+          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization",
+          dayCare: "All Day Care procedures covered",
+          noClaimBonus: "Wellness incentive discount on renewals",
+          exclusions: "Weight control surgeries, cosmetic procedures, congenital disorders"
+        }
+      },
+      {
+        id: "hdfc-myhealth-medisure-super-topup",
+        name: "my:health Medisure (Super Top-Up)",
+        description: "High-sum insured super top-up protection above deductible threshold.",
+        coverage: "₹10 Lakh - ₹1 Crore",
+        premium: "₹4,800/year",
+        benefits: [
+          "Aggregate deductible across the entire policy year",
+          "No pre-policy medical checkup up to 55 years",
+          "Cashless treatment at 12,000+ network hospitals",
+          "Lifelong renewability with zero co-pay"
+        ],
+        details: {
+          eligibility: "18 to 65 Years",
+          waitingPeriod: "30 Days initial, 36 Months for Pre-existing diseases",
+          roomRent: "Up to Single Private Room",
+          hospitalization: "Covered for claims exceeding chosen deductible",
+          prePostHospital: "60 Days Pre & 90 Days Post Hospitalization",
+          dayCare: "Day Care procedures covered after deductible",
+          noClaimBonus: "Not applicable on top-up plans",
+          exclusions: "Claims within deductible threshold, cosmetic treatments, breach of law"
         }
       }
     ]

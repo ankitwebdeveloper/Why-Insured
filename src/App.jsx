@@ -93,6 +93,7 @@ function App() {
                   <Route path="/insurance/:companyId" element={<CompanyDetail />} />
                   <Route path="/insurance/:companyId/:planId" element={<PlanDetail />} />
                   <Route path="/insurance/:companyId/:planId/features" element={<PlanDetail />} />
+                  <Route path="/insurance/:companyId/:planId/limitations" element={<PlanDetail />} />
                   <Route path="/compare" element={<ComparisonPage />} />
                   <Route path="/claim" element={<ClaimPage />} />
                   <Route path="/hospital" element={<HospitalPage />} />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiArrowLeft,
@@ -9,6 +9,7 @@ import {
   FiPlus,
   FiMinus,
   FiPlay,
+  FiChevronDown,
   FiHome,
   FiHeart,
   FiCalendar,
@@ -27,76 +28,31 @@ import {
   FiUsers,
   FiActivity
 } from 'react-icons/fi';
-import { getCompanyRatioValue, getDerivedValue } from '../utils/compareDataHelper';
+import { getHdfcPlanData } from '../data/hdfcPlansData';
+import { resolveHdfcPlanId } from '../data/hdfcPlanRegistry';
 
-// =============================================================================
-// DEMO VIDEO CONFIGURATION
-// Replace DEMO_VIDEO_URL below with your actual video link whenever needed.
-// =============================================================================
-const DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+// Default demo video — overridden per plan via planData.uiConfig.demoVideoUrl
+const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
 
-
-// Feature Icons Dictionary (Clean, Corporate Icon per Feature)
-const FEATURE_ICONS = {
-  "s1-1": FiHome,        // Any Room Category
-  "s1-2": FiHeart,       // No Limit on ICU
-  "s1-3": FiCalendar,    // Pre & Post Hospitalisation
-  "s1-4": FiCheckSquare, // All Day Care Diseases Covered
-  "s1-5": FiCpu,         // Modern Treatment & Robotic Surgery
-
-  "s2-1": FiRefreshCw,   // Unlimited Restoration
-  "s2-2": FiShield,      // Secure Benefit
-  "s2-3": FiClipboard,   // Preventive Health Check-up
-  "s2-4": FiTrendingUp,  // Infinite Benefit*
-  "s2-5": FiShield,      // Protect Benefit
-
-  "s3-1": FiCreditCard,  // Daily Cash For Shared Room
-  "s3-2": FiHome,        // Domiciliary, Organ & AYUSH Treatment
-  "s3-3": FiTruck,       // Road Ambulance Cover Available
-  "s3-4": FiClock,       // All Day Care Treatment
-
-  "s4-1": FiHeart,       // ABCD Chronic Care
-  "s4-2": FiSmile,       // Optima Wellbeing
-  "s4-3": FiDollarSign,  // Hospital Cash Benefit
-  "s4-4": FiZap,         // Limitless
-  "s4-5": FiUsers,       // Parenthood
-  "s4-6": FiActivity     // Serious Illness Booster
-};
-
-// Contextual Benefit Badges Dictionary
-const FEATURE_BADGES = {
-  "s1-1": "ROOM RENT COVER",
-  "s1-2": "ICU COVER",
-  "s1-3": "PRE & POST COVER",
-  "s1-4": "DAY CARE PROCEDURES",
-  "s1-5": "ADVANCED SURGERY",
-
-  "s2-1": "RESTORATION BENEFIT",
-  "s2-2": "DAY 1 BENEFIT",
-  "s2-3": "ANNUAL CHECKUP",
-  "s2-4": "YEARLY BENEFIT",
-  "s2-5": "NON-MEDICAL ITEMS",
-
-  "s3-1": "DAILY CASH",
-  "s3-2": "HOME & AYUSH",
-  "s3-3": "AMBULANCE COVER",
-  "s3-4": "DAY CARE",
-
-  "s4-1": "CHRONIC CARE",
-  "s4-2": "OPD BENEFIT",
-  "s4-3": "DAILY ALLOWANCE",
-  "s4-4": "UNLIMITED CLAIM",
-  "s4-5": "MATERNITY",
-  "s4-6": "CRITICAL ILLNESS"
-};
-
-// Visual Numerical Progression Steps Dictionary
-const FEATURE_STEPS = {
-  "s2-1": ["Base Sum Insured", "100% Restored", "100% Restored", "∞ Unlimited Restores"],
-  "s2-2": ["Base Cover", "2X Doubled from Day 1", "2X Active Coverage"],
-  "s2-4": ["Base Cover", "Year 1 (+100%)", "Year 2 (+100%)", "∞ Infinite Benefit"],
-  "s3-1": ["Shared Room Chosen", "Daily Cash Allowance", "Direct Payout"],
-  "s4-6": ["1X Base SI", "2X SI for Critical Illnesses"]
+// Icon Dictionary Mapping by Icon Type
+const ICON_MAP = {
+  home: FiHome,
+  heart: FiHeart,
+  calendar: FiCalendar,
+  check: FiCheckSquare,
+  cpu: FiCpu,
+  refresh: FiRefreshCw,
+  shield: FiShield,
+  clipboard: FiClipboard,
+  trending: FiTrendingUp,
+  credit: FiCreditCard,
+  truck: FiTruck,
+  clock: FiClock,
+  smile: FiSmile,
+  dollar: FiDollarSign,
+  zap: FiZap,
+  users: FiUsers,
+  activity: FiActivity
 };
 
 // Helper to format YouTube or Direct MP4 URLs
@@ -117,14 +73,13 @@ const getVideoEmbedUrl = (url) => {
 };
 
 // Compact Feature-Wise Inline Video Button Component
-// Compact Feature-Wise Inline Video Button Component
-const VideoButton = ({ featureTitle, onOpenVideo }) => {
+const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
   return (
     <button
       type="button"
       onClick={(e) => {
         e.stopPropagation();
-        onOpenVideo(featureTitle, DEMO_VIDEO_URL);
+        onOpenVideo(featureTitle, videoUrl);
       }}
       className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-0.5 sm:ml-1"
       title={`Watch demo video for ${featureTitle}`}
@@ -143,7 +98,7 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-xs transition-opacity"
+      className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-xs transition-opacity"
       onClick={onClose}
     >
       <div
@@ -193,20 +148,16 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
 
 // Sub-component for HDFC Features Accordion Items with Scroll Reveal & Stagger (HDFC ERGO Red Theme)
 function HdfcFeatureAccordionItem({
-  id,
-  title,
-  subtitle,
-  summary,
+  item,
   isExpanded,
   onToggle,
-  isRider = false,
   index = 0,
-  onOpenVideo
+  onOpenVideo,
+  demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
-  const IconComponent = FEATURE_ICONS[id];
-  const badgeText = FEATURE_BADGES[id];
-  const visualSteps = FEATURE_STEPS[id];
+  const { id, title, subtitle, summary, badge, steps, isRider, iconType } = item;
+  const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
 
   return (
     <motion.div
@@ -238,7 +189,7 @@ function HdfcFeatureAccordionItem({
                 {title}
               </h3>
               {onOpenVideo && (
-                <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} />
+                <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
               )}
               {isRider && (
                 <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#E30613]/10 text-[#E30613] tracking-wide shrink-0">
@@ -279,10 +230,10 @@ function HdfcFeatureAccordionItem({
             <div className="px-2.5 pb-2.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2 sm:space-y-2.5">
               {/* Contextual Badge & Subtitle Checkmark */}
               <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                {badgeText && (
+                {badge && (
                   <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/20 tracking-wider">
                     <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#E30613]" />
-                    {badgeText}
+                    {badge}
                   </span>
                 )}
                 {subtitle && (
@@ -298,18 +249,18 @@ function HdfcFeatureAccordionItem({
               </div>
 
               {/* Visual Number Step Progression */}
-              {visualSteps && visualSteps.length > 0 && (
+              {steps && steps.length > 0 && (
                 <div className="mt-2 sm:mt-2.5 p-2 sm:p-3 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200/60">
                   <div className="text-[8px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2">
                     Coverage Progression Example
                   </div>
                   <div className="flex flex-wrap items-center gap-1 sm:gap-2">
-                    {visualSteps.map((step, sIdx) => (
+                    {steps.map((step, sIdx) => (
                       <React.Fragment key={sIdx}>
                         <div className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg bg-white border border-slate-200 shadow-2xs text-[10px] sm:text-xs font-black text-[#0F172A] flex items-center gap-1">
                           {step}
                         </div>
-                        {sIdx < visualSteps.length - 1 && (
+                        {sIdx < steps.length - 1 && (
                           <span className="text-[10px] sm:text-xs font-extrabold text-[#E30613] px-0.5">
                             →
                           </span>
@@ -327,19 +278,102 @@ function HdfcFeatureAccordionItem({
   );
 }
 
-export default function HdfcPlanDetailSection({ plan, company }) {
+export default function HdfcPlanDetailSection({ plan, company, planId: planIdProp }) {
   const [activeModal, setActiveModal] = useState(null);
+  const [activeLimitationModal, setActiveLimitationModal] = useState(null);
   const [videoModalState, setVideoModalState] = useState({
     isOpen: false,
     title: '',
     url: ''
   });
+  const [expandedLimitations, setExpandedLimitations] = useState({
+    initial: false,
+    specific: false,
+    permanent: false
+  });
+
+  const toggleLimitation = (key) => {
+    setExpandedLimitations(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const [expandedReportCard, setExpandedReportCard] = useState({
+    csr: false,
+    icr: false,
+    complaint: false
+  });
+
+  const toggleReportCard = (key) => {
+    setExpandedReportCard(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const [expandedCompanyStrength, setExpandedCompanyStrength] = useState({
+    ownership: false,
+    creditRating: false,
+    capitalStrength: false,
+    financialBase: false,
+    reinsurance: false,
+    marketPosition: false
+  });
+
+  const toggleCompanyStrength = (key) => {
+    setExpandedCompanyStrength(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const { planId: urlPlanId } = useParams();
   const location = useLocation();
   const isFeaturesPage = location.pathname.endsWith('/features');
+  const isLimitationsPage = location.pathname.endsWith('/limitations');
+
+  // Resolve to canonical plan ID — every section reads data for exactly this plan
+  const currentPlanId = resolveHdfcPlanId(planIdProp || plan?.id || urlPlanId);
+  const planData = getHdfcPlanData(currentPlanId);
+  const uiConfig = planData?.uiConfig ?? {};
+  const primaryColor = uiConfig.primaryColor ?? '#E30613';
+  const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
+  const { logo, name } = company;
+
+  // Reset all UI state when switching between plans (prevents cross-plan bleed)
+  useEffect(() => {
+    setActiveModal(null);
+    setActiveLimitationModal(null);
+    setVideoModalState({ isOpen: false, title: '', url: '' });
+    setExpandedLimitations({ initial: false, specific: false, permanent: false });
+    setExpandedReportCard({ csr: false, icr: false, complaint: false });
+    setExpandedCompanyStrength({
+      ownership: false,
+      creditRating: false,
+      capitalStrength: false,
+      financialBase: false,
+      reinsurance: false,
+      marketPosition: false
+    });
+    setExpandedFeatureId(null);
+  }, [currentPlanId]);
+
+  if (!planData || !currentPlanId) {
+    return (
+      <div className="min-h-[50vh] flex flex-col items-center justify-center px-4">
+        <h2 className="text-lg font-bold text-slate-800">Plan Not Found</h2>
+        <p className="text-sm text-slate-500 mt-2">Could not load data for this HDFC ERGO plan.</p>
+        <Link to={`/insurance/${company.id}`} className="mt-4 text-sm font-semibold text-[#E30613] hover:underline">
+          Back to HDFC ERGO Plans
+        </Link>
+      </div>
+    );
+  }
 
   // Lock background body scroll when modal is active
   useEffect(() => {
-    if (activeModal || videoModalState.isOpen) {
+    if (activeModal || videoModalState.isOpen || activeLimitationModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -347,13 +381,13 @@ export default function HdfcPlanDetailSection({ plan, company }) {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeModal, videoModalState.isOpen]);
+  }, [activeModal, videoModalState.isOpen, activeLimitationModal]);
 
   const handleOpenVideo = (title, url) => {
     setVideoModalState({
       isOpen: true,
       title: title || 'Feature Video',
-      url: url || DEMO_VIDEO_URL
+      url: url || demoVideoUrl
     });
   };
 
@@ -364,14 +398,6 @@ export default function HdfcPlanDetailSection({ plan, company }) {
       url: ''
     });
   };
-
-  const { logo, name } = company;
-
-  // Key ratios for HDFC ERGO
-  const settlementRatio = getCompanyRatioValue('hdfc-ergo', 'settlement');
-  const incurredRatio = getCompanyRatioValue('hdfc-ergo', 'incurred');
-  const solvencyRatio = getCompanyRatioValue('hdfc-ergo', 'solvency');
-  const complaintRatio = getCompanyRatioValue('hdfc-ergo', 'complaint');
 
   const [expandedFeatureId, setExpandedFeatureId] = useState(null);
 
@@ -390,6 +416,201 @@ export default function HdfcPlanDetailSection({ plan, company }) {
       }, 150);
     }
   };
+
+  // =========================================================================
+  // DEDICATED LIMITATIONS & WAITING PERIODS PAGE (FOR ALL 5 HDFC ERGO PLANS)
+  // =========================================================================
+  if (isLimitationsPage) {
+    return (
+      <div className="w-full pb-20 bg-[#FFF5F5] min-h-screen overflow-x-hidden relative">
+        {/* Subtle Ambient Red Glow */}
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none bg-[#E30613]" />
+
+        {/* Page Container — HDFC ERGO Theme */}
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-2 sm:pt-4 space-y-6 sm:space-y-8 relative z-10">
+          
+          {/* Top Navigation & Header */}
+          <motion.div 
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="text-center pt-2"
+          >
+            {/* Back Button */}
+            <div className="text-left mb-3.5 sm:mb-5">
+              <Link
+                to={`/insurance/${company.id}/${currentPlanId}`}
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+              >
+                <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {planData.planName}</span><span className="sm:hidden">Back to Plan</span>
+              </Link>
+            </div>
+
+            {/* HDFC ERGO Logo */}
+            <div className="flex flex-col items-center justify-center mb-3 sm:mb-4">
+              <img
+                src={logo}
+                alt={name}
+                className="w-24 sm:w-48 h-auto max-h-9 sm:max-h-20 object-contain select-none"
+              />
+            </div>
+
+            {/* Heading */}
+            <div>
+              <div className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#E30613] font-display">
+                {planData.planName}
+              </div>
+              <h1 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
+                LIMITATIONS & WAITING PERIODS
+              </h1>
+              <div className="w-8 sm:w-12 h-1 bg-[#E30613] mx-auto mt-1.5 rounded-full" />
+            </div>
+          </motion.div>
+
+          {/* ONLY THREE LIMITATION ITEMS (Clicking opens Detail Box Modal) */}
+          <div className="space-y-3 sm:space-y-4">
+            {planData.limitationsWaitingPeriods.items.map((item, idx) => (
+              <motion.button
+                key={item.id}
+                type="button"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: idx * 0.08 }}
+                onClick={() => setActiveLimitationModal(item)}
+                className="w-full p-4 sm:p-5 bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 hover:border-[#E30613]/40 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer select-none group relative overflow-hidden active:scale-[0.98]"
+              >
+                {/* Bottom accent indicator bar */}
+                <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
+                
+                <span className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors font-display pr-2">
+                  {item.title}
+                </span>
+                
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0 select-none">
+                  <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
+                </div>
+              </motion.button>
+            ))}
+          </div>
+
+          {/* FOOTNOTE */}
+          <div className="text-right pt-1">
+            <span className="text-xs font-bold text-slate-400">
+              *T&C Apply
+            </span>
+          </div>
+
+        </div>
+
+        {/* PREMIUM DETAIL BOX MODAL WITH BLURRED BACKDROP */}
+        <AnimatePresence>
+          {activeLimitationModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
+              {/* Backdrop Overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setActiveLimitationModal(null)}
+                className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
+              />
+
+              {/* Detail Box */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg overflow-hidden z-10 p-4 sm:p-8 max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto space-y-4 sm:space-y-5"
+              >
+                {/* Close X Button */}
+                <button
+                  type="button"
+                  onClick={() => setActiveLimitationModal(null)}
+                  className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer"
+                  aria-label="Close details"
+                >
+                  <FiX className="text-base sm:text-lg" />
+                </button>
+
+                {/* Modal Header */}
+                <div className="pr-8">
+                  <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613] block">
+                    {planData.planName} • Policy Details
+                  </span>
+                  <h2 className="text-base sm:text-xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
+                    {activeLimitationModal.title}
+                  </h2>
+                </div>
+
+                {/* Modal Body */}
+                <div className="text-xs sm:text-sm text-slate-600 space-y-3 pt-1">
+                  {/* Summary */}
+                  <p className="font-medium leading-relaxed text-slate-700">
+                    {activeLimitationModal.summary}
+                  </p>
+
+                  {/* Highlight Box (Day 1 accident cover) */}
+                  {activeLimitationModal.highlight && (
+                    <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 font-semibold flex items-center gap-2 text-xs sm:text-sm">
+                      <span className="text-emerald-600 font-bold">✓</span>
+                      <span>{activeLimitationModal.highlight}</span>
+                    </div>
+                  )}
+
+                  {/* 2-Col Specific Disease List */}
+                  {activeLimitationModal.diseaseList && (
+                    <div className="p-3 sm:p-4 rounded-xl bg-[#FFF5F5]/60 border border-[#E30613]/15 space-y-2">
+                      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-[#E30613] block">
+                        Covered after 24 Months Continuous Coverage
+                      </span>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+                        {activeLimitationModal.diseaseList.map((disease, dIdx) => (
+                          <li key={dIdx} className="flex items-start gap-1.5">
+                            <span className="text-[#E30613] font-bold">•</span>
+                            <span>{disease}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* 2-Col Permanent Exclusions List */}
+                  {activeLimitationModal.exclusionsList && (
+                    <div className="p-3 sm:p-4 rounded-xl bg-rose-50/50 border border-rose-200/60 space-y-2">
+                      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-rose-600 block">
+                        Permanently Excluded from Coverage
+                      </span>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+                        {activeLimitationModal.exclusionsList.map((excl, eIdx) => (
+                          <li key={eIdx} className="flex items-start gap-1.5">
+                            <span className="text-rose-600 font-bold">•</span>
+                            <span>{excl}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Footer Policy Reference & Duration */}
+                  {(activeLimitationModal.policyRef || activeLimitationModal.durationTag) && (
+                    <div className={`pt-3 border-t ${activeLimitationModal.id === 'permanent' ? 'border-rose-200/60' : 'border-slate-200/60'} flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-semibold`}>
+                      <span>{activeLimitationModal.policyRef}</span>
+                      {activeLimitationModal.durationTag && (
+                        <span className={activeLimitationModal.id === 'permanent' ? 'text-rose-600 font-bold' : 'text-[#E30613]'}>
+                          {activeLimitationModal.durationTag}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  }
 
   // =========================================================================
   // DEDICATED FEATURES PAGE (MATCHING HDFC ERGO PLAN DETAIL PAGE THEME EXACTLY)
@@ -412,10 +633,10 @@ export default function HdfcPlanDetailSection({ plan, company }) {
           >
             <div className="text-left mb-3 sm:mb-4">
               <Link
-                to={`/insurance/${company.id}/${plan.id}`}
+                to={`/insurance/${company.id}/${currentPlanId}`}
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
               >
-                <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {plan.name}</span><span className="sm:hidden">Back to Plan</span>
+                <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {planData.planName}</span><span className="sm:hidden">Back to Plan</span>
               </Link>
             </div>
 
@@ -426,294 +647,42 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 className="w-24 sm:w-44 h-auto max-h-9 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-5"
               />
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
-                {plan.name} <span className="text-[#E30613]">—</span> FEATURES
+                {planData.planName} <span className="text-[#E30613]">—</span> FEATURES
               </h1>
               <div className="w-8 sm:w-12 h-1 bg-[#E30613] mx-auto mt-1.5 rounded-full" />
             </div>
           </motion.div>
 
-          {/* SECTION 1: MOST IMPORTANT FEATURES (2-3 columns on desktop, 2 col on mobile) */}
-          <div>
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
-                MOST IMPORTANT FEATURES
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
-              <HdfcFeatureAccordionItem
-                id="s1-1"
-                index={0}
-                title="Any Room Category"
-                subtitle="100% Cashless Policy"
-                summary="Zero out-of-pocket expenses at 12,000+ network hospitals with 100% cashless policy across any room category."
-                isExpanded={expandedFeatureId === 's1-1'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s1-2"
-                index={1}
-                title="No Limit on ICU"
-                subtitle="No ICU room category limit"
-                summary="Full coverage for ICU room charges without any daily capping or category restriction."
-                isExpanded={expandedFeatureId === 's1-2'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s1-3"
-                index={2}
-                title="Pre & Post Hospitalisation"
-                subtitle="60 & 180 Days"
-                summary="Medical expenses incurred 60 days before hospital admission and 180 days post-discharge are fully covered."
-                isExpanded={expandedFeatureId === 's1-3'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s1-4"
-                index={3}
-                title="All Day Care Diseases Covered"
-                subtitle="Comprehensive Day Care Procedures"
-                summary="All medical treatments and day care procedures requiring less than 24 hours of hospitalisation are covered."
-                isExpanded={expandedFeatureId === 's1-4'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s1-5"
-                index={4}
-                title="Modern Treatment & Robotic Surgery"
-                subtitle="Advanced Surgical Procedures"
-                summary="Coverage for cutting-edge medical advancements including robotic surgeries, stem cell therapy, and precision procedures."
-                isExpanded={expandedFeatureId === 's1-5'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
+          {/* DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
+          {planData.featuresSections.map((sec, secIdx) => (
+            <div key={sec.id || secIdx}>
+              <motion.div 
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4 }}
+                className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
+                <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
+                  {sec.title}
+                </h2>
+              </motion.div>
+              <div className={`grid ${sec.gridCols || 'grid-cols-2 lg:grid-cols-3'} gap-2.5 sm:gap-4`}>
+                {sec.items.map((item, itemIdx) => (
+                  <HdfcFeatureAccordionItem
+                    key={item.id}
+                    item={item}
+                    index={itemIdx}
+                    isExpanded={expandedFeatureId === item.id}
+                    onToggle={toggleAccordionItem}
+                    onOpenVideo={handleOpenVideo}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-
-          {/* SECTION 2: VALUE ADDED FEATURES (2 columns on desktop, 2 col on mobile) */}
-          <div>
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
-                VALUE ADDED FEATURES
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-2.5 sm:gap-4">
-              <HdfcFeatureAccordionItem
-                id="s2-1"
-                index={0}
-                title="Unlimited Restoration"
-                subtitle="100% Base SI restored again and again"
-                summary="Unlimited automatic restoration of Sum Insured for subsequent claims in a policy year. 100% Base SI restored again and again for subsequent unrelated claims."
-                isExpanded={expandedFeatureId === 's2-1'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s2-2"
-                index={1}
-                title="Secure Benefit"
-                subtitle="2x coverage from Day 1"
-                summary="Automatically doubles your base sum insured from Day 1. Example: Base Cover is automatically doubled to 2X from Day 1."
-                isExpanded={expandedFeatureId === 's2-2'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s2-3"
-                index={2}
-                title="Preventive Health Check-up"
-                subtitle="Covered every policy year"
-                summary="Complimentary comprehensive health check-ups covered for all insured members every policy year."
-                isExpanded={expandedFeatureId === 's2-3'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s2-4"
-                index={3}
-                title="Infinite Benefit*"
-                subtitle="100% Base SI Added Every Year"
-                summary="100% Base SI Added Every Year irrespective of claims."
-                isExpanded={expandedFeatureId === 's2-4'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s2-5"
-                index={4}
-                title="Protect Benefit"
-                subtitle="Cover eligible non-medical expenses"
-                summary="Covers eligible non-medical expenses such as gloves, cotton, syringes, masks, PPE kits, and administrative charges."
-                isExpanded={expandedFeatureId === 's2-5'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-            </div>
-          </div>
-
-          {/* SECTION 3: ADDITIONAL FEATURES (2 columns on desktop, 2 col on mobile) */}
-          <div>
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
-                ADDITIONAL FEATURES
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-2.5 sm:gap-4">
-              <HdfcFeatureAccordionItem
-                id="s3-1"
-                index={0}
-                title="Daily Cash For Shared Room"
-                subtitle="Daily cash allowance for shared room"
-                summary="Get a daily cash allowance up to the policy limit when opting for a shared room during hospitalisation."
-                isExpanded={expandedFeatureId === 's3-1'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s3-2"
-                index={1}
-                title="Domiciliary, Organ & AYUSH Treatment"
-                subtitle="Complete Home, Organ & Alternative Treatment"
-                summary="Complete coverage for home treatment (Domiciliary), organ donor expenses, and alternative treatments under Ayurveda, Yoga, Unani, Siddha, and Homeopathy (AYUSH)."
-                isExpanded={expandedFeatureId === 's3-2'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s3-3"
-                index={2}
-                title="Road Ambulance Cover Available"
-                subtitle="Emergency Transportation Covered"
-                summary="Emergency road ambulance transportation charges to and from the hospital are fully covered."
-                isExpanded={expandedFeatureId === 's3-3'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s3-4"
-                index={3}
-                title="All Day Care Treatment"
-                subtitle="Less than 24 hrs Admission"
-                summary="Medical procedures and surgeries requiring less than 24 hours of hospital stay are fully covered."
-                isExpanded={expandedFeatureId === 's3-4'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-            </div>
-          </div>
-
-          {/* SECTION 4: OPTIONAL RIDERS (ADD-ONS) (3 columns x 2 rows on desktop, 2 col on mobile) */}
-          <div>
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
-                OPTIONAL RIDERS (ADD-ONS)
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
-              <HdfcFeatureAccordionItem
-                id="s4-1"
-                index={0}
-                title="ABCD Chronic Care"
-                subtitle="Pre-existing diseases covered from 31st day"
-                summary="Pre-existing diseases: Asthma, BP, Cholesterol, and Diabetes covered from the 31st day of policy inception."
-                isExpanded={expandedFeatureId === 's4-1'}
-                onToggle={toggleAccordionItem}
-                isRider={true}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s4-2"
-                index={1}
-                title="Optima Wellbeing"
-                subtitle="Covers outpatient benefits"
-                summary="Covers outpatient benefits including doctor consultations, diagnostic tests, and health check-ups."
-                isExpanded={expandedFeatureId === 's4-2'}
-                onToggle={toggleAccordionItem}
-                isRider={true}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s4-3"
-                index={2}
-                title="Hospital Cash Benefit"
-                subtitle="Daily cash per day of hospitalisation"
-                summary="Get a per-day daily cash amount for each completed 24-hour day of hospitalisation."
-                isExpanded={expandedFeatureId === 's4-3'}
-                onToggle={toggleAccordionItem}
-                isRider={true}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s4-4"
-                index={3}
-                title="Limitless"
-                subtitle="One unlimited claim in a lifetime"
-                summary="One unlimited claim in a lifetime - No Sum Insured limit."
-                isExpanded={expandedFeatureId === 's4-4'}
-                onToggle={toggleAccordionItem}
-                isRider={true}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s4-5"
-                index={4}
-                title="Parenthood"
-                subtitle="Covers maternity expenses"
-                summary="Covers maternity expenses including delivery and newborn care."
-                isExpanded={expandedFeatureId === 's4-5'}
-                onToggle={toggleAccordionItem}
-                isRider={true}
-                onOpenVideo={handleOpenVideo}
-              />
-              <HdfcFeatureAccordionItem
-                id="s4-6"
-                index={5}
-                title="Serious Illness Booster"
-                subtitle="2X Sum Insured for Critical Illnesses"
-                summary="2X Sum Insured for Listed Critical Illnesses."
-                isExpanded={expandedFeatureId === 's4-6'}
-                onToggle={toggleAccordionItem}
-                isRider={true}
-                onOpenVideo={handleOpenVideo}
-              />
-            </div>
-          </div>
-
+          ))}
 
           {/* FOOTNOTE */}
           <div className="text-right pt-1">
@@ -765,14 +734,14 @@ export default function HdfcPlanDetailSection({ plan, company }) {
         {/* 2. PLAN NAME HEADING (Mobile: 14px | Desktop: 24px gap to 4-Button Grid) */}
         <div className="text-center shrink-0 mb-3.5 sm:mb-6">
           <h1 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
-            {plan.name}
+            {planData.planName}
           </h1>
           <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#E30613] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
         {/* 3. 2-COLUMN BUTTON GRID (Unchanged 2x2 layout, 8-12px row gap on Mobile, 20px on Desktop) */}
         <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
-          {/* Card 1: REPORT CARD (Ratio / Marksheet) */}
+          {/* Card 1: REPORT CARD */}
           <button
             onClick={() => setActiveModal('ratio')}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
@@ -786,7 +755,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
             </div>
           </button>
 
-          {/* Card 2: COMPANY STRENGTH (Fundamental / Family Background) */}
+          {/* Card 2: COMPANY STRENGTH */}
           <button
             onClick={() => setActiveModal('fundamental')}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
@@ -800,9 +769,9 @@ export default function HdfcPlanDetailSection({ plan, company }) {
             </div>
           </button>
 
-          {/* Card 3: POLICY BENEFITS (Features) */}
+          {/* Card 3: POLICY BENEFITS */}
           <Link
-            to={`/insurance/hdfc-ergo/${plan.id}/features`}
+            to={`/insurance/${company.id}/${currentPlanId}/features`}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
@@ -814,9 +783,9 @@ export default function HdfcPlanDetailSection({ plan, company }) {
             </div>
           </Link>
 
-          {/* Card 4: LIMITATIONS & WAITING PERIODS (Condition) */}
-          <button
-            onClick={() => setActiveModal('condition')}
+          {/* Card 4: LIMITATIONS & WAITING PERIODS */}
+          <Link
+            to={`/insurance/${company.id}/${currentPlanId}/limitations`}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
@@ -826,31 +795,34 @@ export default function HdfcPlanDetailSection({ plan, company }) {
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
-          </button>
+          </Link>
         </div>
 
-        {/* 4. NEW HIGHLIGHTED "MUST KNOW" BUTTON (Centered Horizontally directly below 4 buttons) */}
-        <div className="flex justify-center w-full mt-3 sm:mt-5">
+        {/* 4. HIGHLIGHTED "MUST KNOW" BUTTON */}
+        <div className="flex justify-center w-full mt-2.5 sm:mt-5">
           <button
             onClick={() => setActiveModal('mustKnow')}
-            className="relative overflow-hidden bg-gradient-to-r from-[#E30613] via-[#DC2626] to-[#B91C1C] text-white rounded-xl sm:rounded-2xl px-5 sm:px-8 py-2.5 sm:py-3.5 flex items-center justify-center gap-2 sm:gap-2.5 shadow-md shadow-red-500/20 hover:shadow-lg hover:shadow-red-500/35 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 cursor-pointer group border border-red-500/30 select-none w-full sm:w-auto sm:min-w-[280px]"
+            className="w-full sm:max-w-md bg-white rounded-xl sm:rounded-2xl border border-[#E30613]/35 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ring-1 ring-[#E30613]/10 hover:ring-[#E30613]/25"
           >
-            {/* Subtle shine sweep overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
+            {/* Bottom accent indicator bar */}
+            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613] transition-colors duration-200" />
 
-            {/* Star Icon Badge */}
-            <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white/20 flex items-center justify-center text-amber-300 text-xs sm:text-sm shrink-0 group-hover:scale-110 transition-transform duration-200">
-              ★
-            </span>
+            {/* Subtle ambient soft red background overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FFF5F5]/90 via-white to-[#FFF5F5]/90 group-hover:from-[#FFF0F0] group-hover:to-[#FFF0F0] transition-colors duration-200 pointer-events-none" />
 
-            {/* Button Label */}
-            <span className="text-xs sm:text-base font-black tracking-wider uppercase font-display leading-tight">
-              MUST KNOW
-            </span>
+            {/* Text label with attention icon */}
+            <div className="flex items-center gap-1.5 sm:gap-2.5 relative z-10 min-w-0 pr-1">
+              <span className="text-[#E30613] text-xs sm:text-base font-black select-none shrink-0 group-hover:scale-110 transition-transform duration-200">
+                ✦
+              </span>
+              <h3 className="text-xs sm:text-base font-black text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display tracking-wide uppercase leading-tight truncate">
+                MUST KNOW
+              </h3>
+            </div>
 
-            {/* Subtle Action Arrow */}
-            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white/15 flex items-center justify-center text-white text-xs sm:text-sm shrink-0 group-hover:translate-x-0.5 transition-transform duration-200 ml-0.5">
-              <FiArrowRight className="text-xs" />
+            {/* Right Arrow Bubble */}
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#FFF5F5] border border-[#E30613]/25 flex items-center justify-center text-[#E30613] group-hover:bg-[#E30613] group-hover:text-white transition-all duration-200 shrink-0 relative z-10">
+              <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
         </div>
@@ -888,163 +860,773 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 <FiX className="text-base sm:text-lg" />
               </button>
 
-              {/* MODAL 1: REPORT CARD (Ratio / Marksheet) */}
+              {/* MODAL 1: REPORT CARD */}
               {activeModal === 'ratio' && (
-                <div className="space-y-4 sm:space-y-6">
-                  <div>
-                    <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613] block">
-                      HDFC ERGO Performance
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#E30613] block font-display">
+                      {planData.reportCard.subheading}
                     </span>
-                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                      REPORT CARD
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display mt-0.5">
+                      {planData.reportCard.heading}
                     </h2>
-                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
-                      Official claim settlement and financial strength metrics.
+                    <p className="text-xs text-slate-500 font-normal mt-0.5">
+                      {planData.reportCard.description}
                     </p>
                   </div>
 
-                  <div className="space-y-2 sm:space-y-3">
-                    <div className="bg-[#FFF5F5] p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-[#E30613]/20 flex justify-between items-center">
-                      <div>
-                        <span className="text-xs font-bold text-slate-600 block">Claim Settlement Ratio</span>
-                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">Verified IRDAI Report</span>
-                      </div>
-                      <span className="text-base sm:text-lg font-black text-[#E30613]">{settlementRatio}</span>
+                  {/* THREE EQUAL ACCORDION BOXES — RED BORDERS, INFORMATIVE EXPLANATIONS, ROTATING CHEVRON */}
+                  <div className="space-y-2.5 sm:space-y-3">
+                    {/* Box 1: CSR */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#E30613]/35 bg-white overflow-hidden shadow-2xs hover:border-[#E30613]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleReportCard('csr')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#E30613] transition-colors font-display shrink-0">
+                            CSR
+                          </span>
+                          {planData.reportCard.csr.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.reportCard.csr.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF5F5]/60 group-hover:border-[#E30613]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.csr ? 'rotate-180 text-[#E30613]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedReportCard.csr && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              {/* Subtitle & Short Explanation */}
+                              <div>
+                                <span className="text-[11px] sm:text-xs font-semibold text-[#E30613] tracking-wide block font-display">
+                                  {planData.reportCard.csr.subtitle || 'Claim Settlement Ratio'}
+                                </span>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
+                                  {planData.reportCard.csr.explanation}
+                                </p>
+                              </div>
+
+                              {/* Metrics Hierarchy */}
+                              <div className="space-y-2.5 pt-1">
+                                {/* Metric 1 */}
+                                <div>
+                                  <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                    {planData.reportCard.csr.singleYear}
+                                  </div>
+                                  <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                    {planData.reportCard.csr.singleYearLabel || 'Recent Single Year'}
+                                  </div>
+                                </div>
+
+                                {/* Metric 2 */}
+                                <div className="pt-2 border-t border-slate-100">
+                                  <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                    {planData.reportCard.csr.threeYearAvg}
+                                  </div>
+                                  <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                    {planData.reportCard.csr.threeYearAvgLabel || '3 Year Average'}
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Video Button */}
+                              <div className="pt-1.5 border-t border-slate-100/80">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenVideo('CSR (Claim Settlement Ratio)', DEMO_VIDEO_URL);
+                                  }}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+                                >
+                                  <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
+                                  <span>WATCH VIDEO</span>
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                    <div className="bg-slate-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 flex justify-between items-center">
-                      <div>
-                        <span className="text-xs font-bold text-slate-600 block">Incurred Claim Ratio (ICR)</span>
-                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">Claims Paid vs Premium</span>
-                      </div>
-                      <span className="text-sm sm:text-base font-extrabold text-[#0F172A]">{incurredRatio}</span>
+                    {/* Box 2: ICR */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#E30613]/35 bg-white overflow-hidden shadow-2xs hover:border-[#E30613]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleReportCard('icr')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#E30613] transition-colors font-display shrink-0">
+                            ICR
+                          </span>
+                          {planData.reportCard.icr.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.reportCard.icr.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF5F5]/60 group-hover:border-[#E30613]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.icr ? 'rotate-180 text-[#E30613]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedReportCard.icr && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              {/* Subtitle & Short Explanation */}
+                              <div>
+                                <span className="text-[11px] sm:text-xs font-semibold text-[#E30613] tracking-wide block font-display">
+                                  {planData.reportCard.icr.subtitle || 'Incurred Claim Ratio'}
+                                </span>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
+                                  {planData.reportCard.icr.explanation}
+                                </p>
+                              </div>
+
+                              {/* Metrics */}
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.reportCard.icr.range}
+                                </div>
+                                {planData.reportCard.icr.rangeLabel && (
+                                  <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                    {planData.reportCard.icr.rangeLabel}
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Video Button */}
+                              <div className="pt-1.5 border-t border-slate-100/80">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenVideo('ICR (Incurred Claim Ratio)', DEMO_VIDEO_URL);
+                                  }}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+                                >
+                                  <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
+                                  <span>WATCH VIDEO</span>
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                    <div className="bg-slate-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 flex justify-between items-center">
-                      <div>
-                        <span className="text-xs font-bold text-slate-600 block">Solvency Ratio</span>
-                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">IRDAI Requirement: 1.50</span>
-                      </div>
-                      <span className="text-sm sm:text-base font-extrabold text-[#0F172A]">{solvencyRatio}</span>
-                    </div>
+                    {/* Box 3: COMPLAINT VOLUME */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#E30613]/35 bg-white overflow-hidden shadow-2xs hover:border-[#E30613]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleReportCard('complaint')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#E30613] transition-colors font-display truncate">
+                            COMPLAINT VOLUME
+                          </span>
+                          {planData.reportCard.complaintVolume.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.reportCard.complaintVolume.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF5F5]/60 group-hover:border-[#E30613]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.complaint ? 'rotate-180 text-[#E30613]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
 
-                    <div className="bg-slate-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 flex justify-between items-center">
-                      <div>
-                        <span className="text-xs font-bold text-slate-600 block">Complaints Ratio</span>
-                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">Per 10,000 Claims</span>
-                      </div>
-                      <span className="text-sm sm:text-base font-extrabold text-[#0F172A]">{complaintRatio}</span>
+                      <AnimatePresence initial={false}>
+                        {expandedReportCard.complaint && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              {/* Short Explanation */}
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.reportCard.complaintVolume.explanation}
+                                </p>
+                              </div>
+
+                              {/* Metrics */}
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.reportCard.complaintVolume.value}
+                                </div>
+                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                  {planData.reportCard.complaintVolume.label || 'Complaints per 10,000 Claims'}
+                                </div>
+                              </div>
+
+                              {/* Video Button */}
+                              <div className="pt-1.5 border-t border-slate-100/80">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenVideo('Complaint Volume Metrics', DEMO_VIDEO_URL);
+                                  }}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+                                >
+                                  <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
+                                  <span>WATCH VIDEO</span>
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* MODAL 2: COMPANY STRENGTH (Fundamental / Family Background) */}
+              {/* MODAL 2: COMPANY STRENGTH */}
               {activeModal === 'fundamental' && (
-                <div className="space-y-4 sm:space-y-6">
-                  <div>
-                    <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613] block">
-                      Core Policy Details
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#E30613] block font-display">
+                      {planData.companyStrength.subheading}
                     </span>
-                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                      COMPANY STRENGTH
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display mt-0.5">
+                      {planData.companyStrength.heading}
                     </h2>
-                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
-                      Eligibility criteria and essential plan architecture.
+                    <p className="text-xs text-slate-500 font-normal mt-0.5">
+                      {planData.companyStrength.description}
                     </p>
                   </div>
 
-                  <div className="space-y-2 sm:space-y-3">
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613]">
-                        Eligibility Criteria
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        {plan.details.eligibility}
-                      </p>
+                  {/* ALL SIX EQUAL ACCORDION BOXES — RED BORDERS, INFORMATIVE EXPLANATIONS, ROTATING CHEVRON */}
+                  <div className="space-y-2.5 sm:space-y-3">
+                    {/* Box 1: OWNERSHIP / PERCENTAGE */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#E30613]/35 bg-white overflow-hidden shadow-2xs hover:border-[#E30613]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('ownership')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#E30613] transition-colors font-display truncate">
+                            OWNERSHIP / PERCENTAGE
+                          </span>
+                          {planData.companyStrength.ownership.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.ownership.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF5F5]/60 group-hover:border-[#E30613]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.ownership ? 'rotate-180 text-[#E30613]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.ownership && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.ownership.explanation}
+                                </p>
+                              </div>
+
+                              <div className="space-y-2 pt-1">
+                                {planData.companyStrength.ownership.items.map((item, idx) => (
+                                  <div key={idx} className={idx > 0 ? "pt-2 border-t border-slate-100" : ""}>
+                                    <div className="text-xs sm:text-sm font-extrabold text-slate-800 font-display">
+                                      {item.name}
+                                    </div>
+                                    <div className="text-xs sm:text-sm font-bold text-amber-600 mt-0.5">
+                                      {item.value} <span className="text-slate-500 font-medium text-[11px] sm:text-xs">{item.label}</span>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+
+                              <div className="pt-1.5 border-t border-slate-100/80">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenVideo('Ownership & Shareholding', DEMO_VIDEO_URL);
+                                  }}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+                                >
+                                  <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
+                                  <span>WATCH VIDEO</span>
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613]">
-                        Cashless Network Size
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        12,000+ Cashless Hospitals across India
-                      </p>
+                    {/* Box 2: CREDIT RATING */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#E30613]/35 bg-white overflow-hidden shadow-2xs hover:border-[#E30613]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('creditRating')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#E30613] transition-colors font-display truncate">
+                            CREDIT RATING
+                          </span>
+                          {planData.companyStrength.creditRating.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.creditRating.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF5F5]/60 group-hover:border-[#E30613]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.creditRating ? 'rotate-180 text-[#E30613]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.creditRating && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.creditRating.explanation}
+                                </p>
+                              </div>
+
+                              <div className="space-y-2 pt-1">
+                                {planData.companyStrength.creditRating.items.map((item, idx) => (
+                                  <div key={idx} className={idx > 0 ? "pt-2 border-t border-slate-100" : ""}>
+                                    <div className="text-xs sm:text-sm font-extrabold text-slate-800 font-display">
+                                      {item.agency}
+                                    </div>
+                                    <div className="text-xs sm:text-sm font-bold text-amber-600 mt-0.5">
+                                      {item.rating}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+
+                              <div className="pt-1.5 border-t border-slate-100/80">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenVideo('Credit Ratings & Financial Strength', DEMO_VIDEO_URL);
+                                  }}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+                                >
+                                  <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
+                                  <span>WATCH VIDEO</span>
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613]">
-                        Claim Support System
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        24/7 Dedicated Cashless Support with Direct Desk Assistance
-                      </p>
+                    {/* Box 3: CAPITAL STRENGTH */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#E30613]/35 bg-white overflow-hidden shadow-2xs hover:border-[#E30613]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('capitalStrength')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#E30613] transition-colors font-display truncate">
+                            CAPITAL STRENGTH
+                          </span>
+                          {planData.companyStrength.capitalStrength.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.capitalStrength.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF5F5]/60 group-hover:border-[#E30613]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.capitalStrength ? 'rotate-180 text-[#E30613]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.capitalStrength && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.capitalStrength.explanation}
+                                </p>
+                              </div>
+
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.companyStrength.capitalStrength.value}
+                                </div>
+                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                  {planData.companyStrength.capitalStrength.label}
+                                </div>
+                              </div>
+
+                              <div className="pt-1.5 border-t border-slate-100/80">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenVideo('Capital Strength & Solvency', DEMO_VIDEO_URL);
+                                  }}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+                                >
+                                  <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
+                                  <span>WATCH VIDEO</span>
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613]">
-                        Ambulance Cover
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        {getDerivedValue(plan, company, 'ambulance')}
-                      </p>
+                    {/* Box 4: FINANCIAL BASE */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#E30613]/35 bg-white overflow-hidden shadow-2xs hover:border-[#E30613]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('financialBase')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#E30613] transition-colors font-display truncate">
+                            FINANCIAL BASE
+                          </span>
+                          {planData.companyStrength.financialBase.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.financialBase.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF5F5]/60 group-hover:border-[#E30613]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.financialBase ? 'rotate-180 text-[#E30613]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.financialBase && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.financialBase.explanation}
+                                </p>
+                              </div>
+
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.companyStrength.financialBase.value}
+                                </div>
+                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                  {planData.companyStrength.financialBase.label}
+                                </div>
+                              </div>
+
+                              <div className="pt-1.5 border-t border-slate-100/80">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenVideo('Financial Base & Investment Assets', DEMO_VIDEO_URL);
+                                  }}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+                                >
+                                  <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
+                                  <span>WATCH VIDEO</span>
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Box 5: REINSURANCE STRENGTH */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#E30613]/35 bg-white overflow-hidden shadow-2xs hover:border-[#E30613]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('reinsurance')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#E30613] transition-colors font-display truncate">
+                            REINSURANCE STRENGTH
+                          </span>
+                          {planData.companyStrength.reinsuranceStrength.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.reinsuranceStrength.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF5F5]/60 group-hover:border-[#E30613]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.reinsurance ? 'rotate-180 text-[#E30613]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.reinsurance && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.reinsuranceStrength.explanation}
+                                </p>
+                              </div>
+
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.companyStrength.reinsuranceStrength.value}
+                                </div>
+                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                  {planData.companyStrength.reinsuranceStrength.label}
+                                </div>
+                              </div>
+
+                              <div className="pt-1.5 border-t border-slate-100/80">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenVideo('Reinsurance Strength', DEMO_VIDEO_URL);
+                                  }}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+                                >
+                                  <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
+                                  <span>WATCH VIDEO</span>
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Box 6: MARKET POSITION */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#E30613]/35 bg-white overflow-hidden shadow-2xs hover:border-[#E30613]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('marketPosition')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#E30613] transition-colors font-display truncate">
+                            MARKET POSITION
+                          </span>
+                          {planData.companyStrength.marketPosition.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.marketPosition.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF5F5]/60 group-hover:border-[#E30613]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.marketPosition ? 'rotate-180 text-[#E30613]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.marketPosition && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.marketPosition.explanation}
+                                </p>
+                              </div>
+
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.companyStrength.marketPosition.value}
+                                </div>
+                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                  {planData.companyStrength.marketPosition.label}
+                                </div>
+                              </div>
+
+                              <div className="pt-1.5 border-t border-slate-100/80">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenVideo('Market Position & GDPI Share', DEMO_VIDEO_URL);
+                                  }}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+                                >
+                                  <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
+                                  <span>WATCH VIDEO</span>
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* MODAL 3: LIMITATIONS & WAITING PERIODS (Condition) */}
+              {/* MODAL 3: LIMITATIONS & WAITING PERIODS (Used for non-Optima-Secure plans) */}
               {activeModal === 'condition' && (
                 <div className="space-y-4 sm:space-y-6">
                   <div>
                     <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613] block">
-                      Terms & Exclusions
+                      {planData.limitationsWaitingPeriods.subheading}
                     </span>
                     <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                      LIMITATIONS & WAITING PERIODS
+                      {planData.limitationsWaitingPeriods.heading}
                     </h2>
                     <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
-                      Waiting periods, room rent restrictions, and exclusions.
+                      {planData.limitationsWaitingPeriods.description}
                     </p>
                   </div>
 
-                  <div className="space-y-2 sm:space-y-3">
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613]">
-                        Initial Waiting Period
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        {getDerivedValue(plan, company, 'initialWaitingPeriod')}
-                      </p>
-                    </div>
+                  <div className="space-y-2.5 sm:space-y-3">
+                    {planData.limitationsWaitingPeriods.items.map((item) => {
+                      const isItemExpanded = !!expandedLimitations[item.id];
+                      const isPermanent = item.id === 'permanent';
 
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613]">
-                        Pre-Existing Diseases Waiting
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        {plan.details.waitingPeriod}
-                      </p>
-                    </div>
+                      return (
+                        <div key={item.id} className="rounded-xl sm:rounded-2xl border border-slate-200/80 overflow-hidden bg-white shadow-2xs">
+                          <button
+                            type="button"
+                            onClick={() => toggleLimitation(item.id)}
+                            className="w-full p-3 sm:p-4 bg-slate-50 hover:bg-[#FFF5F5]/60 flex items-center justify-between text-left transition-colors cursor-pointer select-none"
+                          >
+                            <span className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
+                              {item.title}
+                            </span>
+                            <span className="text-xs sm:text-sm font-black text-[#E30613] ml-2 shrink-0 select-none">
+                              {isItemExpanded ? '▲' : '▼'}
+                            </span>
+                          </button>
 
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613]">
-                        Room Rent & ICU Capping
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        {plan.details.roomRent}
-                      </p>
-                    </div>
+                          <AnimatePresence initial={false}>
+                            {isItemExpanded && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.2, ease: "easeOut" }}
+                                className="overflow-hidden"
+                              >
+                                <div className={`p-3 sm:p-4 border-t border-slate-100 text-xs text-slate-600 space-y-2.5 ${isPermanent ? 'bg-rose-50/40' : 'bg-white'}`}>
+                                  <p className="font-medium leading-relaxed text-slate-700">
+                                    {item.summary}
+                                  </p>
 
-                    <div className="p-3 sm:p-4 bg-rose-50/60 rounded-xl sm:rounded-2xl border border-rose-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-rose-600">
-                        Important Policy Exclusions
-                      </span>
-                      <p className="text-xs font-semibold text-rose-900 leading-relaxed">
-                        {plan.details.exclusions}
-                      </p>
-                    </div>
+                                  {item.highlight && (
+                                    <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-100 text-emerald-800 font-semibold flex items-center gap-1.5">
+                                      <span className="text-emerald-600 font-bold">✓</span>
+                                      <span>{item.highlight}</span>
+                                    </div>
+                                  )}
+
+                                  {item.diseaseList && (
+                                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+                                      {item.diseaseList.map((disease, dIdx) => (
+                                        <li key={dIdx} className="flex items-start gap-1.5">
+                                          <span className="text-[#E30613] font-bold">•</span>
+                                          <span>{disease}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+
+                                  {item.exclusionsList && (
+                                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+                                      {item.exclusionsList.map((excl, eIdx) => (
+                                        <li key={eIdx} className="flex items-start gap-1.5">
+                                          <span className="text-rose-600 font-bold">•</span>
+                                          <span>{excl}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+
+                                  {(item.policyRef || item.durationTag) && (
+                                    <div className={`pt-2 border-t ${isPermanent ? 'border-rose-200/60' : 'border-slate-100'} flex items-center justify-between text-[10px] text-slate-400 font-semibold`}>
+                                      <span>{item.policyRef}</span>
+                                      {item.durationTag && (
+                                        <span className={isPermanent ? 'text-rose-600 font-bold' : 'text-[#E30613]'}>
+                                          {item.durationTag}
+                                        </span>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -1055,112 +1637,48 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                   <div>
                     <div className="flex items-center gap-1.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613]">
                       <span>★</span>
-                      <span>Crucial Policy Highlights</span>
+                      <span>{planData.mustKnow.subheading}</span>
                     </div>
                     <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                      MUST KNOW
+                      {planData.mustKnow.heading}
                     </h2>
                     <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
-                      Vital terms, unique benefits, and essential facts you must know before choosing Optima Secure+.
+                      {planData.mustKnow.description}
                     </p>
                   </div>
 
                   <div className="space-y-2 sm:space-y-3">
-                    {/* Highlight 1: 2X Secure Benefit */}
-                    <div className="p-3 sm:p-4 bg-[#FFF5F5] rounded-xl sm:rounded-2xl border border-[#E30613]/25 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-[#E30613] bg-white px-2 py-0.5 rounded border border-[#E30613]/20">
-                          2X Cover on Day 1
-                        </span>
-                        <span className="text-[10px] sm:text-xs font-bold text-emerald-600">Day 1 Active</span>
+                    {planData.mustKnow.highlights.map((hl, hlIdx) => (
+                      <div
+                        key={hlIdx}
+                        className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl border space-y-1 ${
+                          hl.theme === 'primary'
+                            ? 'bg-[#FFF5F5] border-[#E30613]/25'
+                            : 'bg-slate-50 border-slate-100'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className={`text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded border ${
+                            hl.theme === 'primary'
+                              ? 'text-[#E30613] bg-white border-[#E30613]/20'
+                              : 'text-slate-700 bg-white border-slate-200'
+                          }`}>
+                            {hl.badge}
+                          </span>
+                          <span className={`text-[10px] sm:text-xs font-bold ${
+                            hl.theme === 'primary' ? 'text-emerald-600' : 'text-[#E30613]'
+                          }`}>
+                            {hl.tag}
+                          </span>
+                        </div>
+                        <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
+                          {hl.title}
+                        </h4>
+                        <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+                          {hl.description}
+                        </p>
                       </div>
-                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
-                        Secure Benefit (Instant 2X Doubling)
-                      </h4>
-                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
-                        Instantly doubles your base Sum Insured from Day 1 with zero extra waiting period. A ₹10 Lakh cover gives you ₹20 Lakh protection immediately.
-                      </p>
-                    </div>
-
-                    {/* Highlight 2: Infinite Benefit */}
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">
-                          +100% Every Year
-                        </span>
-                        <span className="text-[10px] sm:text-xs font-bold text-[#E30613]">Regardless of Claims</span>
-                      </div>
-                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
-                        Infinite Benefit (Yearly Bonus)
-                      </h4>
-                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
-                        Adds 100% Base Sum Insured every single year up to policy terms, even if you make claims during the policy year.
-                      </p>
-                    </div>
-
-                    {/* Highlight 3: Unlimited Automatic Restoration */}
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">
-                          ∞ Unlimited Restores
-                        </span>
-                        <span className="text-[10px] sm:text-xs font-bold text-emerald-600">Subsequent Claims</span>
-                      </div>
-                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
-                        100% Automatic Restoration
-                      </h4>
-                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
-                        100% of your Base Sum Insured gets automatically restored unlimited times in a policy year for subsequent unrelated claims.
-                      </p>
-                    </div>
-
-                    {/* Highlight 4: Protect Benefit */}
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">
-                          Zero Deductions
-                        </span>
-                        <span className="text-[10px] sm:text-xs font-bold text-emerald-600">Consumables Covered</span>
-                      </div>
-                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
-                        Protect Benefit (Consumables Covered)
-                      </h4>
-                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
-                        Covers non-medical items like gloves, masks, PPE kits, nebulizers, cotton, and administrative charges with 0 deduction.
-                      </p>
-                    </div>
-
-                    {/* Highlight 5: Room Rent & ICU Freedom */}
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">
-                          No Capping
-                        </span>
-                        <span className="text-[10px] sm:text-xs font-bold text-[#E30613]">100% Cashless</span>
-                      </div>
-                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
-                        Any Room Category & Zero ICU Limits
-                      </h4>
-                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
-                        Stay in any room category (including single deluxe / private rooms) and ICU without any proportionate deductions or room rent limits.
-                      </p>
-                    </div>
-
-                    {/* Highlight 6: Pre & Post Hospitalisation */}
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">
-                          60 & 180 Days
-                        </span>
-                        <span className="text-[10px] sm:text-xs font-bold text-emerald-600">Comprehensive</span>
-                      </div>
-                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
-                        Pre & Post Hospitalisation Coverage
-                      </h4>
-                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
-                        Complete coverage for diagnostic and medical expenses incurred 60 days prior to hospitalisation and 180 days post-discharge.
-                      </p>
-                    </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -1168,6 +1686,14 @@ export default function HdfcPlanDetailSection({ plan, company }) {
           </div>
         )}
       </AnimatePresence>
+
+      {/* IN-PAGE VIDEO LIGHTBOX MODAL */}
+      <FeatureVideoModal
+        isOpen={videoModalState.isOpen}
+        onClose={handleCloseVideo}
+        videoTitle={videoModalState.title}
+        videoUrl={videoModalState.url}
+      />
     </div>
   );
 }

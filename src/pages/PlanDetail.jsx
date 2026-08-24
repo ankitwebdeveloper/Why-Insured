@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiArrowLeft, FiShield, FiAlertTriangle, FiCheckCircle } from 'react-icons/fi';
 import { companiesData } from '../data/companies';
+import { findHdfcPlan, resolveHdfcPlanId } from '../data/hdfcPlanRegistry';
 import { getPlanDetailData } from '../utils/compareDataHelper';
 import PlanHealthSnapshot from '../components/PlanHealthSnapshot';
 import HdfcPlanDetailSection from '../components/HdfcPlanDetailSection';
@@ -18,12 +19,18 @@ export default function PlanDetail() {
     c => c.slug === companyId || c.id === companyId || (companyId === 'hdfc-life' && (c.id === 'hdfc-ergo' || c.slug === 'hdfc-ergo'))
   );
 
-  const plan = company?.plans.find(p => p.id === planId) || 
+  const isHdfcErgo = company?.id === 'hdfc-ergo' || company?.id === 'hdfc-life';
+
+  const plan = isHdfcErgo
+    ? findHdfcPlan(company, planId)
+    : company?.plans.find(p => p.id === planId) ||
     (company?.id === 'tata-aig' && (planId === 'medicare-premier' || planId === 'medicare-select') ? company?.plans[0] : null) ||
     (company?.id === 'icici-lombard' ? company?.plans[0] : null) ||
     (company?.id === 'niva-bupa' ? company?.plans[0] : null) ||
     (company?.id === 'star-health' ? company?.plans[0] : null) ||
     (company?.id === 'care-health' ? company?.plans[0] : null);
+
+  const hdfcCanonicalPlanId = isHdfcErgo ? resolveHdfcPlanId(planId) : null;
 
   if (!company || !plan) {
     return (
@@ -113,7 +120,12 @@ export default function PlanDetail() {
 
         {/* HDFC ERGO, Tata AIG, ICICI Lombard, Niva Bupa, Star Health & Care Health Viewport Structure */}
         {(company.id === 'hdfc-life' || company.id === 'hdfc-ergo') ? (
-          <HdfcPlanDetailSection plan={plan} company={company} />
+          <HdfcPlanDetailSection
+            key={hdfcCanonicalPlanId || plan.id}
+            planId={hdfcCanonicalPlanId || plan.id}
+            plan={plan}
+            company={company}
+          />
         ) : company.id === 'tata-aig' ? (
           <MedicareSelectSection plan={plan} company={company} />
         ) : company.id === 'icici-lombard' ? (
