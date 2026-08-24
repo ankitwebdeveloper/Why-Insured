@@ -1,6 +1,8 @@
 // Shared compare data calculation and construction functions.
 // This is the single source of truth for both Compare page and Plan Detail page.
 
+import { isHdfcPlan } from '../data/hdfcPlanRegistry';
+
 export const getCompanyRatioValue = (companyId, ratioType) => {
   const ratios = {
     'hdfc-ergo': { complaint: '12.4 per 10k', settlement: '98.6%', incurred: '54%', solvency: '1.90' },
@@ -127,10 +129,10 @@ export const getDerivedValue = (plan, company, key) => {
       return hasRewards ? "✓ Up to 10% Discount" : "✕ Not Available";
     }
     case 'dailyCash': {
-      return (plan.id === 'optima-secure' || plan.id.includes('premier') || plan.id.includes('select') || plan.id.includes('gold')) ? "✓ Optional Add-on" : "✕ Not Available";
+      return (isHdfcPlan(plan.id, 'hdfc-optima-secure') || plan.id.includes('premier') || plan.id.includes('select') || plan.id.includes('gold')) ? "✓ Optional Add-on" : "✕ Not Available";
     }
     case 'infinityCover': {
-      if (plan.id === 'optima-secure') {
+      if (isHdfcPlan(plan.id, 'hdfc-optima-secure') || isHdfcPlan(plan.id, 'hdfc-optima-secure-plus')) {
         return "✓ Available (Secure Benefit)";
       }
       if (plan.id === 'reassure-2-0') {

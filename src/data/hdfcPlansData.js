@@ -23,6 +23,12 @@ export const HDFC_PLANS_DATA = {
     coverage: '₹10 Lakh - ₹2 Crore',
     premium: '₹14,500/year',
 
+    // --- PLAN-SPECIFIC UI CONFIG (INDEPENDENT) ---
+    uiConfig: {
+      primaryColor: '#E30613',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    },
+
     // --- 1. REPORT CARD (INDEPENDENT) ---
     reportCard: {
       heading: 'REPORT CARD',
@@ -324,6 +330,12 @@ export const HDFC_PLANS_DATA = {
     coverage: '₹5 Lakh - ₹2 Crore',
     premium: '₹13,200/year',
 
+    // --- PLAN-SPECIFIC UI CONFIG (INDEPENDENT) ---
+    uiConfig: {
+      primaryColor: '#E30613',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    },
+
     // --- 1. REPORT CARD (INDEPENDENT) ---
     reportCard: {
       heading: 'REPORT CARD',
@@ -545,6 +557,12 @@ export const HDFC_PLANS_DATA = {
     coverage: '₹3 Lakh - ₹50 Lakh',
     premium: '₹11,500/year',
 
+    // --- PLAN-SPECIFIC UI CONFIG (INDEPENDENT) ---
+    uiConfig: {
+      primaryColor: '#E30613',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    },
+
     // --- 1. REPORT CARD (INDEPENDENT) ---
     reportCard: {
       heading: 'REPORT CARD',
@@ -765,6 +783,12 @@ export const HDFC_PLANS_DATA = {
     coverage: '₹2 Lakh - ₹50 Lakh',
     premium: '₹18,200/year',
 
+    // --- PLAN-SPECIFIC UI CONFIG (INDEPENDENT) ---
+    uiConfig: {
+      primaryColor: '#E30613',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    },
+
     // --- 1. REPORT CARD (INDEPENDENT) ---
     reportCard: {
       heading: 'REPORT CARD',
@@ -977,6 +1001,12 @@ export const HDFC_PLANS_DATA = {
     tagline: 'High-Sum Insured Super Top-Up Protection above Deductible.',
     coverage: '₹10 Lakh - ₹1 Crore',
     premium: '₹4,800/year',
+
+    // --- PLAN-SPECIFIC UI CONFIG (INDEPENDENT) ---
+    uiConfig: {
+      primaryColor: '#E30613',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    },
 
     // --- 1. REPORT CARD (INDEPENDENT) ---
     reportCard: {

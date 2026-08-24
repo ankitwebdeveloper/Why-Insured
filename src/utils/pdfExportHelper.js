@@ -374,7 +374,7 @@ export const exportComparisonToPDF = async (plan1, company1, plan2, company2, on
   const sanitizedPlan1 = plan1.name.replace(/[^a-zA-Z0-9]/g, '-');
   const sanitizedPlan2 = plan2.name.replace(/[^a-zA-Z0-9]/g, '-');
 
-  const fileName = (plan1.id === 'optima-secure' && plan2.id === 'medicare-select')
+  const fileName = (plan1.id === 'hdfc-optima-secure-plus' && plan2.id === 'medicare-select')
     ? 'WHYINSURED_HDFC-ERGO-Optima-Secure-Plus_vs_TATA-AIG-Medicare-Select.pdf'
     : `WHYINSURED_${company1.name.replace(/\s+/g, '-')}-${sanitizedPlan1}_vs_${company2.name.replace(/\s+/g, '-')}-${sanitizedPlan2}.pdf`;
 

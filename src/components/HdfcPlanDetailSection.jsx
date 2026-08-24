@@ -29,7 +29,7 @@ import {
   FiActivity
 } from 'react-icons/fi';
 import { getHdfcPlanData } from '../data/hdfcPlansData';
-import { resolveHdfcPlanId } from '../data/hdfcPlanRegistry';
+import { resolveHdfcPlanId, isHdfcPlan } from '../data/hdfcPlanRegistry';
 
 // Default demo video — overridden per plan via planData.uiConfig.demoVideoUrl
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -89,6 +89,23 @@ const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
     </button>
   );
 };
+
+// Premium "WATCH VIDEO" button — matches Report Card design
+const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '' }) => (
+  <div className={`pt-1.5 border-t border-slate-100/80 flex justify-center ${className}`}>
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        onOpenVideo(title, videoUrl);
+      }}
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+    >
+      <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
+      <span>WATCH VIDEO</span>
+    </button>
+  </div>
+);
 
 // Premium In-Page Video Lightbox Modal
 const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
@@ -328,6 +345,8 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
     }));
   };
 
+  const [expandedFeatureId, setExpandedFeatureId] = useState(null);
+
   const { planId: urlPlanId } = useParams();
   const location = useLocation();
   const isFeaturesPage = location.pathname.endsWith('/features');
@@ -359,18 +378,6 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
     setExpandedFeatureId(null);
   }, [currentPlanId]);
 
-  if (!planData || !currentPlanId) {
-    return (
-      <div className="min-h-[50vh] flex flex-col items-center justify-center px-4">
-        <h2 className="text-lg font-bold text-slate-800">Plan Not Found</h2>
-        <p className="text-sm text-slate-500 mt-2">Could not load data for this HDFC ERGO plan.</p>
-        <Link to={`/insurance/${company.id}`} className="mt-4 text-sm font-semibold text-[#E30613] hover:underline">
-          Back to HDFC ERGO Plans
-        </Link>
-      </div>
-    );
-  }
-
   // Lock background body scroll when modal is active
   useEffect(() => {
     if (activeModal || videoModalState.isOpen || activeLimitationModal) {
@@ -382,6 +389,18 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
       document.body.style.overflow = '';
     };
   }, [activeModal, videoModalState.isOpen, activeLimitationModal]);
+
+  if (!planData || !currentPlanId) {
+    return (
+      <div className="min-h-[50vh] flex flex-col items-center justify-center px-4">
+        <h2 className="text-lg font-bold text-slate-800">Plan Not Found</h2>
+        <p className="text-sm text-slate-500 mt-2">Could not load data for this HDFC ERGO plan.</p>
+        <Link to={`/insurance/${company.id}`} className="mt-4 text-sm font-semibold text-[#E30613] hover:underline">
+          Back to HDFC ERGO Plans
+        </Link>
+      </div>
+    );
+  }
 
   const handleOpenVideo = (title, url) => {
     setVideoModalState({
@@ -398,8 +417,6 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
       url: ''
     });
   };
-
-  const [expandedFeatureId, setExpandedFeatureId] = useState(null);
 
   const toggleAccordionItem = (id, ref) => {
     if (expandedFeatureId === id) {
@@ -467,7 +484,113 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
             </div>
           </motion.div>
 
-          {/* ONLY THREE LIMITATION ITEMS (Clicking opens Detail Box Modal) */}
+          {/* THREE LIMITATION ITEMS — Optima Secure+ uses inline accordion; other plans use detail modal */}
+          {isHdfcPlan(currentPlanId, 'hdfc-optima-secure-plus') ? (
+            <div className="space-y-3 sm:space-y-4">
+              {planData.limitationsWaitingPeriods.items.map((item, idx) => {
+                const isItemExpanded = !!expandedLimitations[item.id];
+                const isPermanent = item.id === 'permanent';
+
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: idx * 0.08 }}
+                    className="rounded-xl sm:rounded-2xl border border-slate-200/80 overflow-hidden bg-white shadow-2xs"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleLimitation(item.id)}
+                      className="w-full p-4 sm:p-5 bg-white hover:bg-[#FFF5F5]/60 flex items-center justify-between text-left transition-colors cursor-pointer select-none group"
+                    >
+                      <span className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors font-display pr-2">
+                        {item.title}
+                      </span>
+                      <span className="text-xs sm:text-sm font-black text-[#E30613] ml-2 shrink-0 select-none">
+                        {isItemExpanded ? '▲' : '▼'}
+                      </span>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {isItemExpanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2, ease: 'easeOut' }}
+                          className="overflow-hidden"
+                        >
+                          <div className={`p-4 sm:p-5 border-t border-slate-100 text-xs sm:text-sm text-slate-600 space-y-3 ${isPermanent ? 'bg-rose-50/40' : 'bg-white'}`}>
+                            <p className="font-medium leading-relaxed text-slate-700">
+                              {item.summary}
+                            </p>
+
+                            {item.highlight && (
+                              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 font-semibold flex items-center gap-2 text-xs sm:text-sm">
+                                <span className="text-emerald-600 font-bold">✓</span>
+                                <span>{item.highlight}</span>
+                              </div>
+                            )}
+
+                            {item.diseaseList && (
+                              <div className="p-3 sm:p-4 rounded-xl bg-[#FFF5F5]/60 border border-[#E30613]/15 space-y-2">
+                                <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-[#E30613] block">
+                                  Covered after 24 Months Continuous Coverage
+                                </span>
+                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+                                  {item.diseaseList.map((disease, dIdx) => (
+                                    <li key={dIdx} className="flex items-start gap-1.5">
+                                      <span className="text-[#E30613] font-bold">•</span>
+                                      <span>{disease}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {item.exclusionsList && (
+                              <div className="p-3 sm:p-4 rounded-xl bg-rose-50/50 border border-rose-200/60 space-y-2">
+                                <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-rose-600 block">
+                                  Permanently Excluded from Coverage
+                                </span>
+                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+                                  {item.exclusionsList.map((excl, eIdx) => (
+                                    <li key={eIdx} className="flex items-start gap-1.5">
+                                      <span className="text-rose-600 font-bold">•</span>
+                                      <span>{excl}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {(item.policyRef || item.durationTag) && (
+                              <div className={`pt-3 border-t ${isPermanent ? 'border-rose-200/60' : 'border-slate-200/60'} flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-semibold`}>
+                                <span>{item.policyRef}</span>
+                                {item.durationTag && (
+                                  <span className={isPermanent ? 'text-rose-600 font-bold' : 'text-[#E30613]'}>
+                                    {item.durationTag}
+                                  </span>
+                                )}
+                              </div>
+                            )}
+
+                            <WatchVideoButton
+                              title={item.title}
+                              onOpenVideo={handleOpenVideo}
+                              videoUrl={item.videoUrl ?? demoVideoUrl}
+                              className="pt-3"
+                            />
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
+            </div>
+          ) : (
           <div className="space-y-3 sm:space-y-4">
             {planData.limitationsWaitingPeriods.items.map((item, idx) => (
               <motion.button
@@ -492,6 +615,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
               </motion.button>
             ))}
           </div>
+          )}
 
           {/* FOOTNOTE */}
           <div className="text-right pt-1">
@@ -502,9 +626,9 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
 
         </div>
 
-        {/* PREMIUM DETAIL BOX MODAL WITH BLURRED BACKDROP */}
+        {/* PREMIUM DETAIL BOX MODAL WITH BLURRED BACKDROP (non–Optima Secure+ plans only) */}
         <AnimatePresence>
-          {activeLimitationModal && (
+          {!isHdfcPlan(currentPlanId, 'hdfc-optima-secure-plus') && activeLimitationModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
               {/* Backdrop Overlay */}
               <motion.div
@@ -608,6 +732,14 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
             </div>
           )}
         </AnimatePresence>
+
+        {/* IN-PAGE VIDEO LIGHTBOX MODAL */}
+        <FeatureVideoModal
+          isOpen={videoModalState.isOpen}
+          onClose={handleCloseVideo}
+          videoTitle={videoModalState.title}
+          videoUrl={videoModalState.url}
+        />
       </div>
     );
   }
@@ -678,6 +810,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                     isExpanded={expandedFeatureId === item.id}
                     onToggle={toggleAccordionItem}
                     onOpenVideo={handleOpenVideo}
+                    demoVideoUrl={demoVideoUrl}
                   />
                 ))}
               </div>
