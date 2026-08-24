@@ -316,6 +316,12 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
     }));
   };
 
+  const [expandedLimitationBoxItem, setExpandedLimitationBoxItem] = useState(null);
+
+  const toggleLimitationBoxItem = (key) => {
+    setExpandedLimitationBoxItem(prev => (prev === key ? null : key));
+  };
+
   const [expandedReportCard, setExpandedReportCard] = useState({
     csr: false,
     icr: false,
@@ -359,6 +365,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
   const primaryColor = uiConfig.primaryColor ?? '#E30613';
   const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
   const { logo, name } = company;
+  const isOptimaSecurePlus = isHdfcPlan(currentPlanId, 'hdfc-optima-secure-plus');
 
   // Reset all UI state when switching between plans (prevents cross-plan bleed)
   useEffect(() => {
@@ -366,6 +373,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
     setActiveLimitationModal(null);
     setVideoModalState({ isOpen: false, title: '', url: '' });
     setExpandedLimitations({ initial: false, specific: false, permanent: false });
+    setExpandedLimitationBoxItem(null);
     setExpandedReportCard({ csr: false, icr: false, complaint: false });
     setExpandedCompanyStrength({
       ownership: false,
@@ -820,18 +828,36 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           </Link>
 
           {/* Card 4: LIMITATIONS & WAITING PERIODS */}
-          <Link
-            to={`/insurance/${company.id}/${currentPlanId}/limitations`}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
-          >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
-              LIMITATIONS & WAITING PERIODS
-            </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
-              <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
-            </div>
-          </Link>
+          {isOptimaSecurePlus ? (
+            <button
+              onClick={() => {
+                setExpandedLimitationBoxItem(null);
+                setActiveModal('limitations');
+              }}
+              className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            >
+              <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
+              <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
+                LIMITATIONS & WAITING PERIODS
+              </h3>
+              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
+                <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
+              </div>
+            </button>
+          ) : (
+            <Link
+              to={`/insurance/${company.id}/${currentPlanId}/limitations`}
+              className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            >
+              <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
+              <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
+                LIMITATIONS & WAITING PERIODS
+              </h3>
+              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
+                <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
+              </div>
+            </Link>
+          )}
         </div>
 
         {/* 4. HIGHLIGHTED "MUST KNOW" BUTTON */}
@@ -1564,6 +1590,141 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                         )}
                       </AnimatePresence>
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* MODAL 3A: LIMITATIONS & WAITING PERIODS — SAME-PAGE BOX (OPTIMA SECURE+ ONLY) */}
+              {activeModal === 'limitations' && (
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613] block">
+                      {planData.limitationsWaitingPeriods.subheading}
+                    </span>
+                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
+                      {planData.limitationsWaitingPeriods.heading}
+                    </h2>
+                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
+                      {planData.limitationsWaitingPeriods.description}
+                    </p>
+                  </div>
+
+                  <div className="space-y-2.5 sm:space-y-3">
+                    {planData.limitationsWaitingPeriods.items.map((item) => {
+                      const isItemExpanded = expandedLimitationBoxItem === item.id;
+                      const isPermanent = item.id === 'permanent';
+
+                      return (
+                        <div
+                          key={item.id}
+                          className="rounded-xl sm:rounded-2xl border border-slate-200/80 bg-white overflow-hidden shadow-2xs hover:border-[#E30613]/40 transition-colors relative"
+                        >
+                          <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 z-10" />
+                          <button
+                            type="button"
+                            onClick={() => toggleLimitationBoxItem(item.id)}
+                            className="w-full p-3.5 sm:p-4 bg-white hover:bg-[#FFF5F5]/60 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                          >
+                            <span className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors font-display pr-2">
+                              {item.title}
+                            </span>
+                            <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full border flex items-center justify-center transition-all duration-200 shrink-0 ${
+                              isItemExpanded
+                                ? 'bg-[#FFF5F5] border-[#E30613]/20 text-[#E30613]'
+                                : 'bg-slate-50 border-slate-100 text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20'
+                            }`}>
+                              <FiArrowRight className={`text-xs sm:text-sm transition-transform duration-200 ${
+                                isItemExpanded ? 'rotate-90' : 'group-hover:translate-x-0.5'
+                              }`} />
+                            </div>
+                          </button>
+
+                          <AnimatePresence initial={false}>
+                            {isItemExpanded && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.25, ease: "easeOut" }}
+                                className="overflow-hidden"
+                              >
+                                <div className={`p-3.5 sm:p-4 border-t border-slate-100 text-xs text-slate-600 space-y-3 ${isPermanent ? 'bg-rose-50/40' : 'bg-slate-50/30'}`}>
+                                  <span className="text-[11px] sm:text-sm font-black text-[#E30613] tracking-wide block font-display">
+                                    इसका मतलब क्या है?
+                                  </span>
+
+                                  <p className="font-medium leading-relaxed text-slate-700">
+                                    {item.summary}
+                                  </p>
+
+                                  {item.highlight && (
+                                    <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-100 text-emerald-800 font-semibold flex items-center gap-1.5">
+                                      <span className="text-emerald-600 font-bold">✓</span>
+                                      <span>{item.highlight}</span>
+                                    </div>
+                                  )}
+
+                                  {item.diseaseList && (
+                                    <div className="p-3 rounded-xl bg-[#FFF5F5]/60 border border-[#E30613]/15 space-y-2">
+                                      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-[#E30613] block">
+                                        Covered after 24 Months Continuous Coverage
+                                      </span>
+                                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+                                        {item.diseaseList.map((disease, dIdx) => (
+                                          <li key={dIdx} className="flex items-start gap-1.5">
+                                            <span className="text-[#E30613] font-bold">•</span>
+                                            <span>{disease}</span>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  )}
+
+                                  {item.exclusionsList && (
+                                    <div className="p-3 rounded-xl bg-rose-50/50 border border-rose-200/60 space-y-2">
+                                      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-rose-600 block">
+                                        Permanently Excluded from Coverage
+                                      </span>
+                                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+                                        {item.exclusionsList.map((excl, eIdx) => (
+                                          <li key={eIdx} className="flex items-start gap-1.5">
+                                            <span className="text-rose-600 font-bold">•</span>
+                                            <span>{excl}</span>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  )}
+
+                                  {(item.policyRef || item.durationTag) && (
+                                    <div className={`pt-2 border-t ${isPermanent ? 'border-rose-200/60' : 'border-slate-100'} flex items-center justify-between text-[10px] text-slate-400 font-semibold`}>
+                                      <span>{item.policyRef}</span>
+                                      {item.durationTag && (
+                                        <span className={isPermanent ? 'text-rose-600 font-bold' : 'text-[#E30613]'}>
+                                          {item.durationTag}
+                                        </span>
+                                      )}
+                                    </div>
+                                  )}
+
+                                  <WatchVideoButton
+                                    title={item.title}
+                                    onOpenVideo={handleOpenVideo}
+                                    videoUrl={item.videoUrl ?? demoVideoUrl}
+                                  />
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="text-right">
+                    <span className="text-[10px] sm:text-xs font-bold text-slate-400">
+                      *T&C Apply
+                    </span>
                   </div>
                 </div>
               )}
