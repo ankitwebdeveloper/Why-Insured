@@ -984,7 +984,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('CSR (Claim Settlement Ratio)', DEMO_VIDEO_URL);
+                                    handleOpenVideo('CSR (Claim Settlement Ratio)', demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1058,7 +1058,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('ICR (Incurred Claim Ratio)', DEMO_VIDEO_URL);
+                                    handleOpenVideo('ICR (Incurred Claim Ratio)', demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1127,7 +1127,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Complaint Volume Metrics', DEMO_VIDEO_URL);
+                                    handleOpenVideo('Complaint Volume Metrics', demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1217,7 +1217,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Ownership & Shareholding', DEMO_VIDEO_URL);
+                                    handleOpenVideo('Ownership & Shareholding', demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1287,7 +1287,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Credit Ratings & Financial Strength', DEMO_VIDEO_URL);
+                                    handleOpenVideo('Credit Ratings & Financial Strength', demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1353,7 +1353,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Capital Strength & Solvency', DEMO_VIDEO_URL);
+                                    handleOpenVideo('Capital Strength & Solvency', demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1419,7 +1419,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Financial Base & Investment Assets', DEMO_VIDEO_URL);
+                                    handleOpenVideo('Financial Base & Investment Assets', demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1485,7 +1485,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Reinsurance Strength', DEMO_VIDEO_URL);
+                                    handleOpenVideo('Reinsurance Strength', demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1551,7 +1551,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Market Position & GDPI Share', DEMO_VIDEO_URL);
+                                    handleOpenVideo('Market Position & GDPI Share', demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
