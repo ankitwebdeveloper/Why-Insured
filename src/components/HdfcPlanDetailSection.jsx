@@ -316,6 +316,12 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
     }));
   };
 
+  const [expandedLimitationBoxItem, setExpandedLimitationBoxItem] = useState(null);
+
+  const toggleLimitationBoxItem = (key) => {
+    setExpandedLimitationBoxItem(prev => (prev === key ? null : key));
+  };
+
   const [expandedReportCard, setExpandedReportCard] = useState({
     csr: false,
     icr: false,
@@ -367,6 +373,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
     setActiveLimitationModal(null);
     setVideoModalState({ isOpen: false, title: '', url: '' });
     setExpandedLimitations({ initial: false, specific: false, permanent: false });
+    setExpandedLimitationBoxItem(null);
     setExpandedReportCard({ csr: false, icr: false, complaint: false });
     setExpandedCompanyStrength({
       ownership: false,
@@ -824,7 +831,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           {isOptimaSecurePlus ? (
             <button
               onClick={() => {
-                setExpandedLimitations({ initial: false, specific: false, permanent: false });
+                setExpandedLimitationBoxItem(null);
                 setActiveModal('limitations');
               }}
               className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
@@ -1604,7 +1611,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
 
                   <div className="space-y-2.5 sm:space-y-3">
                     {planData.limitationsWaitingPeriods.items.map((item) => {
-                      const isItemExpanded = !!expandedLimitations[item.id];
+                      const isItemExpanded = expandedLimitationBoxItem === item.id;
                       const isPermanent = item.id === 'permanent';
 
                       return (
@@ -1615,7 +1622,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                           <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 z-10" />
                           <button
                             type="button"
-                            onClick={() => toggleLimitation(item.id)}
+                            onClick={() => toggleLimitationBoxItem(item.id)}
                             className="w-full p-3.5 sm:p-4 bg-white hover:bg-[#FFF5F5]/60 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                           >
                             <span className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors font-display pr-2">
