@@ -119,10 +119,10 @@ const VideoButton = ({ featureTitle, onOpenVideo }) => {
         e.stopPropagation();
         onOpenVideo(featureTitle, DEMO_VIDEO_URL);
       }}
-      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#FFF4E8] text-[#F58220] border border-[#F58220]/25 hover:bg-[#F58220] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-1"
+      className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#FFF4E8] text-[#F58220] border border-[#F58220]/25 hover:bg-[#F58220] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-0.5 sm:ml-1"
       title={`Watch demo video for ${featureTitle}`}
     >
-      <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#F58220] group-hover:text-white transition-colors" />
+      <FiPlay className="text-[8px] sm:text-[10px] fill-current text-[#F58220] group-hover:text-white transition-colors" />
       <span>Video</span>
     </button>
   );
@@ -216,31 +216,31 @@ function IciciFeatureAccordionItem({
       }`}
     >
       {/* Header Row */}
-      <div className="p-3.5 sm:p-4 flex items-center justify-between gap-2.5 sm:gap-3">
-        <div className="flex items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
+      <div className="p-2.5 sm:p-4 flex items-start sm:items-center justify-between gap-1.5 sm:gap-3">
+        <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-1 min-w-0">
           {IconComponent && (
-            <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+            <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
               isExpanded ? 'bg-[#F58220] text-white shadow-xs' : 'bg-[#FFF4E8] text-[#F58220]'
             }`}>
               <IconComponent className="text-xs sm:text-base" />
             </div>
           )}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <h3 className="text-xs sm:text-base font-extrabold font-display leading-snug text-[#0F172A]">
+            <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+              <h3 className="text-xs sm:text-base font-extrabold font-display leading-tight sm:leading-snug text-[#0F172A]">
                 {title}
               </h3>
               {onOpenVideo && (
                 <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} />
               )}
               {isRider && (
-                <span className="text-[8px] sm:text-[9px] font-black uppercase px-2 py-0.5 rounded bg-[#F58220]/10 text-[#F58220] tracking-wide shrink-0">
+                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#F58220]/10 text-[#F58220] tracking-wide shrink-0">
                   Rider
                 </span>
               )}
             </div>
             {subtitle && (
-              <p className="text-[10px] sm:text-xs font-semibold mt-0.5 leading-snug text-slate-500">
+              <p className="text-[9px] sm:text-xs font-semibold mt-0.5 leading-tight sm:leading-snug text-slate-500 line-clamp-2 sm:line-clamp-none">
                 {subtitle}
               </p>
             )}
@@ -248,13 +248,13 @@ function IciciFeatureAccordionItem({
         </div>
 
         {/* Plus / Minus Button */}
-        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 ${
+        <div className={`w-5 h-5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 mt-0.5 sm:mt-0 ${
           isExpanded ? 'bg-[#F58220] text-white rotate-180' : 'bg-[#FFF4E8] text-[#F58220]'
         }`}>
           {isExpanded ? (
-            <FiMinus className="text-xs sm:text-sm stroke-[2.5]" />
+            <FiMinus className="text-[10px] sm:text-sm stroke-[2.5]" />
           ) : (
-            <FiPlus className="text-xs sm:text-sm stroke-[2.5]" />
+            <FiPlus className="text-[10px] sm:text-sm stroke-[2.5]" />
           )}
         </div>
       </div>
@@ -269,41 +269,41 @@ function IciciFeatureAccordionItem({
             transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
             className="overflow-hidden"
           >
-            <div className="px-3.5 pb-3.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2.5">
+            <div className="px-2.5 pb-2.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2 sm:space-y-2.5">
               {/* Contextual Badge & Subtitle Checkmark */}
-              <div className="pt-2.5 sm:pt-3 flex flex-wrap items-center gap-2">
+              <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
                 {badgeText && (
-                  <span className="inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-black uppercase px-2.5 py-0.5 rounded-md bg-[#FFF4E8] text-[#F58220] border border-[#F58220]/20 tracking-wider">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#F58220]" />
+                  <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-1.5 sm:px-2.5 py-0.5 rounded-md bg-[#FFF4E8] text-[#F58220] border border-[#F58220]/20 tracking-wider">
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#F58220]" />
                     {badgeText}
                   </span>
                 )}
                 {subtitle && (
-                  <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-700">
-                    <FiCheck className="text-[#F58220] text-xs shrink-0" /> {subtitle}
+                  <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
+                    <FiCheck className="text-[#F58220] text-[10px] sm:text-xs shrink-0" /> {subtitle}
                   </span>
                 )}
               </div>
 
               {/* Short explanation / Details */}
-              <div className="text-xs sm:text-sm font-medium leading-relaxed text-slate-600">
+              <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">
                 {summary}
               </div>
 
               {/* Visual Number Step Progression */}
               {visualSteps && visualSteps.length > 0 && (
-                <div className="mt-2.5 p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                <div className="mt-2 sm:mt-2.5 p-2 sm:p-3 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200/60">
+                  <div className="text-[8px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2">
                     Coverage Progression Example
                   </div>
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                  <div className="flex flex-wrap items-center gap-1 sm:gap-2">
                     {visualSteps.map((step, sIdx) => (
                       <React.Fragment key={sIdx}>
-                        <div className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 shadow-2xs text-[11px] sm:text-xs font-black text-[#0F172A] flex items-center gap-1">
+                        <div className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg bg-white border border-slate-200 shadow-2xs text-[10px] sm:text-xs font-black text-[#0F172A] flex items-center gap-1">
                           {step}
                         </div>
                         {sIdx < visualSteps.length - 1 && (
-                          <span className="text-xs font-extrabold text-[#F58220] px-0.5">
+                          <span className="text-[10px] sm:text-xs font-extrabold text-[#F58220] px-0.5">
                             →
                           </span>
                         )}
@@ -440,7 +440,7 @@ export default function IciciCompleteHealthSection({ plan, company }) {
                 MOST IMPORTANT FEATURES
               </h2>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
               <IciciFeatureAccordionItem
                 id="s1-1"
                 index={0}
@@ -509,7 +509,7 @@ export default function IciciCompleteHealthSection({ plan, company }) {
                 VALUE ADDED FEATURES
               </h2>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-2.5 sm:gap-4">
               <IciciFeatureAccordionItem
                 id="s2-1"
                 index={0}
@@ -578,7 +578,7 @@ export default function IciciCompleteHealthSection({ plan, company }) {
                 ADDITIONAL FEATURES
               </h2>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-2.5 sm:gap-4">
               <IciciFeatureAccordionItem
                 id="s3-1"
                 index={0}
@@ -637,7 +637,7 @@ export default function IciciCompleteHealthSection({ plan, company }) {
                 OPTIONAL RIDERS (ADD-ONS)
               </h2>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
               <IciciFeatureAccordionItem
                 id="s4-1"
                 index={0}

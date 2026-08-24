@@ -772,66 +772,92 @@ export default function HdfcPlanDetailSection({ plan, company }) {
 
         {/* 3. 2-COLUMN BUTTON GRID (Unchanged 2x2 layout, 8-12px row gap on Mobile, 20px on Desktop) */}
         <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
-          {/* Card 1: Ratio (Marksheet) */}
+          {/* Card 1: REPORT CARD (Ratio / Marksheet) */}
           <button
             onClick={() => setActiveModal('ratio')}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
-              Ratio (Marksheet)
+              REPORT CARD
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
 
-          {/* Card 2: Fundamental / Family Background */}
+          {/* Card 2: COMPANY STRENGTH (Fundamental / Family Background) */}
           <button
             onClick={() => setActiveModal('fundamental')}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
-              Fundamental / Family Background
+              COMPANY STRENGTH
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
 
-          {/* Card 3: Features */}
+          {/* Card 3: POLICY BENEFITS (Features) */}
           <Link
             to={`/insurance/hdfc-ergo/${plan.id}/features`}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
-              Features
+              POLICY BENEFITS
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </Link>
 
-          {/* Card 4: Condition */}
+          {/* Card 4: LIMITATIONS & WAITING PERIODS (Condition) */}
           <button
             onClick={() => setActiveModal('condition')}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
-              Condition
+              LIMITATIONS & WAITING PERIODS
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
         </div>
+
+        {/* 4. NEW HIGHLIGHTED "MUST KNOW" BUTTON (Centered Horizontally directly below 4 buttons) */}
+        <div className="flex justify-center w-full mt-3 sm:mt-5">
+          <button
+            onClick={() => setActiveModal('mustKnow')}
+            className="relative overflow-hidden bg-gradient-to-r from-[#E30613] via-[#DC2626] to-[#B91C1C] text-white rounded-xl sm:rounded-2xl px-5 sm:px-8 py-2.5 sm:py-3.5 flex items-center justify-center gap-2 sm:gap-2.5 shadow-md shadow-red-500/20 hover:shadow-lg hover:shadow-red-500/35 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 cursor-pointer group border border-red-500/30 select-none w-full sm:w-auto sm:min-w-[280px]"
+          >
+            {/* Subtle shine sweep overlay on hover */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
+
+            {/* Star Icon Badge */}
+            <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white/20 flex items-center justify-center text-amber-300 text-xs sm:text-sm shrink-0 group-hover:scale-110 transition-transform duration-200">
+              ★
+            </span>
+
+            {/* Button Label */}
+            <span className="text-xs sm:text-base font-black tracking-wider uppercase font-display leading-tight">
+              MUST KNOW
+            </span>
+
+            {/* Subtle Action Arrow */}
+            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white/15 flex items-center justify-center text-white text-xs sm:text-sm shrink-0 group-hover:translate-x-0.5 transition-transform duration-200 ml-0.5">
+              <FiArrowRight className="text-xs" />
+            </div>
+          </button>
+        </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* MODAL OVERLAYS (RATIO, FUNDAMENTAL, CONDITION)                            */}
+      {/* MODAL OVERLAYS (REPORT CARD, COMPANY STRENGTH, LIMITATIONS, MUST KNOW)     */}
       {/* Fits inside 1 mobile viewport with internal scroll if content is long    */}
       {/* ========================================================================= */}
       <AnimatePresence>
@@ -862,7 +888,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 <FiX className="text-base sm:text-lg" />
               </button>
 
-              {/* MODAL 1: RATIO (MARKSHEET) */}
+              {/* MODAL 1: REPORT CARD (Ratio / Marksheet) */}
               {activeModal === 'ratio' && (
                 <div className="space-y-4 sm:space-y-6">
                   <div>
@@ -870,7 +896,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                       HDFC ERGO Performance
                     </span>
                     <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                      RATIO (MARKSHEET)
+                      REPORT CARD
                     </h2>
                     <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
                       Official claim settlement and financial strength metrics.
@@ -913,7 +939,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 </div>
               )}
 
-              {/* MODAL 2: FUNDAMENTAL / FAMILY BACKGROUND */}
+              {/* MODAL 2: COMPANY STRENGTH (Fundamental / Family Background) */}
               {activeModal === 'fundamental' && (
                 <div className="space-y-4 sm:space-y-6">
                   <div>
@@ -921,7 +947,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                       Core Policy Details
                     </span>
                     <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                      FUNDAMENTAL / FAMILY BACKGROUND
+                      COMPANY STRENGTH
                     </h2>
                     <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
                       Eligibility criteria and essential plan architecture.
@@ -968,7 +994,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                 </div>
               )}
 
-              {/* MODAL 3: CONDITION */}
+              {/* MODAL 3: LIMITATIONS & WAITING PERIODS (Condition) */}
               {activeModal === 'condition' && (
                 <div className="space-y-4 sm:space-y-6">
                   <div>
@@ -976,7 +1002,7 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                       Terms & Exclusions
                     </span>
                     <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                      CONDITION
+                      LIMITATIONS & WAITING PERIODS
                     </h2>
                     <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
                       Waiting periods, room rent restrictions, and exclusions.
@@ -1017,6 +1043,122 @@ export default function HdfcPlanDetailSection({ plan, company }) {
                       </span>
                       <p className="text-xs font-semibold text-rose-900 leading-relaxed">
                         {plan.details.exclusions}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* MODAL 4: MUST KNOW */}
+              {activeModal === 'mustKnow' && (
+                <div className="space-y-4 sm:space-y-6">
+                  <div>
+                    <div className="flex items-center gap-1.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#E30613]">
+                      <span>★</span>
+                      <span>Crucial Policy Highlights</span>
+                    </div>
+                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
+                      MUST KNOW
+                    </h2>
+                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
+                      Vital terms, unique benefits, and essential facts you must know before choosing Optima Secure+.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2 sm:space-y-3">
+                    {/* Highlight 1: 2X Secure Benefit */}
+                    <div className="p-3 sm:p-4 bg-[#FFF5F5] rounded-xl sm:rounded-2xl border border-[#E30613]/25 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-[#E30613] bg-white px-2 py-0.5 rounded border border-[#E30613]/20">
+                          2X Cover on Day 1
+                        </span>
+                        <span className="text-[10px] sm:text-xs font-bold text-emerald-600">Day 1 Active</span>
+                      </div>
+                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
+                        Secure Benefit (Instant 2X Doubling)
+                      </h4>
+                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+                        Instantly doubles your base Sum Insured from Day 1 with zero extra waiting period. A ₹10 Lakh cover gives you ₹20 Lakh protection immediately.
+                      </p>
+                    </div>
+
+                    {/* Highlight 2: Infinite Benefit */}
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">
+                          +100% Every Year
+                        </span>
+                        <span className="text-[10px] sm:text-xs font-bold text-[#E30613]">Regardless of Claims</span>
+                      </div>
+                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
+                        Infinite Benefit (Yearly Bonus)
+                      </h4>
+                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+                        Adds 100% Base Sum Insured every single year up to policy terms, even if you make claims during the policy year.
+                      </p>
+                    </div>
+
+                    {/* Highlight 3: Unlimited Automatic Restoration */}
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">
+                          ∞ Unlimited Restores
+                        </span>
+                        <span className="text-[10px] sm:text-xs font-bold text-emerald-600">Subsequent Claims</span>
+                      </div>
+                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
+                        100% Automatic Restoration
+                      </h4>
+                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+                        100% of your Base Sum Insured gets automatically restored unlimited times in a policy year for subsequent unrelated claims.
+                      </p>
+                    </div>
+
+                    {/* Highlight 4: Protect Benefit */}
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">
+                          Zero Deductions
+                        </span>
+                        <span className="text-[10px] sm:text-xs font-bold text-emerald-600">Consumables Covered</span>
+                      </div>
+                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
+                        Protect Benefit (Consumables Covered)
+                      </h4>
+                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+                        Covers non-medical items like gloves, masks, PPE kits, nebulizers, cotton, and administrative charges with 0 deduction.
+                      </p>
+                    </div>
+
+                    {/* Highlight 5: Room Rent & ICU Freedom */}
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">
+                          No Capping
+                        </span>
+                        <span className="text-[10px] sm:text-xs font-bold text-[#E30613]">100% Cashless</span>
+                      </div>
+                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
+                        Any Room Category & Zero ICU Limits
+                      </h4>
+                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+                        Stay in any room category (including single deluxe / private rooms) and ICU without any proportionate deductions or room rent limits.
+                      </p>
+                    </div>
+
+                    {/* Highlight 6: Pre & Post Hospitalisation */}
+                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">
+                          60 & 180 Days
+                        </span>
+                        <span className="text-[10px] sm:text-xs font-bold text-emerald-600">Comprehensive</span>
+                      </div>
+                      <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A]">
+                        Pre & Post Hospitalisation Coverage
+                      </h4>
+                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+                        Complete coverage for diagnostic and medical expenses incurred 60 days prior to hospitalisation and 180 days post-discharge.
                       </p>
                     </div>
                   </div>

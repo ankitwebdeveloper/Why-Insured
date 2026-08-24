@@ -613,10 +613,10 @@ const VideoButton = ({ featureTitle, onOpenVideo }) => {
         e.stopPropagation();
         onOpenVideo(featureTitle, DEMO_VIDEO_URL);
       }}
-      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#F0F9FF] text-[#0284C7] border border-[#0EA5E9]/30 hover:bg-[#0EA5E9] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-1"
+      className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#F0F9FF] text-[#0284C7] border border-[#0EA5E9]/30 hover:bg-[#0EA5E9] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-0.5 sm:ml-1"
       title={`Watch demo video for ${featureTitle}`}
     >
-      <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#0284C7] group-hover:text-white transition-colors" />
+      <FiPlay className="text-[8px] sm:text-[10px] fill-current text-[#0284C7] group-hover:text-white transition-colors" />
       <span>Video</span>
     </button>
   );
@@ -710,29 +710,29 @@ function NivaBupaFeatureAccordionItem({
       }`}
     >
       {/* Header Row */}
-      <div className="p-3.5 sm:p-4 flex items-center justify-between gap-2.5 sm:gap-3">
-        <div className="flex items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
-          <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+      <div className="p-2.5 sm:p-4 flex items-start sm:items-center justify-between gap-1.5 sm:gap-3">
+        <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-1 min-w-0">
+          <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
             isExpanded ? 'bg-[#0EA5E9] text-white shadow-xs' : 'bg-[#F0F9FF] text-[#0284C7]'
           }`}>
             <IconComponent className="text-xs sm:text-base" />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <h3 className="text-xs sm:text-base font-extrabold font-display leading-snug text-[#0F172A]">
+            <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+              <h3 className="text-xs sm:text-base font-extrabold font-display leading-tight sm:leading-snug text-[#0F172A]">
                 {title}
               </h3>
               {onOpenVideo && (
                 <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} />
               )}
               {isRider && (
-                <span className="text-[8px] sm:text-[9px] font-black uppercase px-2 py-0.5 rounded bg-[#0EA5E9]/10 text-[#0284C7] tracking-wide shrink-0">
+                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#0EA5E9]/10 text-[#0284C7] tracking-wide shrink-0">
                   Rider
                 </span>
               )}
             </div>
             {subtitle && (
-              <p className="text-[10px] sm:text-xs font-semibold mt-0.5 leading-snug text-slate-500">
+              <p className="text-[9px] sm:text-xs font-semibold mt-0.5 leading-tight sm:leading-snug text-slate-500 line-clamp-2 sm:line-clamp-none">
                 {subtitle}
               </p>
             )}
@@ -740,13 +740,13 @@ function NivaBupaFeatureAccordionItem({
         </div>
 
         {/* Plus / Minus Button */}
-        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 ${
+        <div className={`w-5 h-5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 mt-0.5 sm:mt-0 ${
           isExpanded ? 'bg-[#0EA5E9] text-white rotate-180' : 'bg-[#F0F9FF] text-[#0284C7]'
         }`}>
           {isExpanded ? (
-            <FiMinus className="text-xs sm:text-sm stroke-[2.5]" />
+            <FiMinus className="text-[10px] sm:text-sm stroke-[2.5]" />
           ) : (
-            <FiPlus className="text-xs sm:text-sm stroke-[2.5]" />
+            <FiPlus className="text-[10px] sm:text-sm stroke-[2.5]" />
           )}
         </div>
       </div>
@@ -761,41 +761,41 @@ function NivaBupaFeatureAccordionItem({
             transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
             className="overflow-hidden"
           >
-            <div className="px-3.5 pb-3.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2.5">
+            <div className="px-2.5 pb-2.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2 sm:space-y-2.5">
               {/* Contextual Badge & Subtitle Checkmark */}
-              <div className="pt-2.5 sm:pt-3 flex flex-wrap items-center gap-2">
+              <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
                 {badge && (
-                  <span className="inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-black uppercase px-2.5 py-0.5 rounded-md bg-[#F0F9FF] text-[#0284C7] border border-[#0EA5E9]/20 tracking-wider">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#0EA5E9]" />
+                  <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-1.5 sm:px-2.5 py-0.5 rounded-md bg-[#F0F9FF] text-[#0284C7] border border-[#0EA5E9]/20 tracking-wider">
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#0EA5E9]" />
                     {badge}
                   </span>
                 )}
                 {subtitle && (
-                  <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-slate-700">
-                    <FiCheck className="text-[#0EA5E9] text-xs shrink-0" /> {subtitle}
+                  <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
+                    <FiCheck className="text-[#0EA5E9] text-[10px] sm:text-xs shrink-0" /> {subtitle}
                   </span>
                 )}
               </div>
 
               {/* Short explanation / Details */}
-              <div className="text-xs sm:text-sm font-medium leading-relaxed text-slate-600">
+              <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">
                 {summary}
               </div>
 
               {/* Visual Number Step Progression */}
               {steps && steps.length > 0 && (
-                <div className="mt-2.5 p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                <div className="mt-2 sm:mt-2.5 p-2 sm:p-3 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200/60">
+                  <div className="text-[8px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2">
                     Coverage Progression Example
                   </div>
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                  <div className="flex flex-wrap items-center gap-1 sm:gap-2">
                     {steps.map((step, sIdx) => (
                       <React.Fragment key={sIdx}>
-                        <div className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 shadow-2xs text-[11px] sm:text-xs font-black text-[#0F172A] flex items-center gap-1">
+                        <div className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg bg-white border border-slate-200 shadow-2xs text-[10px] sm:text-xs font-black text-[#0F172A] flex items-center gap-1">
                           {step}
                         </div>
                         {sIdx < steps.length - 1 && (
-                          <span className="text-xs font-extrabold text-[#0EA5E9] px-0.5">
+                          <span className="text-[10px] sm:text-xs font-extrabold text-[#0EA5E9] px-0.5">
                             →
                           </span>
                         )}
@@ -854,10 +854,10 @@ export default function NivaBupaPlanDetailSection({ plan, company }) {
   const { logo, name } = company;
 
   // Key ratios for Niva Bupa
-  const settlementRatio = getCompanyRatioValue('niva-bupa', 'settlement');
-  const incurredRatio = getCompanyRatioValue('niva-bupa', 'incurred');
-  const solvencyRatio = getCompanyRatioValue('niva-bupa', 'solvency');
-  const complaintRatio = getCompanyRatioValue('niva-bupa', 'complaint');
+  const settlementRatio = getCompanyRatioValue('niva-bupa', 'settlement') || '98.1%';
+  const incurredRatio = getCompanyRatioValue('niva-bupa', 'incurred') || '64%';
+  const solvencyRatio = getCompanyRatioValue('niva-bupa', 'solvency') || '1.75';
+  const complaintRatio = getCompanyRatioValue('niva-bupa', 'complaint') || '18.4 per 10k';
 
   const [expandedFeatureId, setExpandedFeatureId] = useState(null);
 
@@ -866,7 +866,7 @@ export default function NivaBupaPlanDetailSection({ plan, company }) {
       setExpandedFeatureId(null);
     } else {
       setExpandedFeatureId(id);
-      // Smart Scroll: Smoothly scroll the opened item into view with top offset
+      // Smart Scroll: Smoothly scroll the opened item into view with top offset for header clearance
       setTimeout(() => {
         if (ref && ref.current) {
           const yOffset = -110;
@@ -936,7 +936,7 @@ export default function NivaBupaPlanDetailSection({ plan, company }) {
                 MOST IMPORTANT FEATURES
               </h2>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
               {planFeatureData.mostImportant.map((feat, idx) => (
                 <NivaBupaFeatureAccordionItem
                   key={feat.id}
@@ -970,7 +970,7 @@ export default function NivaBupaPlanDetailSection({ plan, company }) {
                 VALUE ADDED FEATURES
               </h2>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-2.5 sm:gap-4">
               {planFeatureData.valueAdded.map((feat, idx) => (
                 <NivaBupaFeatureAccordionItem
                   key={feat.id}
@@ -1004,7 +1004,7 @@ export default function NivaBupaPlanDetailSection({ plan, company }) {
                 ADDITIONAL FEATURES
               </h2>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-2.5 sm:gap-4">
               {planFeatureData.additional.map((feat, idx) => (
                 <NivaBupaFeatureAccordionItem
                   key={feat.id}
@@ -1038,7 +1038,7 @@ export default function NivaBupaPlanDetailSection({ plan, company }) {
                 OPTIONAL RIDERS (ADD-ONS)
               </h2>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
               {planFeatureData.riders.map((feat, idx) => (
                 <NivaBupaFeatureAccordionItem
                   key={feat.id}
@@ -1057,7 +1057,6 @@ export default function NivaBupaPlanDetailSection({ plan, company }) {
               ))}
             </div>
           </div>
-
 
           {/* FOOTNOTE */}
           <div className="text-right pt-1">
