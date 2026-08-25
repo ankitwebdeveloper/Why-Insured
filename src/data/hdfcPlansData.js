@@ -64,8 +64,8 @@ export const HDFC_PLANS_DATA = {
     // --- 2. COMPANY STRENGTH (INDEPENDENT) ---
     companyStrength: {
       heading: 'COMPANY STRENGTH',
-      subheading: 'Corporate Standing & Financial Backbone',
-      description: 'Institutional ownership, credit ratings, and capital solvency.',
+      subheading: 'How reliable/strong is the insurer?',
+      description: 'How reliable/strong is the insurer?',
       ownership: {
         title: 'OWNERSHIP / PERCENTAGE',
         summaryValue: '51% / 49%',
