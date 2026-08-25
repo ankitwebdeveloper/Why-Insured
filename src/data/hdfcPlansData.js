@@ -227,88 +227,191 @@ export const HDFC_PLANS_DATA = {
             id: 's1-1',
             title: 'Any Room Category',
             subtitle: '100% Cashless Policy',
-            summary: 'Zero out-of-pocket expenses at 12,000+ network hospitals with 100% cashless policy across any room category.',
-            badge: 'ROOM RENT COVER',
+            summary: 'Choose any room category in cashless network hospitals with zero room rent capping.',
+            badge: '100% CASHLESS',
             iconType: 'home'
           },
           {
             id: 's1-2',
-            title: 'No Limit on ICU',
+            title: 'No Limit on ICU, etc.',
             subtitle: 'No ICU room category limit',
-            summary: 'Full coverage for ICU room charges without any daily capping or category restriction.',
-            badge: 'ICU COVER',
+            summary: 'Full coverage for intensive care unit charges with zero daily sub-limits.',
+            badge: 'NO ICU LIMIT',
             iconType: 'heart'
           },
           {
             id: 's1-3',
             title: 'Pre & Post Hospitalisation',
             subtitle: '60 & 180 Days',
-            summary: 'Medical expenses incurred 60 days before hospital admission and 180 days post-discharge are fully covered.',
-            badge: 'PRE & POST COVER',
+            summary: 'Covers medical expenses incurred 60 days before hospital admission and 180 days after discharge.',
+            badge: '60 & 180 DAYS',
             iconType: 'calendar'
           },
           {
             id: 's1-4',
             title: 'All Day Care Diseases Covered',
             subtitle: 'Comprehensive Day Care Procedures',
-            summary: 'All medical day care procedures requiring less than 24 hours of hospitalisation are fully covered.',
-            badge: 'DAY CARE COVER',
+            summary: 'Covers all medical procedures and daycare treatments requiring less than 24 hours of hospital stay due to technological advancement.',
+            badge: 'ALL DAY CARE',
             iconType: 'check'
           },
           {
             id: 's1-5',
-            title: 'Modern Treatment Methods',
+            title: 'Modern Treatment & Robotic Surgery',
             subtitle: 'Robotic & Advanced Surgeries',
-            summary: 'Covers state-of-the-art medical treatments including robotic surgery, stem cell therapy, and balloon sinuplasty up to Sum Insured.',
-            badge: 'MODERN TREATMENT',
+            summary: 'Advanced surgical technology, robotic surgeries, stem cell therapy, and modern treatments covered up to full Sum Insured.',
+            badge: 'ROBOTIC SURGERY',
             iconType: 'cpu'
-          },
-          {
-            id: 's1-6',
-            title: 'Automatic Restoration of Sum Insured',
-            subtitle: '100% Automatic SI Restoration',
-            summary: 'Automatic restoration of 100% base sum insured upon partial or full exhaustion for subsequent unrelated claims.',
-            badge: 'RESTORATION',
-            iconType: 'refresh'
           }
         ]
       },
       {
         id: 'sec-2',
-        title: 'INBUILT CRITICAL BENEFITS',
-        gridCols: 'grid-cols-2 lg:grid-cols-4',
+        title: 'VALUE ADDED FEATURES',
+        gridCols: 'grid-cols-2 lg:grid-cols-3',
         items: [
           {
             id: 's2-1',
-            title: '2X Secure Benefit',
-            subtitle: 'Double Cover from Day 1',
-            summary: 'Instantly provides 2X cover from day one with zero extra waiting period.',
-            badge: '2X COVER',
-            iconType: 'shield'
+            title: 'Unlimited Restoration',
+            subtitle: 'Auto 100% SI Restored',
+            summary: 'Restores 100% Base Sum Insured automatically for subsequent unrelated or related claims within the policy year.',
+            steps: ['₹10 Lakh Base SI', '₹10 Lakh restored again', '₹10 Lakh', '₹10 Lakh...'],
+            badge: 'UNLIMITED',
+            iconType: 'refresh'
           },
           {
             id: 's2-2',
-            title: 'Protect Benefit',
-            subtitle: 'Zero Non-Medical Deductions',
-            summary: 'Covers consumables like gloves, masks, PPE kits, nebulizers, cotton, and administrative charges.',
-            badge: 'CONSUMABLES',
-            iconType: 'clipboard'
+            title: 'Secure Benefit: 2x coverage from day 1',
+            subtitle: 'Example: ₹20 Lakh Base Cover → ₹40 Lakh from Day 1',
+            summary: 'Instantly doubles your sum insured right from day 1 without paying extra premium.',
+            steps: ['₹20 Lakh Base Cover', '₹40 Lakh from Day 1'],
+            badge: '2X FROM DAY 1',
+            iconType: 'shield'
           },
           {
             id: 's2-3',
-            title: 'Plus Benefit',
-            subtitle: '100% Base SI in 2 Years',
-            summary: 'Increases base sum insured by 50% per year regardless of claims, up to 100% in 2 years.',
-            badge: 'PLUS BONUS',
-            iconType: 'trending'
+            title: 'Preventive Health Check-up',
+            subtitle: 'Covered every policy year',
+            summary: 'Covered every policy year for all insured members upon renewal.',
+            badge: 'ANNUAL BENEFIT',
+            iconType: 'smile'
           },
           {
             id: 's2-4',
-            title: 'Infinite Benefit',
+            title: 'Infinite Benefit*',
             subtitle: '100% Base SI Added Every Year',
-            summary: 'Adds 100% Base SI every single year upon renewal for unlimited ongoing protection.',
+            summary: '100% of your Base Sum Insured is added automatically every policy year regardless of whether claims were made (irrespective of claims).',
+            steps: ['₹20 Lakh', '₹40 Lakh', '₹60 Lakh...', '∞ infinite times'],
             badge: 'INFINITE',
-            iconType: 'refresh'
+            iconType: 'trending'
+          },
+          {
+            id: 's2-5',
+            title: 'Protect Benefit',
+            subtitle: 'Cover non-medical expenses',
+            summary: 'Cover non-medical expenses like: gloves, cotton, syringes, masks, etc.',
+            badge: 'CONSUMABLES',
+            iconType: 'clipboard'
+          }
+        ]
+      },
+      {
+        id: 'sec-3',
+        title: 'ADDITIONAL FEATURES',
+        gridCols: 'grid-cols-2 lg:grid-cols-2',
+        items: [
+          {
+            id: 's3-1',
+            title: 'Daily Cash For Shared Room',
+            subtitle: '₹800 per day up to a maximum of ₹4,800',
+            summary: 'Receive daily cash allowance of ₹800 per day up to a maximum of ₹4,800 when opting for shared room accommodation during hospitalisation.',
+            badge: 'DAILY CASH',
+            iconType: 'dollar'
+          },
+          {
+            id: 's3-2',
+            title: 'Domiciliary, Organ & AYUSH Treatment',
+            subtitle: 'Home, Organ & Alternative Care',
+            summary: 'Comprehensive coverage for home hospitalisation (domiciliary), organ donor expenses, and AYUSH treatments.',
+            badge: 'AYUSH & ORGAN',
+            iconType: 'activity'
+          },
+          {
+            id: 's3-3',
+            title: 'Road Ambulance Cover Available',
+            subtitle: 'Emergency Transport',
+            summary: 'Road ambulance cover available for emergency hospitalisation transportation.',
+            badge: 'AMBULANCE',
+            iconType: 'truck'
+          },
+          {
+            id: 's3-4',
+            title: 'All Day Care Treatment',
+            subtitle: 'Less than 24 hrs Admission',
+            summary: 'All medical day care treatments and procedures requiring less than 24 hours of hospital stay covered.',
+            badge: '< 24 HRS ADMISSION',
+            iconType: 'clock'
+          }
+        ]
+      },
+      {
+        id: 'sec-4',
+        title: 'OPTIONAL RIDERS (ADD-ONS)',
+        gridCols: 'grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 's4-1',
+            title: 'ABCD Chronic Care',
+            subtitle: 'Pre-existing diseases covered from 31st day',
+            summary: 'Pre-existing diseases (Asthma, BP, Cholesterol, Diabetes) covered from 31st day.',
+            isRider: true,
+            badge: 'CHRONIC CARE',
+            iconType: 'heart'
+          },
+          {
+            id: 's4-2',
+            title: 'Optima Wellbeing',
+            subtitle: 'Covers outpatient benefits',
+            summary: 'Covers outpatient benefits and wellness consultations.',
+            isRider: true,
+            badge: 'WELLBEING',
+            iconType: 'smile'
+          },
+          {
+            id: 's4-3',
+            title: 'Hospital Cash Benefit',
+            subtitle: 'Get a per-day daily cash amount',
+            summary: 'Get a per-day daily cash amount for each completed day of hospitalisation.',
+            isRider: true,
+            badge: 'HOSPITAL CASH',
+            iconType: 'credit'
+          },
+          {
+            id: 's4-4',
+            title: 'Limitless',
+            subtitle: 'One unlimited claim in a lifetime - No Sum Insured limit',
+            summary: 'One unlimited claim in a lifetime - No Sum Insured limit.',
+            isRider: true,
+            badge: 'LIMITLESS',
+            iconType: 'zap'
+          },
+          {
+            id: 's4-5',
+            title: 'Parenthood',
+            subtitle: 'Covers maternity expenses',
+            summary: 'Covers maternity expenses and new-born baby care as per policy terms.',
+            isRider: true,
+            badge: 'MATERNITY',
+            iconType: 'users'
+          },
+          {
+            id: 's4-6',
+            title: 'Serious Illness Booster',
+            subtitle: '2X Sum Insured for Listed Critical Illnesses',
+            summary: '2X Sum Insured for Listed Critical Illnesses.',
+            isRider: true,
+            badge: '2X CRITICAL ILLNESS',
+            iconType: 'shield'
           }
         ]
       }

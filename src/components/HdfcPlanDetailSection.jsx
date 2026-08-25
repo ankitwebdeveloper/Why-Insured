@@ -708,7 +708,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 className="w-24 sm:w-44 h-auto max-h-9 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-5"
               />
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
-                {planData.planName} <span className="text-[#E30613]">—</span> FEATURES
+                {planData.planName} <span className="text-[#E30613]">—</span> {isOptimaSecurePlus ? 'POLICY BENEFITS' : 'FEATURES'}
               </h1>
               <div className="w-8 sm:w-12 h-1 bg-[#E30613] mx-auto mt-1.5 rounded-full" />
             </div>
