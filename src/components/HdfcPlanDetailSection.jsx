@@ -1691,11 +1691,6 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                 className="overflow-hidden"
                               >
                                 <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                                  {/* Hindi Heading: इसका मतलब क्या है? */}
-                                  <div className="text-xs sm:text-sm font-black text-[#0F172A] tracking-tight font-display">
-                                    {"इसका मतलब क्या है?"}
-                                  </div>
-
                                   {/* Policy summary */}
                                   <p className="text-[11px] sm:text-xs text-slate-600 font-medium leading-relaxed">
                                     {item.summary}
