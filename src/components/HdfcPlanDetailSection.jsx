@@ -246,8 +246,8 @@ function HdfcFeatureAccordionItem({
       transition={{ duration: 0.45, delay: (index % 3) * 0.08, ease: "easeOut" }}
       onClick={() => onToggle(id, itemRef)}
       className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${isExpanded
-          ? 'bg-[#FFF5F5]/80 border-[#E30613]/60 shadow-md ring-1 ring-[#E30613]/20'
-          : 'bg-white border-slate-200/80 hover:border-[#E30613]/40 shadow-2xs'
+        ? 'bg-[#FFF5F5]/80 border-[#E30613]/60 shadow-md ring-1 ring-[#E30613]/20'
+        : 'bg-white border-slate-200/80 hover:border-[#E30613]/40 shadow-2xs'
         }`}
     >
       {/* Header Row */}
@@ -1937,14 +1937,14 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                       <div
                         key={hlIdx}
                         className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl border space-y-1 ${hl.theme === 'primary'
-                            ? 'bg-[#FFF5F5] border-[#E30613]/25'
-                            : 'bg-slate-50 border-slate-100'
+                          ? 'bg-[#FFF5F5] border-[#E30613]/25'
+                          : 'bg-slate-50 border-slate-100'
                           }`}
                       >
                         <div className="flex items-center justify-between">
                           <span className={`text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded border ${hl.theme === 'primary'
-                              ? 'text-[#E30613] bg-white border-[#E30613]/20'
-                              : 'text-slate-700 bg-white border-slate-200'
+                            ? 'text-[#E30613] bg-white border-[#E30613]/20'
+                            : 'text-slate-700 bg-white border-slate-200'
                             }`}>
                             {hl.badge}
                           </span>
