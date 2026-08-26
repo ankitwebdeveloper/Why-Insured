@@ -127,15 +127,15 @@ export default function PlanDetail() {
             company={company}
           />
         ) : company.id === 'tata-aig' ? (
-          <MedicareSelectSection plan={plan} company={company} />
+          <MedicareSelectSection key={plan.id} plan={plan} company={company} planId={plan.id} />
         ) : company.id === 'icici-lombard' ? (
-          <IciciCompleteHealthSection plan={plan} company={company} />
+          <IciciCompleteHealthSection key={plan.id} plan={plan} company={company} planId={plan.id} />
         ) : company.id === 'niva-bupa' ? (
-          <NivaBupaPlanDetailSection plan={plan} company={company} />
+          <NivaBupaPlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
         ) : company.id === 'star-health' ? (
-          <StarHealthPlanDetailSection plan={plan} company={company} />
+          <StarHealthPlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
         ) : company.id === 'care-health' ? (
-          <CareHealthPlanDetailSection plan={plan} company={company} />
+          <CareHealthPlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
         ) : (
               <>
                 {/* Plan Header Card */}

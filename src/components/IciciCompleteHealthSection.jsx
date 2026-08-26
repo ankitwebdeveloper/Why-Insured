@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiArrowLeft,
@@ -9,6 +9,7 @@ import {
   FiPlus,
   FiMinus,
   FiPlay,
+  FiChevronDown,
   FiHome,
   FiHeart,
   FiCalendar,
@@ -29,80 +30,45 @@ import {
   FiPhoneCall,
   FiAward
 } from 'react-icons/fi';
-import { getCompanyRatioValue, getDerivedValue } from '../utils/compareDataHelper';
+import { getIciciPlanData, resolveIciciPlanId } from '../data/iciciLombardPlansData';
+import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
 
-// =============================================================================
-// DEMO VIDEO CONFIGURATION
-// Replace DEMO_VIDEO_URL below with your actual video link whenever needed.
-// =============================================================================
-const DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+// Default demo video
+const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
 
-
-// Feature Icons Dictionary for ICICI Lombard
-const FEATURE_ICONS = {
-  "s1-1": FiHome,        // No Capping on Room Rent
-  "s1-2": FiHeart,       // In-Patient Hospitalisation Cover
-  "s1-3": FiCalendar,    // Pre & Post Hospitalisation
-  "s1-4": FiCheckSquare, // All Day Care Procedures Covered
-  "s1-5": FiCpu,         // Modern Treatment & Robotic Surgery
-
-  "s2-1": FiRefreshCw,   // Reset Benefit (Auto-Restore)
-  "s2-2": FiAward,       // Wellness Rewards Program
-  "s2-3": FiPhoneCall,   // Free Online Tele-Consultations
-  "s2-4": FiShield,      // Organ Donor Protection
-  "s2-5": FiShield,      // AYUSH Inpatient Hospitalisation
-
-  "s3-1": FiTrendingUp,  // No Claim Bonus (NCB)
-  "s3-2": FiTruck,       // Emergency Road Ambulance
-  "s3-3": FiClipboard,   // Preventive Health Check-up
-  "s3-4": FiDollarSign,  // Tax Savings under Section 80D
-
-  "s4-1": FiHeart,       // OPD & Outpatient Consultation Rider
-  "s4-2": FiClock,       // Hospital Daily Cash Benefit
-  "s4-3": FiUsers        // Compassionate Visit Benefit
-};
-
-// Contextual Benefit Badges Dictionary
-const FEATURE_BADGES = {
-  "s1-1": "ROOM RENT COVER",
-  "s1-2": "IN-PATIENT COVER",
-  "s1-3": "PRE & POST",
-  "s1-4": "DAY CARE",
-  "s1-5": "ADVANCED SURGERY",
-
-  "s2-1": "RESET BENEFIT",
-  "s2-2": "WELLNESS DISCOUNT",
-  "s2-3": "E-CONSULTATIONS",
-  "s2-4": "ORGAN DONOR",
-  "s2-5": "AYUSH COVER",
-
-  "s3-1": "NO CLAIM BONUS",
-  "s3-2": "AMBULANCE COVER",
-  "s3-3": "HEALTH CHECKUP",
-  "s3-4": "TAX SAVER 80D",
-
-  "s4-1": "OPD RIDER",
-  "s4-2": "DAILY CASH",
-  "s4-3": "COMPASSIONATE VISIT"
-};
-
-// Visual Numerical Progression Steps Dictionary
-const FEATURE_STEPS = {
-  "s2-1": ["Base Sum Insured", "100% Instant Reset", "100% Restored Cover"],
-  "s2-2": ["Track Health Metrics", "Earn Wellness Points", "Wellness Benefits"],
-  "s3-1": ["Base Cover", "10% Bonus (Yr 1)", "20% Bonus (Yr 2)", "Max 50% Bonus"]
+// Icon Dictionary Mapping by Icon Type
+const ICON_MAP = {
+  home: FiHome,
+  heart: FiHeart,
+  calendar: FiCalendar,
+  check: FiCheckSquare,
+  cpu: FiCpu,
+  refresh: FiRefreshCw,
+  shield: FiShield,
+  clipboard: FiClipboard,
+  trending: FiTrendingUp,
+  credit: FiCreditCard,
+  truck: FiTruck,
+  clock: FiClock,
+  smile: FiSmile,
+  dollar: FiDollarSign,
+  zap: FiZap,
+  users: FiUsers,
+  activity: FiActivity,
+  phone: FiPhoneCall,
+  award: FiAward
 };
 
 // Helper to format YouTube or Direct MP4 URLs
 const getVideoEmbedUrl = (url) => {
   if (!url) return { type: 'none', url: '' };
   if (url.includes('youtube.com/embed/')) return { type: 'youtube', url };
-  
+
   const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
   if (ytMatch && ytMatch[1]) {
     return { type: 'youtube', url: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1` };
   }
-  
+
   if (url.endsWith('.mp4') || url.includes('.mp4?')) {
     return { type: 'mp4', url };
   }
@@ -110,25 +76,42 @@ const getVideoEmbedUrl = (url) => {
   return { type: 'iframe', url };
 };
 
-// Compact Feature-Wise Inline Video Button Component (ICICI Orange Theme)
-const VideoButton = ({ featureTitle, onOpenVideo }) => {
+// Compact Feature-Wise Inline Video Button Component (ICICI Lombard Orange Theme)
+const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
   return (
     <button
       type="button"
       onClick={(e) => {
         e.stopPropagation();
-        onOpenVideo(featureTitle, DEMO_VIDEO_URL);
+        onOpenVideo(featureTitle, videoUrl);
       }}
-      className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#FFF4E8] text-[#F58220] border border-[#F58220]/25 hover:bg-[#F58220] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-0.5 sm:ml-1"
+      className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#FFF4E8] text-[#D94A0B] border border-[#F58220]/25 hover:bg-[#F58220] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-0.5 sm:ml-1"
       title={`Watch demo video for ${featureTitle}`}
     >
-      <FiPlay className="text-[8px] sm:text-[10px] fill-current text-[#F58220] group-hover:text-white transition-colors" />
+      <FiPlay className="text-[8px] sm:text-[10px] fill-current text-[#D94A0B] group-hover:text-white transition-colors" />
       <span>Video</span>
     </button>
   );
 };
 
-// Premium In-Page Video Lightbox Modal (ICICI Orange Theme)
+// Premium "WATCH VIDEO" button — matches Report Card & Modal design (ICICI Lombard Theme)
+const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '', align = 'center' }) => (
+  <div className={`pt-1.5 border-t border-slate-100/80 ${align === 'center' ? 'flex justify-center' : ''} ${className}`}>
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        onOpenVideo(title, videoUrl);
+      }}
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#D94A0B] border border-[#F58220]/25 hover:bg-[#F58220] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+    >
+      <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#D94A0B] group-hover:text-white transition-colors" />
+      <span>WATCH VIDEO</span>
+    </button>
+  </div>
+);
+
+// Premium In-Page Video Lightbox Modal (ICICI Lombard Theme)
 const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
   if (!isOpen || !videoUrl) return null;
 
@@ -136,7 +119,7 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-xs transition-opacity"
+      className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-xs transition-opacity"
       onClick={onClose}
     >
       <div
@@ -186,20 +169,16 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
 
 // Sub-component for ICICI Lombard Features Accordion Items with Scroll Reveal & Stagger
 function IciciFeatureAccordionItem({
-  id,
-  title,
-  subtitle,
-  summary,
+  item,
   isExpanded,
   onToggle,
-  isRider = false,
   index = 0,
-  onOpenVideo
+  onOpenVideo,
+  demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
-  const IconComponent = FEATURE_ICONS[id];
-  const badgeText = FEATURE_BADGES[id];
-  const visualSteps = FEATURE_STEPS[id];
+  const { id, title, subtitle, summary, badge, steps, isRider, iconType } = item;
+  const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
 
   return (
     <motion.div
@@ -220,7 +199,7 @@ function IciciFeatureAccordionItem({
         <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-1 min-w-0">
           {IconComponent && (
             <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-              isExpanded ? 'bg-[#F58220] text-white shadow-xs' : 'bg-[#FFF4E8] text-[#F58220]'
+              isExpanded ? 'bg-[#F58220] text-white shadow-xs' : 'bg-[#FFF4E8] text-[#D94A0B]'
             }`}>
               <IconComponent className="text-xs sm:text-base" />
             </div>
@@ -231,10 +210,10 @@ function IciciFeatureAccordionItem({
                 {title}
               </h3>
               {onOpenVideo && (
-                <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} />
+                <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
               )}
               {isRider && (
-                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#F58220]/10 text-[#F58220] tracking-wide shrink-0">
+                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#F58220]/10 text-[#D94A0B] tracking-wide shrink-0">
                   Rider
                 </span>
               )}
@@ -249,7 +228,7 @@ function IciciFeatureAccordionItem({
 
         {/* Plus / Minus Button */}
         <div className={`w-5 h-5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 mt-0.5 sm:mt-0 ${
-          isExpanded ? 'bg-[#F58220] text-white rotate-180' : 'bg-[#FFF4E8] text-[#F58220]'
+          isExpanded ? 'bg-[#F58220] text-white rotate-180' : 'bg-[#FFF4E8] text-[#D94A0B]'
         }`}>
           {isExpanded ? (
             <FiMinus className="text-[10px] sm:text-sm stroke-[2.5]" />
@@ -272,15 +251,15 @@ function IciciFeatureAccordionItem({
             <div className="px-2.5 pb-2.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2 sm:space-y-2.5">
               {/* Contextual Badge & Subtitle Checkmark */}
               <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                {badgeText && (
-                  <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-1.5 sm:px-2.5 py-0.5 rounded-md bg-[#FFF4E8] text-[#F58220] border border-[#F58220]/20 tracking-wider">
+                {badge && (
+                  <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#FFF4E8] text-[#D94A0B] border border-[#F58220]/20 tracking-wider">
                     <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#F58220]" />
-                    {badgeText}
+                    {badge}
                   </span>
                 )}
                 {subtitle && (
                   <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
-                    <FiCheck className="text-[#F58220] text-[10px] sm:text-xs shrink-0" /> {subtitle}
+                    <FiCheck className="text-[#D94A0B] text-[10px] sm:text-xs shrink-0" /> {subtitle}
                   </span>
                 )}
               </div>
@@ -291,19 +270,19 @@ function IciciFeatureAccordionItem({
               </div>
 
               {/* Visual Number Step Progression */}
-              {visualSteps && visualSteps.length > 0 && (
+              {steps && steps.length > 0 && (
                 <div className="mt-2 sm:mt-2.5 p-2 sm:p-3 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200/60">
                   <div className="text-[8px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2">
                     Coverage Progression Example
                   </div>
                   <div className="flex flex-wrap items-center gap-1 sm:gap-2">
-                    {visualSteps.map((step, sIdx) => (
+                    {steps.map((step, sIdx) => (
                       <React.Fragment key={sIdx}>
                         <div className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg bg-white border border-slate-200 shadow-2xs text-[10px] sm:text-xs font-black text-[#0F172A] flex items-center gap-1">
                           {step}
                         </div>
-                        {sIdx < visualSteps.length - 1 && (
-                          <span className="text-[10px] sm:text-xs font-extrabold text-[#F58220] px-0.5">
+                        {sIdx < steps.length - 1 && (
+                          <span className="text-[10px] sm:text-xs font-extrabold text-[#D94A0B] px-0.5">
                             →
                           </span>
                         )}
@@ -320,15 +299,73 @@ function IciciFeatureAccordionItem({
   );
 }
 
-export default function IciciCompleteHealthSection({ plan, company }) {
+export default function IciciCompleteHealthSection({ plan, company, planId: planIdProp }) {
   const [activeModal, setActiveModal] = useState(null);
+  const [activeLimitationId, setActiveLimitationId] = useState(null);
   const [videoModalState, setVideoModalState] = useState({
     isOpen: false,
     title: '',
     url: ''
   });
+
+  const [expandedReportCard, setExpandedReportCard] = useState({
+    csr: false,
+    icr: false,
+    complaint: false
+  });
+
+  const toggleReportCard = (key) => {
+    setExpandedReportCard(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const [expandedCompanyStrength, setExpandedCompanyStrength] = useState({
+    ownership: false,
+    creditRating: false,
+    capitalStrength: false,
+    financialBase: false,
+    reinsurance: false,
+    marketPosition: false
+  });
+
+  const toggleCompanyStrength = (key) => {
+    setExpandedCompanyStrength(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const [expandedFeatureId, setExpandedFeatureId] = useState(null);
+
+  const { planId: urlPlanId } = useParams();
   const location = useLocation();
   const isFeaturesPage = location.pathname.endsWith('/features');
+
+  // Resolve to canonical ICICI Lombard plan ID — each plan gets independent data
+  const currentPlanId = resolveIciciPlanId(planIdProp || plan?.id || urlPlanId);
+  const planData = getIciciPlanData(currentPlanId);
+  const uiConfig = planData?.uiConfig ?? {};
+  const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
+  const { logo, name } = company;
+
+  // Reset all UI state when switching between plans
+  useEffect(() => {
+    setActiveModal(null);
+    setActiveLimitationId(null);
+    setVideoModalState({ isOpen: false, title: '', url: '' });
+    setExpandedReportCard({ csr: false, icr: false, complaint: false });
+    setExpandedCompanyStrength({
+      ownership: false,
+      creditRating: false,
+      capitalStrength: false,
+      financialBase: false,
+      reinsurance: false,
+      marketPosition: false
+    });
+    setExpandedFeatureId(null);
+  }, [currentPlanId]);
 
   // Lock background body scroll when modal is active
   useEffect(() => {
@@ -346,7 +383,7 @@ export default function IciciCompleteHealthSection({ plan, company }) {
     setVideoModalState({
       isOpen: true,
       title: title || 'Feature Video',
-      url: url || DEMO_VIDEO_URL
+      url: url || demoVideoUrl
     });
   };
 
@@ -358,22 +395,11 @@ export default function IciciCompleteHealthSection({ plan, company }) {
     });
   };
 
-  const { logo, name } = company;
-
-  // Key ratios for ICICI Lombard
-  const settlementRatio = getCompanyRatioValue('icici-lombard', 'settlement') || '98.5%';
-  const incurredRatio = getCompanyRatioValue('icici-lombard', 'incurred') || '72%';
-  const solvencyRatio = getCompanyRatioValue('icici-lombard', 'solvency') || '1.78';
-  const complaintRatio = getCompanyRatioValue('icici-lombard', 'complaint') || '15.3 per 10k';
-
-  const [expandedFeatureId, setExpandedFeatureId] = useState(null);
-
   const toggleAccordionItem = (id, ref) => {
     if (expandedFeatureId === id) {
       setExpandedFeatureId(null);
     } else {
       setExpandedFeatureId(id);
-      // Smart Scroll: Smoothly scroll the opened item into view with top offset for header clearance
       setTimeout(() => {
         if (ref && ref.current) {
           const yOffset = -110;
@@ -385,19 +411,19 @@ export default function IciciCompleteHealthSection({ plan, company }) {
   };
 
   // =========================================================================
-  // DEDICATED FEATURES PAGE (STRUCTURALLY IDENTICAL TO HDFC ERGO MASTER)
+  // DEDICATED FEATURES PAGE (POLICY BENEFITS — 4 CATEGORIES)
   // =========================================================================
   if (isFeaturesPage) {
     return (
       <div className="w-full pb-20 bg-[#FFF4E8] min-h-screen overflow-x-hidden relative">
-        {/* Subtle Ambient Orange Glow matching Plan Detail page */}
+        {/* Subtle Ambient Orange Glow */}
         <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none bg-[#F58220]" />
 
         {/* Page Container — ICICI Lombard Theme */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-2 sm:pt-4 space-y-10 sm:space-y-12 relative z-10">
-          
+
           {/* HEADER */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
@@ -405,10 +431,10 @@ export default function IciciCompleteHealthSection({ plan, company }) {
           >
             <div className="text-left mb-3 sm:mb-4">
               <Link
-                to={`/insurance/${company.id}/${plan.id}`}
+                to={`/insurance/${company.id}/${currentPlanId}`}
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
               >
-                <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {plan.name}</span><span className="sm:hidden">Back to Plan</span>
+                <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {planData.planName}</span><span className="sm:hidden">Back to Plan</span>
               </Link>
             </div>
 
@@ -419,261 +445,50 @@ export default function IciciCompleteHealthSection({ plan, company }) {
                 className="w-24 sm:w-44 h-auto max-h-9 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-5"
               />
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
-                {plan.name} <span className="text-[#F58220]">—</span> FEATURES
+                {planData.planName} <span className="text-[#F58220]">—</span> POLICY BENEFITS
               </h1>
               <div className="w-8 sm:w-12 h-1 bg-[#F58220] mx-auto mt-1.5 rounded-full" />
             </div>
+
+            {/* DOWNLOAD & SHARE PDF ACTIONS */}
+            <PolicyBenefitsPdfActions
+              company={company}
+              plan={planData}
+              featuresSections={planData.featuresSections}
+            />
           </motion.div>
 
-          {/* SECTION 1: MOST IMPORTANT FEATURES */}
-          <div>
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
-                MOST IMPORTANT FEATURES
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
-              <IciciFeatureAccordionItem
-                id="s1-1"
-                index={0}
-                title="No Capping on Room Rent"
-                subtitle="100% Cashless Policy in Private A/C Room"
-                summary="Freedom to select any Private A/C Room category without daily capping or proportionate deductions on surgical & doctor fees."
-                isExpanded={expandedFeatureId === 's1-1'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s1-2"
-                index={1}
-                title="In-Patient Hospitalisation Cover"
-                subtitle="100% Covered up to Sum Insured"
-                summary="Covers room rent, ICU expenses, surgeon fees, operating theatre charges, and medicines during hospital admission exceeding 24 hours."
-                isExpanded={expandedFeatureId === 's1-2'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s1-3"
-                index={2}
-                title="Pre & Post Hospitalisation"
-                subtitle="60 & 90 Days Covered"
-                summary="Medical expenses incurred 60 days before hospital admission and 90 days post-discharge are fully covered."
-                isExpanded={expandedFeatureId === 's1-3'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s1-4"
-                index={3}
-                title="All Day Care Procedures"
-                subtitle="Less than 24 hrs Admission Covered"
-                summary="Full coverage for medical surgeries and diagnostic procedures that require less than 24 hours of hospital stay due to technological advances."
-                isExpanded={expandedFeatureId === 's1-4'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s1-5"
-                index={4}
-                title="Modern Treatment & Robotic Surgery"
-                subtitle="Advanced Surgical Procedures"
-                summary="Coverage for cutting-edge medical advancements including robotic surgeries, stem cell therapy, and precision procedures up to Sum Insured."
-                isExpanded={expandedFeatureId === 's1-5'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
+          {/* 4 DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
+          {planData.featuresSections.map((sec, secIdx) => (
+            <div key={sec.id || secIdx}>
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4 }}
+                className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
+                <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
+                  {sec.title}
+                </h2>
+              </motion.div>
+              <div className={`grid ${sec.gridCols || 'grid-cols-2 lg:grid-cols-3'} gap-2.5 sm:gap-4`}>
+                {sec.items.map((item, itemIdx) => (
+                  <IciciFeatureAccordionItem
+                    key={item.id}
+                    item={item}
+                    index={itemIdx}
+                    isExpanded={expandedFeatureId === item.id}
+                    onToggle={toggleAccordionItem}
+                    onOpenVideo={handleOpenVideo}
+                    demoVideoUrl={demoVideoUrl}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-
-          {/* SECTION 2: VALUE ADDED FEATURES */}
-          <div>
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
-                VALUE ADDED FEATURES
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-2.5 sm:gap-4">
-              <IciciFeatureAccordionItem
-                id="s2-1"
-                index={0}
-                title="Reset Benefit (Auto-Restore)"
-                subtitle="100% Instant Reset upon Exhaustion"
-                summary="Instantly resets 100% of your Base Sum Insured upon partial or complete exhaustion for subsequent hospitalisations in a policy year."
-                isExpanded={expandedFeatureId === 's2-1'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s2-2"
-                index={1}
-                title="Wellness Program & Rewards"
-                subtitle="Earn Wellness Discounts & Rewards"
-                summary="Earn wellness points by staying active, tracking health metrics, and completing health check-ups, redeemable for wellness discounts and benefits."
-                isExpanded={expandedFeatureId === 's2-2'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s2-3"
-                index={2}
-                title="Free Online Medical E-Consultations"
-                subtitle="Unlimited 24/7 Access via IL TakeCare"
-                summary="Unlimited 24/7 digital tele-consultations with qualified general physicians through ICICI Lombard's IL TakeCare mobile app."
-                isExpanded={expandedFeatureId === 's2-3'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s2-4"
-                index={3}
-                title="Organ Donor Protection"
-                subtitle="100% Up to Sum Insured"
-                summary="Full coverage for in-patient hospitalisation and surgical expenses incurred during organ harvesting from the donor."
-                isExpanded={expandedFeatureId === 's2-4'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s2-5"
-                index={4}
-                title="AYUSH Inpatient Hospitalisation"
-                subtitle="100% Covered under AYUSH Systems"
-                summary="Inpatient treatment expenses for Ayurveda, Unani, Siddha, and Homeopathy in government-recognized healthcare facilities covered fully."
-                isExpanded={expandedFeatureId === 's2-5'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-            </div>
-          </div>
-
-          {/* SECTION 3: ADDITIONAL FEATURES */}
-          <div>
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
-                ADDITIONAL FEATURES
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-2.5 sm:gap-4">
-              <IciciFeatureAccordionItem
-                id="s3-1"
-                index={0}
-                title="Emergency Road Ambulance"
-                subtitle="Emergency Road Ambulance Covered"
-                summary="Emergency road ambulance transportation charges to and from the network hospital covered as per policy limits per admission."
-                isExpanded={expandedFeatureId === 's3-1'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s3-2"
-                index={1}
-                title="Ayush Hospitalisation Cover"
-                subtitle="Ayurveda, Yoga, Unani, Siddha & Homeopathy"
-                summary="Inpatient medical treatment taken under recognized Ayush hospitals across India is covered up to the basic Sum Insured."
-                isExpanded={expandedFeatureId === 's3-2'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s3-3"
-                index={2}
-                title="Second Medical Opinion"
-                subtitle="World-Class Doctor Consultations"
-                summary="Complimentary expert second medical opinion consultation from international specialists for major listed illnesses."
-                isExpanded={expandedFeatureId === 's3-3'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s3-4"
-                index={3}
-                title="Tax Benefit under Section 80D"
-                subtitle="Tax Deductions under Sec 80D"
-                summary="Premiums paid qualify for tax savings under Section 80D of the Income Tax Act for self, family, and senior citizen parents."
-                isExpanded={expandedFeatureId === 's3-4'}
-                onToggle={toggleAccordionItem}
-                onOpenVideo={handleOpenVideo}
-              />
-            </div>
-          </div>
-
-          {/* SECTION 4: OPTIONAL RIDERS (ADD-ONS) */}
-          <div>
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
-                OPTIONAL RIDERS (ADD-ONS)
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
-              <IciciFeatureAccordionItem
-                id="s4-1"
-                index={0}
-                title="OPD & Outpatient Consultation Rider"
-                subtitle="Outpatient Doctor & Diagnostic Cover"
-                summary="Reimbursement for outpatient doctor consultations, prescribed diagnostic tests, and pharmacy bills."
-                isExpanded={expandedFeatureId === 's4-1'}
-                onToggle={toggleAccordionItem}
-                isRider={true}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s4-2"
-                index={1}
-                title="Hospital Daily Cash Benefit"
-                subtitle="Daily Cash per Day of Hospitalisation"
-                summary="Fixed daily cash payout for every 24 hours of continuous hospital stay to cover non-medical incidental expenses."
-                isExpanded={expandedFeatureId === 's4-2'}
-                onToggle={toggleAccordionItem}
-                isRider={true}
-                onOpenVideo={handleOpenVideo}
-              />
-              <IciciFeatureAccordionItem
-                id="s4-3"
-                index={2}
-                title="Compassionate Visit Benefit"
-                subtitle="Travel Cover for Immediate Family"
-                summary="Covers economy airfare or travel expenses for an immediate family member to visit during prolonged hospitalisation."
-                isExpanded={expandedFeatureId === 's4-3'}
-                onToggle={toggleAccordionItem}
-                isRider={true}
-                onOpenVideo={handleOpenVideo}
-              />
-            </div>
-          </div>
-
+          ))}
 
           {/* FOOTNOTE */}
           <div className="text-right pt-1">
@@ -696,11 +511,11 @@ export default function IciciCompleteHealthSection({ plan, company }) {
   }
 
   // =========================================================================
-  // MAIN ICICI LOMBARD PLAN DETAIL PAGE (SINGLE VIEWPORT — STRUCTURALLY IDENTICAL TO HDFC ERGO)
+  // MAIN ICICI LOMBARD PLAN DETAIL PAGE (SINGLE VIEWPORT — APPROVED HDFC UX STRUCTURE)
   // =========================================================================
   return (
     <div className="w-full">
-      {/* Single Viewport Container - Compact Mobile Packing & Balanced Desktop Layout */}
+      {/* Single Viewport Container */}
       <div className="max-w-3xl mx-auto flex flex-col justify-start sm:justify-center items-stretch sm:min-h-[calc(100vh-220px)] py-1 sm:py-4 space-y-0">
         {/* Navigation Breadcrumb - Back to Plans */}
         <div className="shrink-0 text-left mb-3.5 sm:mb-5">
@@ -724,65 +539,101 @@ export default function IciciCompleteHealthSection({ plan, company }) {
         {/* 2. PLAN NAME HEADING */}
         <div className="text-center shrink-0 mb-3.5 sm:mb-6">
           <h1 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
-            {plan.name}
+            {planData.planName}
           </h1>
           <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#F58220] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
-        {/* 3. 2-COLUMN BUTTON GRID */}
+        {/* 3. 2-COLUMN BUTTON GRID (SAME APPROVED HDFC STRUCTURE) */}
         <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
-          {/* Card 1: Ratio (Marksheet) */}
+          {/* Card 1: REPORT CARD */}
           <button
+            type="button"
             onClick={() => setActiveModal('ratio')}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#F58220]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#F58220]/30 group-hover:bg-[#F58220] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#F58220] transition-colors duration-200 font-display leading-tight pr-1">
-              Ratio (Marksheet)
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#D94A0B] transition-colors duration-200 font-display leading-tight pr-1">
+              REPORT CARD
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#F58220] group-hover:bg-[#FFF4E8] group-hover:border-[#F58220]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#D94A0B] group-hover:bg-[#FFF4E8] group-hover:border-[#F58220]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
 
-          {/* Card 2: Fundamental / Family Background */}
+          {/* Card 2: COMPANY STRENGTH */}
           <button
+            type="button"
             onClick={() => setActiveModal('fundamental')}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#F58220]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#F58220]/30 group-hover:bg-[#F58220] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#F58220] transition-colors duration-200 font-display leading-tight pr-1">
-              Fundamental / Family Background
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#D94A0B] transition-colors duration-200 font-display leading-tight pr-1">
+              COMPANY STRENGTH
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#F58220] group-hover:bg-[#FFF4E8] group-hover:border-[#F58220]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#D94A0B] group-hover:bg-[#FFF4E8] group-hover:border-[#F58220]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
 
-          {/* Card 3: Features */}
+          {/* Card 3: POLICY BENEFITS */}
           <Link
-            to={`/insurance/icici-lombard/${plan.id}/features`}
+            to={`/insurance/${company.id}/${currentPlanId}/features`}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#F58220]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#F58220]/30 group-hover:bg-[#F58220] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#F58220] transition-colors duration-200 font-display leading-tight pr-1">
-              Features
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#D94A0B] transition-colors duration-200 font-display leading-tight pr-1">
+              POLICY BENEFITS
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#F58220] group-hover:bg-[#FFF4E8] group-hover:border-[#F58220]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#D94A0B] group-hover:bg-[#FFF4E8] group-hover:border-[#F58220]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </Link>
 
-          {/* Card 4: Condition */}
+          {/* Card 4: LIMITATIONS & WAITING PERIODS (SAME PAGE MODAL — NO NEXT PAGE) */}
           <button
-            onClick={() => setActiveModal('condition')}
+            type="button"
+            onClick={() => {
+              setActiveModal('limitations');
+              setActiveLimitationId(null);
+            }}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#F58220]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#F58220]/30 group-hover:bg-[#F58220] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#F58220] transition-colors duration-200 font-display leading-tight pr-1">
-              Condition
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#D94A0B] transition-colors duration-200 font-display leading-tight pr-1">
+              LIMITATIONS & WAITING PERIODS
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#F58220] group-hover:bg-[#FFF4E8] group-hover:border-[#F58220]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#D94A0B] group-hover:bg-[#FFF4E8] group-hover:border-[#F58220]/20 transition-all duration-200 shrink-0">
+              <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
+            </div>
+          </button>
+        </div>
+
+        {/* 5. MUST KNOW DETAILS button */}
+        <div className="flex justify-center w-full mt-2.5 sm:mt-5">
+          <button
+            type="button"
+            onClick={() => setActiveModal('mustKnow')}
+            className="w-full sm:max-w-md bg-white rounded-xl sm:rounded-2xl border border-[#F58220]/35 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#F58220] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ring-1 ring-[#F58220]/10 hover:ring-[#F58220]/25"
+          >
+            {/* Bottom accent indicator bar */}
+            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#F58220] transition-colors duration-200" />
+
+            {/* Subtle ambient soft orange background overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FFF4E8]/90 via-white to-[#FFF4E8]/90 group-hover:from-[#FFE8D1] group-hover:to-[#FFE8D1] transition-colors duration-200 pointer-events-none" />
+
+            {/* Text label with attention icon */}
+            <div className="flex items-center gap-1.5 sm:gap-2.5 relative z-10 min-w-0 pr-1">
+              <span className="text-[#F58220] text-xs sm:text-base font-black select-none shrink-0 group-hover:scale-110 transition-transform duration-200">
+                ✦
+              </span>
+              <h3 className="text-xs sm:text-base font-black text-[#0F172A] group-hover:text-[#D94A0B] transition-colors duration-200 font-display tracking-wide uppercase leading-tight truncate">
+                {planData.mustKnow?.buttonLabel || 'MUST KNOW DETAILS'}
+              </h3>
+            </div>
+
+            {/* Right Arrow Bubble */}
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#FFF4E8] border border-[#F58220]/25 flex items-center justify-center text-[#D94A0B] group-hover:bg-[#F58220] group-hover:text-white transition-all duration-200 shrink-0 relative z-10">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -790,7 +641,7 @@ export default function IciciCompleteHealthSection({ plan, company }) {
       </div>
 
       {/* ========================================================================= */}
-      {/* MODAL OVERLAYS (RATIO, FUNDAMENTAL, CONDITION)                            */}
+      {/* SAME-PAGE MODAL OVERLAYS (REPORT CARD, COMPANY STRENGTH, LIMITATIONS, MUST KNOW) */}
       {/* ========================================================================= */}
       <AnimatePresence>
         {activeModal && (
@@ -811,172 +662,763 @@ export default function IciciCompleteHealthSection({ plan, company }) {
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg overflow-hidden z-10 p-4 sm:p-8 max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
               <button
+                type="button"
                 onClick={() => setActiveModal(null)}
                 className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer"
               >
                 <FiX className="text-base sm:text-lg" />
               </button>
 
-              {/* MODAL 1: RATIO (MARKSHEET) */}
+              {/* MODAL 1: REPORT CARD */}
               {activeModal === 'ratio' && (
-                <div className="space-y-4 sm:space-y-6">
-                  <div>
-                    <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#F58220] block">
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                      REPORT CARD
+                    </h2>
+                    <p className="text-xs text-[#D94A0B] font-medium mt-0.5">
                       ICICI Lombard Performance
-                    </span>
-                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                      RATIO (MARKSHEET)
-                    </h2>
-                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
-                      Official claim settlement and financial strength metrics.
                     </p>
                   </div>
 
-                  <div className="space-y-2 sm:space-y-3">
-                    <div className="bg-[#FFF4E8] p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-[#F58220]/20 flex justify-between items-center">
-                      <div>
-                        <span className="text-xs font-bold text-slate-600 block">Claim Settlement Ratio</span>
-                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">Verified IRDAI Report</span>
-                      </div>
-                      <span className="text-base sm:text-lg font-black text-[#F58220]">{settlementRatio}</span>
+                  {/* 3 EQUAL ACCORDION BOXES — ICICI LOMBARD ORANGE BORDERS & ACCENTS */}
+                  <div className="space-y-2.5 sm:space-y-3">
+                    {/* Box 1: CSR */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#F58220]/35 bg-white overflow-hidden shadow-2xs hover:border-[#F58220]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleReportCard('csr')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#D94A0B] transition-colors font-display shrink-0">
+                            CSR
+                          </span>
+                          {planData.reportCard?.csr?.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.reportCard.csr.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF4E8]/60 group-hover:border-[#F58220]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.csr ? 'rotate-180 text-[#D94A0B]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedReportCard.csr && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <span className="text-[11px] sm:text-xs font-semibold text-[#D94A0B] tracking-wide block font-display">
+                                  {planData.reportCard.csr.subtitle || 'Claim Settlement Ratio'}
+                                </span>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
+                                  {planData.reportCard.csr.explanation}
+                                </p>
+                              </div>
+
+                              <div className="space-y-2.5 pt-1">
+                                <div>
+                                  <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                    {planData.reportCard.csr.singleYear}
+                                  </div>
+                                  <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                    {planData.reportCard.csr.singleYearLabel || 'Recent Single Year'}
+                                  </div>
+                                </div>
+
+                                <div className="pt-2 border-t border-slate-100">
+                                  <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                    {planData.reportCard.csr.threeYearAvg}
+                                  </div>
+                                  <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                    {planData.reportCard.csr.threeYearAvgLabel || '3 Year Average'}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <WatchVideoButton
+                                title="CSR (Claim Settlement Ratio)"
+                                onOpenVideo={handleOpenVideo}
+                                videoUrl={planData.reportCard.csr.videoUrl || demoVideoUrl}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                    <div className="bg-slate-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 flex justify-between items-center">
-                      <div>
-                        <span className="text-xs font-bold text-slate-600 block">Incurred Claim Ratio (ICR)</span>
-                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">Claims Paid vs Premium</span>
-                      </div>
-                      <span className="text-sm sm:text-base font-extrabold text-[#0F172A]">{incurredRatio}</span>
+                    {/* Box 2: ICR */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#F58220]/35 bg-white overflow-hidden shadow-2xs hover:border-[#F58220]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleReportCard('icr')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#D94A0B] transition-colors font-display shrink-0">
+                            ICR
+                          </span>
+                          {planData.reportCard?.icr?.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.reportCard.icr.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF4E8]/60 group-hover:border-[#F58220]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.icr ? 'rotate-180 text-[#D94A0B]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedReportCard.icr && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <span className="text-[11px] sm:text-xs font-semibold text-[#D94A0B] tracking-wide block font-display">
+                                  {planData.reportCard.icr.subtitle || 'Incurred Claim Ratio'}
+                                </span>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
+                                  {planData.reportCard.icr.explanation}
+                                </p>
+                              </div>
+
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.reportCard.icr.range}
+                                </div>
+                                {planData.reportCard.icr.rangeLabel && (
+                                  <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                    {planData.reportCard.icr.rangeLabel}
+                                  </div>
+                                )}
+                              </div>
+
+                              <WatchVideoButton
+                                title="ICR (Incurred Claim Ratio)"
+                                onOpenVideo={handleOpenVideo}
+                                videoUrl={planData.reportCard.icr.videoUrl || demoVideoUrl}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                    <div className="bg-slate-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 flex justify-between items-center">
-                      <div>
-                        <span className="text-xs font-bold text-slate-600 block">Solvency Ratio</span>
-                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">IRDAI Requirement: 1.50</span>
-                      </div>
-                      <span className="text-sm sm:text-base font-extrabold text-[#0F172A]">{solvencyRatio}</span>
-                    </div>
+                    {/* Box 3: COMPLAINT VOLUME */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#F58220]/35 bg-white overflow-hidden shadow-2xs hover:border-[#F58220]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleReportCard('complaint')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#D94A0B] transition-colors font-display truncate">
+                            COMPLAINT VOLUME
+                          </span>
+                          {planData.reportCard?.complaintVolume?.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.reportCard.complaintVolume.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF4E8]/60 group-hover:border-[#F58220]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.complaint ? 'rotate-180 text-[#D94A0B]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
 
-                    <div className="bg-slate-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 flex justify-between items-center">
-                      <div>
-                        <span className="text-xs font-bold text-slate-600 block">Complaints Ratio</span>
-                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">Per 10,000 Claims</span>
-                      </div>
-                      <span className="text-sm sm:text-base font-extrabold text-[#0F172A]">{complaintRatio}</span>
+                      <AnimatePresence initial={false}>
+                        {expandedReportCard.complaint && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.reportCard.complaintVolume.explanation}
+                                </p>
+                              </div>
+
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.reportCard.complaintVolume.value}
+                                </div>
+                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                  {planData.reportCard.complaintVolume.label || 'Complaints per 10,000 Claims'}
+                                </div>
+                              </div>
+
+                              <WatchVideoButton
+                                title="Complaint Volume Metrics"
+                                onOpenVideo={handleOpenVideo}
+                                videoUrl={planData.reportCard.complaintVolume.videoUrl || demoVideoUrl}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* MODAL 2: FUNDAMENTAL / FAMILY BACKGROUND */}
+              {/* MODAL 2: COMPANY STRENGTH */}
               {activeModal === 'fundamental' && (
-                <div className="space-y-4 sm:space-y-6">
-                  <div>
-                    <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#F58220] block">
-                      Core Policy Details
-                    </span>
-                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                      FUNDAMENTAL / FAMILY BACKGROUND
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                      COMPANY STRENGTH
                     </h2>
-                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
-                      Eligibility criteria and essential plan architecture.
+                    <p className="text-xs text-[#D94A0B] font-medium mt-0.5">
+                      How reliable/strong is the insurer?
                     </p>
                   </div>
 
-                  <div className="space-y-2 sm:space-y-3">
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#F58220]">
-                        Eligibility Criteria
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        {plan.details.eligibility}
-                      </p>
+                  {/* 6 EQUAL ACCORDION BOXES — ICICI LOMBARD THEME */}
+                  <div className="space-y-2.5 sm:space-y-3">
+                    {/* Box 1: OWNERSHIP / PERCENTAGE */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#F58220]/35 bg-white overflow-hidden shadow-2xs hover:border-[#F58220]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('ownership')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#D94A0B] transition-colors font-display truncate">
+                            OWNERSHIP / PERCENTAGE
+                          </span>
+                          {planData.companyStrength?.ownership?.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.ownership.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF4E8]/60 group-hover:border-[#F58220]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.ownership ? 'rotate-180 text-[#D94A0B]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.ownership && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.ownership.explanation}
+                                </p>
+                              </div>
+
+                              <div className="space-y-2 pt-1">
+                                {planData.companyStrength.ownership.items.map((item, idx) => (
+                                  <div key={idx} className={idx > 0 ? "pt-2 border-t border-slate-100" : ""}>
+                                    <div className="text-xs sm:text-sm font-extrabold text-slate-800 font-display">
+                                      {item.name}
+                                    </div>
+                                    <div className="text-xs sm:text-sm font-bold text-amber-600 mt-0.5">
+                                      {item.value} <span className="text-slate-500 font-medium text-[11px] sm:text-xs">{item.label}</span>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+
+                              <WatchVideoButton
+                                title="Ownership & Promoters"
+                                onOpenVideo={handleOpenVideo}
+                                videoUrl={demoVideoUrl}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#F58220]">
-                        Cashless Network Size
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        11,000+ Cashless Hospitals across India
-                      </p>
+                    {/* Box 2: CREDIT RATING */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#F58220]/35 bg-white overflow-hidden shadow-2xs hover:border-[#F58220]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('creditRating')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#D94A0B] transition-colors font-display truncate">
+                            CREDIT RATING
+                          </span>
+                          {planData.companyStrength?.creditRating?.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.creditRating.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF4E8]/60 group-hover:border-[#F58220]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.creditRating ? 'rotate-180 text-[#D94A0B]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.creditRating && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.creditRating.explanation}
+                                </p>
+                              </div>
+
+                              <div className="space-y-2 pt-1">
+                                {planData.companyStrength.creditRating.items.map((item, idx) => (
+                                  <div key={idx} className={idx > 0 ? "pt-2 border-t border-slate-100" : ""}>
+                                    <div className="text-xs sm:text-sm font-extrabold text-slate-800 font-display">
+                                      {item.agency}
+                                    </div>
+                                    <div className="text-xs sm:text-sm font-bold text-amber-600 mt-0.5">
+                                      {item.rating}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+
+                              <WatchVideoButton
+                                title="Credit Ratings & Solvency"
+                                onOpenVideo={handleOpenVideo}
+                                videoUrl={demoVideoUrl}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#F58220]">
-                        Claim Support System
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        24/7 Dedicated Cashless Support with Direct Desk Assistance
-                      </p>
+                    {/* Box 3: CAPITAL STRENGTH */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#F58220]/35 bg-white overflow-hidden shadow-2xs hover:border-[#F58220]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('capitalStrength')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#D94A0B] transition-colors font-display truncate">
+                            CAPITAL STRENGTH
+                          </span>
+                          {planData.companyStrength?.capitalStrength?.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.capitalStrength.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF4E8]/60 group-hover:border-[#F58220]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.capitalStrength ? 'rotate-180 text-[#D94A0B]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.capitalStrength && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.capitalStrength.explanation}
+                                </p>
+                              </div>
+
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.companyStrength.capitalStrength.value}
+                                </div>
+                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                  {planData.companyStrength.capitalStrength.label}
+                                </div>
+                              </div>
+
+                              <WatchVideoButton
+                                title="Capital Strength & Solvency"
+                                onOpenVideo={handleOpenVideo}
+                                videoUrl={demoVideoUrl}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#F58220]">
-                        Ambulance Cover
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        Road Ambulance Covered per admission limits
-                      </p>
+                    {/* Box 4: FINANCIAL BASE */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#F58220]/35 bg-white overflow-hidden shadow-2xs hover:border-[#F58220]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('financialBase')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#D94A0B] transition-colors font-display truncate">
+                            FINANCIAL BASE
+                          </span>
+                          {planData.companyStrength?.financialBase?.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.financialBase.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF4E8]/60 group-hover:border-[#F58220]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.financialBase ? 'rotate-180 text-[#D94A0B]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.financialBase && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.financialBase.explanation}
+                                </p>
+                              </div>
+
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.companyStrength.financialBase.value}
+                                </div>
+                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                  {planData.companyStrength.financialBase.label}
+                                </div>
+                              </div>
+
+                              <WatchVideoButton
+                                title="Financial Base & Assets"
+                                onOpenVideo={handleOpenVideo}
+                                videoUrl={demoVideoUrl}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Box 5: REINSURANCE STRENGTH */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#F58220]/35 bg-white overflow-hidden shadow-2xs hover:border-[#F58220]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('reinsurance')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#D94A0B] transition-colors font-display truncate">
+                            REINSURANCE STRENGTH
+                          </span>
+                          {planData.companyStrength?.reinsuranceStrength?.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.reinsuranceStrength.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF4E8]/60 group-hover:border-[#F58220]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.reinsurance ? 'rotate-180 text-[#D94A0B]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.reinsurance && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.reinsuranceStrength.explanation}
+                                </p>
+                              </div>
+
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.companyStrength.reinsuranceStrength.value}
+                                </div>
+                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                  {planData.companyStrength.reinsuranceStrength.label}
+                                </div>
+                              </div>
+
+                              <WatchVideoButton
+                                title="Reinsurance Security"
+                                onOpenVideo={handleOpenVideo}
+                                videoUrl={demoVideoUrl}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Box 6: MARKET POSITION */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#F58220]/35 bg-white overflow-hidden shadow-2xs hover:border-[#F58220]/70 transition-colors">
+                      <button
+                        type="button"
+                        onClick={() => toggleCompanyStrength('marketPosition')}
+                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                      >
+                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#D94A0B] transition-colors font-display truncate">
+                            MARKET POSITION
+                          </span>
+                          {planData.companyStrength?.marketPosition?.summaryValue && (
+                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                              {planData.companyStrength.marketPosition.summaryValue}
+                            </span>
+                          )}
+                        </div>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#FFF4E8]/60 group-hover:border-[#F58220]/25 transition-all duration-300 shrink-0 select-none">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.marketPosition ? 'rotate-180 text-[#D94A0B]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {expandedCompanyStrength.marketPosition && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              <div>
+                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                  {planData.companyStrength.marketPosition.explanation}
+                                </p>
+                              </div>
+
+                              <div className="pt-1">
+                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                  {planData.companyStrength.marketPosition.value}
+                                </div>
+                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                  {planData.companyStrength.marketPosition.label}
+                                </div>
+                              </div>
+
+                              <WatchVideoButton
+                                title="Market Leadership & Reach"
+                                onOpenVideo={handleOpenVideo}
+                                videoUrl={demoVideoUrl}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* MODAL 3: CONDITION */}
-              {activeModal === 'condition' && (
-                <div className="space-y-4 sm:space-y-6">
-                  <div>
-                    <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#F58220] block">
-                      Terms & Exclusions
+              {/* MODAL 3: LIMITATIONS & WAITING PERIODS (SAME PAGE MODAL — NO NEXT PAGE) */}
+              {activeModal === 'limitations' && (
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#D94A0B] block font-display">
+                      {planData.limitationsWaitingPeriods?.subheading || 'TERMS & WAITING PERIODS'}
                     </span>
-                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                      CONDITION
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display mt-0.5">
+                      {planData.limitationsWaitingPeriods?.heading || 'LIMITATIONS & WAITING PERIODS'}
                     </h2>
-                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
-                      Waiting periods, room rent restrictions, and exclusions.
+                    <p className="text-xs text-slate-500 font-normal mt-0.5">
+                      {planData.limitationsWaitingPeriods?.description || 'Interactive policy timelines, specific disease waiting, and permanent exclusions.'}
                     </p>
                   </div>
 
-                  <div className="space-y-2 sm:space-y-3">
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#F58220]">
-                        Initial Waiting Period
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        30 Days Initial Waiting Period
-                      </p>
-                    </div>
+                  {/* 3 LIMITATION ACCORDION BOXES */}
+                  <div className="space-y-2.5 sm:space-y-3">
+                    {planData.limitationsWaitingPeriods?.items.map((item) => {
+                      const isItemExpanded = activeLimitationId === item.id;
+                      const isPermanent = item.id === 'permanent';
 
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#F58220]">
-                        Pre-Existing Diseases Waiting
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        {plan.details.waitingPeriod}
-                      </p>
-                    </div>
+                      return (
+                        <div
+                          key={item.id}
+                          className="rounded-xl sm:rounded-2xl border border-[#F58220]/35 bg-white overflow-hidden shadow-2xs hover:border-[#F58220]/70 transition-colors"
+                        >
+                          <button
+                            type="button"
+                            onClick={() => setActiveLimitationId(prev => prev === item.id ? null : item.id)}
+                            className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
+                          >
+                            <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#D94A0B] transition-colors font-display pr-2">
+                              {item.title}
+                            </span>
+                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#D94A0B] group-hover:bg-[#FFF4E8] group-hover:border-[#F58220]/25 transition-all duration-200 shrink-0 select-none">
+                              <FiArrowRight
+                                className={`text-xs sm:text-sm transition-transform duration-200 ${
+                                  isItemExpanded ? 'rotate-90 text-[#D94A0B]' : 'group-hover:translate-x-0.5'
+                                }`}
+                              />
+                            </div>
+                          </button>
 
-                    <div className="p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#F58220]">
-                        Room Rent & ICU Capping
-                      </span>
-                      <p className="text-xs font-bold text-[#0F172A]">
-                        {plan.details.roomRent}
-                      </p>
-                    </div>
+                          <AnimatePresence initial={false}>
+                            {isItemExpanded && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.25, ease: 'easeOut' }}
+                                className="overflow-hidden"
+                              >
+                                <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                                  {/* Policy summary */}
+                                  <p className="text-[11px] sm:text-xs text-slate-600 font-medium leading-relaxed">
+                                    {item.summary}
+                                  </p>
 
-                    <div className="p-3 sm:p-4 bg-rose-50/60 rounded-xl sm:rounded-2xl border border-rose-100 space-y-0.5 sm:space-y-1">
-                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-rose-600">
-                        Important Policy Exclusions
-                      </span>
-                      <p className="text-xs font-semibold text-rose-900 leading-relaxed">
-                        {plan.details.exclusions}
-                      </p>
-                    </div>
+                                  {/* Highlight (e.g. for Initial Waiting Period) */}
+                                  {item.highlight && (
+                                    <div className="p-2.5 sm:p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 font-semibold flex items-center gap-2 text-xs sm:text-sm">
+                                      <span className="text-emerald-600 font-bold">✓</span>
+                                      <span>{item.highlight}</span>
+                                    </div>
+                                  )}
+
+                                  {/* Disease List (e.g. for Specific Diseases) */}
+                                  {item.diseaseList && (
+                                    <div className="p-3 sm:p-4 rounded-xl bg-[#FFF4E8]/60 border border-[#F58220]/15 space-y-2">
+                                      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-[#D94A0B] block font-display">
+                                        Covered after 24 Months Continuous Coverage
+                                      </span>
+                                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+                                        {item.diseaseList.map((disease, dIdx) => (
+                                          <li key={dIdx} className="flex items-start gap-1.5">
+                                            <span className="text-[#D94A0B] font-bold">•</span>
+                                            <span>{disease}</span>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  )}
+
+                                  {/* Exclusions List (e.g. for Permanent Exclusions) */}
+                                  {item.exclusionsList && (
+                                    <div className="p-3 sm:p-4 rounded-xl bg-rose-50/50 border border-rose-200/60 space-y-2">
+                                      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-rose-600 block font-display">
+                                        Permanently Excluded from Coverage
+                                      </span>
+                                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
+                                        {item.exclusionsList.map((excl, eIdx) => (
+                                          <li key={eIdx} className="flex items-start gap-1.5">
+                                            <span className="text-rose-600 font-bold">•</span>
+                                            <span>{excl}</span>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  )}
+
+                                  {/* Policy Ref & Duration Tag */}
+                                  {(item.policyRef || item.durationTag) && (
+                                    <div className={`pt-2 border-t ${isPermanent ? 'border-rose-200/60' : 'border-slate-200/60'} flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-semibold`}>
+                                      <span>{item.policyRef}</span>
+                                      {item.durationTag && (
+                                        <span className={isPermanent ? 'text-rose-600 font-bold' : 'text-[#D94A0B] font-bold'}>
+                                          {item.durationTag}
+                                        </span>
+                                      )}
+                                    </div>
+                                  )}
+
+                                  {/* Video Button */}
+                                  <WatchVideoButton
+                                    title={item.title}
+                                    onOpenVideo={handleOpenVideo}
+                                    videoUrl={item.videoUrl || demoVideoUrl}
+                                  />
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* MODAL 4: MUST KNOW DETAILS (SAME-PAGE MODAL) */}
+              {activeModal === 'mustKnow' && (
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
+                      {planData.mustKnow?.heading || 'MUST-KNOW DETAILS'}
+                    </h2>
+                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-1 leading-relaxed">
+                      {planData.mustKnow?.subheading || 'Important policy terms that policyholders should keep in mind'}
+                    </p>
+                  </div>
+
+                  <div className="space-y-3 sm:space-y-3.5">
+                    {planData.mustKnow?.items.map((item) => (
+                      <div
+                        key={item.id}
+                        className="p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-[#F58220]/20 bg-[#FFF4E8]/40 space-y-2"
+                      >
+                        <h4 className="text-xs sm:text-sm font-semibold tracking-wide text-[#0F172A] font-display flex items-center gap-1.5">
+                          <span>{item.icon}</span>
+                          <span>{item.title}</span>
+                        </h4>
+                        <div className="space-y-1.5">
+                          {item.paragraphs.map((paragraph, pIdx) => (
+                            <p
+                              key={pIdx}
+                              className="text-[11px] sm:text-xs text-slate-600 font-medium leading-relaxed"
+                            >
+                              {paragraph}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -984,6 +1426,14 @@ export default function IciciCompleteHealthSection({ plan, company }) {
           </div>
         )}
       </AnimatePresence>
+
+      {/* IN-PAGE VIDEO LIGHTBOX MODAL */}
+      <FeatureVideoModal
+        isOpen={videoModalState.isOpen}
+        onClose={handleCloseVideo}
+        videoTitle={videoModalState.title}
+        videoUrl={videoModalState.url}
+      />
     </div>
   );
 }

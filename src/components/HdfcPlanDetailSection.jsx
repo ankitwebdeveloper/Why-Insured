@@ -30,6 +30,7 @@ import {
 } from 'react-icons/fi';
 import { getHdfcPlanData } from '../data/hdfcPlansData';
 import { resolveHdfcPlanId, isHdfcPlan } from '../data/hdfcPlanRegistry';
+import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
 
 // Default demo video — overridden per plan via planData.uiConfig.demoVideoUrl
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -712,6 +713,13 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
               </h1>
               <div className="w-8 sm:w-12 h-1 bg-[#E30613] mx-auto mt-1.5 rounded-full" />
             </div>
+
+            {/* DOWNLOAD & SHARE PDF ACTIONS */}
+            <PolicyBenefitsPdfActions
+              company={company}
+              plan={planData}
+              featuresSections={planData.featuresSections}
+            />
           </motion.div>
 
           {/* DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
