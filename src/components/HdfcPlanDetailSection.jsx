@@ -31,6 +31,8 @@ import {
 import { getHdfcPlanData } from '../data/hdfcPlansData';
 import { resolveHdfcPlanId, isHdfcPlan } from '../data/hdfcPlanRegistry';
 import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
+import unlimitedVideo from '../assets/unlimited.mp4';
+import secureBenefitVideo from '../assets/2x coverage.mp4';
 
 // Default demo video — overridden per plan via planData.uiConfig.demoVideoUrl
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -66,7 +68,7 @@ const getVideoEmbedUrl = (url) => {
     return { type: 'youtube', url: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1` };
   }
 
-  if (url.endsWith('.mp4') || url.includes('.mp4?')) {
+  if (url.endsWith('.mp4') || url.includes('.mp4?') || url.includes('.mp4') || (typeof url === 'string' && (url.startsWith('data:video') || url.startsWith('blob:') || url.includes('unlimited')))) {
     return { type: 'mp4', url };
   }
 
@@ -147,6 +149,7 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
               src={embedData.url}
               controls
               autoPlay
+              playsInline
               className="w-full h-full object-contain"
             />
           ) : (
@@ -235,8 +238,9 @@ function HdfcFeatureAccordionItem({
   demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
-  const { id, title, subtitle, summary, badge, steps, isRider, iconType } = item;
+  const { id, title, subtitle, summary, badge, steps, isRider, iconType, videoUrl } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
+  const currentVideoUrl = videoUrl || (title?.toLowerCase().includes('unlimited') ? unlimitedVideo : (title?.toLowerCase().includes('secure benefit') || title?.toLowerCase().includes('2x coverage') ? secureBenefitVideo : demoVideoUrl));
 
   return (
     <motion.div
@@ -266,7 +270,7 @@ function HdfcFeatureAccordionItem({
                 {title}
               </h3>
               {onOpenVideo && (
-                <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
+                <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={currentVideoUrl} />
               )}
               {isRider && (
                 <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#E30613]/10 text-[#E30613] tracking-wide shrink-0">

@@ -11,6 +11,8 @@
 // =============================================================================
 
 import { resolveHdfcPlanId, HDFC_CANONICAL_PLAN_IDS } from './hdfcPlanRegistry';
+import unlimitedVideo from '../assets/unlimited.mp4';
+import secureBenefitVideo from '../assets/2x coverage.mp4';
 
 export const HDFC_PLANS_DATA = {
   // ===========================================================================
@@ -277,7 +279,8 @@ export const HDFC_PLANS_DATA = {
             summary: 'Restores 100% Base Sum Insured automatically for subsequent unrelated or related claims within the policy year.',
             steps: ['₹10 Lakh Base SI', '₹10 Lakh restored again', '₹10 Lakh', '₹10 Lakh...'],
             badge: 'UNLIMITED',
-            iconType: 'refresh'
+            iconType: 'refresh',
+            videoUrl: unlimitedVideo
           },
           {
             id: 's2-2',
@@ -286,7 +289,8 @@ export const HDFC_PLANS_DATA = {
             summary: 'Instantly doubles your sum insured right from day 1 without paying extra premium.',
             steps: ['₹20 Lakh Base Cover', '₹40 Lakh from Day 1'],
             badge: '2X FROM DAY 1',
-            iconType: 'shield'
+            iconType: 'shield',
+            videoUrl: secureBenefitVideo
           },
           {
             id: 's2-3',

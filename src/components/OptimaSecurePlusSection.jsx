@@ -28,6 +28,8 @@ import {
   FaMedkit
 } from 'react-icons/fa';
 import hdfcErgoLogo from '../assets/hdfc-ergo-logo.png';
+import unlimitedVideo from '../assets/unlimited.mp4';
+import secureBenefitVideo from '../assets/2x coverage.mp4';
 
 // =============================================================================
 // CENTRALIZED DEMO VIDEO CONFIGURATION
@@ -44,8 +46,8 @@ const FEATURE_VIDEOS = {
   "Modern Treatment & Robotic Surgery": DEMO_VIDEO_URL,
 
   // VALUE ADDED FEATURES
-  "Unlimited Restoration": DEMO_VIDEO_URL,
-  "Secure Benefit": DEMO_VIDEO_URL,
+  "Unlimited Restoration": unlimitedVideo,
+  "Secure Benefit": secureBenefitVideo,
   "Infinite Benefit": DEMO_VIDEO_URL,
   "Protect Benefit": DEMO_VIDEO_URL,
   "Preventive Health Check-up": DEMO_VIDEO_URL,
@@ -75,7 +77,7 @@ const getVideoEmbedUrl = (url) => {
     return { type: 'youtube', url: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1` };
   }
   
-  if (url.endsWith('.mp4') || url.includes('.mp4?')) {
+  if (url.endsWith('.mp4') || url.includes('.mp4?') || url.includes('.mp4') || (typeof url === 'string' && (url.startsWith('data:video') || url.startsWith('blob:') || url.includes('unlimited')))) {
     return { type: 'mp4', url };
   }
 
@@ -140,6 +142,7 @@ const VideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
               src={embedData.url}
               controls
               autoPlay
+              playsInline
               className="w-full h-full object-contain"
             />
           ) : (
