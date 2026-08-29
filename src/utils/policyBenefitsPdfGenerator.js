@@ -208,7 +208,7 @@ const drawWatermark = (doc) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 6. EDITORIAL TYPOGRAPHY TOKENS (SPACIOUS & PROMINENT)
+// 6. EDITORIAL TYPOGRAPHY TOKENS
 // ─────────────────────────────────────────────────────────────────────────────
 const TOKENS = {
   padX: 5.0,
@@ -222,8 +222,8 @@ const TOKENS = {
   badgeSize: 5.8,
   stepSize: 6.6,
   lineHFactor: 1.34,
-  sectionH: 9.5,          // Larger, prominent section heading banner
-  sectionTitleSize: 12.0, // Prominent 12.0pt bold section heading
+  sectionH: 8.8,          // Website matching banner height
+  sectionTitleSize: 11.5, // Website matching bold uppercase title
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -475,7 +475,7 @@ const drawFeatureRow = (
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 9. PROMINENT SECTION HEADING (LARGER & VISUALLY DISTINCT)
+// 9. WEBSITE/LAPTOP DESIGN SECTION HEADING (MATCHING WEBSITE GRADIENT BANNER)
 // ─────────────────────────────────────────────────────────────────────────────
 const drawSectionHeader = (
   doc,
@@ -485,43 +485,33 @@ const drawSectionHeader = (
   sectionIndex = 1
 ) => {
   const sectionY = y;
-  const sectionH = TOKENS.sectionH; // 9.5 mm
+  const sectionH = TOKENS.sectionH; // 8.8 mm
 
-  const [bgR, bgG, bgB] = lightenRgb(pR, pG, pB, 0.94);
-  const [bdR, bdG, bdB] = lightenRgb(pR, pG, pB, 0.68);
+  // Match Website: Rich Deep Forest Green Banner (#14532D -> #052E16)
+  doc.setFillColor(20, 83, 45); // Deep Forest Green #14532D
+  doc.setDrawColor(5, 46, 22);  // #052E16 Border
+  doc.setLineWidth(0.35);
+  doc.roundedRect(MARGIN, sectionY, CONTENT_W, sectionH, 1.8, 1.8, 'FD');
 
-  // Colored Header Banner
-  doc.setFillColor(bgR, bgG, bgB);
-  doc.setDrawColor(bdR, bdG, bdB);
-  doc.setLineWidth(0.4);
-  doc.roundedRect(MARGIN, sectionY, CONTENT_W, sectionH, 2.0, 2.0, 'FD');
+  // Website Glowing Emerald Accent Dot Indicator (#34D399)
+  const dotCenterX = MARGIN + 6.0;
+  const dotCenterY = sectionY + (sectionH / 2);
 
-  // Solid Left Accent Strip
-  doc.setFillColor(pR, pG, pB);
-  doc.roundedRect(MARGIN, sectionY, 3.2, sectionH, 0.8, 0.8, 'F');
+  // Outer Soft Emerald Glow
+  doc.setFillColor(52, 211, 153); // Emerald-400
+  doc.circle(dotCenterX, dotCenterY, 1.4, 'F');
 
-  // Number Badge Pill (e.g. "01")
-  const numBadgeX = MARGIN + 4.5;
-  const numBadgeY = sectionY + 1.5;
-  const numBadgeW = 8.2;
-  const numBadgeH = sectionH - 3.0; // 6.5 mm
+  // Inner Bright Emerald Core
+  doc.setFillColor(167, 243, 208); // Emerald-200
+  doc.circle(dotCenterX, dotCenterY, 0.6, 'F');
 
-  doc.setFillColor(255, 255, 255);
-  doc.setDrawColor(bdR, bdG, bdB);
-  doc.setLineWidth(0.25);
-  doc.roundedRect(numBadgeX, numBadgeY, numBadgeW, numBadgeH, 1.0, 1.0, 'FD');
-
-  setFont(doc, 'bold', 8.5);
-  doc.setTextColor(pR, pG, pB);
-  doc.text(String(sectionIndex).padStart(2, '0'), numBadgeX + numBadgeW / 2, numBadgeY + (numBadgeH * 0.72), { align: 'center' });
-
-  // Prominent Section Heading Title (Large 12.0pt Bold Typography)
-  const titleX = numBadgeX + numBadgeW + 3.8;
+  // Website Typography: White, Bold, Uppercase, Extra Tracking
+  const titleX = MARGIN + 10.5;
   setFont(doc, 'bold', TOKENS.sectionTitleSize);
-  doc.setTextColor(15, 23, 42); // Deep Navy #0F172A
+  doc.setTextColor(255, 255, 255); // Pure White #FFFFFF
   doc.text(cleanText(title).toUpperCase(), titleX, sectionY + (sectionH * 0.68));
 
-  return sectionY + sectionH + 3.8;
+  return sectionY + sectionH + 3.6;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -532,16 +522,14 @@ const drawSectionDivider = (doc, y, pR, pG, pB) => {
   const centerY = y + 2.8;
   const lineGap = 7.5; // Gap from center to line ends
 
-  const [bdR, bdG, bdB] = lightenRgb(pR, pG, pB, 0.65);
-
   // Left Line
   doc.setDrawColor(203, 213, 225); // Slate-300
   doc.setLineWidth(0.35);
   doc.line(MARGIN + 12, centerY, centerX - lineGap, centerY);
 
-  // Center Diamond Accent ◆
-  doc.setFillColor(pR, pG, pB);
-  doc.setDrawColor(bdR, bdG, bdB);
+  // Center Emerald Diamond Accent ◆ matching website theme
+  doc.setFillColor(16, 185, 129); // Emerald-500 #10B981
+  doc.setDrawColor(5, 150, 105);  // Emerald-600
   doc.setLineWidth(0.2);
 
   const dR = 1.6;
@@ -805,7 +793,7 @@ const drawFooter = (doc, pageNum, totalPages, companyName, planName, pR, pG, pB)
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 15. CORE PDF GENERATOR: generatePolicyBenefitsPDF (POLISHED FLOW & FORMAT)
+// 15. CORE PDF GENERATOR: generatePolicyBenefitsPDF (WEBSITE-MATCHING DESIGN)
 // ─────────────────────────────────────────────────────────────────────────────
 export const generatePolicyBenefitsPDF = async (company, plan, featuresSections = []) => {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
@@ -856,7 +844,7 @@ export const generatePolicyBenefitsPDF = async (company, plan, featuresSections 
 
     // Calculate height of first row in section
     const mFirst = measureFeatureRow(doc, items[0], isRiderSec);
-    const secHeadAndFirstRowH = TOKENS.sectionH + 3.8 + mFirst.exactHeight;
+    const secHeadAndFirstRowH = TOKENS.sectionH + 3.6 + mFirst.exactHeight;
 
     // Draw elegant section divider between sections (if not top of new page)
     if (sIdx > 0 && currentY > TOP_MARGIN_RUNNING + 5) {
@@ -876,7 +864,7 @@ export const generatePolicyBenefitsPDF = async (company, plan, featuresSections 
       currentY = drawRunningHeader(doc, companyName, planName, pR, pG, pB);
     }
 
-    // Draw Prominent Section Header Banner (Only once at start of section)
+    // Draw Website-Matching Section Header Banner (Deep Green, Emerald Dot, Pure White Bold Text)
     currentY = drawSectionHeader(
       doc,
       sec.title || `SECTION ${sectionGlobalIdx}`,
