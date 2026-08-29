@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 // Reusable Components
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Preloader from './components/Preloader';
 
 // Pages
@@ -103,6 +104,9 @@ function App() {
               </motion.div>
             </AnimatePresence>
           </main>
+
+          {/* Footer */}
+          <Footer />
         </motion.div>
       )}
     </AnimatePresence>

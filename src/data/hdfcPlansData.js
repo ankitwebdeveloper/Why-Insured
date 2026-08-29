@@ -10,7 +10,7 @@
 // Editing one plan will NOT affect any other plan.
 // =============================================================================
 
-import { resolveHdfcPlanId, HDFC_CANONICAL_PLAN_IDS } from './hdfcPlanRegistry';
+import { resolveHdfcPlanId, HDFC_CANONICAL_PLAN_IDS } from './hdfcPlanRegistry.js';
 import unlimitedVideo from '../assets/unlimited.mp4';
 import secureBenefitVideo from '../assets/2x coverage.mp4';
 

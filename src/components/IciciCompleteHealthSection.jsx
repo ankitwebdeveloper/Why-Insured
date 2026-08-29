@@ -450,7 +450,7 @@ export default function IciciCompleteHealthSection({ plan, company, planId: plan
               <div className="w-8 sm:w-12 h-1 bg-[#F58220] mx-auto mt-1.5 rounded-full" />
             </div>
 
-            {/* DOWNLOAD & SHARE PDF ACTIONS */}
+            {/* DOWNLOAD & SHARE PDF ACTION BUTTONS */}
             <PolicyBenefitsPdfActions
               company={company}
               plan={planData}

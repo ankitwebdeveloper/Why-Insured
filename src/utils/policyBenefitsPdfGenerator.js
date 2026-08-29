@@ -1,26 +1,30 @@
-import jsPDF from 'jspdf';
-import logoAsset from '../assets/logo.png';
+import * as jsPDFModule from 'jspdf';
+const jsPDF = jsPDFModule.jsPDF || jsPDFModule.default || jsPDFModule;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Image Base64 Cache
+// 1. IMAGE BASE64 & ASPECT RATIO CACHE
 // ─────────────────────────────────────────────────────────────────────────────
-const imageBase64Cache = new Map();
+const imageCache = new Map();
 
-const getImageBase64 = (url) => {
+const getImageData = (url) => {
   if (!url) return Promise.resolve(null);
-  if (imageBase64Cache.has(url)) return Promise.resolve(imageBase64Cache.get(url));
+  if (imageCache.has(url)) return Promise.resolve(imageCache.get(url));
+
   return new Promise((resolve) => {
     const img = new Image();
     img.crossOrigin = 'Anonymous';
     img.onload = () => {
       try {
         const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        canvas.getContext('2d').drawImage(img, 0, 0);
+        canvas.width = img.naturalWidth || img.width;
+        canvas.height = img.naturalHeight || img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
         const dataUrl = canvas.toDataURL('image/png');
-        imageBase64Cache.set(url, dataUrl);
-        resolve(dataUrl);
+        const aspect = (canvas.width && canvas.height) ? (canvas.width / canvas.height) : 1;
+        const result = { dataUrl, width: canvas.width, height: canvas.height, aspect };
+        imageCache.set(url, result);
+        resolve(result);
       } catch {
         resolve(null);
       }
@@ -31,10 +35,10 @@ const getImageBase64 = (url) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Helpers
+// 2. ROBUST TEXT SANITIZATION & STRING UTILITIES
 // ─────────────────────────────────────────────────────────────────────────────
 const hexToRgb = (hex) => {
-  if (!hex) return [0, 56, 168];
+  if (!hex) return [0, 56, 168]; // Default Navy #0038A8
   let h = hex.replace('#', '');
   if (h.length === 3) h = h.split('').map(c => c + c).join('');
   const n = parseInt(h, 16);
@@ -43,10 +47,52 @@ const hexToRgb = (hex) => {
 
 const sanitizeForFilename = (str) => {
   if (!str) return 'PLAN';
-  return str.toUpperCase().replace(/[^A-Z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  return str
+    .replace(/[^a-zA-Z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
 };
 
-// Lighten a color by mixing with white (0 = original, 1 = full white)
+const cleanText = (str) => {
+  if (!str) return '';
+  let s = String(str);
+  // Remove HTML tags
+  s = s.replace(/<[^>]*>?/gm, '');
+  // Fix corrupted UTF-8 / Mojibake artifacts and weird encoding glitches
+  s = s.replace(/â‚¹/g, '₹')
+       .replace(/â€™/g, "'")
+       .replace(/â€œ/g, '"')
+       .replace(/â€\x9D/g, '"')
+       .replace(/â€¦/g, '…')
+       .replace(/â†’/g, '→')
+       .replace(/âˆž/g, '∞')
+       .replace(/!â€™/g, "'")
+       .replace(/[¹]/g, '')
+       .replace(/![\'’]/g, "'");
+  return s.trim();
+};
+
+const formatFlowSteps = (steps) => {
+  if (!Array.isArray(steps) || steps.length === 0) return '';
+
+  const cleanedSteps = steps.map(cleanText).map(s => {
+    // Normalize infinite/unlimited strings to standard symbol
+    if (/infinite|infinity|∞/i.test(s)) {
+      return '∞';
+    }
+    // Clean trailing repeated dots
+    return s.replace(/\.{2,}/g, '').trim();
+  });
+
+  const hasInfinite = cleanedSteps.some(s => s === '∞');
+  const filtered = cleanedSteps.filter(s => s && s !== '∞' && s !== '…');
+
+  if (hasInfinite) {
+    return [...filtered, '…', '∞'].join('   →   ');
+  }
+
+  return filtered.join('   →   ');
+};
+
 const lightenRgb = (r, g, b, factor) => [
   Math.round(r + (255 - r) * factor),
   Math.round(g + (255 - g) * factor),
@@ -54,450 +100,906 @@ const lightenRgb = (r, g, b, factor) => [
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// WATERMARK  — drawn first on each page (behind all content)
+// 3. CURATED SUBTLE PASTEL ROW COLOR PALETTES
 // ─────────────────────────────────────────────────────────────────────────────
-const drawWatermark = (doc, pageWidth, pageHeight) => {
-  // Soft light-blue-gray, clearly visible but not distracting
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(64);
-  doc.setTextColor(200, 210, 228);   // visible translucent blue-gray
-
-  // Primary diagonal watermark — dead center
-  doc.text('WHYINSURED', pageWidth / 2, pageHeight / 2, {
-    align: 'center',
-    angle: 325,
-  });
-
-  // Secondary smaller watermark above-right to fill white space
-  doc.setFontSize(26);
-  doc.setTextColor(218, 224, 236);
-  doc.text('WHYINSURED', pageWidth * 0.72, pageHeight * 0.22, {
-    align: 'center',
-    angle: 325,
-  });
-
-  // Tertiary smaller watermark bottom-left
-  doc.text('WHYINSURED', pageWidth * 0.28, pageHeight * 0.78, {
-    align: 'center',
-    angle: 325,
-  });
-};
+const ROW_PALETTES = [
+  // 1. Soft Sage / Light Green
+  {
+    bg: [240, 253, 244],      // #F0FDF4
+    border: [187, 247, 208],  // #BBF7D0
+    accent: [22, 101, 52],    // #166534
+    pillBg: [220, 252, 231],  // #DCFCE7
+  },
+  // 2. Soft Sky / Light Blue
+  {
+    bg: [240, 249, 255],      // #F0F9FF
+    border: [186, 230, 253],  // #BAE6FD
+    accent: [3, 105, 161],    // #0369A1
+    pillBg: [224, 242, 254],  // #E0F2FE
+  },
+  // 3. Soft Lavender / Light Purple
+  {
+    bg: [250, 245, 255],      // #FAF5FF
+    border: [233, 213, 255],  // #E9D5FF
+    accent: [109, 40, 217],   // #6D28D9
+    pillBg: [243, 232, 255],  // #F3E8FF
+  },
+  // 4. Soft Warm Amber / Light Orange
+  {
+    bg: [255, 251, 235],      // #FFFBEB
+    border: [254, 230, 138],  // #FDE68A
+    accent: [180, 83, 9],     // #B45309
+    pillBg: [254, 243, 199],  // #FEF3C7
+  },
+  // 5. Soft Mint / Light Teal
+  {
+    bg: [240, 253, 250],      // #F0FDFA
+    border: [153, 246, 228],  // #99F6E4
+    accent: [15, 118, 110],   // #0F766E
+    pillBg: [204, 251, 241],  // #CCFBF1
+  },
+  // 6. Soft Blush / Light Rose
+  {
+    bg: [255, 241, 242],      // #FFF1F2
+    border: [254, 205, 211],  // #FECDD3
+    accent: [190, 24, 93],    // #BE185D
+    pillBg: [255, 228, 230],  // #FFE4E6
+  },
+  // 7. Soft Indigo / Slate
+  {
+    bg: [238, 242, 255],      // #EEF2FF
+    border: [199, 210, 254],  // #C7D2FE
+    accent: [67, 56, 202],    // #4338CA
+    pillBg: [224, 231, 255],  // #E0E7FF
+  },
+];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// LAYOUT CONSTANTS
+// 4. EDITORIAL A4 LAYOUT METRICS (in mm)
 // ─────────────────────────────────────────────────────────────────────────────
-const MARGIN     = 14;        // mm side margin
-const FOOTER_H   = 14;        // mm reserved at bottom for footer
-const TOP_MARGIN = 12;        // mm top margin for page 2+
+const PAGE_W = 210;
+const PAGE_H = 297;
+const MARGIN = 12;                       // 12 mm uniform margin
+const CONTENT_W = PAGE_W - MARGIN * 2;   // 186 mm uniform content width
+const FOOTER_H = 16;                     // 16 mm reserved for footer
+const MAX_PAGE_Y = PAGE_H - FOOTER_H - 2;// 279 mm max content boundary
+const ROW_GAP = 3.5;                     // 3.5 mm spacing between feature rows
+const TOP_MARGIN_RUNNING = 18;           // mm for running header top offset
 
-// ─────────────────────────────────────────────────────────────────────────────
-// TEXT MEASUREMENT HELPERS
-// ─────────────────────────────────────────────────────────────────────────────
+const PT_TO_MM = 0.352778;
+
 const setFont = (doc, style, size) => {
   doc.setFont('helvetica', style);
   doc.setFontSize(size);
 };
 
-const splitText = (doc, text, maxWidth) =>
-  text ? doc.splitTextToSize(String(text), maxWidth) : [];
-
-// Estimate the height of a feature block BEFORE rendering (for page-break math)
-const estimateFeatureHeight = (doc, item, contentWidth, isRider = false) => {
-  const textWidth = contentWidth - 8; // icon column offset
-
-  setFont(doc, 'bold', isRider ? 8.5 : 9.5);
-  const titleLines = splitText(doc, item.title, textWidth);
-
-  setFont(doc, 'bold', 7.5);
-  const subtitleLines = item.subtitle ? splitText(doc, item.subtitle, textWidth) : [];
-
-  setFont(doc, 'normal', 7.5);
-  const summaryLines = item.summary ? splitText(doc, item.summary, textWidth) : [];
-
-  const TITLE_LH    = isRider ? 4.2 : 4.8;
-  const SUBTITLE_LH = 3.8;
-  const SUMMARY_LH  = 3.8;
-  const STEP_LH     = 3.5;
-
-  let h = titleLines.length * TITLE_LH;
-  if (subtitleLines.length) h += 1.5 + subtitleLines.length * SUBTITLE_LH;
-  if (summaryLines.length)  h += 1.5 + summaryLines.length * SUMMARY_LH;
-  if (item.steps && item.steps.length) h += 2 + STEP_LH;
-  h += 5; // bottom gap
-  return h;
+const splitText = (doc, text, maxWidth) => {
+  if (!text) return [];
+  const cleaned = cleanText(text);
+  if (!cleaned) return [];
+  return doc.splitTextToSize(cleaned, Math.max(maxWidth, 10));
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DRAW ONE FEATURE BLOCK  (returns new Y after drawing)
+// 5. SUBTLE EXECUTIVE WATERMARK
 // ─────────────────────────────────────────────────────────────────────────────
-const drawFeatureBlock = (
+const drawWatermark = (doc) => {
+  if (doc.saveGraphicsState) doc.saveGraphicsState();
+  setFont(doc, 'bold', 48);
+  doc.setTextColor(248, 250, 252); // Ultra soft slate-50
+
+  doc.text('WHYINSURED', PAGE_W / 2, PAGE_H / 2, {
+    align: 'center',
+    angle: 320,
+  });
+
+  setFont(doc, 'bold', 16);
+  doc.setTextColor(250, 252, 254);
+  doc.text('OFFICIAL POLICY BENEFITS BROCHURE', PAGE_W / 2, PAGE_H * 0.30, {
+    align: 'center',
+    angle: 320,
+  });
+
+  doc.text('VERIFIED SPECIFICATIONS', PAGE_W / 2, PAGE_H * 0.70, {
+    align: 'center',
+    angle: 320,
+  });
+  if (doc.restoreGraphicsState) doc.restoreGraphicsState();
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 6. EDITORIAL TYPOGRAPHY TOKENS (SPACIOUS & PROMINENT)
+// ─────────────────────────────────────────────────────────────────────────────
+const TOKENS = {
+  padX: 5.0,
+  padTop: 4.2,
+  padBottom: 4.6,
+  numWidth: 7.2,
+  gapAfterNum: 2.8,
+  titleSize: 9.5,
+  subSize: 8.2,
+  descSize: 7.6,
+  badgeSize: 5.8,
+  stepSize: 6.6,
+  lineHFactor: 1.34,
+  sectionH: 9.5,          // Larger, prominent section heading banner
+  sectionTitleSize: 12.0, // Prominent 12.0pt bold section heading
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 7. FULL-WIDTH FEATURE ROW MEASUREMENT (ONE FEATURE PER ROW)
+// ─────────────────────────────────────────────────────────────────────────────
+const measureFeatureRow = (doc, item, isRider = false) => {
+  const {
+    padX,
+    padTop,
+    padBottom,
+    numWidth,
+    gapAfterNum,
+    titleSize,
+    subSize,
+    descSize,
+    badgeSize,
+    stepSize,
+    lineHFactor,
+  } = TOKENS;
+
+  const innerW = CONTENT_W - (padX * 2);
+  const textLeftOffset = numWidth + gapAfterNum;
+  const bodyTextW = innerW - textLeftOffset - 1.5; // full readable width for descriptions
+
+  // 1. Badge measurement (Top-right pill)
+  const badgeText = item.badge || (isRider || item.isRider ? 'OPTIONAL RIDER' : null);
+  let badgeW = 0;
+  let badgeH = 0;
+  if (badgeText) {
+    setFont(doc, 'bold', badgeSize);
+    const rawBadgeW = doc.getTextWidth(cleanText(badgeText).toUpperCase());
+    badgeW = Math.min(rawBadgeW + 4.5, 48);
+    badgeH = 4.2;
+  }
+
+  // 2. Title Block (Width constrained so it never touches or overlaps the badge)
+  const titleAvailableW = badgeW > 0
+    ? bodyTextW - badgeW - 3.5
+    : bodyTextW;
+
+  setFont(doc, 'bold', titleSize);
+  const titleLines = splitText(doc, item.title, titleAvailableW);
+  const titleLineH = titleSize * PT_TO_MM * lineHFactor;
+  const titleH = Math.max(titleLines.length * titleLineH, 4.2);
+  const headerRowH = Math.max(titleH, badgeH);
+
+  // 3. Subtitle / Highlight Block (Full horizontal row width)
+  let subLines = [];
+  let subLineH = 0;
+  let subH = 0;
+  if (item.subtitle) {
+    setFont(doc, 'bold', subSize);
+    subLines = splitText(doc, `• ${item.subtitle}`, bodyTextW);
+    subLineH = subSize * PT_TO_MM * lineHFactor;
+    subH = 1.8 + (subLines.length * subLineH);
+  }
+
+  // 4. Description / Summary Body Block (Full horizontal row width)
+  let descLines = [];
+  let descLineH = 0;
+  let descH = 0;
+  if (item.summary) {
+    setFont(doc, 'normal', descSize);
+    descLines = splitText(doc, item.summary, bodyTextW);
+    descLineH = descSize * PT_TO_MM * 1.36;
+    descH = 1.8 + (descLines.length * descLineH);
+  }
+
+  // 5. Flow Steps Box (Formatted with clean Rupee symbols & arrows)
+  let stepLines = [];
+  let stepBoxH = 0;
+  let stepTotalH = 0;
+  let flowString = '';
+  const steps = Array.isArray(item.steps) ? item.steps : [];
+  if (steps.length > 0) {
+    setFont(doc, 'bold', stepSize);
+    const stepBoxW = bodyTextW;
+    const stepTextAvailableW = stepBoxW - 18;
+    flowString = formatFlowSteps(steps);
+    stepLines = splitText(doc, flowString, stepTextAvailableW);
+    const stepLineH = stepSize * PT_TO_MM * 1.32;
+    stepBoxH = 3.8 + (Math.max(stepLines.length, 1) * stepLineH);
+    stepTotalH = 2.4 + stepBoxH;
+  }
+
+  // Total exact auto-height of the row
+  const exactHeight = padTop + headerRowH + subH + descH + stepTotalH + padBottom;
+
+  return {
+    exactHeight: Math.max(exactHeight, 18),
+    padX,
+    padTop,
+    padBottom,
+    textLeftOffset,
+    badgeText,
+    badgeW,
+    badgeH,
+    titleLines,
+    titleLineH,
+    headerRowH,
+    subLines,
+    subLineH,
+    subH,
+    descLines,
+    descLineH,
+    descH,
+    hasSteps: steps.length > 0,
+    steps,
+    flowString,
+    stepLines,
+    stepBoxH,
+    stepTotalH,
+    bodyTextW,
+  };
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 8. DRAW FULL-WIDTH FEATURE ROW WITH SUBTLE PASTEL TINT
+// ─────────────────────────────────────────────────────────────────────────────
+const drawFeatureRow = (
   doc,
   item,
-  startY,
-  contentWidth,
-  primaryR, primaryG, primaryB,
+  y,
+  pR, pG, pB,
+  indexNumber = 1,
+  paletteIndex = 0,
   isRider = false,
-  isLast  = false,
 ) => {
-  const iconX   = MARGIN;
-  const textX   = MARGIN + 7;
-  const textW   = contentWidth - 7;
+  const m = measureFeatureRow(doc, item, isRider);
+  const rowHeight = m.exactHeight;
+  const palette = ROW_PALETTES[paletteIndex % ROW_PALETTES.length];
+  const { titleSize, subSize, descSize, badgeSize, stepSize } = TOKENS;
 
-  const TITLE_LH    = isRider ? 4.2 : 4.8;
-  const SUBTITLE_LH = 3.8;
-  const SUMMARY_LH  = 3.8;
-  const STEP_LH     = 3.5;
+  // ── 1. Full-Width Row Background Box with Distinct Subtle Pastel Tint ──
+  doc.setFillColor(palette.bg[0], palette.bg[1], palette.bg[2]);
+  doc.setDrawColor(palette.border[0], palette.border[1], palette.border[2]);
+  doc.setLineWidth(0.35);
+  doc.roundedRect(MARGIN, y, CONTENT_W, rowHeight, 1.8, 1.8, 'FD');
 
-  let y = startY;
+  // ── 2. Solid Left Accent Indicator Strip ──
+  doc.setFillColor(palette.accent[0], palette.accent[1], palette.accent[2]);
+  doc.roundedRect(MARGIN, y, 2.0, rowHeight, 0.6, 0.6, 'F');
 
-  // ── Checkmark icon ──
-  const [lr, lg, lb] = lightenRgb(primaryR, primaryG, primaryB, 0.35);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(isRider ? 8 : 9);
-  doc.setTextColor(lr, lg, lb);
-  doc.text('✓', iconX, y + (isRider ? 0.5 : 1));
+  // ── 3. Header Row (Number Pill, Feature Title, Badge) ──
+  const headerTopY = y + m.padTop;
+  const numX = MARGIN + m.padX;
+  const textX = MARGIN + m.padX + m.textLeftOffset;
 
-  // ── Title ──
-  setFont(doc, 'bold', isRider ? 8.5 : 9.5);
-  doc.setTextColor(15, 23, 42);
-  const titleLines = splitText(doc, item.title, textW);
-  doc.text(titleLines, textX, y);
-  y += titleLines.length * TITLE_LH;
+  // Number Badge Pill (e.g. "01")
+  doc.setFillColor(palette.pillBg[0], palette.pillBg[1], palette.pillBg[2]);
+  doc.setDrawColor(palette.border[0], palette.border[1], palette.border[2]);
+  doc.setLineWidth(0.2);
+  doc.roundedRect(numX, headerTopY - 0.2, m.padX + 2.5, 4.4, 0.8, 0.8, 'FD');
 
-  // ── Subtitle (accent color) ──
-  if (item.subtitle) {
-    y += 1.5;
-    setFont(doc, 'bold', 7.5);
-    doc.setTextColor(primaryR, primaryG, primaryB);
-    const subLines = splitText(doc, item.subtitle, textW);
-    doc.text(subLines, textX, y);
-    y += subLines.length * SUBTITLE_LH;
-  }
+  setFont(doc, 'bold', titleSize * 0.78);
+  doc.setTextColor(palette.accent[0], palette.accent[1], palette.accent[2]);
+  doc.text(String(indexNumber).padStart(2, '0'), numX + (m.padX + 2.5) / 2, headerTopY + 3.0, { align: 'center' });
 
-  // ── Summary ──
-  if (item.summary) {
-    y += 1.5;
-    setFont(doc, 'normal', 7.5);
-    doc.setTextColor(80, 96, 118);
-    const sumLines = splitText(doc, item.summary, textW);
-    doc.text(sumLines, textX, y);
-    y += sumLines.length * SUMMARY_LH;
-  }
+  // Right Badge (Top-right pill, never overlapping title)
+  if (m.badgeText && m.badgeW > 0) {
+    const badgeX = MARGIN + CONTENT_W - m.padX - m.badgeW;
+    const badgeY = headerTopY - 0.3;
 
-  // ── Steps (progression) ──
-  if (item.steps && item.steps.length) {
-    y += 2;
-    setFont(doc, 'normal', 6.5);
-    doc.setTextColor(primaryR, primaryG, primaryB);
-    const stepsText = item.steps.join('  →  ');
-    const stepLines = splitText(doc, stepsText, textW);
-    doc.text(stepLines, textX, y);
-    y += STEP_LH;
-  }
-
-  // ── Divider between features (not after last one) ──
-  if (!isLast) {
-    y += 3;
-    doc.setDrawColor(230, 235, 242);
-    doc.setLineWidth(0.25);
-    doc.line(textX, y, MARGIN + contentWidth, y);
-    y += 3;
-  } else {
-    y += 5;
-  }
-
-  return y;
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// DRAW SECTION HEADING  (returns new Y after drawing)
-// ─────────────────────────────────────────────────────────────────────────────
-const drawSectionHeading = (
-  doc, title, y, pageWidth, contentWidth,
-  primaryR, primaryG, primaryB, isRider = false,
-) => {
-  const [lr, lg, lb] = lightenRgb(primaryR, primaryG, primaryB, 0.88);
-
-  // Subtle left accent stripe
-  doc.setFillColor(primaryR, primaryG, primaryB);
-  doc.rect(MARGIN, y, 3, isRider ? 4.5 : 5.5, 'F');
-
-  // Heading text
-  setFont(doc, 'bold', isRider ? 8 : 9);
-  doc.setTextColor(15, 23, 42);
-  doc.text(title.toUpperCase(), MARGIN + 5.5, y + (isRider ? 3.3 : 3.9));
-
-  // Thin horizontal rule to the right
-  const textWidth = doc.getTextWidth(title.toUpperCase());
-  const ruleStartX = MARGIN + 5.5 + textWidth + 3;
-  doc.setDrawColor(primaryR, primaryG, primaryB);
-  doc.setLineWidth(0.3);
-  doc.line(ruleStartX, y + (isRider ? 1.5 : 2), MARGIN + contentWidth, y + (isRider ? 1.5 : 2));
-
-  return y + (isRider ? 4.5 : 5.5) + 5; // space after heading
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// DRAW FOOTER  (called on every page in two-pass)
-// ─────────────────────────────────────────────────────────────────────────────
-const drawFooter = (doc, pageNum, totalPages, pageWidth, pageHeight, companyName, planName) => {
-  const y = pageHeight - FOOTER_H + 3;
-
-  // Thin top border
-  doc.setDrawColor(220, 226, 235);
-  doc.setLineWidth(0.3);
-  doc.line(MARGIN, y - 0.5, pageWidth - MARGIN, y - 0.5);
-
-  // Left: WHYINSURED brand
-  setFont(doc, 'bold', 6.5);
-  doc.setTextColor(15, 23, 42);
-  doc.text('WHYINSURED', MARGIN, y + 3);
-
-  // Center: company | plan
-  setFont(doc, 'normal', 6);
-  doc.setTextColor(130, 148, 170);
-  doc.text(`${companyName}  |  ${planName}`, pageWidth / 2, y + 3, { align: 'center' });
-
-  // Right: page count
-  setFont(doc, 'bold', 6.5);
-  doc.setTextColor(130, 148, 170);
-  doc.text(`Page ${pageNum} of ${Math.min(totalPages, 2)}`, pageWidth - MARGIN, y + 3, { align: 'right' });
-
-  // Second row: legal micro-text
-  setFont(doc, 'normal', 5.5);
-  doc.setTextColor(180, 192, 208);
-  doc.text(
-    '*T&C Apply. Benefits subject to standard IRDAI guidelines and individual policy wording issued by the insurer.',
-    pageWidth / 2, y + 7.5, { align: 'center' },
-  );
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// DRAW HEADER  (Page 1 only)
-// ─────────────────────────────────────────────────────────────────────────────
-const drawHeader = async (
-  doc, pageWidth, pageHeight,
-  primaryR, primaryG, primaryB,
-  logoBase64, companyLogoBase64,
-  companyName, planName, planTagline,
-) => {
-  const contentWidth = pageWidth - MARGIN * 2;
-  let y = MARGIN;
-
-  // ── Top strip: WI logo left, date right ──────────────────────────────────
-  if (logoBase64) {
-    try { doc.addImage(logoBase64, 'PNG', MARGIN, y, 28, 7.5); } catch {
-      setFont(doc, 'bold', 8);
-      doc.setTextColor(15, 23, 42);
-      doc.text('WHYINSURED', MARGIN, y + 5);
+    if (isRider || item.isRider) {
+      doc.setFillColor(254, 243, 199);
+      doc.setDrawColor(245, 158, 11);
+      doc.setTextColor(180, 83, 9);
+    } else {
+      doc.setFillColor(palette.pillBg[0], palette.pillBg[1], palette.pillBg[2]);
+      doc.setDrawColor(palette.border[0], palette.border[1], palette.border[2]);
+      doc.setTextColor(palette.accent[0], palette.accent[1], palette.accent[2]);
     }
-  } else {
-    setFont(doc, 'bold', 8);
-    doc.setTextColor(15, 23, 42);
-    doc.text('WHYINSURED', MARGIN, y + 5);
+
+    doc.setLineWidth(0.2);
+    doc.roundedRect(badgeX, badgeY, m.badgeW, m.badgeH, 1.0, 1.0, 'FD');
+    setFont(doc, 'bold', badgeSize);
+    doc.text(cleanText(m.badgeText).toUpperCase(), badgeX + m.badgeW / 2, badgeY + 2.9, { align: 'center' });
   }
 
-  const todayStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
-  setFont(doc, 'normal', 6.5);
-  doc.setTextColor(140, 158, 180);
-  doc.text(`Policy Benefits  •  ${todayStr}`, pageWidth - MARGIN, y + 5, { align: 'right' });
+  // Feature Heading (Large Bold Navy Title, clearly visually distinct)
+  setFont(doc, 'bold', titleSize);
+  doc.setTextColor(15, 23, 42); // Deep Navy #0F172A
 
-  y += 13;
-
-  // ── Left column: document identity ──────────────────────────────────────
-  const leftColW = contentWidth * 0.62;
-  const rightColX = MARGIN + leftColW + 6;
-  const rightColW = contentWidth - leftColW - 6;
-
-  // "POLICY BENEFITS" label
-  setFont(doc, 'bold', 7);
-  doc.setTextColor(primaryR, primaryG, primaryB);
-  doc.text('POLICY  BENEFITS', MARGIN, y);
-  y += 5.5;
-
-  // Company name
-  setFont(doc, 'bold', 14);
-  doc.setTextColor(15, 23, 42);
-  doc.text(companyName, MARGIN, y);
-  y += 7;
-
-  // Plan name
-  setFont(doc, 'bold', 11);
-  doc.setTextColor(primaryR, primaryG, primaryB);
-  const planLines = splitText(doc, planName, leftColW);
-  doc.text(planLines, MARGIN, y);
-  y += planLines.length * 5.5;
-
-  // Tagline
-  if (planTagline) {
-    y += 1;
-    setFont(doc, 'normal', 7);
-    doc.setTextColor(110, 128, 152);
-    const tagLines = splitText(doc, planTagline, leftColW - 4);
-    doc.text(tagLines, MARGIN, y);
-    y += tagLines.length * 3.8 + 1;
+  const titleBaseline = titleSize * PT_TO_MM * 0.88;
+  for (let i = 0; i < m.titleLines.length; i++) {
+    doc.text(m.titleLines[i], textX, headerTopY + titleBaseline + (i * m.titleLineH));
   }
 
-  // ── Right column: company logo ───────────────────────────────────────────
-  if (companyLogoBase64) {
-    try {
-      const logoH  = 14;
-      const logoW  = Math.min(rightColW, 48);
-      const logoY  = MARGIN + 13;
-      doc.addImage(companyLogoBase64, 'PNG', rightColX, logoY, logoW, logoH);
-    } catch { /* skip logo on error */ }
+  // Advance vertical cursor past the header row
+  let cursorY = headerTopY + m.headerRowH;
+
+  // ── 4. Subtitle / Bullet Block (Bold Accent) ──
+  if (m.subLines.length > 0) {
+    cursorY += 1.8;
+    setFont(doc, 'bold', subSize);
+    doc.setTextColor(palette.accent[0], palette.accent[1], palette.accent[2]);
+
+    const subBaseline = subSize * PT_TO_MM * 0.88;
+    for (let i = 0; i < m.subLines.length; i++) {
+      doc.text(m.subLines[i], textX, cursorY + subBaseline + (i * m.subLineH));
+    }
+    cursorY += m.subLines.length * m.subLineH;
   }
 
-  // ── Elegant horizontal divider ───────────────────────────────────────────
-  y += 3;
-  // Double-line effect: thick accent + thin neutral
-  doc.setDrawColor(primaryR, primaryG, primaryB);
-  doc.setLineWidth(0.8);
-  doc.line(MARGIN, y, MARGIN + contentWidth * 0.35, y);
-  doc.setDrawColor(220, 228, 238);
-  doc.setLineWidth(0.3);
-  doc.line(MARGIN + contentWidth * 0.35 + 2, y, MARGIN + contentWidth, y);
-  y += 7;
+  // ── 5. Description / Summary Body Block (Comfortable Slate Body Text) ──
+  if (m.descLines.length > 0) {
+    cursorY += 1.8;
+    setFont(doc, 'normal', descSize);
+    doc.setTextColor(51, 65, 85); // Slate-700 #334155
 
-  return y;
+    const descBaseline = descSize * PT_TO_MM * 0.88;
+    for (let i = 0; i < m.descLines.length; i++) {
+      doc.text(m.descLines[i], textX, cursorY + descBaseline + (i * (descSize * PT_TO_MM * 1.36)));
+    }
+    cursorY += m.descLines.length * (descSize * PT_TO_MM * 1.36);
+  }
+
+  // ── 6. Flow Steps Container (Visually Attractive & Clean Progression) ──
+  if (m.hasSteps && m.steps.length > 0) {
+    cursorY += 2.4;
+    const stepBoxX = textX;
+    const stepBoxW = m.bodyTextW;
+    const stepBoxH = m.stepBoxH;
+
+    // Outer subtle container
+    doc.setFillColor(255, 255, 255);
+    doc.setDrawColor(palette.border[0], palette.border[1], palette.border[2]);
+    doc.setLineWidth(0.25);
+    doc.roundedRect(stepBoxX, cursorY, stepBoxW, stepBoxH, 1.0, 1.0, 'FD');
+
+    // FLOW: Tag badge
+    doc.setFillColor(palette.pillBg[0], palette.pillBg[1], palette.pillBg[2]);
+    doc.roundedRect(stepBoxX + 1.6, cursorY + 1.4, 12.0, stepBoxH - 2.8, 0.6, 0.6, 'F');
+
+    setFont(doc, 'bold', stepSize * 0.82);
+    doc.setTextColor(palette.accent[0], palette.accent[1], palette.accent[2]);
+    doc.text('FLOW', stepBoxX + 7.6, cursorY + (stepBoxH * 0.62), { align: 'center' });
+
+    // Step text with clean ₹ amounts, arrows and ∞
+    setFont(doc, 'bold', stepSize);
+    doc.setTextColor(15, 23, 42); // Bold Deep Slate
+    const stepLineH = stepSize * PT_TO_MM * 1.32;
+    for (let i = 0; i < m.stepLines.length; i++) {
+      doc.text(m.stepLines[i], stepBoxX + 16.0, cursorY + 2.8 + (i * stepLineH));
+    }
+  }
+
+  return y + rowHeight + ROW_GAP;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// MAIN EXPORT: generatePolicyBenefitsPDF
+// 9. PROMINENT SECTION HEADING (LARGER & VISUALLY DISTINCT)
+// ─────────────────────────────────────────────────────────────────────────────
+const drawSectionHeader = (
+  doc,
+  title,
+  y,
+  pR, pG, pB,
+  sectionIndex = 1
+) => {
+  const sectionY = y;
+  const sectionH = TOKENS.sectionH; // 9.5 mm
+
+  const [bgR, bgG, bgB] = lightenRgb(pR, pG, pB, 0.94);
+  const [bdR, bdG, bdB] = lightenRgb(pR, pG, pB, 0.68);
+
+  // Colored Header Banner
+  doc.setFillColor(bgR, bgG, bgB);
+  doc.setDrawColor(bdR, bdG, bdB);
+  doc.setLineWidth(0.4);
+  doc.roundedRect(MARGIN, sectionY, CONTENT_W, sectionH, 2.0, 2.0, 'FD');
+
+  // Solid Left Accent Strip
+  doc.setFillColor(pR, pG, pB);
+  doc.roundedRect(MARGIN, sectionY, 3.2, sectionH, 0.8, 0.8, 'F');
+
+  // Number Badge Pill (e.g. "01")
+  const numBadgeX = MARGIN + 4.5;
+  const numBadgeY = sectionY + 1.5;
+  const numBadgeW = 8.2;
+  const numBadgeH = sectionH - 3.0; // 6.5 mm
+
+  doc.setFillColor(255, 255, 255);
+  doc.setDrawColor(bdR, bdG, bdB);
+  doc.setLineWidth(0.25);
+  doc.roundedRect(numBadgeX, numBadgeY, numBadgeW, numBadgeH, 1.0, 1.0, 'FD');
+
+  setFont(doc, 'bold', 8.5);
+  doc.setTextColor(pR, pG, pB);
+  doc.text(String(sectionIndex).padStart(2, '0'), numBadgeX + numBadgeW / 2, numBadgeY + (numBadgeH * 0.72), { align: 'center' });
+
+  // Prominent Section Heading Title (Large 12.0pt Bold Typography)
+  const titleX = numBadgeX + numBadgeW + 3.8;
+  setFont(doc, 'bold', TOKENS.sectionTitleSize);
+  doc.setTextColor(15, 23, 42); // Deep Navy #0F172A
+  doc.text(cleanText(title).toUpperCase(), titleX, sectionY + (sectionH * 0.68));
+
+  return sectionY + sectionH + 3.8;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 10. ELEGANT MODERN SECTION DIVIDER (━━━━━━━━━━  ◆  ━━━━━━━━━━)
+// ─────────────────────────────────────────────────────────────────────────────
+const drawSectionDivider = (doc, y, pR, pG, pB) => {
+  const centerX = PAGE_W / 2;
+  const centerY = y + 2.8;
+  const lineGap = 7.5; // Gap from center to line ends
+
+  const [bdR, bdG, bdB] = lightenRgb(pR, pG, pB, 0.65);
+
+  // Left Line
+  doc.setDrawColor(203, 213, 225); // Slate-300
+  doc.setLineWidth(0.35);
+  doc.line(MARGIN + 12, centerY, centerX - lineGap, centerY);
+
+  // Center Diamond Accent ◆
+  doc.setFillColor(pR, pG, pB);
+  doc.setDrawColor(bdR, bdG, bdB);
+  doc.setLineWidth(0.2);
+
+  const dR = 1.6;
+  if (doc.lines) {
+    doc.lines(
+      [
+        [dR, dR],
+        [-dR, dR],
+        [-dR, -dR],
+        [dR, -dR],
+      ],
+      centerX,
+      centerY - dR,
+      [1.0, 1.0],
+      'FD',
+      true
+    );
+  } else {
+    doc.circle(centerX, centerY, 1.3, 'FD');
+  }
+
+  // Right Line
+  doc.setDrawColor(203, 213, 225); // Slate-300
+  doc.setLineWidth(0.35);
+  doc.line(centerX + lineGap, centerY, MARGIN + CONTENT_W - 12, centerY);
+
+  return y + 6.0;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 11. PAGE 1: HERO HEADER (CLEAN, NO REDUNDANT BADGES)
+// ─────────────────────────────────────────────────────────────────────────────
+const drawHeroHeader = (
+  doc,
+  pR, pG, pB,
+  companyLogoData,
+  companyName,
+  planName,
+  planTagline
+) => {
+  const topLabelY = 7.5;
+  // Eyebrow
+  setFont(doc, 'bold', 7.0);
+  doc.setTextColor(100, 116, 139);
+  doc.text('WHYINSURED', MARGIN, topLabelY + 2.2);
+
+  setFont(doc, 'bold', 6.0);
+  doc.setTextColor(148, 163, 184);
+  doc.text('OFFICIAL POLICY BENEFITS BROCHURE', PAGE_W - MARGIN, topLabelY + 2.2, { align: 'right' });
+
+  const heroCardY = 12.0;
+  const heroCardW = CONTENT_W;
+  const leftColW = heroCardW * 0.70;
+
+  const defaultSubtitle = 'Comprehensive Health Insurance Benefits & Coverage Overview';
+  const subtitleText = planTagline || defaultSubtitle;
+
+  setFont(doc, 'bold', 12.5);
+  const planLines = splitText(doc, planName, leftColW - 6);
+
+  setFont(doc, 'normal', 7.8);
+  const subLines = splitText(doc, subtitleText, leftColW - 6);
+
+  let heroCardH = 20 + (planLines.length * 4.8) + (subLines.length * 3.6);
+  heroCardH = Math.max(heroCardH, 36);
+
+  const [heroBgR, heroBgG, heroBgB] = lightenRgb(pR, pG, pB, 0.96);
+  const [heroBdR, heroBdG, heroBdB] = lightenRgb(pR, pG, pB, 0.70);
+
+  doc.setFillColor(heroBgR, heroBgG, heroBgB);
+  doc.setDrawColor(heroBdR, heroBdG, heroBdB);
+  doc.setLineWidth(0.35);
+  doc.roundedRect(MARGIN, heroCardY, heroCardW, heroCardH, 2.2, 2.2, 'FD');
+
+  // Top Accent Bar
+  doc.setFillColor(pR, pG, pB);
+  doc.roundedRect(MARGIN, heroCardY, heroCardW, 1.8, 0.8, 0.8, 'F');
+
+  let textY = heroCardY + 6.0;
+  const textX = MARGIN + 5.0;
+
+  // Company Name
+  setFont(doc, 'bold', 8.5);
+  doc.setTextColor(15, 23, 42);
+  doc.text(cleanText(companyName).toUpperCase(), textX, textY);
+  textY += 4.6;
+
+  // Plan Name
+  setFont(doc, 'bold', 12.5);
+  doc.setTextColor(15, 23, 42);
+  doc.text(planLines, textX, textY);
+  textY += (planLines.length * 4.8) + 0.8;
+
+  // Document Title: POLICY BENEFITS
+  setFont(doc, 'bold', 14.5);
+  doc.setTextColor(pR, pG, pB);
+  doc.text('POLICY BENEFITS', textX, textY);
+  textY += 5.5;
+
+  // Subtitle / Tagline
+  setFont(doc, 'normal', 7.5);
+  doc.setTextColor(71, 85, 105);
+  doc.text(subLines.slice(0, 2), textX, textY);
+  textY += (Math.min(subLines.length, 2) * 3.4);
+
+  // Company Logo on Right
+  const rightColX = MARGIN + leftColW + 2;
+  const rightColW = heroCardW - leftColW - 6;
+
+  if (companyLogoData?.dataUrl) {
+    try {
+      const maxLogoW = Math.min(rightColW, 40);
+      const maxLogoH = 18;
+      let finalLogoW = maxLogoW;
+      let finalLogoH = maxLogoH;
+
+      if (companyLogoData.aspect) {
+        if (companyLogoData.aspect > (maxLogoW / maxLogoH)) {
+          finalLogoW = maxLogoW;
+          finalLogoH = maxLogoW / companyLogoData.aspect;
+        } else {
+          finalLogoH = maxLogoH;
+          finalLogoW = maxLogoH * companyLogoData.aspect;
+        }
+      }
+
+      const logoBoxX = rightColX + (rightColW - finalLogoW) / 2;
+      const logoBoxY = heroCardY + (heroCardH - finalLogoH) / 2;
+
+      doc.setFillColor(255, 255, 255);
+      doc.setDrawColor(heroBdR, heroBdG, heroBdB);
+      doc.setLineWidth(0.25);
+      doc.roundedRect(logoBoxX - 2.2, logoBoxY - 2.2, finalLogoW + 4.4, finalLogoH + 4.4, 1.6, 1.6, 'FD');
+
+      doc.addImage(companyLogoData.dataUrl, 'PNG', logoBoxX, logoBoxY, finalLogoW, finalLogoH);
+    } catch {
+      // gracefully skip if logo fails
+    }
+  }
+
+  // Thin Accent Divider
+  const lineY = heroCardY + heroCardH + 3.0;
+  doc.setDrawColor(pR, pG, pB);
+  doc.setLineWidth(0.4);
+  doc.line(MARGIN, lineY, MARGIN + CONTENT_W, lineY);
+
+  return lineY + 3.5;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 12. RUNNING HEADER (PAGES 2+)
+// ─────────────────────────────────────────────────────────────────────────────
+const drawRunningHeader = (doc, companyName, planName, pR, pG, pB) => {
+  const y = 7;
+  const headerW = CONTENT_W;
+
+  // Left: WHYINSURED | COMPANY — PLAN
+  setFont(doc, 'bold', 7.5);
+  doc.setTextColor(15, 23, 42);
+  doc.text(`WHYINSURED   |   ${cleanText(companyName).toUpperCase()} — ${cleanText(planName).toUpperCase()}`, MARGIN, y + 4.0);
+
+  // Right: Document Spec Pill
+  const [tintR, tintG, tintB] = lightenRgb(pR, pG, pB, 0.92);
+  doc.setFillColor(tintR, tintG, tintB);
+  doc.setDrawColor(pR, pG, pB);
+  doc.setLineWidth(0.2);
+  doc.roundedRect(PAGE_W - MARGIN - 42, y, 42, 4.4, 1.0, 1.0, 'FD');
+
+  setFont(doc, 'bold', 5.6);
+  doc.setTextColor(pR, pG, pB);
+  doc.text('POLICY BENEFITS', PAGE_W - MARGIN - 21, y + 3.0, { align: 'center' });
+
+  // Thin accent line underneath
+  doc.setDrawColor(pR, pG, pB);
+  doc.setLineWidth(0.35);
+  doc.line(MARGIN, y + 6.6, MARGIN + headerW, y + 6.6);
+
+  return y + 9.5;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 13. TERMS & CONDITIONS BLOCK (FINAL SECTION)
+// ─────────────────────────────────────────────────────────────────────────────
+const drawTermsBlock = (doc, startY, pR, pG, pB) => {
+  const cardX = MARGIN;
+  const cardW = CONTENT_W;
+
+  setFont(doc, 'normal', 6.6);
+  const termsText = [
+    '• Initial & Specific Waiting Periods: Standard 30-day initial waiting applies (except accidental hospitalisation). Specific diseases have 24-48 months waiting.',
+    '• Pre-existing Diseases (PED): Covered after declared waiting period. Cashless network admission requires valid ID & pre-authorization verification.',
+  ];
+
+  const termsLines = termsText.map(t => splitText(doc, t, cardW - 12));
+  const totalLines = termsLines.reduce((acc, l) => acc + l.length, 0);
+  const cardH = 9.0 + (totalLines * 3.6);
+
+  doc.setFillColor(248, 250, 252);
+  doc.setDrawColor(226, 232, 240);
+  doc.setLineWidth(0.35);
+  doc.roundedRect(cardX, startY, cardW, cardH, 1.8, 1.8, 'FD');
+
+  // Left accent bar
+  doc.setFillColor(pR, pG, pB);
+  doc.roundedRect(cardX, startY, 1.6, cardH, 0.6, 0.6, 'F');
+
+  let textY = startY + 4.0;
+  const textX = cardX + 5.0;
+
+  setFont(doc, 'bold', 8.0);
+  doc.setTextColor(15, 23, 42);
+  doc.text('IMPORTANT CONDITIONS & UNDERWRITING GUIDELINES', textX, textY);
+  textY += 4.0;
+
+  setFont(doc, 'normal', 6.6);
+  doc.setTextColor(71, 85, 105);
+
+  termsLines.forEach(linesGroup => {
+    linesGroup.forEach(line => {
+      doc.text(line, textX, textY);
+      textY += 3.6;
+    });
+  });
+
+  return startY + cardH + 2.5;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 14. TWO-PASS PAGE FOOTER (ALL PAGES)
+// ─────────────────────────────────────────────────────────────────────────────
+const drawFooter = (doc, pageNum, totalPages, companyName, planName, pR, pG, pB) => {
+  const y = PAGE_H - FOOTER_H + 1.0;
+
+  // Divider Line
+  doc.setDrawColor(226, 232, 240);
+  doc.setLineWidth(0.3);
+  doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+
+  // ROW 1: Brand & Page Counter
+  setFont(doc, 'bold', 7.2);
+  doc.setTextColor(15, 23, 42);
+  doc.text('WHYINSURED — Policy Benefits', MARGIN, y + 3.6);
+
+  setFont(doc, 'bold', 7.2);
+  doc.setTextColor(15, 23, 42);
+  doc.text(`Page ${pageNum} of ${totalPages}`, PAGE_W - MARGIN, y + 3.6, { align: 'right' });
+
+  // ROW 2: Disclaimer & Tagline
+  setFont(doc, 'normal', 5.2);
+  doc.setTextColor(100, 116, 139);
+  doc.text('Insurance information made simple. Policy terms, exclusions and benefits are subject to actual policy wording.', MARGIN, y + 7.2);
+
+  setFont(doc, 'normal', 5.0);
+  doc.setTextColor(148, 163, 184);
+  doc.text('Privacy Policy · Terms & Conditions · Disclaimer', PAGE_W - MARGIN, y + 7.2, { align: 'right' });
+
+  // ROW 3: Copyright
+  setFont(doc, 'normal', 4.6);
+  doc.setTextColor(148, 163, 184);
+  doc.text('© 2026 WHYINSURED · All Rights Reserved. *T&C Apply across all policies.', PAGE_W / 2, y + 10.8, { align: 'center' });
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 15. CORE PDF GENERATOR: generatePolicyBenefitsPDF (POLISHED FLOW & FORMAT)
 // ─────────────────────────────────────────────────────────────────────────────
 export const generatePolicyBenefitsPDF = async (company, plan, featuresSections = []) => {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-  const pageWidth  = doc.internal.pageSize.getWidth();   // 210 mm
-  const pageHeight = doc.internal.pageSize.getHeight();  // 297 mm
-  const contentWidth = pageWidth - MARGIN * 2;
-
-  // Bottom boundary = footer zone top
-  const maxY = pageHeight - FOOTER_H - 2;
-
-  // ── Company & Plan identity ────────────────────────────────────────────
+  // Identity & Theme
   const companyName = company?.name || company?.fullName || 'Insurance Provider';
   const planName    = plan?.planName || plan?.name || 'Health Plan';
   const planTagline = plan?.tagline  || plan?.description || '';
-
-  // Company theme colour
   const primaryHex  = company?.theme?.primary || '#0038A8';
   const [pR, pG, pB] = hexToRgb(primaryHex);
 
-  // Assets
-  const logoBase64        = await getImageBase64(logoAsset);
-  const companyLogoBase64 = await getImageBase64(company?.logo);
+  // Logo Asset
+  const companyLogoData = await getImageData(company?.logo);
 
-  // ── PAGE 1: draw watermark, then header ─────────────────────────────────
-  drawWatermark(doc, pageWidth, pageHeight);
+  // Normalize sections
+  const sections = Array.isArray(featuresSections) && featuresSections.length > 0
+    ? featuresSections
+    : [{ id: 'sec-1', title: 'MOST IMPORTANT FEATURES', items: [] }];
 
-  let currentY = await drawHeader(
-    doc, pageWidth, pageHeight,
+  // =========================================================================
+  // PAGE 1 RENDERING
+  // =========================================================================
+  drawWatermark(doc);
+
+  let currentY = drawHeroHeader(
+    doc,
     pR, pG, pB,
-    logoBase64, companyLogoBase64,
-    companyName, planName, planTagline,
+    companyLogoData,
+    companyName,
+    planName,
+    planTagline
   );
 
-  // ── Section data ─────────────────────────────────────────────────────────
-  const sectionsToRender =
-    Array.isArray(featuresSections) && featuresSections.length > 0
-      ? featuresSections
-      : [{ id: 'sec-1', title: 'MOST IMPORTANT FEATURES', items: [] }];
+  let currentPage = 1;
+  let sectionGlobalIdx = 1;
+  let rowGlobalIdx = 0;
 
-  let pageCount = 1;
-
-  // Helper: add a new page with watermark, return new Y
-  const addPage = () => {
-    doc.addPage();
-    pageCount++;
-    drawWatermark(doc, pageWidth, pageHeight);
-    return TOP_MARGIN;
-  };
-
-  // Helper: ensure we have room; if not, page-break (max 2 pages)
-  const ensureRoom = (needed) => {
-    if (currentY + needed > maxY) {
-      if (pageCount >= 2) return false; // no more pages allowed
-      currentY = addPage();
-    }
-    return true;
-  };
-
-  // ── Render sections ───────────────────────────────────────────────────────
-  let contentTruncated = false;
-
-  for (let sIdx = 0; sIdx < sectionsToRender.length; sIdx++) {
-    if (contentTruncated) break;
-
-    const sec   = sectionsToRender[sIdx];
+  // Loop through sections and render ONE FEATURE PER COMPLETE HORIZONTAL ROW
+  for (let sIdx = 0; sIdx < sections.length; sIdx++) {
+    const sec = sections[sIdx];
     const items = sec.items || [];
     if (items.length === 0) continue;
 
-    const isRiderSection = sec.title?.toLowerCase().includes('rider') ||
-                           sec.title?.toLowerCase().includes('add-on') ||
-                           items.some(i => i.isRider);
+    const isRiderSec =
+      sec.title?.toLowerCase().includes('rider') ||
+      sec.title?.toLowerCase().includes('add-on') ||
+      items.some(i => i.isRider);
 
-    // Estimate section heading height
-    const headingH = isRiderSection ? 15 : 16;
+    // Calculate height of first row in section
+    const mFirst = measureFeatureRow(doc, items[0], isRiderSec);
+    const secHeadAndFirstRowH = TOKENS.sectionH + 3.8 + mFirst.exactHeight;
 
-    // ── Section heading ────────────────────────────────────────────────────
-    if (!ensureRoom(headingH)) break;
+    // Draw elegant section divider between sections (if not top of new page)
+    if (sIdx > 0 && currentY > TOP_MARGIN_RUNNING + 5) {
+      const dividerH = 6.0;
+      if (currentY + dividerH + secHeadAndFirstRowH > MAX_PAGE_Y) {
+        doc.addPage();
+        currentPage++;
+        drawWatermark(doc);
+        currentY = drawRunningHeader(doc, companyName, planName, pR, pG, pB);
+      } else {
+        currentY = drawSectionDivider(doc, currentY, pR, pG, pB);
+      }
+    } else if (currentY + secHeadAndFirstRowH > MAX_PAGE_Y) {
+      doc.addPage();
+      currentPage++;
+      drawWatermark(doc);
+      currentY = drawRunningHeader(doc, companyName, planName, pR, pG, pB);
+    }
 
-    currentY = drawSectionHeading(
-      doc, sec.title || `SECTION ${sIdx + 1}`, currentY,
-      pageWidth, contentWidth, pR, pG, pB, isRiderSection,
+    // Draw Prominent Section Header Banner (Only once at start of section)
+    currentY = drawSectionHeader(
+      doc,
+      sec.title || `SECTION ${sectionGlobalIdx}`,
+      currentY,
+      pR, pG, pB,
+      sectionGlobalIdx
     );
+    sectionGlobalIdx++;
 
-    // ── Features ──────────────────────────────────────────────────────────
-    for (let iIdx = 0; iIdx < items.length; iIdx++) {
-      const item   = items[iIdx];
-      const isLast = iIdx === items.length - 1;
+    // Render features — ONE FEATURE PER ROW with continuous natural flow across pages
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const mRow = measureFeatureRow(doc, item, isRiderSec);
+      const rowHeight = mRow.exactHeight;
 
-      const needed = estimateFeatureHeight(doc, item, contentWidth, isRiderSection);
-
-      if (!ensureRoom(needed)) {
-        contentTruncated = true;
-        break;
+      // Check if this row fits on current page; if not, switch cleanly to next page (NO CONTINUED BANNER)
+      if (currentY + rowHeight > MAX_PAGE_Y) {
+        doc.addPage();
+        currentPage++;
+        drawWatermark(doc);
+        currentY = drawRunningHeader(doc, companyName, planName, pR, pG, pB);
       }
 
-      currentY = drawFeatureBlock(
-        doc, item, currentY, contentWidth,
+      // Draw Full-Width Feature Row
+      currentY = drawFeatureRow(
+        doc,
+        item,
+        currentY,
         pR, pG, pB,
-        isRiderSection, isLast,
+        i + 1,
+        rowGlobalIdx,
+        isRiderSec
       );
+
+      rowGlobalIdx++;
     }
 
-    // Space between sections
-    if (!contentTruncated && sIdx < sectionsToRender.length - 1) {
-      if (currentY + 4 <= maxY) currentY += 4;
-    }
+    currentY += 2.0; // Clean breather after section
   }
 
-  // ── Enforce maximum 2 pages ───────────────────────────────────────────────
-  const totalPagesRaw = doc.getNumberOfPages();
-  for (let i = totalPagesRaw; i > 2; i--) doc.deletePage(i);
+  // Draw Terms & Conditions Block on final page
+  const termsH = 24;
+  if (currentY + termsH > MAX_PAGE_Y) {
+    doc.addPage();
+    currentPage++;
+    drawWatermark(doc);
+    currentY = drawRunningHeader(doc, companyName, planName, pR, pG, pB);
+  }
 
-  // ── Two-pass footer on every page ─────────────────────────────────────────
+  currentY = drawTermsBlock(doc, currentY + 1.0, pR, pG, pB);
+
+  // Two-Pass Footers across all generated pages (Page 1 of N, Page 2 of N, etc.)
   const totalPages = doc.getNumberOfPages();
-  for (let i = 1; i <= totalPages; i++) {
-    doc.setPage(i);
-    drawFooter(doc, i, totalPages, pageWidth, pageHeight, companyName, planName);
+  for (let p = 1; p <= totalPages; p++) {
+    doc.setPage(p);
+    drawFooter(doc, p, totalPages, companyName, planName, pR, pG, pB);
   }
 
-  // ── Filename ──────────────────────────────────────────────────────────────
-  const filename = `WHYINSURED_${sanitizeForFilename(companyName)}_${sanitizeForFilename(planName)}_POLICY_BENEFITS.pdf`;
+  // Filename formatting
+  const sanitizedCompany = sanitizeForFilename(companyName);
+  const sanitizedPlan    = sanitizeForFilename(planName);
+  const filename = `WHYINSURED_${sanitizedCompany}_${sanitizedPlan}_Policy_Benefits.pdf`;
 
   return {
     doc,
     filename,
-    download : () => doc.save(filename),
-    getBlob  : () => doc.output('blob'),
+    download: () => doc.save(filename),
+    getBlob:  () => doc.output('blob'),
   };
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Convenience exports (unchanged API surface)
+// 16. STEP-BY-STEP DOWNLOAD & SHARE FUNCTIONALITY
 // ─────────────────────────────────────────────────────────────────────────────
+export const downloadAndSharePolicyBenefitsPDF = async (company, plan, featuresSections, onProgress) => {
+  // Step 1: Generate PDF
+  if (onProgress) onProgress('generating');
+  const result = await generatePolicyBenefitsPDF(company, plan, featuresSections);
+  const blob = result.getBlob();
+  const filename = result.filename;
+  const cName = company?.name || company?.fullName || 'Insurance Provider';
+  const pName = plan?.planName || plan?.name || 'Health Plan';
+  const shareTitle = `${cName} ${pName} Policy Benefits`;
+  const shareText = `Official Policy Benefits for ${pName} by ${cName}. Verified brochure from WHYINSURED.`;
+
+  // Step 2: Trigger Download immediately onto user's device
+  if (onProgress) onProgress('downloading');
+  result.download();
+
+  // Micro delay to allow browser download initiation
+  await new Promise((resolve) => setTimeout(resolve, 600));
+  if (onProgress) onProgress('downloaded');
+
+  // Step 3: Trigger Share (Native file share on mobile devices)
+  let shared = false;
+  if (typeof navigator !== 'undefined' && navigator.share && navigator.canShare) {
+    try {
+      const file = new File([blob], filename, { type: 'application/pdf' });
+      if (navigator.canShare({ files: [file] })) {
+        if (onProgress) onProgress('sharing');
+        await navigator.share({
+          files: [file],
+          title: shareTitle,
+          text: shareText,
+        });
+        shared = true;
+      }
+    } catch (shareErr) {
+      if (shareErr.name === 'AbortError') {
+        // User cancelled share dialog cleanly
+        return { success: true, downloaded: true, shared: false, cancelled: true, filename };
+      }
+    }
+  }
+
+  return { success: true, downloaded: true, shared, filename };
+};
+
+// Backward-compatibility aliases
+export const downloadOrSharePolicyBenefitsPDF = async (company, plan, featuresSections, onProgress) => {
+  return downloadAndSharePolicyBenefitsPDF(company, plan, featuresSections, onProgress);
+};
+
 export const downloadPolicyBenefitsPDF = async (company, plan, featuresSections) => {
   const result = await generatePolicyBenefitsPDF(company, plan, featuresSections);
   result.download();
@@ -505,59 +1007,5 @@ export const downloadPolicyBenefitsPDF = async (company, plan, featuresSections)
 };
 
 export const sharePolicyBenefitsPDF = async (company, plan, featuresSections) => {
-  const result     = await generatePolicyBenefitsPDF(company, plan, featuresSections);
-  const blob       = result.getBlob();
-  const filename   = result.filename;
-  const cName      = company?.name || 'Insurance';
-  const pName      = plan?.name || plan?.planName || 'Health Plan';
-  const shareTitle = `WHYINSURED — ${cName} ${pName} Policy Benefits`;
-  const shareText  = `Explore the official Policy Benefits for ${cName} ${pName} generated by WHYINSURED.`;
-
-  if (typeof navigator !== 'undefined' && navigator.share) {
-    try {
-      const file = new File([blob], filename, { type: 'application/pdf' });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ title: shareTitle, text: shareText, files: [file] });
-        return { success: true, method: 'native-file-share', filename };
-      } else {
-        await navigator.share({ title: shareTitle, text: shareText, url: window.location.href });
-        result.download();
-        return { success: true, method: 'native-text-share-with-download', filename };
-      }
-    } catch (shareErr) {
-      if (shareErr.name === 'AbortError') return { success: false, method: 'user-cancelled', filename };
-    }
-  }
-  result.download();
-  return { success: true, method: 'fallback-download', filename };
-};
-
-export const downloadAndSharePolicyBenefitsPDF = async (company, plan, featuresSections) => {
-  const result   = await generatePolicyBenefitsPDF(company, plan, featuresSections);
-  const blob     = result.getBlob();
-  const filename = result.filename;
-  const cName    = company?.name || 'Insurance';
-  const pName    = plan?.name || plan?.planName || 'Health Plan';
-
-  // Step 1: Always download first
-  result.download();
-  await new Promise(r => setTimeout(r, 500));
-
-  const shareTitle = `WHYINSURED — ${cName} ${pName} Policy Benefits`;
-  const shareText  = `Explore the official Policy Benefits for ${cName} ${pName} generated by WHYINSURED.`;
-
-  if (typeof navigator !== 'undefined' && navigator.share) {
-    try {
-      const file = new File([blob], filename, { type: 'application/pdf' });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ title: shareTitle, text: shareText, files: [file] });
-        return { success: true, method: 'native-file-share', filename };
-      }
-      return { success: true, method: 'fallback-download', filename };
-    } catch (shareErr) {
-      if (shareErr.name === 'AbortError') return { success: true, method: 'user-cancelled', filename };
-      return { success: true, method: 'fallback-download', filename };
-    }
-  }
-  return { success: true, method: 'fallback-download', filename };
+  return downloadAndSharePolicyBenefitsPDF(company, plan, featuresSections);
 };

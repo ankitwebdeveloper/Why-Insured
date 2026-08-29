@@ -446,7 +446,7 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
               <div className="w-8 sm:w-12 h-1 bg-[#003366] mx-auto mt-1.5 rounded-full" />
             </div>
 
-            {/* DOWNLOAD & SHARE PDF ACTIONS */}
+            {/* DOWNLOAD & SHARE PDF ACTION BUTTONS */}
             <PolicyBenefitsPdfActions
               company={company}
               plan={planData}

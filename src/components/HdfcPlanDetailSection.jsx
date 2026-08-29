@@ -718,7 +718,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
               <div className="w-8 sm:w-12 h-1 bg-[#E30613] mx-auto mt-1.5 rounded-full" />
             </div>
 
-            {/* DOWNLOAD & SHARE PDF ACTIONS */}
+            {/* DOWNLOAD & SHARE PDF ACTION BUTTONS */}
             <PolicyBenefitsPdfActions
               company={company}
               plan={planData}

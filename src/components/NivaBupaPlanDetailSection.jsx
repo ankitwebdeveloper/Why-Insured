@@ -452,7 +452,7 @@ export default function NivaBupaPlanDetailSection({ plan, company, planId: planI
               <div className="w-8 sm:w-12 h-1 bg-[#0EA5E9] mx-auto mt-1.5 rounded-full" />
             </div>
 
-            {/* DOWNLOAD & SHARE PDF ACTIONS */}
+            {/* DOWNLOAD & SHARE PDF ACTION BUTTONS */}
             <PolicyBenefitsPdfActions
               company={company}
               plan={planData}
