@@ -1,28 +1,33 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  FiMail, 
-  FiPhoneCall, 
-  FiArrowRight, 
-  FiShield, 
-  FiCheckCircle, 
-  FiX, 
-  FiExternalLink,
+import {
+  FiMail,
+  FiShield,
+  FiX,
   FiFileText,
-  FiHelpCircle
+  FiHelpCircle,
+  FiArrowUpRight
 } from 'react-icons/fi';
 import logoImg from '../assets/logo.png';
 
 export default function Footer() {
-  const [activeModal, setActiveModal] = useState(null); // 'advisor' | 'privacy' | 'terms' | 'disclaimer'
+  const [activeModal, setActiveModal] = useState(null); // 'privacy' | 'terms' | 'disclaimer'
 
   const quickLinks = [
     { name: 'Health Insurance', path: '/' },
     { name: 'Compare Plans', path: '/compare' },
     { name: 'Claims', path: '/claim' },
-    { name: 'Panel Hospitals', path: 'https://panel-hospital.vercel.app/', isExternal: true },
     { name: 'Insurance Academy', path: '/academy' }
+  ];
+
+  const insuranceCompanies = [
+    { name: 'HDFC ERGO', path: '/insurance/hdfc-ergo' },
+    { name: 'Tata AIG', path: '/insurance/tata-aig' },
+    { name: 'ICICI Lombard', path: '/insurance/icici-lombard' },
+    { name: 'Niva Bupa', path: '/insurance/niva-bupa' },
+    { name: 'Star Health', path: '/insurance/star-health' },
+    { name: 'Care Health', path: '/insurance/care-health' },
   ];
 
   const handleOpenModal = (modalType) => {
@@ -35,20 +40,20 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="relative bg-[#0A0F1D] text-slate-300 border-t border-slate-800/80 font-sans select-none z-10 overflow-hidden">
+      <footer className="relative bg-[#060913] text-slate-300 border-t border-slate-800/80 font-sans select-none z-10 overflow-hidden">
         {/* Subtle Ambient Glow */}
-        <div className="absolute left-1/4 top-0 -translate-y-1/2 w-96 h-96 rounded-full bg-emerald-500/[0.03] blur-[120px] pointer-events-none" />
-        <div className="absolute right-10 bottom-0 w-80 h-80 rounded-full bg-blue-500/[0.02] blur-[100px] pointer-events-none" />
+        <div className="absolute left-1/4 top-0 -translate-y-1/2 w-96 h-96 rounded-full bg-emerald-500/[0.025] blur-[130px] pointer-events-none" />
+        <div className="absolute right-10 bottom-0 w-80 h-80 rounded-full bg-blue-500/[0.02] blur-[110px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-8 sm:py-10 relative z-10">
-          
-          {/* Main Footer Row (3 Compact Columns) */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10 items-start pb-8">
-            
-            {/* 1. LEFT COLUMN: Brand + Tagline (md: col-span-4) */}
-            <div className="md:col-span-4 space-y-3 text-left">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-10 sm:py-12 relative z-10">
+
+          {/* Main Footer Grid (4 Clean Columns) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 items-start pb-10">
+
+            {/* 1. COLUMN 1: WHYINSURED (lg: col-span-4) */}
+            <div className="lg:col-span-4 space-y-4 text-left">
               <Link to="/" className="inline-flex items-center gap-2 group">
-                <div className="bg-white/95 rounded-xl p-1.5 shadow-sm border border-slate-700/40 inline-flex items-center justify-center">
+                <div className="bg-white/95 rounded-xl p-2 shadow-xs border border-slate-700/40 inline-flex items-center justify-center">
                   <img
                     src={logoImg}
                     alt="WHYINSURED"
@@ -61,88 +66,94 @@ export default function Footer() {
                 <p className="text-sm font-bold text-white tracking-tight">
                   Your Health Insurance, Simplified.
                 </p>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed max-w-xs">
-                  Unbiased policy comparison, transparent metrics, and verified health intelligence.
+                <p className="text-xs text-slate-400 mt-1.5 leading-relaxed max-w-sm">
+                  Simplifying health insurance with unbiased comparisons, transparent metrics, and verified policy benefits.
                 </p>
               </div>
 
-              {/* Trust Micro-Badge */}
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] font-medium text-emerald-400">
+              {/* Trust Badge */}
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] font-semibold text-emerald-400">
                 <FiShield className="text-xs" />
                 <span>100% Unbiased & Transparent</span>
               </div>
             </div>
 
-            {/* 2. MIDDLE COLUMN: Quick Links (md: col-span-4) */}
-            <div className="md:col-span-4 text-left">
-              <h4 className="text-xs font-black uppercase tracking-widest text-slate-200 mb-3.5 font-display flex items-center gap-2">
+            {/* 2. COLUMN 2: QUICK LINKS (lg: col-span-3) */}
+            <div className="lg:col-span-3 text-left">
+              <h4 className="text-xs font-black uppercase tracking-widest text-slate-200 mb-4 font-display flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 Quick Links
               </h4>
-              
-              <ul className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-xs sm:text-sm font-medium">
+
+              <ul className="space-y-2.5 text-xs sm:text-sm font-medium">
                 {quickLinks.map((link, idx) => (
                   <li key={idx}>
-                    {link.isExternal ? (
-                      <a
-                        href={link.path}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-slate-400 hover:text-white hover:translate-x-0.5 transition-all duration-200 inline-flex items-center gap-1 group cursor-pointer"
-                      >
-                        <span>{link.name}</span>
-                        <FiExternalLink className="text-[10px] opacity-60 group-hover:opacity-100 transition-opacity" />
-                      </a>
-                    ) : (
-                      <Link
-                        to={link.path}
-                        className="text-slate-400 hover:text-white hover:translate-x-0.5 transition-all duration-200 inline-flex items-center gap-1 group cursor-pointer"
-                      >
-                        <span className="text-slate-600 group-hover:text-emerald-400 transition-colors">•</span>
-                        <span>{link.name}</span>
-                      </Link>
-                    )}
+                    <Link
+                      to={link.path}
+                      className="text-slate-400 hover:text-white hover:translate-x-1 transition-all duration-200 inline-flex items-center gap-1.5 group cursor-pointer"
+                    >
+                      <span className="text-slate-600 group-hover:text-emerald-400 transition-colors">•</span>
+                      <span>{link.name}</span>
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* 3. RIGHT COLUMN: Contact / Support + CTA (md: col-span-4) */}
-            <div className="md:col-span-4 text-left space-y-3.5">
-              <h4 className="text-xs font-black uppercase tracking-widest text-slate-200 mb-3.5 font-display flex items-center gap-2">
+            {/* 3. COLUMN 3: COMPANIES / INSURANCE (lg: col-span-3) */}
+            <div className="lg:col-span-3 text-left">
+              <h4 className="text-xs font-black uppercase tracking-widest text-slate-200 mb-4 font-display flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                Contact / Support
+                Companies / Insurance
               </h4>
 
-              <div className="flex items-center gap-2 text-xs text-slate-300">
-                <div className="w-7 h-7 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-emerald-400 shrink-0">
-                  <FiMail className="text-xs" />
-                </div>
+              <ul className="grid grid-cols-2 gap-x-3 gap-y-2.5 text-xs sm:text-sm font-medium">
+                {insuranceCompanies.map((comp, idx) => (
+                  <li key={idx}>
+                    <Link
+                      to={comp.path}
+                      className="text-slate-400 hover:text-white hover:translate-x-0.5 transition-all duration-200 inline-flex items-center gap-1 group cursor-pointer"
+                    >
+                      <span className="text-slate-600 group-hover:text-blue-400 transition-colors">•</span>
+                      <span>{comp.name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* 4. COLUMN 4: CONTACT (EMAIL ONLY) (lg: col-span-2) */}
+            <div className="lg:col-span-2 text-left space-y-3">
+              <h4 className="text-xs font-black uppercase tracking-widest text-slate-200 mb-4 font-display flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+                Contact
+              </h4>
+
+              <div className="space-y-1.5">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  Email Us
+                </p>
+
                 <a
                   href="mailto:whyinsured3@gmail.com"
-                  className="text-slate-300 hover:text-white font-medium hover:underline transition-colors"
+                  className="group inline-flex items-center gap-2 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 text-slate-200 hover:text-emerald-400 transition-all duration-200 cursor-pointer text-xs font-semibold shadow-xs"
                 >
-                  whyinsured3@gmail.com
+                  <div className="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                    <FiMail className="text-xs" />
+                  </div>
+                  <span className="truncate">whyinsured3@gmail.com</span>
+                  <FiArrowUpRight className="text-[10px] opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
                 </a>
               </div>
-
-              {/* "Talk to an Advisor" CTA Button */}
-              <button
-                type="button"
-                onClick={() => handleOpenModal('advisor')}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-sm hover:shadow-md active:scale-[0.98] transition-all duration-200 cursor-pointer group"
-              >
-                <FiPhoneCall className="text-xs group-hover:rotate-12 transition-transform" />
-                <span>Talk to an Advisor</span>
-                <FiArrowRight className="text-xs group-hover:translate-x-0.5 transition-transform" />
-              </button>
             </div>
 
           </div>
 
           {/* Bottom Bar Divider */}
-          <div className="border-t border-slate-800/80 pt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 text-center sm:text-left">
-            <p>© 2026 WHYINSURED. All Rights Reserved.</p>
+          <div className="border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 text-center sm:text-left">
+            <p className="text-slate-400 font-medium">
+              © 2026 WHYINSURED. All Rights Reserved.
+            </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[11px] sm:text-xs">
               <button
@@ -174,7 +185,7 @@ export default function Footer() {
         </div>
       </footer>
 
-      {/* Interactive Modal for Advisor & Legal Pages */}
+      {/* Interactive Modal for Legal Pages */}
       <AnimatePresence>
         {activeModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs">
@@ -195,59 +206,6 @@ export default function Footer() {
               >
                 <FiX />
               </button>
-
-              {/* Modal Content: Advisor */}
-              {activeModal === 'advisor' && (
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2.5 text-emerald-400 font-bold text-sm">
-                    <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                      <FiPhoneCall className="text-sm" />
-                    </div>
-                    <span>Talk to an Insurance Advisor</span>
-                  </div>
-
-                  <h3 className="text-lg font-black text-white font-display">
-                    Get Unbiased Health Insurance Guidance
-                  </h3>
-
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    Have questions about room rent capping, restoration benefits, or waiting periods? Connect directly with our insurance experts for 100% unbiased assistance.
-                  </p>
-
-                  <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2.5">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-slate-400">Direct Email Consultation:</span>
-                      <a 
-                        href="mailto:whyinsured3@gmail.com?subject=Health%20Insurance%20Advisor%20Inquiry" 
-                        className="font-bold text-emerald-400 hover:underline"
-                      >
-                        whyinsured3@gmail.com
-                      </a>
-                    </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-slate-400">Response Time:</span>
-                      <span className="font-semibold text-slate-200">Within 2 business hours</span>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 flex gap-3">
-                    <a
-                      href="mailto:whyinsured3@gmail.com?subject=Need%20Health%20Insurance%20Advisor%20Assistance"
-                      className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-sm transition-colors text-center"
-                    >
-                      <FiMail />
-                      <span>Email Advisor Now</span>
-                    </a>
-                    <button
-                      type="button"
-                      onClick={handleCloseModal}
-                      className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-colors cursor-pointer"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              )}
 
               {/* Modal Content: Privacy Policy */}
               {activeModal === 'privacy' && (
