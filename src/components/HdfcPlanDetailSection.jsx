@@ -186,7 +186,7 @@ function LimitationDetailContent({ item }) {
       {item.diseaseList && (
         <div className="p-3 sm:p-4 rounded-xl bg-[#FFF5F5]/60 border border-[#E30613]/15 space-y-2">
           <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-[#E30613] block">
-            Covered after 24 Months Continuous Coverage
+            {item.diseaseListHeader || 'Covered after 24 Months Continuous Coverage'}
           </span>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
             {item.diseaseList.map((disease, dIdx) => (
@@ -202,7 +202,7 @@ function LimitationDetailContent({ item }) {
       {item.exclusionsList && (
         <div className="p-3 sm:p-4 rounded-xl bg-rose-50/50 border border-rose-200/60 space-y-2">
           <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-rose-600 block">
-            Permanently Excluded from Coverage
+            {item.exclusionsListHeader || 'Permanently Excluded from Coverage'}
           </span>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
             {item.exclusionsList.map((excl, eIdx) => (
@@ -236,7 +236,8 @@ function HdfcFeatureAccordionItem({
   onToggle,
   index = 0,
   onOpenVideo,
-  demoVideoUrl
+  demoVideoUrl,
+  onOpenHealthCheckupModal
 }) {
   const itemRef = React.useRef(null);
   const { id, title, subtitle, summary, badge, steps, isRider, iconType, videoUrl } = item;
@@ -325,9 +326,54 @@ function HdfcFeatureAccordionItem({
               </div>
 
               {/* Short explanation / Details */}
-              <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">
-                {summary}
-              </div>
+              {item.points && item.points.length > 0 ? (
+                <div className="space-y-1.5 pt-0.5">
+                  {item.intro && (
+                    <p
+                      className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600 mb-1"
+                      dangerouslySetInnerHTML={{
+                        __html: item.intro.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-900">$1</strong>')
+                      }}
+                    />
+                  )}
+                  <ul className="space-y-1.5 text-[11px] sm:text-sm font-medium text-slate-600 list-none pl-0">
+                    {item.points.map((pt, pIdx) => (
+                      <li key={pIdx} className="flex items-start gap-2">
+                        <span className="text-[#E30613] font-bold text-sm leading-none mt-0.5 shrink-0">•</span>
+                        <span
+                          className="leading-relaxed"
+                          dangerouslySetInnerHTML={{
+                            __html: pt.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-900">$1</strong>')
+                          }}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">
+                  {summary}
+                </div>
+              )}
+
+              {/* Health Check-up Limits Table Button */}
+              {(item.hasHealthCheckupTable || item.healthCheckupLimits) && (
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onOpenHealthCheckupModal) {
+                        onOpenHealthCheckupModal(item);
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/30 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none active:scale-95"
+                  >
+                    <FiActivity className="text-xs shrink-0" />
+                    <span>{item.tableButtonLabel || 'View Health Check-up Limits'}</span>
+                  </button>
+                </div>
+              )}
 
               {/* Visual Number Step Progression */}
               {steps && steps.length > 0 && (
@@ -363,6 +409,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
   const [activeModal, setActiveModal] = useState(null);
   const [activeLimitationModal, setActiveLimitationModal] = useState(null);
   const [activeOptimaLimitation, setActiveOptimaLimitation] = useState(null);
+  const [healthCheckupModal, setHealthCheckupModal] = useState(null);
   const [videoModalState, setVideoModalState] = useState({
     isOpen: false,
     title: '',
@@ -431,6 +478,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
     setActiveModal(null);
     setActiveLimitationModal(null);
     setActiveOptimaLimitation(null);
+    setHealthCheckupModal(null);
     setVideoModalState({ isOpen: false, title: '', url: '' });
     setExpandedLimitations({ initial: false, specific: false, permanent: false });
     setExpandedReportCard({ csr: false, icr: false, complaint: false });
@@ -447,7 +495,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
 
   // Lock background body scroll when modal is active
   useEffect(() => {
-    if (activeModal || videoModalState.isOpen || activeLimitationModal) {
+    if (activeModal || videoModalState.isOpen || activeLimitationModal || healthCheckupModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -455,7 +503,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeModal, videoModalState.isOpen, activeLimitationModal]);
+  }, [activeModal, videoModalState.isOpen, activeLimitationModal, healthCheckupModal]);
 
   if (!planData || !currentPlanId) {
     return (
@@ -530,7 +578,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 to={`/insurance/${company.id}/${currentPlanId}`}
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
               >
-                <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {planData.planName}</span><span className="sm:hidden">Back to Plan</span>
+                <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">{planData.backToPlanLabel || `Back to ${planData.planName}`}</span><span className="sm:hidden">Back to Plan</span>
               </Link>
             </div>
 
@@ -549,7 +597,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 {planData.planName}
               </div>
               <h1 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                LIMITATIONS & WAITING PERIODS
+                {planData.limitationsWaitingPeriods?.heading || 'LIMITATIONS & WAITING PERIODS'}
               </h1>
               <div className="w-8 sm:w-12 h-1 bg-[#E30613] mx-auto mt-1.5 rounded-full" />
             </div>
@@ -703,7 +751,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 to={`/insurance/${company.id}/${currentPlanId}`}
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
               >
-                <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {planData.planName}</span><span className="sm:hidden">Back to Plan</span>
+                <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">{planData.backToPlanLabel || `Back to ${planData.planName}`}</span><span className="sm:hidden">Back to Plan</span>
               </Link>
             </div>
 
@@ -714,7 +762,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 className="w-24 sm:w-44 h-auto max-h-9 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-5"
               />
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
-                {planData.planName} <span className="text-[#E30613]">—</span> {isOptimaSecurePlus ? 'POLICY BENEFITS' : 'FEATURES'}
+                {planData.planName} <span className="text-[#E30613]">—</span> {planData.featuresHeadingSuffix || (isOptimaSecurePlus ? 'POLICY BENEFITS' : 'FEATURES')}
               </h1>
               <div className="w-8 sm:w-12 h-1 bg-[#E30613] mx-auto mt-1.5 rounded-full" />
             </div>
@@ -753,6 +801,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                     onToggle={toggleAccordionItem}
                     onOpenVideo={handleOpenVideo}
                     demoVideoUrl={demoVideoUrl}
+                    onOpenHealthCheckupModal={setHealthCheckupModal}
                   />
                 ))}
               </div>
@@ -767,6 +816,108 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           </div>
 
         </div>
+
+        {/* HEALTH CHECK-UP LIMITS MODAL (TABLE OVERLAY) */}
+        <AnimatePresence>
+          {healthCheckupModal && (
+            <div
+              className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-6"
+              onClick={() => setHealthCheckupModal(null)}
+            >
+              {/* Backdrop Overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
+              />
+
+              {/* Modal Content Box */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-md overflow-hidden z-10 p-4 sm:p-6"
+              >
+                {/* Modal Header */}
+                <div className="flex items-start justify-between gap-3 pb-3.5 border-b border-slate-100">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#E30613]" />
+                      <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-[#E30613]">
+                        {planData.planName}
+                      </span>
+                    </div>
+                    <h3 className="text-base sm:text-lg font-black text-[#0F172A] tracking-tight font-display mt-0.5">
+                      Health Check-up Limits
+                    </h3>
+                    <p className="text-xs text-slate-500 font-medium mt-0.5">
+                      Reimbursement limits applicable per policy year
+                    </p>
+                  </div>
+
+                  {/* Close Button */}
+                  <button
+                    type="button"
+                    onClick={() => setHealthCheckupModal(null)}
+                    className="w-8 h-8 rounded-full bg-slate-100 hover:bg-[#E30613] text-slate-500 hover:text-white flex items-center justify-center text-sm transition-colors cursor-pointer shrink-0"
+                    aria-label="Close"
+                  >
+                    <FiX />
+                  </button>
+                </div>
+
+                {/* HTML Table Container */}
+                <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 shadow-2xs">
+                  <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                    <thead>
+                      <tr className="bg-[#FFF5F5] border-b border-slate-200 text-[#0F172A]">
+                        <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-left text-slate-700">
+                          Base Sum Insured
+                        </th>
+                        <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-right text-slate-700">
+                          Floater
+                        </th>
+                        <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-right text-slate-700">
+                          Individual
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 bg-white">
+                      {(healthCheckupModal.healthCheckupLimits || [
+                        { baseSI: '₹10 Lakh', floater: '₹5,000', individual: '₹2,000' },
+                        { baseSI: '₹15 Lakh', floater: '₹8,000', individual: '₹4,000' },
+                        { baseSI: '₹20–50 Lakh', floater: '₹10,000', individual: '₹5,000' },
+                        { baseSI: '₹100–200 Lakh', floater: '₹15,000', individual: '₹8,000' }
+                      ]).map((row, rIdx) => (
+                        <tr key={rIdx} className="hover:bg-slate-50/75 transition-colors">
+                          <td className="py-2.5 px-3 sm:px-4 font-bold text-slate-800">
+                            {row.baseSI}
+                          </td>
+                          <td className="py-2.5 px-3 sm:px-4 font-semibold text-[#E30613] text-right font-mono">
+                            {row.floater}
+                          </td>
+                          <td className="py-2.5 px-3 sm:px-4 font-semibold text-slate-700 text-right font-mono">
+                            {row.individual}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Footnote */}
+                <div className="mt-3 text-right">
+                  <span className="text-[11px] text-slate-400 font-medium">
+                    *Subject to policy terms & conditions
+                  </span>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
 
         {/* IN-PAGE VIDEO LIGHTBOX MODAL */}
         <FeatureVideoModal
@@ -793,7 +944,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
             to={`/insurance/${company.id}`}
             className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
           >
-            <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to HDFC ERGO Plans</span><span className="sm:hidden">Back to Plans</span>
+            <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">{planData.backToPlansLabel || 'Back to HDFC ERGO Plans'}</span><span className="sm:hidden">Back to Plans</span>
           </Link>
         </div>
 
@@ -823,7 +974,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
-              REPORT CARD
+              {planData.reportCardButtonLabel || 'REPORT CARD'}
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
@@ -837,7 +988,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
-              COMPANY STRENGTH
+              {planData.companyStrengthButtonLabel || 'COMPANY STRENGTH'}
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
@@ -851,7 +1002,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
-              POLICY BENEFITS
+              {planData.policyBenefitsButtonLabel || (isOptimaSecurePlus ? 'POLICY BENEFITS' : 'FEATURES')}
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
@@ -870,7 +1021,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
             >
               <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
               <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
-                LIMITATIONS & WAITING PERIODS
+                {planData.limitationsButtonLabel || 'LIMITATIONS & WAITING PERIODS'}
               </h3>
               <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
                 <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
@@ -883,7 +1034,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
             >
               <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
               <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
-                LIMITATIONS & WAITING PERIODS
+                {planData.limitationsButtonLabel || 'LIMITATIONS & WAITING PERIODS'}
               </h3>
               <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
                 <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
@@ -910,7 +1061,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 ✦
               </span>
               <h3 className="text-xs sm:text-base font-black text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display tracking-wide uppercase leading-tight truncate">
-                {isOptimaSecurePlusMustKnow ? planData.mustKnow.buttonLabel : 'MUST KNOW'}
+                {planData.mustKnowButtonLabel || (isOptimaSecurePlusMustKnow ? planData.mustKnow?.buttonLabel : 'MUST KNOW')}
               </h3>
             </div>
 
@@ -961,10 +1112,10 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                     {isOptimaSecurePlus ? (
                       <>
                         <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
-                          REPORT CARD
+                          {planData.reportCard.heading}
                         </h2>
                         <p className="text-xs text-[#E30613] font-medium mt-0.5">
-                          HDFC ERGO Performance
+                          {planData.reportCard.subheading}
                         </p>
                       </>
                     ) : (
@@ -1055,7 +1206,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('CSR (Claim Settlement Ratio)', DEMO_VIDEO_URL);
+                                    handleOpenVideo(planData.reportCard.csr.videoTitle || 'CSR (Claim Settlement Ratio)', planData.reportCard.csr.videoUrl || demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1129,7 +1280,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('ICR (Incurred Claim Ratio)', DEMO_VIDEO_URL);
+                                    handleOpenVideo(planData.reportCard.icr.videoTitle || 'ICR (Incurred Claim Ratio)', planData.reportCard.icr.videoUrl || demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1198,7 +1349,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Complaint Volume Metrics', DEMO_VIDEO_URL);
+                                    handleOpenVideo(planData.reportCard.complaintVolume.videoTitle || 'Complaint Volume Metrics', planData.reportCard.complaintVolume.videoUrl || demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1222,10 +1373,10 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                     {isOptimaSecurePlus ? (
                       <>
                         <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
-                          COMPANY STRENGTH
+                          {planData.companyStrength.heading}
                         </h2>
                         <p className="text-xs text-[#E30613] font-medium mt-0.5">
-                          How reliable/strong is the insurer?
+                          {planData.companyStrength.subheading}
                         </p>
                       </>
                     ) : (
@@ -1301,7 +1452,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Ownership & Shareholding', DEMO_VIDEO_URL);
+                                    handleOpenVideo(planData.companyStrength.ownership.videoTitle || 'Ownership & Shareholding', planData.companyStrength.ownership.videoUrl || demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1371,7 +1522,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Credit Ratings & Financial Strength', DEMO_VIDEO_URL);
+                                    handleOpenVideo(planData.companyStrength.creditRating.videoTitle || 'Credit Ratings & Financial Strength', planData.companyStrength.creditRating.videoUrl || demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1437,7 +1588,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Capital Strength & Solvency', DEMO_VIDEO_URL);
+                                    handleOpenVideo(planData.companyStrength.capitalStrength.videoTitle || 'Capital Strength & Solvency', planData.companyStrength.capitalStrength.videoUrl || demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1503,7 +1654,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Financial Base & Investment Assets', DEMO_VIDEO_URL);
+                                    handleOpenVideo(planData.companyStrength.financialBase.videoTitle || 'Financial Base & Investment Assets', planData.companyStrength.financialBase.videoUrl || demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1569,7 +1720,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Reinsurance Strength', DEMO_VIDEO_URL);
+                                    handleOpenVideo(planData.companyStrength.reinsuranceStrength.videoTitle || 'Reinsurance Strength', planData.companyStrength.reinsuranceStrength.videoUrl || demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >
@@ -1635,7 +1786,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleOpenVideo('Market Position & GDPI Share', DEMO_VIDEO_URL);
+                                    handleOpenVideo(planData.companyStrength.marketPosition.videoTitle || 'Market Position & GDPI Share', planData.companyStrength.marketPosition.videoUrl || demoVideoUrl);
                                   }}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
                                 >

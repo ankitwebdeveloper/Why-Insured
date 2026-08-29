@@ -4,6 +4,7 @@ import starLogo from '../assets/star-health.png';
 import nivaLogo from '../assets/niva-bupa.png';
 import iciciLogo from '../assets/icici-lombard.png';
 import careLogo from '../assets/care-health.png';
+import { optimaSecurePlusData } from './optimaSecurePlusData';
 
 export const companiesData = [
   {
@@ -23,28 +24,15 @@ export const companiesData = [
     },
     plans: [
       {
-        id: "hdfc-optima-secure-plus",
-        name: "Optima Secure+",
-        description: "Unlimited Protection. Added Every Year.",
-        coverage: "₹10 Lakh",
-        premium: "₹14,500/year",
-        benefits: [
-          "2X Secure Benefit Coverage from Day 1",
-          "Infinite Benefit: 100% Base SI added every year",
-          "Unlimited Restoration of Sum Insured",
-          "Zero Deductions on Non-Medical Consumables"
-        ],
-        details: {
-          eligibility: "18 to 65 Years (Children: 91 days to 25 years)",
-          waitingPeriod: "30 Days initial, 36 Months for Pre-existing diseases",
-          roomRent: "Any Room Category - 100% Cashless with Zero Restriction",
-          hospitalization: "Covered up to 100% of sum insured",
-          prePostHospital: "60 Days Pre & 180 Days Post Hospitalization covered",
-          dayCare: "All Day Care procedures covered (<24 hours admission)",
-          noClaimBonus: "100% Base SI added every year (Infinite Benefit)",
-          exclusions: "Cosmetic surgery, self-inflicted injuries, drug/alcohol abuse"
-        }
+        id: optimaSecurePlusData.planId,
+        name: optimaSecurePlusData.planName,
+        description: optimaSecurePlusData.tagline,
+        coverage: optimaSecurePlusData.coverage,
+        premium: optimaSecurePlusData.premium,
+        benefits: optimaSecurePlusData.benefits,
+        details: optimaSecurePlusData.details
       },
+
       {
         id: "hdfc-optima-secure",
         name: "Optima Secure",
