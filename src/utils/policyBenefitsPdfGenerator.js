@@ -100,59 +100,34 @@ const lightenRgb = (r, g, b, factor) => [
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 3. CURATED SUBTLE PASTEL ROW COLOR PALETTES
+// 3. UNIFIED WEBSITE-MATCHING FEATURE ROW COLOR GENERATOR
 // ─────────────────────────────────────────────────────────────────────────────
-const ROW_PALETTES = [
-  // 1. Soft Sage / Light Green
-  {
-    bg: [240, 253, 244],      // #F0FDF4
-    border: [187, 247, 208],  // #BBF7D0
-    accent: [22, 101, 52],    // #166534
-    pillBg: [220, 252, 231],  // #DCFCE7
-  },
-  // 2. Soft Sky / Light Blue
-  {
-    bg: [240, 249, 255],      // #F0F9FF
-    border: [186, 230, 253],  // #BAE6FD
-    accent: [3, 105, 161],    // #0369A1
-    pillBg: [224, 242, 254],  // #E0F2FE
-  },
-  // 3. Soft Lavender / Light Purple
-  {
-    bg: [250, 245, 255],      // #FAF5FF
-    border: [233, 213, 255],  // #E9D5FF
-    accent: [109, 40, 217],   // #6D28D9
-    pillBg: [243, 232, 255],  // #F3E8FF
-  },
-  // 4. Soft Warm Amber / Light Orange
-  {
-    bg: [255, 251, 235],      // #FFFBEB
-    border: [254, 230, 138],  // #FDE68A
-    accent: [180, 83, 9],     // #B45309
-    pillBg: [254, 243, 199],  // #FEF3C7
-  },
-  // 5. Soft Mint / Light Teal
-  {
-    bg: [240, 253, 250],      // #F0FDFA
-    border: [153, 246, 228],  // #99F6E4
-    accent: [15, 118, 110],   // #0F766E
-    pillBg: [204, 251, 241],  // #CCFBF1
-  },
-  // 6. Soft Blush / Light Rose
-  {
-    bg: [255, 241, 242],      // #FFF1F2
-    border: [254, 205, 211],  // #FECDD3
-    accent: [190, 24, 93],    // #BE185D
-    pillBg: [255, 228, 230],  // #FFE4E6
-  },
-  // 7. Soft Indigo / Slate
-  {
-    bg: [238, 242, 255],      // #EEF2FF
-    border: [199, 210, 254],  // #C7D2FE
-    accent: [67, 56, 202],    // #4338CA
-    pillBg: [224, 231, 255],  // #E0E7FF
-  },
-];
+const getFeatureRowPalette = (pR, pG, pB, index = 0) => {
+  const [brandBgR, brandBgG, brandBgB] = lightenRgb(pR, pG, pB, 0.96);
+  const [brandBdR, brandBdG, brandBdB] = lightenRgb(pR, pG, pB, 0.74);
+  const [brandPillR, brandPillG, brandPillB] = lightenRgb(pR, pG, pB, 0.90);
+
+  // Unified alternating rhythm matching website card states across all sections
+  if (index % 2 === 0) {
+    // State 1: Soft Brand Theme Card (matches website active/highlighted card)
+    return {
+      bg: [brandBgR, brandBgG, brandBgB],
+      border: [brandBdR, brandBdG, brandBdB],
+      accent: [pR, pG, pB],
+      pillBg: [brandPillR, brandPillG, brandPillB],
+      titleColor: [15, 23, 42],
+    };
+  } else {
+    // State 2: Crisp Clean White Card with Brand Accent (matches website base card)
+    return {
+      bg: [255, 255, 255],
+      border: [226, 232, 240],   // Slate-200 #E2E8F0
+      accent: [pR, pG, pB],
+      pillBg: [241, 245, 249],   // Slate-100 #F1F5F9
+      titleColor: [15, 23, 42],
+    };
+  }
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 4. EDITORIAL A4 LAYOUT METRICS (in mm)
@@ -341,7 +316,7 @@ const measureFeatureRow = (doc, item, isRider = false) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 8. DRAW FULL-WIDTH FEATURE ROW WITH SUBTLE PASTEL TINT
+// 8. DRAW FULL-WIDTH FEATURE ROW WITH UNIFIED WEBSITE-MATCHING THEME
 // ─────────────────────────────────────────────────────────────────────────────
 const drawFeatureRow = (
   doc,
@@ -349,15 +324,15 @@ const drawFeatureRow = (
   y,
   pR, pG, pB,
   indexNumber = 1,
-  paletteIndex = 0,
+  rowIndex = 0,
   isRider = false,
 ) => {
   const m = measureFeatureRow(doc, item, isRider);
   const rowHeight = m.exactHeight;
-  const palette = ROW_PALETTES[paletteIndex % ROW_PALETTES.length];
+  const palette = getFeatureRowPalette(pR, pG, pB, rowIndex);
   const { titleSize, subSize, descSize, badgeSize, stepSize } = TOKENS;
 
-  // ── 1. Full-Width Row Background Box with Distinct Subtle Pastel Tint ──
+  // ── 1. Full-Width Row Background Box with Website-Matching Colors ──
   doc.setFillColor(palette.bg[0], palette.bg[1], palette.bg[2]);
   doc.setDrawColor(palette.border[0], palette.border[1], palette.border[2]);
   doc.setLineWidth(0.35);
@@ -382,20 +357,14 @@ const drawFeatureRow = (
   doc.setTextColor(palette.accent[0], palette.accent[1], palette.accent[2]);
   doc.text(String(indexNumber).padStart(2, '0'), numX + (m.padX + 2.5) / 2, headerTopY + 3.0, { align: 'center' });
 
-  // Right Badge (Top-right pill, never overlapping title)
+  // Right Badge (Top-right pill in website brand theme, never overlapping title)
   if (m.badgeText && m.badgeW > 0) {
     const badgeX = MARGIN + CONTENT_W - m.padX - m.badgeW;
     const badgeY = headerTopY - 0.3;
 
-    if (isRider || item.isRider) {
-      doc.setFillColor(254, 243, 199);
-      doc.setDrawColor(245, 158, 11);
-      doc.setTextColor(180, 83, 9);
-    } else {
-      doc.setFillColor(palette.pillBg[0], palette.pillBg[1], palette.pillBg[2]);
-      doc.setDrawColor(palette.border[0], palette.border[1], palette.border[2]);
-      doc.setTextColor(palette.accent[0], palette.accent[1], palette.accent[2]);
-    }
+    doc.setFillColor(palette.pillBg[0], palette.pillBg[1], palette.pillBg[2]);
+    doc.setDrawColor(palette.border[0], palette.border[1], palette.border[2]);
+    doc.setTextColor(palette.accent[0], palette.accent[1], palette.accent[2]);
 
     doc.setLineWidth(0.2);
     doc.roundedRect(badgeX, badgeY, m.badgeW, m.badgeH, 1.0, 1.0, 'FD');
@@ -403,7 +372,7 @@ const drawFeatureRow = (
     doc.text(cleanText(m.badgeText).toUpperCase(), badgeX + m.badgeW / 2, badgeY + 2.9, { align: 'center' });
   }
 
-  // Feature Heading (Large Bold Navy Title, clearly visually distinct)
+  // Feature Heading (Large Bold Navy Title, matching text-[#0F172A] on website)
   setFont(doc, 'bold', titleSize);
   doc.setTextColor(15, 23, 42); // Deep Navy #0F172A
 
@@ -415,7 +384,7 @@ const drawFeatureRow = (
   // Advance vertical cursor past the header row
   let cursorY = headerTopY + m.headerRowH;
 
-  // ── 4. Subtitle / Bullet Block (Bold Accent) ──
+  // ── 4. Subtitle / Bullet Block (Matching Website Theme Accent) ──
   if (m.subLines.length > 0) {
     cursorY += 1.8;
     setFont(doc, 'bold', subSize);
@@ -793,12 +762,12 @@ const drawFooter = (doc, pageNum, totalPages, companyName, planName, pR, pG, pB)
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 15. CORE PDF GENERATOR: generatePolicyBenefitsPDF (WEBSITE-MATCHING DESIGN)
+// 15. CORE PDF GENERATOR: generatePolicyBenefitsPDF (UNIFIED BRAND COLOR MATCH)
 // ─────────────────────────────────────────────────────────────────────────────
 export const generatePolicyBenefitsPDF = async (company, plan, featuresSections = []) => {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-  // Identity & Theme
+  // Identity & Authentic Brand Theme
   const companyName = company?.name || company?.fullName || 'Insurance Provider';
   const planName    = plan?.planName || plan?.name || 'Health Plan';
   const planTagline = plan?.tagline  || plan?.description || '';
@@ -864,7 +833,7 @@ export const generatePolicyBenefitsPDF = async (company, plan, featuresSections 
       currentY = drawRunningHeader(doc, companyName, planName, pR, pG, pB);
     }
 
-    // Draw Website-Matching Section Header Banner (Deep Green, Emerald Dot, Pure White Bold Text)
+    // Draw Website-Matching Section Header Banner
     currentY = drawSectionHeader(
       doc,
       sec.title || `SECTION ${sectionGlobalIdx}`,
@@ -874,7 +843,7 @@ export const generatePolicyBenefitsPDF = async (company, plan, featuresSections 
     );
     sectionGlobalIdx++;
 
-    // Render features — ONE FEATURE PER ROW with continuous natural flow across pages
+    // Render features — ONE FEATURE PER ROW with unified website brand theme matching colors
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       const mRow = measureFeatureRow(doc, item, isRiderSec);
@@ -888,7 +857,7 @@ export const generatePolicyBenefitsPDF = async (company, plan, featuresSections 
         currentY = drawRunningHeader(doc, companyName, planName, pR, pG, pB);
       }
 
-      // Draw Full-Width Feature Row
+      // Draw Full-Width Feature Row (Using unified brand color palette)
       currentY = drawFeatureRow(
         doc,
         item,
