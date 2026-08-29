@@ -13,6 +13,7 @@
 import { resolveHdfcPlanId, HDFC_CANONICAL_PLAN_IDS } from './hdfcPlanRegistry.js';
 import unlimitedVideo from '../assets/unlimited.mp4';
 import secureBenefitVideo from '../assets/2x coverage.mp4';
+import preventiveVideo from '../assets/Preventive.mp4';
 
 export const HDFC_PLANS_DATA = {
   // ===========================================================================
@@ -298,7 +299,8 @@ export const HDFC_PLANS_DATA = {
             subtitle: 'Covered every policy year',
             summary: 'Covered every policy year for all insured members upon renewal.',
             badge: 'ANNUAL BENEFIT',
-            iconType: 'smile'
+            iconType: 'smile',
+            videoUrl: preventiveVideo
           },
           {
             id: 's2-4',

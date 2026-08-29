@@ -30,6 +30,7 @@ import {
 import hdfcErgoLogo from '../assets/hdfc-ergo-logo.png';
 import unlimitedVideo from '../assets/unlimited.mp4';
 import secureBenefitVideo from '../assets/2x coverage.mp4';
+import preventiveVideo from '../assets/Preventive.mp4';
 
 // =============================================================================
 // CENTRALIZED DEMO VIDEO CONFIGURATION
@@ -50,7 +51,7 @@ const FEATURE_VIDEOS = {
   "Secure Benefit": secureBenefitVideo,
   "Infinite Benefit": DEMO_VIDEO_URL,
   "Protect Benefit": DEMO_VIDEO_URL,
-  "Preventive Health Check-up": DEMO_VIDEO_URL,
+  "Preventive Health Check-up": preventiveVideo,
 
   // ADDITIONAL FEATURES
   "Daily Cash For Shared Room": DEMO_VIDEO_URL,
@@ -77,7 +78,7 @@ const getVideoEmbedUrl = (url) => {
     return { type: 'youtube', url: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1` };
   }
   
-  if (url.endsWith('.mp4') || url.includes('.mp4?') || url.includes('.mp4') || (typeof url === 'string' && (url.startsWith('data:video') || url.startsWith('blob:') || url.includes('unlimited')))) {
+  if (url.endsWith('.mp4') || url.includes('.mp4?') || url.includes('.mp4') || (typeof url === 'string' && (url.startsWith('data:video') || url.startsWith('blob:') || url.includes('unlimited') || url.includes('Preventive') || url.includes('coverage') || url.includes('/assets/')))) {
     return { type: 'mp4', url };
   }
 

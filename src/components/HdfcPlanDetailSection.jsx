@@ -33,6 +33,7 @@ import { resolveHdfcPlanId, isHdfcPlan } from '../data/hdfcPlanRegistry';
 import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
 import unlimitedVideo from '../assets/unlimited.mp4';
 import secureBenefitVideo from '../assets/2x coverage.mp4';
+import preventiveVideo from '../assets/Preventive.mp4';
 
 // Default demo video — overridden per plan via planData.uiConfig.demoVideoUrl
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -68,7 +69,7 @@ const getVideoEmbedUrl = (url) => {
     return { type: 'youtube', url: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1` };
   }
 
-  if (url.endsWith('.mp4') || url.includes('.mp4?') || url.includes('.mp4') || (typeof url === 'string' && (url.startsWith('data:video') || url.startsWith('blob:') || url.includes('unlimited')))) {
+  if (url.endsWith('.mp4') || url.includes('.mp4?') || url.includes('.mp4') || (typeof url === 'string' && (url.startsWith('data:video') || url.startsWith('blob:') || url.includes('unlimited') || url.includes('Preventive') || url.includes('coverage') || url.includes('/assets/')))) {
     return { type: 'mp4', url };
   }
 
@@ -240,7 +241,7 @@ function HdfcFeatureAccordionItem({
   const itemRef = React.useRef(null);
   const { id, title, subtitle, summary, badge, steps, isRider, iconType, videoUrl } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
-  const currentVideoUrl = videoUrl || (title?.toLowerCase().includes('unlimited') ? unlimitedVideo : (title?.toLowerCase().includes('secure benefit') || title?.toLowerCase().includes('2x coverage') ? secureBenefitVideo : demoVideoUrl));
+  const currentVideoUrl = videoUrl || (title?.toLowerCase().includes('preventive') ? preventiveVideo : (title?.toLowerCase().includes('unlimited') ? unlimitedVideo : (title?.toLowerCase().includes('secure benefit') || title?.toLowerCase().includes('2x coverage') ? secureBenefitVideo : demoVideoUrl)));
 
   return (
     <motion.div
