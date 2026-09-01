@@ -30,7 +30,11 @@ import {
   FaMedkit
 } from 'react-icons/fa';
 import hdfcErgoLogo from '../assets/hdfc-ergo-logo.png';
-import { optimaSecurePlusData } from '../data/optimaSecurePlusData';
+import { optimaSecurePlusData as staticOptimaData } from '../data/optimaSecurePlusData';
+import { useOptimaSecurePlusData } from '../hooks/useOptimaSecurePlusData';
+import unlimitedVideo from '../assets/unlimited.mp4';
+import secureBenefitVideo from '../assets/2x coverage.mp4';
+import preventiveVideo from '../assets/Preventive.mp4';
 
 // Icon Dictionary Mapping
 const ICON_MAP = {
@@ -56,6 +60,18 @@ const ICON_MAP = {
 // Helper to format YouTube or Direct MP4 URLs
 const getVideoEmbedUrl = (url) => {
   if (!url) return { type: 'none', url: '' };
+
+  // Preset local video assets from DB
+  if (url === 'asset:unlimited') return { type: 'mp4', url: unlimitedVideo };
+  if (url === 'asset:2x_coverage') return { type: 'mp4', url: secureBenefitVideo };
+  if (url === 'asset:preventive') return { type: 'mp4', url: preventiveVideo };
+
+  // Server uploads
+  if (url.startsWith('/uploads/')) {
+    const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '');
+    return { type: 'mp4', url: `${apiBase}${url}` };
+  }
+
   if (url.includes('youtube.com/embed/')) return { type: 'youtube', url };
 
   const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
@@ -209,6 +225,7 @@ const sectionVariants = {
 };
 
 export default function OptimaSecurePlusSection() {
+  const { data: optimaSecurePlusData } = useOptimaSecurePlusData();
   const [mobileActive, setMobileActive] = useState({});
   const [videoModal, setVideoModal] = useState({
     isOpen: false,

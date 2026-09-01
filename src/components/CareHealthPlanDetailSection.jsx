@@ -1384,11 +1384,11 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
               {/* MODAL 4: MUST KNOW DETAILS (SAME-PAGE MODAL) */}
               {activeModal === 'mustKnow' && (
                 <div className="space-y-4 sm:space-y-5">
-                  <div className="pr-8">
-                    <h2 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
+                  <div className="must-know-header">
+                    <h2 className="must-know-main-heading">
                       {planData.mustKnow?.heading || 'MUST-KNOW DETAILS'}
                     </h2>
-                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-1 leading-relaxed">
+                    <p className="must-know-subheading">
                       {planData.mustKnow?.subheading || 'Important policy terms that policyholders should keep in mind'}
                     </p>
                   </div>
@@ -1397,17 +1397,17 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
                     {planData.mustKnow?.items.map((item) => (
                       <div
                         key={item.id}
-                        className="p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-[#003366]/20 bg-[#F0F8FF]/40 space-y-2"
+                        className="must-know-card border border-[#003366]/20 bg-[#F0F8FF]/40 space-y-2 sm:space-y-2.5 shadow-2xs"
                       >
-                        <h4 className="text-xs sm:text-sm font-semibold tracking-wide text-[#0F172A] font-display flex items-center gap-1.5">
-                          <span>{item.icon}</span>
+                        <h4 className="must-know-card-title">
+                          <span className="shrink-0 text-base sm:text-lg">{item.icon}</span>
                           <span>{item.title}</span>
                         </h4>
-                        <div className="space-y-1.5">
+                        <div className="must-know-paragraphs-container">
                           {item.paragraphs.map((paragraph, pIdx) => (
                             <p
                               key={pIdx}
-                              className="text-[11px] sm:text-xs text-slate-600 font-medium leading-relaxed"
+                              className="must-know-body-text"
                             >
                               {paragraph}
                             </p>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
-// Reusable Components
+// Reusable Public Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
@@ -15,6 +15,9 @@ import ComparisonPage from './pages/ComparisonPage';
 import ClaimPage from './pages/ClaimPage';
 import AcademyPage from './pages/AcademyPage';
 import HospitalPage from './pages/HospitalPage';
+import AdminOptimaSecurePlus from './pages/AdminOptimaSecurePlus';
+import AdminLogin from './pages/AdminLogin';
+import AdminProtectedRoute from './components/AdminProtectedRoute';
 
 // Helper to detect if the page was refreshed (F5/Ctrl+R/Browser Reload)
 const isPageRefresh = () => {
@@ -23,7 +26,6 @@ const isPageRefresh = () => {
     if (navEntries.length > 0) {
       return navEntries[0].type === 'reload';
     }
-    // Fallback for older browsers
     return performance.navigation.type === 1;
   } catch (e) {
     return false;
@@ -32,19 +34,15 @@ const isPageRefresh = () => {
 
 function App() {
   const [showPreloader, setShowPreloader] = useState(() => {
-    // 1. If preloader was already completed in this session, bypass
-    if (sessionStorage.getItem('whyinsured_preloader_seen') === 'true') {
-      return false;
-    }
-    // 2. If the user refreshed the page, bypass
-    if (isPageRefresh()) {
-      return false;
-    }
-    // Otherwise, show the preloader
-    return true;
+    // Only show preloader if on homepage, not already seen in session, and not a refresh
+    const seen = sessionStorage.getItem('whyinsured_preloader_seen');
+    const isHome = window.location.pathname === '/';
+    const isReload = isPageRefresh();
+    return isHome && !seen && !isReload;
   });
 
   const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   // Scroll to top on route change
   useEffect(() => {
@@ -56,13 +54,38 @@ function App() {
     setShowPreloader(false);
   };
 
-  // Page Transition Variants
+  // Page Transition Variants for Public Website
   const pageVariants = {
     initial: { opacity: 0, y: 10 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -10 },
   };
 
+  // =========================================================================
+  // ADMIN ROUTES (NO PUBLIC NAVBAR, NO PUBLIC FOOTER)
+  // =========================================================================
+  if (isAdminRoute) {
+    return (
+      <div className="min-h-screen bg-[#F8FAFC] antialiased font-sans">
+        <Routes location={location}>
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            path="/admin/optima-secure-plus"
+            element={
+              <AdminProtectedRoute>
+                <AdminOptimaSecurePlus />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route path="/admin/*" element={<Navigate to="/admin/optima-secure-plus" replace />} />
+        </Routes>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // PUBLIC WEBSITE ROUTES (WITH PUBLIC NAVBAR & FOOTER)
+  // =========================================================================
   return (
     <AnimatePresence mode="wait">
       {showPreloader ? (
@@ -75,7 +98,7 @@ function App() {
           transition={{ duration: 0.4 }}
           className="min-h-screen bg-[#F8FAFC] flex flex-col justify-start text-slate-800 antialiased font-sans"
         >
-          {/* Header */}
+          {/* Public Header */}
           <Navbar />
 
           {/* Main Routing Panel */}
@@ -105,7 +128,7 @@ function App() {
             </AnimatePresence>
           </main>
 
-          {/* Footer */}
+          {/* Public Footer */}
           <Footer />
         </motion.div>
       )}

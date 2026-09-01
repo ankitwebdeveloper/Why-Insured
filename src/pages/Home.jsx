@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiSearch, FiArrowRight, FiShield, FiBookOpen, FiLayers, FiActivity } from 'react-icons/fi';
+import {
+  FiSearch,
+  FiArrowRight,
+  FiShield,
+  FiLayers,
+  FiActivity,
+  FiPlay,
+  FiZap,
+  FiX
+} from 'react-icons/fi';
 import { companiesData } from '../data/companies';
+import { searchGlobalInsurance } from '../utils/globalSearchHelper';
+import GlobalSearchContentModal from '../components/GlobalSearchContentModal';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showMobileInsurance, setShowMobileInsurance] = useState(false);
+  const [selectedContentItem, setSelectedContentItem] = useState(null);
 
-  // Filter companies based on case-insensitive query match
-  const filteredCompanies = searchQuery.trim()
-    ? companiesData.filter((company) =>
-        company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        company.fullName.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : [];
+  // Evaluate search query across companies, plans, and global insurance content
+  const searchResults = useMemo(() => {
+    return searchGlobalInsurance(searchQuery);
+  }, [searchQuery]);
+
+  const { companies: filteredCompanies, plans: filteredPlans, contentItems: filteredContent, detectedCompany } = searchResults;
+
+  const totalResultsCount = filteredCompanies.length + filteredPlans.length + filteredContent.length;
 
   // Setup word-by-word animation variants
   const headingText = "Let’s Get the Reality of Insurance";
@@ -41,10 +54,20 @@ export default function Home() {
       filter: "blur(0px)",
       transition: {
         duration: 0.6,
-        ease: [0.16, 1, 0.3, 1] // Custom elegant easeOut
+        ease: [0.16, 1, 0.3, 1]
       }
     }
   };
+
+  // Popular search suggestion keywords
+  const popularSuggestions = [
+    '2x benefits',
+    'restoration',
+    'consumables',
+    'room rent',
+    'ICICI BeFit',
+    'maternity'
+  ];
 
   return (
     <div className="relative min-h-screen bg-[#F8FAFC] pt-32 pb-44 overflow-visible flex flex-col justify-center">
@@ -66,7 +89,7 @@ export default function Home() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="text-[26px] sm:text-[38px] md:text-[50px] lg:text-[56px] font-black tracking-tight text-[#0F172A] mb-12 font-display leading-[1.12] text-center"
+          className="text-[26px] sm:text-[38px] md:text-[50px] lg:text-[56px] font-black tracking-tight text-[#0F172A] mb-8 sm:mb-10 font-display leading-[1.12] text-center"
         >
           {words.map((word, idx) => {
             const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
@@ -87,75 +110,171 @@ export default function Home() {
           })}
         </motion.h1>
 
-        {/* Search Bar Container */}
+        {/* Global Search Bar Container */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5, ease: 'easeOut' }}
+          transition={{ duration: 0.6, delay: 0.45, ease: 'easeOut' }}
           className="relative max-w-xl mx-auto px-1"
         >
-          {/* Glassmorphic Elevated Input Wrapper */}
-          <div className="relative flex items-center w-full h-16 rounded-2xl bg-white border border-slate-200/80 shadow-md hover:shadow-lg hover:border-slate-300 focus-within:border-emerald-500/80 focus-within:shadow-xl focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all duration-300 px-5 group">
+          {/* Elevated Search Input Wrapper */}
+          <div className="relative flex items-center w-full h-16 rounded-2xl bg-white border border-slate-200/90 shadow-lg hover:shadow-xl hover:border-slate-300 focus-within:border-emerald-500 focus-within:shadow-2xl focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all duration-300 px-5 group">
             <FiSearch className="text-2xl text-slate-400 group-focus-within:text-emerald-600 transition-colors mr-3 shrink-0" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search insurance company..."
+              placeholder="Search companies, plans, benefits (e.g. '2x benefits', 'HDFC 2x')..."
               className="w-full h-full bg-transparent text-[#0F172A] text-sm sm:text-base font-semibold placeholder-slate-400 focus:outline-none font-sans"
             />
             {searchQuery && (
               <button
+                type="button"
                 onClick={() => setSearchQuery('')}
-                className="text-xs text-slate-400 hover:text-slate-600 font-bold px-2 cursor-pointer transition-colors"
+                className="text-xs text-slate-400 hover:text-slate-600 font-bold px-2.5 py-1 rounded-lg hover:bg-slate-100 cursor-pointer transition-colors shrink-0"
               >
                 Clear
               </button>
             )}
           </div>
 
-          {/* Search Dropdown overlay with Logos */}
+          {/* Quick Suggestion Chips under Search Bar */}
+          {!searchQuery && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.6 }}
+              className="flex items-center justify-center flex-wrap gap-1.5 sm:gap-2 mt-3.5 px-2 text-left"
+            >
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1 flex items-center gap-1">
+                <FiZap className="text-emerald-500 text-xs" />
+                <span>Try:</span>
+              </span>
+              {popularSuggestions.map((sug, sIdx) => (
+                <button
+                  key={sIdx}
+                  type="button"
+                  onClick={() => setSearchQuery(sug)}
+                  className="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/80 hover:bg-white text-slate-600 hover:text-emerald-600 border border-slate-200/80 shadow-2xs hover:shadow-xs transition-all cursor-pointer"
+                >
+                  {sug}
+                </button>
+              ))}
+            </motion.div>
+          )}
+
+          {/* Simple Clean Search Dropdown Overlay */}
           <AnimatePresence>
             {searchQuery.trim() && (
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 12 }}
-                transition={{ duration: 0.2, ease: 'easeOut' }}
-                className="absolute left-1 right-1 mt-3 bg-white border border-slate-200/80 rounded-2xl shadow-2xl overflow-hidden z-30 divide-y divide-slate-100"
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+                className="absolute left-1 right-1 mt-2.5 bg-white border border-slate-200/90 rounded-2xl shadow-2xl overflow-hidden z-30 divide-y divide-slate-100 max-h-[70vh] flex flex-col text-left"
               >
-                {filteredCompanies.length > 0 ? (
-                  <div className="max-h-80 overflow-y-auto">
-                    {filteredCompanies.map((company) => (
-                      <Link
-                        key={company.id}
-                        to={`/insurance/${company.id}`}
-                        className="flex items-center justify-between p-4 hover:bg-slate-50/80 transition-colors group cursor-pointer text-left"
-                      >
-                        <div className="flex items-center gap-4">
-                          <img
-                            src={company.logo}
-                            alt={company.name}
-                            className="w-10 h-10 object-contain p-1.5 border border-slate-100 rounded-xl bg-slate-50 shrink-0"
-                          />
-                          <div className="flex flex-col">
-                            <span className="font-bold text-[#0F172A] text-sm sm:text-base group-hover:text-emerald-600 transition-colors font-sans">
-                              {company.name}
-                            </span>
-                            <span className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider mt-0.5 font-sans">
-                              {company.category}
-                            </span>
-                          </div>
-                        </div>
-                        <FiArrowRight className="text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1.5 transition-all text-lg shrink-0" />
-                      </Link>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="p-8 text-center text-slate-400 text-sm font-semibold font-sans">
-                    No insurance company found.
+                {/* Active Company Filter Notice (If Detected) */}
+                {detectedCompany && (
+                  <div className="bg-emerald-50/80 px-4 py-2 border-b border-emerald-100 flex items-center justify-between gap-2 shrink-0">
+                    <span className="text-xs font-bold text-emerald-800">
+                      Showing results for <span className="font-extrabold underline">{detectedCompany.name}</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery(searchResults.cleanedKeywords || '')}
+                      className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 hover:text-emerald-900 bg-white px-2 py-0.5 rounded border border-emerald-200 cursor-pointer"
+                    >
+                      All Companies
+                    </button>
                   </div>
                 )}
+
+                {/* Unified Clean Results List */}
+                <div className="overflow-y-auto flex-1 divide-y divide-slate-100/80">
+                  {totalResultsCount > 0 ? (
+                    <>
+                      {/* 1. Companies (Existing Search Feature) */}
+                      {filteredCompanies.map((company) => (
+                        <Link
+                          key={`comp-${company.id}`}
+                          to={`/insurance/${company.id}`}
+                          className="flex items-center justify-between p-3.5 hover:bg-slate-50 transition-colors group cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3.5 min-w-0">
+                            <img
+                              src={company.logo}
+                              alt={company.name}
+                              className="w-8 h-8 object-contain p-1 border border-slate-100 rounded-lg bg-slate-50 shrink-0"
+                            />
+                            <div className="flex flex-col min-w-0">
+                              <span className="font-bold text-[#0F172A] text-sm group-hover:text-emerald-600 transition-colors font-sans truncate">
+                                {company.name}
+                              </span>
+                              <span className="text-xs text-slate-400 font-medium">
+                                {company.category} • View Plans
+                              </span>
+                            </div>
+                          </div>
+                          <FiArrowRight className="text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all text-base shrink-0 ml-2" />
+                        </Link>
+                      ))}
+
+                      {/* 2. Plans (Existing Search Feature) */}
+                      {filteredPlans.map((plan, pIdx) => (
+                        <Link
+                          key={`plan-${plan.companyId}-${plan.id}-${pIdx}`}
+                          to={plan.planUrl}
+                          className="flex items-center justify-between p-3.5 hover:bg-slate-50 transition-colors group cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3.5 min-w-0">
+                            {plan.companyLogo && (
+                              <img
+                                src={plan.companyLogo}
+                                alt={plan.companyName}
+                                className="w-8 h-8 object-contain p-1 border border-slate-100 rounded-lg bg-slate-50 shrink-0"
+                              />
+                            )}
+                            <div className="flex flex-col min-w-0">
+                              <span className="font-bold text-[#0F172A] text-sm group-hover:text-emerald-600 transition-colors font-sans truncate">
+                                {plan.name}
+                              </span>
+                              <span className="text-xs text-slate-500 font-medium">
+                                {plan.companyName}
+                              </span>
+                            </div>
+                          </div>
+                          <FiArrowRight className="text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all text-base shrink-0 ml-2" />
+                        </Link>
+                      ))}
+
+                      {/* 3. Features & Benefits (Clean, Simple Layout) */}
+                      {filteredContent.map((item) => (
+                        <div
+                          key={`content-${item.id}`}
+                          onClick={() => setSelectedContentItem(item)}
+                          className="flex items-center justify-between p-3.5 hover:bg-slate-50/90 transition-colors group cursor-pointer"
+                        >
+                          <div className="flex flex-col min-w-0 pr-3">
+                            {/* Feature Name */}
+                            <span className="font-bold text-[#0F172A] text-sm sm:text-[14.5px] group-hover:text-emerald-600 transition-colors font-sans truncate">
+                              {item.title}
+                            </span>
+                            {/* Company Name & Plan Name */}
+                            <span className="text-xs text-slate-500 font-medium mt-0.5 truncate">
+                              {item.companyName} {item.planName ? `• ${item.planName}` : ''}
+                            </span>
+                          </div>
+                          
+                          <FiArrowRight className="text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all text-base shrink-0" />
+                        </div>
+                      ))}
+                    </>
+                  ) : (
+                    <div className="p-8 text-center text-slate-400 text-sm font-semibold font-sans">
+                      No results found for "{searchQuery}".
+                    </div>
+                  )}
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -166,11 +285,12 @@ export default function Home() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6, ease: 'easeOut' }}
-          className="md:hidden flex flex-col items-center justify-center gap-2.5 mt-6 px-1 w-full max-w-sm mx-auto"
+          className="md:hidden flex flex-col items-center justify-center gap-2.5 mt-8 px-1 w-full max-w-sm mx-auto"
         >
           {/* ROW 1: [ Insurance ] [ Compare ] */}
           <div className="grid grid-cols-2 gap-2.5 w-full">
             <button
+              type="button"
               onClick={() => setShowMobileInsurance(!showMobileInsurance)}
               className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border text-xs font-bold transition-all duration-200 cursor-pointer w-full ${
                 showMobileInsurance
@@ -250,9 +370,15 @@ export default function Home() {
           </AnimatePresence>
         </motion.div>
 
-
-
       </div>
+
+      {/* Clean Feature Content Modal */}
+      {selectedContentItem && (
+        <GlobalSearchContentModal
+          item={selectedContentItem}
+          onClose={() => setSelectedContentItem(null)}
+        />
+      )}
     </div>
   );
 }
