@@ -51,19 +51,83 @@ const COMPANY_DICTIONARY = [
 
 // Common insurance synonyms / expanded concept mapping
 const SYNONYM_MAP = {
-  '2x': ['2x', '2 x', 'two times', 'double', 'doubling', '200%', '2 times', '2x cover', '2x coverage', '2x benefit', 'secure benefit', 'booster', 'booster benefit', 'booster+', 'reset benefit', 'recharge', 'restoration'],
+  '2x': [
+    '2x', '2 x', '2x benefits', '2x benefit', '2x cover', '2x coverage', 'double',
+    'doubling', 'double coverage', 'coverage becomes double', 'double benefit',
+    '200%', '2 times', 'two times', 'secure benefit', 'booster', 'booster benefit',
+    'booster+', 'multiplier', 'sum insured double'
+  ],
   '4x': ['4x', '4 x', 'four times', '400%', '4 times', '4x cover', '4x coverage'],
-  'restoration': ['restore', 'restoration', 'recharge', 'reset', 'refill', 'auto restore', 'auto-restore', 'unlimited restoration', 'forever restore', 'reassure forever'],
-  'consumables': ['consumables', 'non-medical', 'non medical', 'protect benefit', 'care shield', 'gloves', 'masks', 'syringes', 'administrative items'],
-  'room rent': ['room rent', 'room category', 'single private room', 'suite', 'icu', 'capping', 'proportionate deduction', 'sub-limit', 'sub limit', 'zero capping'],
-  'maternity': ['maternity', 'pregnancy', 'delivery', 'newborn', 'baby', 'neonatal', 'child'],
-  'opd': ['opd', 'outpatient', 'out-patient', 'consultation', 'doctor consultation', 'befit', 'diagnostic', 'pharmacy'],
-  'wellness': ['wellness', 'rewards', 'stay active', 'live healthy', 'befit', 'fitness', 'steps', 'discount'],
-  'waiting period': ['waiting period', 'waiting', 'ped', 'pre-existing', 'pre existing', 'chronic', 'abcd', 'disease list', 'initial waiting'],
-  'checkup': ['checkup', 'check-up', 'health check', 'health checkup', 'preventive', 'screening', 'annual checkup'],
-  'claim': ['claim', 'csr', 'icr', 'settlement', 'cashless', 'reimbursement', 'complaint'],
-  'bonus': ['bonus', 'cumulative bonus', 'no claim bonus', 'ncb', 'plus benefit', 'infinite benefit', 'booster'],
-  'ayush': ['ayush', 'ayurveda', 'homeopathy', 'unani', 'siddha', 'alternative treatment']
+  'restoration': [
+    'restore', 'restoration', 'recharge', 'reset', 'refill', 'auto restore',
+    'auto-restore', 'unlimited restoration', 'forever restore', 'reassure forever',
+    'reset benefit', 'balance refill', 'sum insured refill'
+  ],
+  'consumables': [
+    'consumables', 'consumable', 'non-medical', 'non medical', 'non medical expenses',
+    'protect benefit', 'care shield', 'safeguard', 'gloves', 'masks', 'syringes',
+    'syringe', 'cotton', 'bandages', 'administrative items', 'itemized bill',
+    'gloves ka paisa', 'claim protector'
+  ],
+  'room rent': [
+    'room rent', 'room limit', 'room category', 'single private room', 'suite',
+    'icu', 'capping', 'proportionate deduction', 'sub-limit', 'sub limit',
+    'zero capping', 'deluxe room', 'twin sharing', 'bed charges'
+  ],
+  'maternity': [
+    'maternity', 'pregnancy', 'delivery', 'normal delivery', 'c-section',
+    'newborn', 'baby', 'neonatal', 'child', 'delivery charges'
+  ],
+  'opd': [
+    'opd', 'outpatient', 'out-patient', 'consultation', 'doctor consultation',
+    'doctor fees', 'doctor fee', 'befit', 'diagnostic', 'pharmacy', 'clinic',
+    'bina admit'
+  ],
+  'wellness': [
+    'wellness', 'rewards', 'stay active', 'live healthy', 'befit', 'fitness',
+    'steps', 'discount'
+  ],
+  'waiting period': [
+    'waiting period', 'waiting', 'ped', 'pre-existing', 'pre existing',
+    'pre existing disease', 'chronic', 'abcd', 'disease list', 'initial waiting',
+    '30 days', '2 years waiting', 'sugar', 'diabetes', 'bp', 'hypertension', 'thyroid'
+  ],
+  'copay': [
+    'co-pay', 'copay', 'co payment', 'copayment', 'cost sharing', '20% copay',
+    '10% copay', 'senior citizen copay', 'voluntary copay', 'deductible'
+  ],
+  'checkup': [
+    'checkup', 'check-up', 'health check', 'health checkup', 'preventive',
+    'screening', 'annual checkup', 'free checkup'
+  ],
+  'claim': [
+    'claim', 'csr', 'icr', 'settlement', 'cashless', 'reimbursement', 'complaint',
+    'claim rejection', 'rejection', 'claim settlement'
+  ],
+  'cashless': [
+    'cashless', 'cashless hospital', 'cashless everywhere', 'network hospital',
+    'pre auth', 'pre authorization', 'cashless approval'
+  ],
+  'bonus': [
+    'bonus', 'cumulative bonus', 'no claim bonus', 'ncb', 'ncb super',
+    'plus benefit', 'infinite benefit', 'booster'
+  ],
+  'daycare': [
+    'day care', 'daycare', 'less than 24 hours', 'under 24 hours', 'cataract',
+    'dialysis', 'chemotherapy', 'lithotripsy', 'minor surgery'
+  ],
+  'ayush': [
+    'ayush', 'ayurveda', 'ayurvedic', 'homeopathy', 'unani', 'siddha',
+    'alternative treatment', 'natural treatment'
+  ],
+  'pre_post': [
+    'pre & post', 'pre and post', 'pre hospitalization', 'post hospitalization',
+    '60 days 180 days', 'discharge medicines'
+  ],
+  'portability': [
+    'portability', 'port', 'port policy', 'switch company', 'transfer policy',
+    'change insurance'
+  ]
 };
 
 /**
@@ -75,7 +139,7 @@ function getCanonicalConcept(title) {
   if (clean.includes('4x')) return '4x_cover';
   if (clean.includes('reset') || clean.includes('auto-restore') || clean.includes('restoration') || clean.includes('recharge') || clean.includes('reassure forever') || clean.includes('refill')) return 'restoration';
   if (clean.includes('booster')) return 'booster';
-  if (clean.includes('protect') || clean.includes('consumables') || clean.includes('non-medical') || clean.includes('care shield')) return 'consumables';
+  if (clean.includes('protect') || clean.includes('consumables') || clean.includes('non-medical') || clean.includes('care shield') || clean.includes('safeguard')) return 'consumables';
   if (clean.includes('room') || clean.includes('capping')) return 'room_rent';
   if (clean.includes('icu')) return 'icu_limit';
   if (clean.includes('pre & post') || clean.includes('pre and post')) return 'pre_post';
@@ -108,6 +172,47 @@ function getNormalizedConceptKey(companyId, planId, title) {
   const cleanPlan = String(planId || '').toLowerCase().replace(/[^a-z0-9]/g, '');
   const concept = getCanonicalConcept(title);
   return `${cleanComp}__${cleanPlan}__${concept}`;
+}
+
+export function getConceptTitleForQuery(query) {
+  const lower = String(query || '').toLowerCase().trim();
+  if (lower.includes('2x') || lower.includes('double') || lower.includes('doubling') || lower.includes('secure benefit') || lower.includes('booster')) {
+    return '2X Benefits / Doubling Coverage';
+  }
+  if (lower.includes('consumable') || lower.includes('glove') || lower.includes('syringe') || lower.includes('cotton') || lower.includes('non medical') || lower.includes('protect benefit') || lower.includes('care shield')) {
+    return 'Consumables & Non-Medical Items Cover';
+  }
+  if (lower.includes('room') || lower.includes('capping') || lower.includes('single private') || lower.includes('icu')) {
+    return 'Room Rent & Hospital Capping Terms';
+  }
+  if (lower.includes('restor') || lower.includes('recharge') || lower.includes('reset') || lower.includes('refill')) {
+    return 'Automatic Restoration / Refill Benefit';
+  }
+  if (lower.includes('cashless') || lower.includes('network hospital')) {
+    return 'Cashless Hospitalization Network';
+  }
+  if (lower.includes('maternity') || lower.includes('pregnancy') || lower.includes('delivery') || lower.includes('newborn')) {
+    return 'Maternity & Newborn Protection';
+  }
+  if (lower.includes('waiting') || lower.includes('ped') || lower.includes('pre-existing') || lower.includes('sugar') || lower.includes('diabetes') || lower.includes('bp')) {
+    return 'Waiting Periods & Pre-Existing Disease Terms';
+  }
+  if (lower.includes('opd') || lower.includes('consultation') || lower.includes('doctor') || lower.includes('clinic')) {
+    return 'OPD & Doctor Consultation Cover';
+  }
+  if (lower.includes('bonus') || lower.includes('ncb') || lower.includes('cumulative')) {
+    return 'No Claim Bonus / Cumulative Bonus';
+  }
+  if (lower.includes('day care') || lower.includes('daycare') || lower.includes('cataract') || lower.includes('dialysis')) {
+    return 'Day Care Procedures (<24 Hr Hospitalization)';
+  }
+  if (lower.includes('ayush') || lower.includes('ayurveda') || lower.includes('homeopathy')) {
+    return 'AYUSH & Alternative Treatment Coverage';
+  }
+  if (lower.includes('pre') && lower.includes('post')) {
+    return 'Pre & Post Hospitalization Expenses';
+  }
+  return `"${query}"`;
 }
 
 /**
@@ -739,6 +844,8 @@ export function searchGlobalInsurance(query) {
     companies: matchedCompanies,
     plans: matchedPlans,
     contentItems: uniqueContentItems.slice(0, 15), // Top relevant unique items
-    detectedCompany
+    detectedCompany,
+    queryConceptTitle: getConceptTitleForQuery(rawQuery)
   };
 }
+

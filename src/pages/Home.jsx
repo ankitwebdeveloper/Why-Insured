@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -14,20 +14,35 @@ import {
 import { companiesData } from '../data/companies';
 import { searchGlobalInsurance } from '../utils/globalSearchHelper';
 import GlobalSearchContentModal from '../components/GlobalSearchContentModal';
+import RealInsuranceSearchResultPanel from '../components/RealInsuranceSearchResultPanel';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showMobileInsurance, setShowMobileInsurance] = useState(false);
   const [selectedContentItem, setSelectedContentItem] = useState(null);
+  const searchContainerRef = useRef(null);
 
-  // Evaluate search query across companies, plans, and global insurance content
+  // Close search results when clicking anywhere outside search area
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+        setSearchQuery('');
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, []);
+
+  // Evaluate real database content search across all companies, plans, and features
   const searchResults = useMemo(() => {
     return searchGlobalInsurance(searchQuery);
   }, [searchQuery]);
-
-  const { companies: filteredCompanies, plans: filteredPlans, contentItems: filteredContent, detectedCompany } = searchResults;
-
-  const totalResultsCount = filteredCompanies.length + filteredPlans.length + filteredContent.length;
 
   // Setup word-by-word animation variants
   const headingText = "Let’s Get the Reality of Insurance";
@@ -59,13 +74,13 @@ export default function Home() {
     }
   };
 
-  // Popular search suggestion keywords
+  // Curated beginner-friendly suggestions
   const popularSuggestions = [
     '2x benefits',
-    'restoration',
     'consumables',
     'room rent',
-    'ICICI BeFit',
+    'restoration',
+    'cashless',
     'maternity'
   ];
 
@@ -112,10 +127,11 @@ export default function Home() {
 
         {/* Global Search Bar Container */}
         <motion.div
+          ref={searchContainerRef}
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.45, ease: 'easeOut' }}
-          className="relative max-w-xl mx-auto px-1"
+          className="relative max-w-2xl mx-auto px-1"
         >
           {/* Elevated Search Input Wrapper */}
           <div className="relative flex items-center w-full h-16 rounded-2xl bg-white border border-slate-200/90 shadow-lg hover:shadow-xl hover:border-slate-300 focus-within:border-emerald-500 focus-within:shadow-2xl focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all duration-300 px-5 group">
@@ -124,7 +140,7 @@ export default function Home() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search companies, plans, benefits (e.g. '2x benefits', 'HDFC 2x')..."
+              placeholder="Ask anything about your health insurance…"
               className="w-full h-full bg-transparent text-[#0F172A] text-sm sm:text-base font-semibold placeholder-slate-400 focus:outline-none font-sans"
             />
             {searchQuery && (
@@ -155,127 +171,24 @@ export default function Home() {
                   key={sIdx}
                   type="button"
                   onClick={() => setSearchQuery(sug)}
-                  className="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/80 hover:bg-white text-slate-600 hover:text-emerald-600 border border-slate-200/80 shadow-2xs hover:shadow-xs transition-all cursor-pointer"
+                  className="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/90 hover:bg-white text-slate-600 hover:text-emerald-600 border border-slate-200/80 shadow-2xs hover:shadow-xs transition-all cursor-pointer"
                 >
-                  {sug}
+                  “{sug}”
                 </button>
               ))}
             </motion.div>
           )}
 
-          {/* Simple Clean Search Dropdown Overlay */}
+          {/* Real Insurance Content Search Results Panel */}
           <AnimatePresence>
             {searchQuery.trim() && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.18, ease: 'easeOut' }}
-                className="absolute left-1 right-1 mt-2.5 bg-white border border-slate-200/90 rounded-2xl shadow-2xl overflow-hidden z-30 divide-y divide-slate-100 max-h-[70vh] flex flex-col text-left"
-              >
-                {/* Active Company Filter Notice (If Detected) */}
-                {detectedCompany && (
-                  <div className="bg-emerald-50/80 px-4 py-2 border-b border-emerald-100 flex items-center justify-between gap-2 shrink-0">
-                    <span className="text-xs font-bold text-emerald-800">
-                      Showing results for <span className="font-extrabold underline">{detectedCompany.name}</span>
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setSearchQuery(searchResults.cleanedKeywords || '')}
-                      className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 hover:text-emerald-900 bg-white px-2 py-0.5 rounded border border-emerald-200 cursor-pointer"
-                    >
-                      All Companies
-                    </button>
-                  </div>
-                )}
-
-                {/* Unified Clean Results List */}
-                <div className="overflow-y-auto flex-1 divide-y divide-slate-100/80">
-                  {totalResultsCount > 0 ? (
-                    <>
-                      {/* 1. Companies (Existing Search Feature) */}
-                      {filteredCompanies.map((company) => (
-                        <Link
-                          key={`comp-${company.id}`}
-                          to={`/insurance/${company.id}`}
-                          className="flex items-center justify-between p-3.5 hover:bg-slate-50 transition-colors group cursor-pointer"
-                        >
-                          <div className="flex items-center gap-3.5 min-w-0">
-                            <img
-                              src={company.logo}
-                              alt={company.name}
-                              className="w-8 h-8 object-contain p-1 border border-slate-100 rounded-lg bg-slate-50 shrink-0"
-                            />
-                            <div className="flex flex-col min-w-0">
-                              <span className="font-bold text-[#0F172A] text-sm group-hover:text-emerald-600 transition-colors font-sans truncate">
-                                {company.name}
-                              </span>
-                              <span className="text-xs text-slate-400 font-medium">
-                                {company.category} • View Plans
-                              </span>
-                            </div>
-                          </div>
-                          <FiArrowRight className="text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all text-base shrink-0 ml-2" />
-                        </Link>
-                      ))}
-
-                      {/* 2. Plans (Existing Search Feature) */}
-                      {filteredPlans.map((plan, pIdx) => (
-                        <Link
-                          key={`plan-${plan.companyId}-${plan.id}-${pIdx}`}
-                          to={plan.planUrl}
-                          className="flex items-center justify-between p-3.5 hover:bg-slate-50 transition-colors group cursor-pointer"
-                        >
-                          <div className="flex items-center gap-3.5 min-w-0">
-                            {plan.companyLogo && (
-                              <img
-                                src={plan.companyLogo}
-                                alt={plan.companyName}
-                                className="w-8 h-8 object-contain p-1 border border-slate-100 rounded-lg bg-slate-50 shrink-0"
-                              />
-                            )}
-                            <div className="flex flex-col min-w-0">
-                              <span className="font-bold text-[#0F172A] text-sm group-hover:text-emerald-600 transition-colors font-sans truncate">
-                                {plan.name}
-                              </span>
-                              <span className="text-xs text-slate-500 font-medium">
-                                {plan.companyName}
-                              </span>
-                            </div>
-                          </div>
-                          <FiArrowRight className="text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all text-base shrink-0 ml-2" />
-                        </Link>
-                      ))}
-
-                      {/* 3. Features & Benefits (Clean, Simple Layout) */}
-                      {filteredContent.map((item) => (
-                        <div
-                          key={`content-${item.id}`}
-                          onClick={() => setSelectedContentItem(item)}
-                          className="flex items-center justify-between p-3.5 hover:bg-slate-50/90 transition-colors group cursor-pointer"
-                        >
-                          <div className="flex flex-col min-w-0 pr-3">
-                            {/* Feature Name */}
-                            <span className="font-bold text-[#0F172A] text-sm sm:text-[14.5px] group-hover:text-emerald-600 transition-colors font-sans truncate">
-                              {item.title}
-                            </span>
-                            {/* Company Name & Plan Name */}
-                            <span className="text-xs text-slate-500 font-medium mt-0.5 truncate">
-                              {item.companyName} {item.planName ? `• ${item.planName}` : ''}
-                            </span>
-                          </div>
-                          
-                          <FiArrowRight className="text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all text-base shrink-0" />
-                        </div>
-                      ))}
-                    </>
-                  ) : (
-                    <div className="p-8 text-center text-slate-400 text-sm font-semibold font-sans">
-                      No results found for "{searchQuery}".
-                    </div>
-                  )}
-                </div>
-              </motion.div>
+              <RealInsuranceSearchResultPanel
+                searchQuery={searchQuery}
+                searchResults={searchResults}
+                onSelectFeature={(featureItem) => setSelectedContentItem(featureItem)}
+                onClose={() => setSearchQuery('')}
+                onSelectSuggestion={(sug) => setSearchQuery(sug)}
+              />
             )}
           </AnimatePresence>
         </motion.div>
