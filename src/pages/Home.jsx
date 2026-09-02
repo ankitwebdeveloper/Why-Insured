@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiSearch,
@@ -17,16 +17,59 @@ import GlobalSearchContentModal from '../components/GlobalSearchContentModal';
 import RealInsuranceSearchResultPanel from '../components/RealInsuranceSearchResultPanel';
 
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showMobileInsurance, setShowMobileInsurance] = useState(false);
-  const [selectedContentItem, setSelectedContentItem] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
   const searchContainerRef = useRef(null);
 
-  // Close search results when clicking anywhere outside search area
+  // Initialize query from URL search params or sessionStorage
+  const [searchQuery, setSearchQuery] = useState(() => {
+    const urlQ = searchParams.get('q');
+    if (urlQ) return urlQ;
+    const storedQ = sessionStorage.getItem('whyinsured_last_search_query');
+    return storedQ || '';
+  });
+
+  const [showMobileInsurance, setShowMobileInsurance] = useState(false);
+  const [selectedContentItem, setSelectedContentItem] = useState(null);
+
+  // Synchronize state when URL query param changes (e.g. browser Back / Forward navigation)
+  useEffect(() => {
+    const urlQuery = searchParams.get('q');
+    if (urlQuery !== null && urlQuery !== searchQuery) {
+      setSearchQuery(urlQuery);
+      if (urlQuery) {
+        sessionStorage.setItem('whyinsured_last_search_query', urlQuery);
+      } else {
+        sessionStorage.removeItem('whyinsured_last_search_query');
+      }
+    }
+  }, [searchParams]);
+
+  // Update query state, URL parameters, and session storage
+  const handleSearchChange = (val) => {
+    setSearchQuery(val);
+    if (val && val.trim()) {
+      sessionStorage.setItem('whyinsured_last_search_query', val);
+      setSearchParams({ q: val }, { replace: true });
+    } else {
+      sessionStorage.removeItem('whyinsured_last_search_query');
+      setSearchParams({}, { replace: true });
+    }
+  };
+
+  // Close search results ONLY when user explicitly clicks/taps outside search area
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // If modal is currently open or click was inside a modal/dialog overlay, do NOT close
+      if (selectedContentItem) return;
+      if (
+        event.target.closest &&
+        (event.target.closest('[role="dialog"]') || event.target.closest('.fixed') || event.target.closest('.modal'))
+      ) {
+        return;
+      }
+
       if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
-        setSearchQuery('');
+        handleSearchChange('');
       }
     };
 
@@ -37,7 +80,7 @@ export default function Home() {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
     };
-  }, []);
+  }, [selectedContentItem]);
 
   // Evaluate real database content search across all companies, plans, and features
   const searchResults = useMemo(() => {
@@ -139,14 +182,14 @@ export default function Home() {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               placeholder="Ask anything about your health insurance…"
               className="w-full h-full bg-transparent text-[#0F172A] text-sm sm:text-base font-semibold placeholder-slate-400 focus:outline-none font-sans"
             />
             {searchQuery && (
               <button
                 type="button"
-                onClick={() => setSearchQuery('')}
+                onClick={() => handleSearchChange('')}
                 className="text-xs text-slate-400 hover:text-slate-600 font-bold px-2.5 py-1 rounded-lg hover:bg-slate-100 cursor-pointer transition-colors shrink-0"
               >
                 Clear
@@ -170,7 +213,7 @@ export default function Home() {
                 <button
                   key={sIdx}
                   type="button"
-                  onClick={() => setSearchQuery(sug)}
+                  onClick={() => handleSearchChange(sug)}
                   className="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/90 hover:bg-white text-slate-600 hover:text-emerald-600 border border-slate-200/80 shadow-2xs hover:shadow-xs transition-all cursor-pointer"
                 >
                   “{sug}”
@@ -186,8 +229,8 @@ export default function Home() {
                 searchQuery={searchQuery}
                 searchResults={searchResults}
                 onSelectFeature={(featureItem) => setSelectedContentItem(featureItem)}
-                onClose={() => setSearchQuery('')}
-                onSelectSuggestion={(sug) => setSearchQuery(sug)}
+                onClose={() => handleSearchChange('')}
+                onSelectSuggestion={(sug) => handleSearchChange(sug)}
               />
             )}
           </AnimatePresence>
