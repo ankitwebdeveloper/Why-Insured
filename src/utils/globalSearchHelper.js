@@ -177,42 +177,48 @@ function getNormalizedConceptKey(companyId, planId, title) {
 export function getConceptTitleForQuery(query) {
   const lower = String(query || '').toLowerCase().trim();
   if (lower.includes('2x') || lower.includes('double') || lower.includes('doubling') || lower.includes('secure benefit') || lower.includes('booster')) {
-    return '2X Benefits / Doubling Coverage';
+    return '2X Benefits';
   }
   if (lower.includes('consumable') || lower.includes('glove') || lower.includes('syringe') || lower.includes('cotton') || lower.includes('non medical') || lower.includes('protect benefit') || lower.includes('care shield')) {
-    return 'Consumables & Non-Medical Items Cover';
+    return 'Consumables Cover';
   }
   if (lower.includes('room') || lower.includes('capping') || lower.includes('single private') || lower.includes('icu')) {
-    return 'Room Rent & Hospital Capping Terms';
+    return 'Room Rent & Capping';
   }
   if (lower.includes('restor') || lower.includes('recharge') || lower.includes('reset') || lower.includes('refill')) {
-    return 'Automatic Restoration / Refill Benefit';
+    return 'Restoration Benefit';
   }
   if (lower.includes('cashless') || lower.includes('network hospital')) {
-    return 'Cashless Hospitalization Network';
+    return 'Cashless Hospitalization';
+  }
+  if (lower.includes('claim') || lower.includes('reject') || lower.includes('rejection')) {
+    return 'Claim Settlement & Rules';
   }
   if (lower.includes('maternity') || lower.includes('pregnancy') || lower.includes('delivery') || lower.includes('newborn')) {
-    return 'Maternity & Newborn Protection';
+    return 'Maternity Coverage';
   }
   if (lower.includes('waiting') || lower.includes('ped') || lower.includes('pre-existing') || lower.includes('sugar') || lower.includes('diabetes') || lower.includes('bp')) {
-    return 'Waiting Periods & Pre-Existing Disease Terms';
+    return 'Waiting Periods';
+  }
+  if (lower.includes('copay') || lower.includes('co-pay')) {
+    return 'Co-Payment Rules';
   }
   if (lower.includes('opd') || lower.includes('consultation') || lower.includes('doctor') || lower.includes('clinic')) {
-    return 'OPD & Doctor Consultation Cover';
+    return 'OPD & Doctor Consultation';
   }
   if (lower.includes('bonus') || lower.includes('ncb') || lower.includes('cumulative')) {
-    return 'No Claim Bonus / Cumulative Bonus';
+    return 'No Claim Bonus';
   }
   if (lower.includes('day care') || lower.includes('daycare') || lower.includes('cataract') || lower.includes('dialysis')) {
-    return 'Day Care Procedures (<24 Hr Hospitalization)';
+    return 'Day Care Procedures';
   }
   if (lower.includes('ayush') || lower.includes('ayurveda') || lower.includes('homeopathy')) {
-    return 'AYUSH & Alternative Treatment Coverage';
+    return 'AYUSH Alternative Treatment';
   }
   if (lower.includes('pre') && lower.includes('post')) {
-    return 'Pre & Post Hospitalization Expenses';
+    return 'Pre & Post Hospitalization';
   }
-  return `"${query}"`;
+  return query;
 }
 
 /**
@@ -422,7 +428,7 @@ function buildGlobalContentIndex() {
       indexedPlanIds.add(pId);
       indexedPlanIds.add(pKey);
 
-      // Features Sections
+      // Features Sections (Flat sections array or categorized arrays)
       if (planData.featuresSections) {
         planData.featuresSections.forEach((sec) => {
           if (sec.items) {
@@ -456,6 +462,41 @@ function buildGlobalContentIndex() {
           }
         });
       }
+
+      // Categorized Feature Arrays (Tata AIG MediCare Premier)
+      ['mostImportantFeatures', 'valueAddedFeatures', 'additionalFeatures'].forEach((catKey) => {
+        if (Array.isArray(planData[catKey])) {
+          const catTitle = catKey === 'mostImportantFeatures'
+            ? '1. MOST IMPORTANT FEATURES'
+            : catKey === 'valueAddedFeatures'
+            ? '2. VALUE ADDED FEATURES'
+            : '3. ADDITIONAL FEATURES';
+
+          planData[catKey].forEach((feat) => {
+            addItem({
+              id: `${compId}-${pId}-${catKey}-${feat.id}`,
+              type: 'feature',
+              companyId: comp?.id || compId,
+              companyName: comp?.name || fallbackCompName,
+              companyLogo: comp?.logo,
+              companyTheme: comp?.theme,
+              planId: pId,
+              planName: pName,
+              category: catTitle,
+              title: feat.title,
+              subtitle: feat.subtitle,
+              badge: feat.badge,
+              summary: feat.summary || feat.description,
+              description: feat.summary || feat.description,
+              points: feat.points,
+              steps: feat.steps,
+              videoTitle: feat.videoTitle,
+              videoUrl: feat.videoUrl,
+              planUrl: `/insurance/${comp?.id || compId}/${pId}`
+            });
+          });
+        }
+      });
 
       // Must Know (Items format or Highlights format)
       if (planData.mustKnow?.items) {
@@ -674,27 +715,305 @@ export function parseSearchQuery(query) {
 }
 
 /**
- * Global search function: Evaluates both plans/companies and in-depth content
- * Eliminates duplicates strictly by company + plan + canonical concept.
+ * Strict Concept Definitions with Exact Trigger Words & Precision Predicates
  */
-export function searchGlobalInsurance(query) {
-  const trimmed = String(query || '').trim();
-  if (!trimmed) {
+const CANONICAL_FEATURE_CONCEPTS = [
+  {
+    id: '2x_benefits',
+    title: '2X Benefits',
+    queryTriggers: [
+      '2x', '2 x', '2x benefit', '2x benefits', '2x cover', '2x coverage',
+      'double cover', 'double coverage', 'doubling', 'instant 2x', 'secure benefit',
+      '200% cover', 'coverage double', 'sum insured double', 'doubling of base cover'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      const lowerSub = (item.subtitle || '').toLowerCase();
+      
+      // Strict token boundary check for "2x" or explicit doubling
+      const has2xTitle = /\b2x\b/i.test(lowerT) || lowerT.includes('secure benefit') || lowerT.includes('doubling of base cover');
+      const has2xBadge = /\b2x\b/i.test(lowerB) || lowerB.includes('2x from day 1');
+      const has2xSub = lowerSub.includes('2x cover from day 1') || lowerSub.includes('doubles your sum insured from day 1');
+      
+      // Explicitly reject unrelated cumulative bonus, 2 years waiting period, or other numbers
+      if (lowerT.includes('booster+') || lowerT.includes('waiting period') || lowerT.includes('critical illness')) {
+        return false;
+      }
+
+      return has2xTitle || has2xBadge || has2xSub;
+    }
+  },
+  {
+    id: 'consumables',
+    title: 'Consumables Cover',
+    queryTriggers: [
+      'consumable', 'consumables', 'glove', 'gloves', 'syringe', 'syringes',
+      'cotton', 'ppe kit', 'ppe kits', 'masks', 'mask', 'non-medical', 'non medical',
+      'non medical expenses', 'safeguard', 'care shield', 'protect benefit', 'claim protector'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      const lowerSub = (item.subtitle || '').toLowerCase();
+      return (
+        lowerT.includes('consumable') ||
+        lowerT.includes('non-medical') ||
+        lowerT.includes('protect benefit') ||
+        lowerT.includes('care shield') ||
+        lowerT.includes('safeguard') ||
+        lowerB.includes('consumable') ||
+        lowerSub.includes('non-payable consumable') ||
+        lowerSub.includes('gloves, ppe kits') ||
+        lowerSub.includes('gloves, cotton')
+      );
+    }
+  },
+  {
+    id: 'room_rent',
+    title: 'Room Rent & Capping',
+    queryTriggers: [
+      'room', 'room rent', 'room limit', 'room capping', 'single private',
+      'single private room', 'capping', 'proportionate deduction', 'deluxe room',
+      'suite', 'bed charges', 'room charges', 'kamre ka rent'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      const lowerSub = (item.subtitle || '').toLowerCase();
+      return (
+        lowerT.includes('room rent') ||
+        lowerT.includes('room category') ||
+        lowerT.includes('single private room') ||
+        lowerT.includes('room type') ||
+        lowerB.includes('room rent') ||
+        lowerB.includes('no room rent capping') ||
+        lowerB.includes('single private') ||
+        lowerSub.includes('single private room') ||
+        lowerSub.includes('room rent capping')
+      );
+    }
+  },
+  {
+    id: 'restoration',
+    title: 'Restoration Benefit',
+    queryTriggers: [
+      'restore', 'restoration', 'recharge', 'reset', 'refill', 'auto restore',
+      'auto-restore', 'unlimited restoration', 'forever restore', 'reassure forever',
+      'reset benefit', 'balance refill'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      const lowerSub = (item.subtitle || '').toLowerCase();
+      return (
+        lowerT.includes('restore') ||
+        lowerT.includes('restoration') ||
+        lowerT.includes('recharge') ||
+        lowerT.includes('refill') ||
+        lowerT.includes('reset benefit') ||
+        lowerT.includes('reassure forever') ||
+        lowerB.includes('restore') ||
+        lowerB.includes('refill') ||
+        lowerB.includes('recharge') ||
+        lowerSub.includes('restores your base') ||
+        lowerSub.includes('refills sum insured')
+      );
+    }
+  },
+  {
+    id: 'cashless',
+    title: 'Cashless Hospitalization',
+    queryTriggers: [
+      'cashless', 'cashless hospital', 'cashless everywhere', 'network hospital',
+      'pre auth', 'pre authorization', 'cashless admission'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      const text = (item.searchableText || '').toLowerCase();
+      return (
+        lowerT.includes('cashless') ||
+        lowerT.includes('network hospital') ||
+        lowerB.includes('cashless') ||
+        lowerB.includes('network') ||
+        (text.includes('cashless everywhere') && (lowerT.includes('hospital') || lowerT.includes('network') || lowerT.includes('admission')))
+      );
+    }
+  },
+  {
+    id: 'claim_rules',
+    title: 'Claim Settlement & Rules',
+    queryTriggers: [
+      'claim', 'claims', 'claim rejected', 'claim rejection', 'rejection',
+      'rejected', 'csr', 'icr', 'settlement', 'reimbursement', 'claim settlement'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      return (
+        lowerT.includes('claim') ||
+        lowerT.includes('csr') ||
+        lowerT.includes('icr') ||
+        lowerT.includes('settlement') ||
+        lowerB.includes('claim') ||
+        lowerB.includes('csr')
+      );
+    }
+  },
+  {
+    id: 'waiting_period',
+    title: 'Waiting Periods',
+    queryTriggers: [
+      'waiting', 'waiting period', 'waiting periods', 'ped', 'pre-existing',
+      'pre existing', 'pre existing disease', 'initial waiting', '30 days waiting',
+      'sugar', 'diabetes', 'bp', 'hypertension'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      const lowerSub = (item.subtitle || '').toLowerCase();
+      return (
+        lowerT.includes('waiting') ||
+        lowerT.includes('pre-existing') ||
+        lowerT.includes('ped') ||
+        lowerB.includes('waiting') ||
+        lowerSub.includes('waiting period')
+      );
+    }
+  },
+  {
+    id: 'copay',
+    title: 'Co-Payment Rules',
+    queryTriggers: [
+      'copay', 'co-pay', 'co payment', 'copayment', 'cost sharing', 'deductible', 'voluntary copay'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      return (
+        lowerT.includes('co-pay') ||
+        lowerT.includes('copay') ||
+        lowerT.includes('deductible') ||
+        lowerB.includes('copay') ||
+        lowerB.includes('co-pay')
+      );
+    }
+  },
+  {
+    id: 'maternity',
+    title: 'Maternity Coverage',
+    queryTriggers: [
+      'maternity', 'pregnancy', 'delivery', 'c-section', 'normal delivery', 'newborn', 'baby', 'neonatal'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      return (
+        lowerT.includes('maternity') ||
+        lowerT.includes('newborn') ||
+        lowerT.includes('pregnancy') ||
+        lowerB.includes('maternity') ||
+        lowerB.includes('newborn')
+      );
+    }
+  },
+  {
+    id: 'opd',
+    title: 'OPD & Doctor Consultation',
+    queryTriggers: [
+      'opd', 'outpatient', 'out-patient', 'consultation', 'doctor consultation',
+      'doctor fees', 'doctor fee', 'clinic', 'pharmacy', 'diagnostic'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      return (
+        lowerT.includes('opd') ||
+        lowerT.includes('consultation') ||
+        lowerT.includes('outpatient') ||
+        lowerB.includes('opd')
+      );
+    }
+  },
+  {
+    id: 'bonus',
+    title: 'No Claim Bonus',
+    queryTriggers: [
+      'bonus', 'cumulative bonus', 'no claim bonus', 'ncb', 'ncb super', 'plus benefit'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      return (
+        lowerT.includes('cumulative bonus') ||
+        lowerT.includes('no claim bonus') ||
+        lowerT.includes('ncb') ||
+        lowerT.includes('plus benefit') ||
+        lowerB.includes('cumulative bonus') ||
+        lowerB.includes('ncb')
+      );
+    }
+  },
+  {
+    id: 'daycare',
+    title: 'Day Care Procedures',
+    queryTriggers: [
+      'day care', 'daycare', 'less than 24 hours', 'under 24 hours',
+      'cataract', 'dialysis', 'chemotherapy', 'lithotripsy', 'minor surgery'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      return (
+        lowerT.includes('day care') ||
+        lowerT.includes('daycare') ||
+        lowerT.includes('cataract') ||
+        lowerB.includes('day care') ||
+        lowerB.includes('daycare')
+      );
+    }
+  },
+  {
+    id: 'ayush',
+    title: 'AYUSH Alternative Treatment',
+    queryTriggers: [
+      'ayush', 'ayurveda', 'ayurvedic', 'homeopathy', 'unani', 'siddha', 'alternative treatment'
+    ],
+    isMatch: (item) => {
+      const lowerT = (item.title || '').toLowerCase();
+      const lowerB = (item.badge || '').toLowerCase();
+      return lowerT.includes('ayush') || lowerT.includes('ayurveda') || lowerB.includes('ayush');
+    }
+  }
+];
+
+export function searchGlobalInsurance(rawQuery) {
+  if (!rawQuery || typeof rawQuery !== 'string' || !rawQuery.trim()) {
     return {
       companies: [],
       plans: [],
       contentItems: [],
-      detectedCompany: null
+      detectedCompany: null,
+      queryConceptTitle: ''
     };
   }
 
-  const { detectedCompany, cleanedKeywords, rawQuery } = parseSearchQuery(trimmed);
-  const searchIndex = getGlobalContentIndex();
+  const { cleanedKeywords, detectedCompany } = parseSearchQuery(rawQuery);
+  const lowerRaw = rawQuery.toLowerCase().trim();
+  const lowerKeywords = (cleanedKeywords || rawQuery).toLowerCase().trim();
 
-  const lowerRaw = rawQuery.toLowerCase();
-  const lowerKeywords = cleanedKeywords.toLowerCase();
+  // Find if user query matches any canonical concept
+  const matchedConcept = CANONICAL_FEATURE_CONCEPTS.find((concept) => {
+    return concept.queryTriggers.some((trigger) => {
+      if (lowerKeywords === trigger || lowerRaw === trigger) return true;
+      // Word boundary match for short triggers (e.g. \b2x\b)
+      const regex = new RegExp(`\\b${trigger.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+      return regex.test(lowerKeywords) || regex.test(lowerRaw);
+    });
+  });
 
-  // 1. MATCH COMPANIES (Existing Plan/Company search capability preserved)
+  // 1. MATCH COMPANIES (If user specifically searched company name)
   const matchedCompanies = companiesData.filter((comp) => {
     const nameMatch = comp.name.toLowerCase().includes(lowerRaw) || comp.fullName.toLowerCase().includes(lowerRaw);
     if (nameMatch) return true;
@@ -702,53 +1021,41 @@ export function searchGlobalInsurance(query) {
     return false;
   });
 
-  // 2. MATCH PLANS
+  // 2. MATCH PLANS (If user specifically searched plan name)
   const matchedPlans = [];
   const seenPlanIds = new Set();
 
-  companiesData.forEach((comp) => {
-    // If company is specifically detected, prioritize plans from this company
-    if (detectedCompany && comp.id !== detectedCompany.id && comp.slug !== detectedCompany.id) {
-      return;
-    }
-    comp.plans.forEach((plan) => {
-      const planNameMatch = plan.name.toLowerCase().includes(lowerKeywords) || plan.name.toLowerCase().includes(lowerRaw);
-      const planDescMatch = (plan.description || '').toLowerCase().includes(lowerKeywords);
-      if (planNameMatch || planDescMatch) {
-        const planKey = `${comp.id}__${plan.id}`;
-        if (!seenPlanIds.has(planKey)) {
-          seenPlanIds.add(planKey);
-          matchedPlans.push({
-            ...plan,
-            companyId: comp.id,
-            companyName: comp.name,
-            companyLogo: comp.logo,
-            companyTheme: comp.theme,
-            planUrl: `/insurance/${comp.id}/${plan.id}`
-          });
-        }
+  if (lowerKeywords.length > 2 && !matchedConcept) {
+    companiesData.forEach((comp) => {
+      if (detectedCompany && comp.id !== detectedCompany.id && comp.slug !== detectedCompany.id) {
+        return;
       }
+      comp.plans.forEach((plan) => {
+        const planNameMatch = plan.name.toLowerCase().includes(lowerKeywords);
+        if (planNameMatch) {
+          const planKey = `${comp.id}__${plan.id}`;
+          if (!seenPlanIds.has(planKey)) {
+            seenPlanIds.add(planKey);
+            matchedPlans.push({
+              ...plan,
+              companyId: comp.id,
+              companyName: comp.name,
+              companyLogo: comp.logo,
+              companyTheme: comp.theme,
+              planUrl: `/insurance/${comp.id}/${plan.id}`
+            });
+          }
+        }
+      });
     });
-  });
+  }
 
-  // 3. MATCH DEEP CONTENT ITEMS
-  // Expand synonyms for keywords
-  const queryTerms = lowerKeywords.split(/\s+/).filter(Boolean);
-  const expandedTerms = new Set(queryTerms);
-
-  // Check synonym map
-  Object.entries(SYNONYM_MAP).forEach(([key, syns]) => {
-    const hasKey = queryTerms.some((t) => t.includes(key) || syns.includes(t));
-    if (hasKey) {
-      syns.forEach((s) => expandedTerms.add(s));
-    }
-  });
-
-  // Score and group content items
+  // 3. STRICT CONTENT ITEM MATCHING
   const bestScoredMap = new Map();
+  const searchIndex = getGlobalContentIndex();
 
   searchIndex.forEach((item) => {
-    // If company is specifically detected in query, filter/prioritize matching company
+    // If company is specifically detected in query, filter to that company
     const isTargetCompany = detectedCompany
       ? (item.companyId === detectedCompany.id || item.companyName.toLowerCase().includes(detectedCompany.aliases[0]))
       : true;
@@ -757,75 +1064,51 @@ export function searchGlobalInsurance(query) {
       return;
     }
 
+    let isRelevant = false;
     let score = 0;
+
     const lowerTitle = (item.title || '').toLowerCase();
-    const lowerSubtitle = (item.subtitle || '').toLowerCase();
     const lowerBadge = (item.badge || '').toLowerCase();
-    const text = item.searchableText;
+    const lowerSub = (item.subtitle || '').toLowerCase();
 
-    // A. Direct & Exact Title Matches
-    if (lowerTitle === lowerKeywords || lowerTitle === lowerRaw) {
-      score += 1200;
-    } else if (lowerTitle.includes(lowerKeywords) && lowerKeywords.length > 2) {
-      score += 600;
-    }
+    // Mode A: Canonical Concept Match (e.g. "2x", "gloves", "room rent", "cashless")
+    if (matchedConcept) {
+      if (matchedConcept.isMatch(item)) {
+        isRelevant = true;
+        score += 500;
 
-    // B. Direct Badge Match (e.g. "2X FROM DAY 1", "100% CASHLESS")
-    if (lowerBadge.includes(lowerKeywords) && lowerKeywords.length > 1) {
-      score += 450;
-    }
-
-    // C. Term-by-term matching with boost
-    let matchedTermsCount = 0;
-    queryTerms.forEach((term) => {
-      if (term.length < 2) return;
-      if (lowerTitle.includes(term)) {
-        score += 250;
-        matchedTermsCount++;
-      } else if (lowerSubtitle.includes(term)) {
-        score += 150;
-        matchedTermsCount++;
-      } else if (lowerBadge.includes(term)) {
-        score += 120;
-        matchedTermsCount++;
-      } else if (text.includes(term)) {
-        score += 80;
-        matchedTermsCount++;
+        // Exact Title Bonus
+        if (lowerTitle.includes(lowerKeywords) || lowerKeywords.includes(lowerTitle)) {
+          score += 300;
+        }
+        if (lowerBadge.includes(lowerKeywords)) {
+          score += 200;
+        }
       }
-    });
+    } else {
+      // Mode B: Non-concept query -> strict token-boundary title / badge match
+      if (lowerKeywords.length >= 2) {
+        const escaped = lowerKeywords.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const tokenRegex = new RegExp(`\\b${escaped}\\b`, 'i');
 
-    // D. Expanded Synonyms matching (e.g., "2x" matching "doubling" or "restore" matching "recharge")
-    expandedTerms.forEach((syn) => {
-      if (syn.length < 2) return;
-      if (lowerTitle.includes(syn)) {
-        score += 180;
-      } else if (lowerBadge.includes(syn)) {
-        score += 140;
-      } else if (text.includes(syn)) {
-        score += 50;
+        if (tokenRegex.test(lowerTitle)) {
+          isRelevant = true;
+          score += 600;
+        } else if (lowerTitle.includes(lowerKeywords)) {
+          isRelevant = true;
+          score += 400;
+        } else if (tokenRegex.test(lowerBadge)) {
+          isRelevant = true;
+          score += 350;
+        } else if (tokenRegex.test(lowerSub) && lowerKeywords.length > 3) {
+          isRelevant = true;
+          score += 200;
+        }
       }
-    });
-
-    // E. Company boost if company was in query
-    if (detectedCompany && isTargetCompany) {
-      score += 300;
     }
 
-    // F. Video availability slight boost for rich interactive content
-    if (item.hasVideo) {
-      score += 25;
-    }
-
-    // G. Rich feature type slight boost over must_know summary
-    if (item.type === 'feature') {
-      score += 10;
-    }
-
-    // If item qualifies
-    if (score >= 80 || (queryTerms.length === 1 && matchedTermsCount > 0)) {
-      // Canonical concept key for 100% clean deduplication
+    if (isRelevant) {
       const conceptKey = getNormalizedConceptKey(item.companyId, item.planId, item.title);
-      
       const existing = bestScoredMap.get(conceptKey);
       if (!existing || score > existing.score) {
         bestScoredMap.set(conceptKey, {
@@ -836,16 +1119,17 @@ export function searchGlobalInsurance(query) {
     }
   });
 
-  // Extract deduplicated items and sort descending by score
   const uniqueContentItems = Array.from(bestScoredMap.values());
   uniqueContentItems.sort((a, b) => b.score - a.score);
+
+  const displayConceptTitle = matchedConcept ? matchedConcept.title : getConceptTitleForQuery(rawQuery);
 
   return {
     companies: matchedCompanies,
     plans: matchedPlans,
-    contentItems: uniqueContentItems.slice(0, 15), // Top relevant unique items
+    contentItems: uniqueContentItems.slice(0, 15),
     detectedCompany,
-    queryConceptTitle: getConceptTitleForQuery(rawQuery)
+    queryConceptTitle: displayConceptTitle
   };
 }
 

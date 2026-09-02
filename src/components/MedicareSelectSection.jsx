@@ -26,7 +26,10 @@ import {
   FiDollarSign,
   FiZap,
   FiUsers,
-  FiActivity
+  FiActivity,
+  FiGlobe,
+  FiAward,
+  FiInfo
 } from 'react-icons/fi';
 import { getTataAigPlanData, resolveTataAigPlanId } from '../data/tataAigPlansData';
 import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
@@ -52,7 +55,9 @@ const ICON_MAP = {
   dollar: FiDollarSign,
   zap: FiZap,
   users: FiUsers,
-  activity: FiActivity
+  activity: FiActivity,
+  globe: FiGlobe,
+  award: FiAward
 };
 
 // Helper to format YouTube or Direct MP4 URLs
@@ -72,7 +77,7 @@ const getVideoEmbedUrl = (url) => {
   return { type: 'iframe', url };
 };
 
-// Compact Feature-Wise Inline Video Button Component (Tata AIG Royal Blue Theme)
+// Compact Feature-Wise Inline Video Button Component
 const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
   return (
     <button
@@ -90,7 +95,22 @@ const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
   );
 };
 
-// Premium "WATCH VIDEO" button — matches Report Card & Modal design (Tata AIG Royal Blue Theme)
+// Compact "View Details" Pill Button
+const ViewDetailsPill = ({ onClick, label = "View Details" }) => (
+  <button
+    type="button"
+    onClick={(e) => {
+      e.stopPropagation();
+      onClick();
+    }}
+    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/30 hover:bg-[#0038A8] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group"
+  >
+    <FiInfo className="text-[9px] text-[#0038A8] group-hover:text-white" />
+    <span>{label}</span>
+  </button>
+);
+
+// Premium "WATCH VIDEO" button
 const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '', align = 'center' }) => (
   <div className={`pt-1.5 border-t border-slate-100/80 ${align === 'center' ? 'flex justify-center' : ''} ${className}`}>
     <button
@@ -107,7 +127,7 @@ const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '', align 
   </div>
 );
 
-// Premium In-Page Video Lightbox Modal (Tata AIG Theme)
+// Premium In-Page Video Lightbox Modal
 const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
   if (!isOpen || !videoUrl) return null;
 
@@ -139,7 +159,7 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
           </button>
         </div>
 
-        {/* Video Player Container (16:9) */}
+        {/* Video Player Container */}
         <div className="relative aspect-video w-full bg-black flex items-center justify-center">
           {embedData.type === 'mp4' ? (
             <video
@@ -163,38 +183,39 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
   );
 };
 
-// Sub-component for Tata AIG Features Accordion Items with Scroll Reveal & Stagger
+// Sub-component for Tata AIG Features Accordion Items
 function TataAigFeatureAccordionItem({
   item,
   isExpanded,
   onToggle,
   index = 0,
   onOpenVideo,
+  onOpenDetailsModal,
   demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
-  const { id, title, subtitle, summary, badge, steps, isRider, iconType } = item;
+  const { id, title, subtitle, summary, badge, points, steps, tierData, hasDetailsModal, detailsModalTitle, detailsModalContent, isRider, iconType } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
 
   return (
     <motion.div
       ref={itemRef}
-      initial={{ opacity: 0, y: 25 }}
+      initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.45, delay: (index % 3) * 0.08, ease: "easeOut" }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.35, delay: (index % 3) * 0.04, ease: "easeOut" }}
       onClick={() => onToggle(id, itemRef)}
       className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${
         isExpanded
           ? 'bg-[#F0F4FF]/80 border-[#0038A8]/60 shadow-md ring-1 ring-[#0038A8]/20'
-          : 'bg-white border-slate-200/80 hover:border-[#0038A8]/40 shadow-2xs'
+          : 'bg-white border-slate-200/80 hover:border-[#0038A8]/40 shadow-2xs hover:shadow-xs'
       }`}
     >
       {/* Header Row */}
-      <div className="p-2.5 sm:p-4 flex items-start sm:items-center justify-between gap-1.5 sm:gap-3">
-        <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-1 min-w-0">
+      <div className="p-3 sm:p-4 flex items-start sm:items-center justify-between gap-2 sm:gap-3">
+        <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
           {IconComponent && (
-            <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+            <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
               isExpanded ? 'bg-[#0038A8] text-white shadow-xs' : 'bg-[#F0F4FF] text-[#0038A8]'
             }`}>
               <IconComponent className="text-xs sm:text-base" />
@@ -202,11 +223,17 @@ function TataAigFeatureAccordionItem({
           )}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
-              <h3 className="text-xs sm:text-base font-extrabold font-display leading-tight sm:leading-snug text-[#0F172A]">
+              <h3 className="text-xs sm:text-sm font-extrabold font-display leading-tight sm:leading-snug text-[#0F172A]">
                 {title}
               </h3>
               {onOpenVideo && (
                 <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
+              )}
+              {hasDetailsModal && onOpenDetailsModal && (
+                <ViewDetailsPill
+                  label="View Details"
+                  onClick={() => onOpenDetailsModal(detailsModalTitle || title, detailsModalContent || summary)}
+                />
               )}
               {isRider && (
                 <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#0038A8]/10 text-[#0038A8] tracking-wide shrink-0">
@@ -215,7 +242,7 @@ function TataAigFeatureAccordionItem({
               )}
             </div>
             {subtitle && (
-              <p className="text-[9px] sm:text-xs font-semibold mt-0.5 leading-tight sm:leading-snug text-slate-500 line-clamp-2 sm:line-clamp-none">
+              <p className="text-[10px] sm:text-xs font-semibold mt-0.5 leading-tight sm:leading-snug text-slate-500">
                 {subtitle}
               </p>
             )}
@@ -223,18 +250,18 @@ function TataAigFeatureAccordionItem({
         </div>
 
         {/* Plus / Minus Button */}
-        <div className={`w-5 h-5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 mt-0.5 sm:mt-0 ${
+        <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 mt-0.5 sm:mt-0 ${
           isExpanded ? 'bg-[#0038A8] text-white rotate-180' : 'bg-[#F0F4FF] text-[#0038A8]'
         }`}>
           {isExpanded ? (
-            <FiMinus className="text-[10px] sm:text-sm stroke-[2.5]" />
+            <FiMinus className="text-[10px] sm:text-xs stroke-[2.5]" />
           ) : (
-            <FiPlus className="text-[10px] sm:text-sm stroke-[2.5]" />
+            <FiPlus className="text-[10px] sm:text-xs stroke-[2.5]" />
           )}
         </div>
       </div>
 
-      {/* Expanded Summary & Contextual Badges */}
+      {/* Expanded Summary & Details */}
       <AnimatePresence initial={false}>
         {isExpanded && (
           <motion.div
@@ -244,41 +271,67 @@ function TataAigFeatureAccordionItem({
             transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
             className="overflow-hidden"
           >
-            <div className="px-2.5 pb-2.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2 sm:space-y-2.5">
-              {/* Contextual Badge & Subtitle Checkmark */}
-              <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <div className="px-3 pb-3 sm:px-4 sm:pb-4 border-t border-slate-100/80 text-slate-600 space-y-2 sm:space-y-2.5">
+              {/* Contextual Badge */}
+              <div className="pt-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
                 {badge && (
                   <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/20 tracking-wider">
                     <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#0038A8]" />
                     {badge}
                   </span>
                 )}
-                {subtitle && (
-                  <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
-                    <FiCheck className="text-[#0038A8] text-[10px] sm:text-xs shrink-0" /> {subtitle}
-                  </span>
-                )}
               </div>
 
               {/* Short explanation / Details */}
-              <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">
+              <div className="text-[11px] sm:text-xs font-medium leading-relaxed text-slate-600">
                 {summary}
               </div>
 
-              {/* Visual Number Step Progression */}
-              {steps && steps.length > 0 && (
-                <div className="mt-2 sm:mt-2.5 p-2 sm:p-3 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200/60">
-                  <div className="text-[8px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2">
-                    Coverage Progression Example
+              {/* Key Highlights */}
+              {points && points.length > 0 && (
+                <div className="mt-2 p-2.5 rounded-xl bg-slate-50/80 border border-slate-200/60 space-y-1.5">
+                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    Coverage Highlights
                   </div>
-                  <div className="flex flex-wrap items-center gap-1 sm:gap-2">
+                  <ul className="space-y-1">
+                    {points.map((pt, pIdx) => (
+                      <li key={pIdx} className="flex items-start gap-1.5 text-[10px] sm:text-xs text-slate-600 font-medium">
+                        <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-xs" />
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Compact Tier Breakdown Mini-Table if present */}
+              {tierData && tierData.tiers && (
+                <div className="mt-2 p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-white border border-slate-200/80">
+                  <div className="text-[8px] sm:text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                    {tierData.title || 'Coverage Tiers'}
+                  </div>
+                  <div className="divide-y divide-slate-100 text-[10px] sm:text-xs">
+                    {tierData.tiers.map((tItem, tIdx) => (
+                      <div key={tIdx} className="py-1 flex items-center justify-between">
+                        <span className="font-semibold text-slate-700">{tItem.tier}</span>
+                        <span className="font-bold text-[#0038A8]">{tItem.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Visual Steps if present */}
+              {steps && steps.length > 0 && (
+                <div className="mt-2 p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200/60">
+                  <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
                     {steps.map((step, sIdx) => (
                       <React.Fragment key={sIdx}>
-                        <div className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg bg-white border border-slate-200 shadow-2xs text-[10px] sm:text-xs font-black text-[#0F172A] flex items-center gap-1">
+                        <div className="px-2 py-0.5 rounded-md bg-white border border-slate-200 shadow-2xs text-[9px] sm:text-[11px] font-black text-[#0F172A]">
                           {step}
                         </div>
                         {sIdx < steps.length - 1 && (
-                          <span className="text-[10px] sm:text-xs font-extrabold text-[#0038A8] px-0.5">
+                          <span className="text-[9px] sm:text-xs font-extrabold text-[#0038A8] px-0.5">
                             →
                           </span>
                         )}
@@ -298,6 +351,11 @@ function TataAigFeatureAccordionItem({
 export default function MedicareSelectSection({ plan, company, planId: planIdProp }) {
   const [activeModal, setActiveModal] = useState(null);
   const [activeLimitationId, setActiveLimitationId] = useState(null);
+  const [detailsModalState, setDetailsModalState] = useState({
+    isOpen: false,
+    title: '',
+    content: ''
+  });
   const [videoModalState, setVideoModalState] = useState({
     isOpen: false,
     title: '',
@@ -339,17 +397,18 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
   const location = useLocation();
   const isFeaturesPage = location.pathname.endsWith('/features');
 
-  // Resolve to canonical Tata AIG plan ID — every section reads data for exactly this plan
+  // Resolve to canonical Tata AIG plan ID — MediCare Premier
   const currentPlanId = resolveTataAigPlanId(planIdProp || plan?.id || urlPlanId);
   const planData = getTataAigPlanData(currentPlanId);
   const uiConfig = planData?.uiConfig ?? {};
   const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
   const { logo, name } = company;
 
-  // Reset all UI state when switching between plans
+  // Reset all UI state on plan switch
   useEffect(() => {
     setActiveModal(null);
     setActiveLimitationId(null);
+    setDetailsModalState({ isOpen: false, title: '', content: '' });
     setVideoModalState({ isOpen: false, title: '', url: '' });
     setExpandedReportCard({ csr: false, icr: false, complaint: false });
     setExpandedCompanyStrength({
@@ -365,7 +424,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
 
   // Lock background body scroll when modal is active
   useEffect(() => {
-    if (activeModal || videoModalState.isOpen) {
+    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -373,7 +432,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeModal, videoModalState.isOpen]);
+  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen]);
 
   const handleOpenVideo = (title, url) => {
     setVideoModalState({
@@ -388,6 +447,22 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
       isOpen: false,
       title: '',
       url: ''
+    });
+  };
+
+  const handleOpenDetailsModal = (title, content) => {
+    setDetailsModalState({
+      isOpen: true,
+      title,
+      content
+    });
+  };
+
+  const handleCloseDetailsModal = () => {
+    setDetailsModalState({
+      isOpen: false,
+      title: '',
+      content: ''
     });
   };
 
@@ -407,16 +482,16 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
   };
 
   // =========================================================================
-  // DEDICATED FEATURES PAGE (POLICY BENEFITS — 4 CATEGORIES)
+  // DEDICATED FEATURES PAGE (EXACT REFERENCE: 4 COMPACT DARK GREEN CATEGORIES)
   // =========================================================================
   if (isFeaturesPage) {
     return (
-      <div className="w-full pb-20 bg-[#F0F4FF] min-h-screen overflow-x-hidden relative">
+      <div className="w-full pb-20 bg-[#F0F4FF] min-h-screen overflow-x-hidden relative font-sans">
         {/* Subtle Ambient Blue Glow */}
         <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none bg-[#0038A8]" />
 
-        {/* Page Container — Tata AIG Theme */}
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-2 sm:pt-4 space-y-10 sm:space-y-12 relative z-10">
+        {/* Page Container — Matching Reference Spacing & Density */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-2 sm:pt-4 space-y-8 sm:space-y-10 relative z-10">
 
           {/* HEADER */}
           <motion.div
@@ -438,12 +513,18 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               <img
                 src={logo}
                 alt={name}
-                className="w-24 sm:w-44 h-auto max-h-9 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-5"
+                className="w-24 sm:w-44 h-auto max-h-9 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-4"
               />
+              <span className="text-xs font-bold uppercase tracking-widest text-[#0038A8] block mb-0.5">
+                Tata AIG
+              </span>
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
-                {planData.planName} <span className="text-[#0038A8]">—</span> POLICY BENEFITS
+                {planData.planName}
               </h1>
-              <div className="w-8 sm:w-12 h-1 bg-[#0038A8] mx-auto mt-1.5 rounded-full" />
+              <span className="text-xs sm:text-sm font-extrabold text-[#0038A8] uppercase tracking-wider block mt-1">
+                POLICY BENEFITS
+              </span>
+              <div className="w-8 sm:w-12 h-1 bg-[#0038A8] mx-auto mt-2 rounded-full" />
             </div>
 
             {/* DOWNLOAD & SHARE PDF ACTION BUTTONS */}
@@ -454,15 +535,17 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             />
           </motion.div>
 
-          {/* 4 DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
-          {planData.featuresSections.map((sec, secIdx) => (
-            <div key={sec.id || secIdx}>
+          {/* 4 COMPACT DARK GREEN CATEGORY SECTIONS (EXACT REFERENCE DESIGN) */}
+          {planData.featuresSections?.map((sec, secIdx) => (
+            <div key={sec.id || secIdx} className="space-y-3 sm:space-y-3.5">
+              
+              {/* Reference Dark Green Category Banner */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4 }}
-                className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
+                className="w-full relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
                 <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
@@ -470,7 +553,9 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                   {sec.title}
                 </h2>
               </motion.div>
-              <div className={`grid ${sec.gridCols || 'grid-cols-2 lg:grid-cols-3'} gap-2.5 sm:gap-4`}>
+
+              {/* Compact Grid of Cards */}
+              <div className={`grid ${sec.gridCols || 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'} gap-2.5 sm:gap-4`}>
                 {sec.items.map((item, itemIdx) => (
                   <TataAigFeatureAccordionItem
                     key={item.id}
@@ -479,6 +564,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     isExpanded={expandedFeatureId === item.id}
                     onToggle={toggleAccordionItem}
                     onOpenVideo={handleOpenVideo}
+                    onOpenDetailsModal={handleOpenDetailsModal}
                     demoVideoUrl={demoVideoUrl}
                   />
                 ))}
@@ -487,9 +573,9 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           ))}
 
           {/* FOOTNOTE */}
-          <div className="text-right pt-1">
+          <div className="text-right pt-2">
             <span className="text-xs font-bold text-slate-400">
-              *T&C Apply
+              *Terms & Conditions Apply as per official Tata AIG MediCare Premier policy wording.
             </span>
           </div>
 
@@ -502,17 +588,68 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           videoTitle={videoModalState.title}
           videoUrl={videoModalState.url}
         />
+
+        {/* COMPACT DETAILS MODAL (FOR GLOBAL COVER & COVERAGE DETAILS) */}
+        <AnimatePresence>
+          {detailsModalState.isOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={handleCloseDetailsModal}
+                className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-md overflow-hidden z-10 p-5 sm:p-6 text-left"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  type="button"
+                  onClick={handleCloseDetailsModal}
+                  className="absolute top-4 right-4 w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors"
+                >
+                  <FiX className="text-sm" />
+                </button>
+                <div className="flex items-center gap-2 mb-3 pr-6">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#0038A8]" />
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900 font-display">
+                    {detailsModalState.title}
+                  </h3>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
+                  {detailsModalState.content}
+                </p>
+                <div className="mt-4 pt-3 border-t border-slate-100 text-right">
+                  <button
+                    type="button"
+                    onClick={handleCloseDetailsModal}
+                    className="px-4 py-1.5 rounded-lg bg-[#0038A8] text-white text-xs font-bold hover:bg-[#002670] transition-colors"
+                  >
+                    Got It
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+
       </div>
     );
   }
 
   // =========================================================================
-  // MAIN TATA AIG PLAN DETAIL PAGE (SINGLE VIEWPORT — APPROVED HDFC UX STRUCTURE)
+  // MAIN TATA AIG PLAN OVERVIEW PAGE (SINGLE VIEWPORT HUB)
   // =========================================================================
   return (
-    <div className="w-full">
+    <div className="w-full font-sans">
       {/* Single Viewport Container */}
       <div className="max-w-3xl mx-auto flex flex-col justify-start sm:justify-center items-stretch sm:min-h-[calc(100vh-220px)] py-1 sm:py-4 space-y-0">
+        
         {/* Navigation Breadcrumb - Back to Plans */}
         <div className="shrink-0 text-left mb-3.5 sm:mb-5">
           <Link
@@ -534,13 +671,13 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
 
         {/* 2. PLAN NAME HEADING */}
         <div className="text-center shrink-0 mb-3.5 sm:mb-6">
-          <h1 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+          <h1 className="text-base sm:text-2xl font-black text-slate-900 tracking-tight font-display">
             {planData.planName}
           </h1>
           <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#0038A8] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
-        {/* 3. 2-COLUMN BUTTON GRID (SAME APPROVED HDFC STRUCTURE) */}
+        {/* 3. 2-COLUMN BUTTON GRID */}
         <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
           {/* Card 1: REPORT CARD */}
           <button
@@ -586,7 +723,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             </div>
           </Link>
 
-          {/* Card 4: LIMITATIONS & WAITING PERIODS (SAME PAGE MODAL — NO NEXT PAGE) */}
+          {/* Card 4: LIMITATIONS & WAITING PERIODS */}
           <button
             type="button"
             onClick={() => {
@@ -605,7 +742,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           </button>
         </div>
 
-        {/* 5. MUST KNOW DETAILS button */}
+        {/* 5. MUST KNOW DETAILS Button */}
         <div className="flex justify-center w-full mt-2.5 sm:mt-5">
           <button
             type="button"
@@ -637,12 +774,12 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
       </div>
 
       {/* ========================================================================= */}
-      {/* SAME-PAGE MODAL OVERLAYS (REPORT CARD, COMPANY STRENGTH, LIMITATIONS, MUST KNOW) */}
+      {/* SAME-PAGE MODAL OVERLAYS */}
       {/* ========================================================================= */}
       <AnimatePresence>
         {activeModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
-            {/* Backdrop Overlay */}
+            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -651,13 +788,13 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
             />
 
-            {/* Modal Dialog Box */}
+            {/* Modal Box */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg overflow-hidden z-10 p-4 sm:p-8 max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto"
+              className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg overflow-hidden z-10 p-4 sm:p-8 max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto text-left"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -681,7 +818,6 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     </p>
                   </div>
 
-                  {/* 3 EQUAL ACCORDION BOXES — TATA AIG BLUE BORDERS & ACCENTS */}
                   <div className="space-y-2.5 sm:space-y-3">
                     {/* Box 1: CSR */}
                     <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
@@ -695,12 +831,12 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             CSR
                           </span>
                           {planData.reportCard?.csr?.summaryValue && (
-                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                            <span className="text-xs sm:text-sm font-bold text-amber-600 tracking-tight shrink-0 font-display">
                               {planData.reportCard.csr.summaryValue}
                             </span>
                           )}
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF]/60 group-hover:border-[#0038A8]/25 transition-all duration-300 shrink-0 select-none">
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
                           <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.csr ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
@@ -767,12 +903,12 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             ICR
                           </span>
                           {planData.reportCard?.icr?.summaryValue && (
-                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                            <span className="text-xs sm:text-sm font-bold text-slate-700 tracking-tight shrink-0 font-display">
                               {planData.reportCard.icr.summaryValue}
                             </span>
                           )}
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF]/60 group-hover:border-[#0038A8]/25 transition-all duration-300 shrink-0 select-none">
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
                           <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.icr ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
@@ -797,14 +933,12 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                               </div>
 
                               <div className="pt-1">
-                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                <div className="text-base sm:text-lg font-bold text-slate-900 tracking-tight font-display">
                                   {planData.reportCard.icr.range}
                                 </div>
-                                {planData.reportCard.icr.rangeLabel && (
-                                  <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                    {planData.reportCard.icr.rangeLabel}
-                                  </div>
-                                )}
+                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
+                                  {planData.reportCard.icr.rangeLabel || 'Healthy ICR Range'}
+                                </div>
                               </div>
 
                               <WatchVideoButton
@@ -826,16 +960,16 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display truncate">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
                             COMPLAINT VOLUME
                           </span>
                           {planData.reportCard?.complaintVolume?.summaryValue && (
-                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
+                            <span className="text-xs sm:text-sm font-bold text-slate-700 tracking-tight shrink-0 font-display">
                               {planData.reportCard.complaintVolume.summaryValue}
                             </span>
                           )}
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF]/60 group-hover:border-[#0038A8]/25 transition-all duration-300 shrink-0 select-none">
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
                           <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.complaint ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
@@ -850,23 +984,21 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             className="overflow-hidden"
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <div>
-                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
-                                  {planData.reportCard.complaintVolume.explanation}
-                                </p>
-                              </div>
+                              <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                {planData.reportCard.complaintVolume.explanation}
+                              </p>
 
                               <div className="pt-1">
-                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                <div className="text-base sm:text-lg font-bold text-slate-900 tracking-tight font-display">
                                   {planData.reportCard.complaintVolume.value}
                                 </div>
                                 <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                  {planData.reportCard.complaintVolume.label || 'Complaints per 10,000 Claims'}
+                                  {planData.reportCard.complaintVolume.label}
                                 </div>
                               </div>
 
                               <WatchVideoButton
-                                title="Complaint Volume Metrics"
+                                title="Complaint Volume"
                                 onOpenVideo={handleOpenVideo}
                                 videoUrl={planData.reportCard.complaintVolume.videoUrl || demoVideoUrl}
                               />
@@ -891,9 +1023,8 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     </p>
                   </div>
 
-                  {/* 6 EQUAL ACCORDION BOXES — TATA AIG THEME */}
                   <div className="space-y-2.5 sm:space-y-3">
-                    {/* Box 1: OWNERSHIP / PERCENTAGE */}
+                    {/* OWNERSHIP */}
                     <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
                       <button
                         type="button"
@@ -901,16 +1032,14 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display truncate">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
                             OWNERSHIP / PERCENTAGE
                           </span>
-                          {planData.companyStrength?.ownership?.summaryValue && (
-                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
-                              {planData.companyStrength.ownership.summaryValue}
-                            </span>
-                          )}
+                          <span className="text-xs sm:text-sm font-bold text-slate-700 font-display">
+                            {planData.companyStrength?.ownership?.summaryValue}
+                          </span>
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF]/60 group-hover:border-[#0038A8]/25 transition-all duration-300 shrink-0 select-none">
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
                           <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.ownership ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
@@ -925,37 +1054,24 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             className="overflow-hidden"
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <div>
-                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
-                                  {planData.companyStrength.ownership.explanation}
-                                </p>
-                              </div>
-
+                              <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                {planData.companyStrength.ownership.explanation}
+                              </p>
                               <div className="space-y-2 pt-1">
-                                {planData.companyStrength.ownership.items.map((item, idx) => (
-                                  <div key={idx} className={idx > 0 ? "pt-2 border-t border-slate-100" : ""}>
-                                    <div className="text-xs sm:text-sm font-extrabold text-slate-800 font-display">
-                                      {item.name}
-                                    </div>
-                                    <div className="text-xs sm:text-sm font-bold text-amber-600 mt-0.5">
-                                      {item.value} <span className="text-slate-500 font-medium text-[11px] sm:text-xs">{item.label}</span>
-                                    </div>
+                                {planData.companyStrength.ownership.items?.map((item, idx) => (
+                                  <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-white border border-slate-100 text-xs">
+                                    <span className="font-semibold text-slate-800">{item.name}</span>
+                                    <span className="font-bold text-[#0038A8]">{item.value}</span>
                                   </div>
                                 ))}
                               </div>
-
-                              <WatchVideoButton
-                                title="Ownership & Shareholding"
-                                onOpenVideo={handleOpenVideo}
-                                videoUrl={demoVideoUrl}
-                              />
                             </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
 
-                    {/* Box 2: CREDIT RATING */}
+                    {/* CREDIT RATING */}
                     <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
                       <button
                         type="button"
@@ -963,16 +1079,14 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display truncate">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
                             CREDIT RATING
                           </span>
-                          {planData.companyStrength?.creditRating?.summaryValue && (
-                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
-                              {planData.companyStrength.creditRating.summaryValue}
-                            </span>
-                          )}
+                          <span className="text-xs sm:text-sm font-bold text-amber-600 font-display">
+                            {planData.companyStrength?.creditRating?.summaryValue}
+                          </span>
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF]/60 group-hover:border-[#0038A8]/25 transition-all duration-300 shrink-0 select-none">
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
                           <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.creditRating ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
@@ -987,37 +1101,24 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             className="overflow-hidden"
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <div>
-                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
-                                  {planData.companyStrength.creditRating.explanation}
-                                </p>
-                              </div>
-
+                              <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                {planData.companyStrength.creditRating.explanation}
+                              </p>
                               <div className="space-y-2 pt-1">
-                                {planData.companyStrength.creditRating.items.map((item, idx) => (
-                                  <div key={idx} className={idx > 0 ? "pt-2 border-t border-slate-100" : ""}>
-                                    <div className="text-xs sm:text-sm font-extrabold text-slate-800 font-display">
-                                      {item.agency}
-                                    </div>
-                                    <div className="text-xs sm:text-sm font-bold text-amber-600 mt-0.5">
-                                      {item.rating}
-                                    </div>
+                                {planData.companyStrength.creditRating.items?.map((item, idx) => (
+                                  <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-white border border-slate-100 text-xs">
+                                    <span className="font-semibold text-slate-800">{item.agency}</span>
+                                    <span className="font-bold text-emerald-600">{item.rating}</span>
                                   </div>
                                 ))}
                               </div>
-
-                              <WatchVideoButton
-                                title="Credit Ratings & Financial Strength"
-                                onOpenVideo={handleOpenVideo}
-                                videoUrl={demoVideoUrl}
-                              />
                             </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
 
-                    {/* Box 3: CAPITAL STRENGTH */}
+                    {/* CAPITAL STRENGTH */}
                     <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
                       <button
                         type="button"
@@ -1025,16 +1126,14 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display truncate">
-                            CAPITAL STRENGTH
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
+                            CAPITAL STRENGTH (SOLVENCY)
                           </span>
-                          {planData.companyStrength?.capitalStrength?.summaryValue && (
-                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
-                              {planData.companyStrength.capitalStrength.summaryValue}
-                            </span>
-                          )}
+                          <span className="text-xs sm:text-sm font-bold text-slate-700 font-display">
+                            {planData.companyStrength?.capitalStrength?.summaryValue}
+                          </span>
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF]/60 group-hover:border-[#0038A8]/25 transition-all duration-300 shrink-0 select-none">
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
                           <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.capitalStrength ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
@@ -1049,33 +1148,24 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             className="overflow-hidden"
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <div>
-                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
-                                  {planData.companyStrength.capitalStrength.explanation}
-                                </p>
-                              </div>
-
+                              <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                {planData.companyStrength.capitalStrength.explanation}
+                              </p>
                               <div className="pt-1">
-                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                <div className="text-base sm:text-lg font-bold text-slate-900 tracking-tight font-display">
                                   {planData.companyStrength.capitalStrength.value}
                                 </div>
                                 <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
                                   {planData.companyStrength.capitalStrength.label}
                                 </div>
                               </div>
-
-                              <WatchVideoButton
-                                title="Capital Strength & Solvency"
-                                onOpenVideo={handleOpenVideo}
-                                videoUrl={demoVideoUrl}
-                              />
                             </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
 
-                    {/* Box 4: FINANCIAL BASE */}
+                    {/* FINANCIAL BASE */}
                     <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
                       <button
                         type="button"
@@ -1083,16 +1173,14 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display truncate">
-                            FINANCIAL BASE
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
+                            FINANCIAL BASE (AUM)
                           </span>
-                          {planData.companyStrength?.financialBase?.summaryValue && (
-                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
-                              {planData.companyStrength.financialBase.summaryValue}
-                            </span>
-                          )}
+                          <span className="text-xs sm:text-sm font-bold text-slate-700 font-display">
+                            {planData.companyStrength?.financialBase?.summaryValue}
+                          </span>
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF]/60 group-hover:border-[#0038A8]/25 transition-all duration-300 shrink-0 select-none">
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
                           <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.financialBase ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
@@ -1107,142 +1195,17 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             className="overflow-hidden"
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <div>
-                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
-                                  {planData.companyStrength.financialBase.explanation}
-                                </p>
-                              </div>
-
+                              <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                {planData.companyStrength.financialBase.explanation}
+                              </p>
                               <div className="pt-1">
-                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
+                                <div className="text-base sm:text-lg font-bold text-slate-900 tracking-tight font-display">
                                   {planData.companyStrength.financialBase.value}
                                 </div>
                                 <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
                                   {planData.companyStrength.financialBase.label}
                                 </div>
                               </div>
-
-                              <WatchVideoButton
-                                title="Financial Base & Investment Assets"
-                                onOpenVideo={handleOpenVideo}
-                                videoUrl={demoVideoUrl}
-                              />
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-
-                    {/* Box 5: REINSURANCE STRENGTH */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
-                      <button
-                        type="button"
-                        onClick={() => toggleCompanyStrength('reinsurance')}
-                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
-                      >
-                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display truncate">
-                            REINSURANCE STRENGTH
-                          </span>
-                          {planData.companyStrength?.reinsuranceStrength?.summaryValue && (
-                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
-                              {planData.companyStrength.reinsuranceStrength.summaryValue}
-                            </span>
-                          )}
-                        </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF]/60 group-hover:border-[#0038A8]/25 transition-all duration-300 shrink-0 select-none">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.reinsurance ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
-                        </div>
-                      </button>
-
-                      <AnimatePresence initial={false}>
-                        {expandedCompanyStrength.reinsurance && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.25, ease: "easeOut" }}
-                            className="overflow-hidden"
-                          >
-                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <div>
-                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
-                                  {planData.companyStrength.reinsuranceStrength.explanation}
-                                </p>
-                              </div>
-
-                              <div className="pt-1">
-                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
-                                  {planData.companyStrength.reinsuranceStrength.value}
-                                </div>
-                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                  {planData.companyStrength.reinsuranceStrength.label}
-                                </div>
-                              </div>
-
-                              <WatchVideoButton
-                                title="Reinsurance Strength"
-                                onOpenVideo={handleOpenVideo}
-                                videoUrl={demoVideoUrl}
-                              />
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-
-                    {/* Box 6: MARKET POSITION */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
-                      <button
-                        type="button"
-                        onClick={() => toggleCompanyStrength('marketPosition')}
-                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
-                      >
-                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display truncate">
-                            MARKET POSITION
-                          </span>
-                          {planData.companyStrength?.marketPosition?.summaryValue && (
-                            <span className="text-xs sm:text-sm font-semibold text-amber-600 tracking-tight shrink-0 font-display">
-                              {planData.companyStrength.marketPosition.summaryValue}
-                            </span>
-                          )}
-                        </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF]/60 group-hover:border-[#0038A8]/25 transition-all duration-300 shrink-0 select-none">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.marketPosition ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
-                        </div>
-                      </button>
-
-                      <AnimatePresence initial={false}>
-                        {expandedCompanyStrength.marketPosition && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.25, ease: "easeOut" }}
-                            className="overflow-hidden"
-                          >
-                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <div>
-                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
-                                  {planData.companyStrength.marketPosition.explanation}
-                                </p>
-                              </div>
-
-                              <div className="pt-1">
-                                <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
-                                  {planData.companyStrength.marketPosition.value}
-                                </div>
-                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                  {planData.companyStrength.marketPosition.label}
-                                </div>
-                              </div>
-
-                              <WatchVideoButton
-                                title="Market Position & Network Strength"
-                                onOpenVideo={handleOpenVideo}
-                                videoUrl={demoVideoUrl}
-                              />
                             </div>
                           </motion.div>
                         )}
@@ -1252,124 +1215,82 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                 </div>
               )}
 
-              {/* MODAL 3: LIMITATIONS & WAITING PERIODS (SAME PAGE MODAL — NO NEXT PAGE) */}
+              {/* MODAL 3: LIMITATIONS & WAITING PERIODS */}
               {activeModal === 'limitations' && (
                 <div className="space-y-4 sm:space-y-5">
                   <div className="pr-8">
-                    <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#0038A8] block font-display">
-                      {planData.limitationsWaitingPeriods?.subheading || 'TERMS & WAITING PERIODS'}
-                    </span>
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display mt-0.5">
-                      {planData.limitationsWaitingPeriods?.heading || 'LIMITATIONS & WAITING PERIODS'}
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                      LIMITATIONS & WAITING PERIODS
                     </h2>
-                    <p className="text-xs text-slate-500 font-normal mt-0.5">
-                      {planData.limitationsWaitingPeriods?.description || 'Interactive policy timelines, specific disease waiting, and permanent exclusions.'}
+                    <p className="text-xs text-[#0038A8] font-medium mt-0.5">
+                      Terms, Waiting Periods & Exclusions
                     </p>
                   </div>
 
-                  {/* 3 LIMITATION ACCORDION BOXES */}
-                  <div className="space-y-2.5 sm:space-y-3">
-                    {planData.limitationsWaitingPeriods?.items.map((item) => {
-                      const isItemExpanded = activeLimitationId === item.id;
-                      const isPermanent = item.id === 'permanent';
-
+                  <div className="space-y-3">
+                    {planData.limitationsWaitingPeriods?.items?.map((item) => {
+                      const isExpanded = activeLimitationId === item.id;
                       return (
                         <div
                           key={item.id}
-                          className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors"
+                          className="rounded-xl sm:rounded-2xl border border-[#0038A8]/30 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/60 transition-colors"
                         >
                           <button
                             type="button"
-                            onClick={() => setActiveLimitationId(prev => prev === item.id ? null : item.id)}
+                            onClick={() => setActiveLimitationId(isExpanded ? null : item.id)}
                             className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                           >
-                            <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display pr-2">
-                              {item.title}
-                            </span>
-                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/25 transition-all duration-200 shrink-0 select-none">
-                              <FiArrowRight
-                                className={`text-xs sm:text-sm transition-transform duration-200 ${
-                                  isItemExpanded ? 'rotate-90 text-[#0038A8]' : 'group-hover:translate-x-0.5'
-                                }`}
-                              />
+                            <div className="flex-1 min-w-0 pr-2">
+                              <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-[#0038A8] transition-colors leading-tight">
+                                {item.title}
+                              </h4>
+                              {item.durationTag && (
+                                <span className="inline-block mt-1 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/20">
+                                  {item.durationTag}
+                                </span>
+                              )}
+                            </div>
+                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
+                              <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${isExpanded ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                             </div>
                           </button>
 
                           <AnimatePresence initial={false}>
-                            {isItemExpanded && (
+                            {isExpanded && (
                               <motion.div
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: 'auto', opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.25, ease: 'easeOut' }}
+                                transition={{ duration: 0.25, ease: "easeOut" }}
                                 className="overflow-hidden"
                               >
-                                <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                                  {/* Policy summary */}
-                                  <p className="text-[11px] sm:text-xs text-slate-600 font-medium leading-relaxed">
-                                    {item.summary}
-                                  </p>
-
-                                  {/* Highlight (e.g. for Initial Waiting Period) */}
+                                <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-2.5 text-xs text-slate-600">
+                                  <p className="leading-relaxed font-medium">{item.summary}</p>
                                   {item.highlight && (
-                                    <div className="p-2.5 sm:p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 font-semibold flex items-center gap-2 text-xs sm:text-sm">
-                                      <span className="text-emerald-600 font-bold">✓</span>
-                                      <span>{item.highlight}</span>
+                                    <div className="p-2 rounded-lg bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
+                                      {item.highlight}
                                     </div>
                                   )}
-
-                                  {/* Disease List (e.g. for Specific Diseases) */}
                                   {item.diseaseList && (
-                                    <div className="p-3 sm:p-4 rounded-xl bg-[#F0F4FF]/60 border border-[#0038A8]/15 space-y-2">
-                                      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-[#0038A8] block font-display">
-                                        Covered after 24 Months Continuous Coverage
-                                      </span>
-                                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
-                                        {item.diseaseList.map((disease, dIdx) => (
-                                          <li key={dIdx} className="flex items-start gap-1.5">
-                                            <span className="text-[#0038A8] font-bold">•</span>
-                                            <span>{disease}</span>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
+                                    <ul className="space-y-1 pt-1 grid grid-cols-1 sm:grid-cols-2 gap-1">
+                                      {item.diseaseList.map((d, dIdx) => (
+                                        <li key={dIdx} className="flex items-center gap-1.5 text-slate-700 font-medium">
+                                          <span className="w-1.5 h-1.5 rounded-full bg-[#0038A8] shrink-0" />
+                                          <span className="truncate">{d}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
                                   )}
-
-                                  {/* Exclusions List (e.g. for Permanent Exclusions) */}
                                   {item.exclusionsList && (
-                                    <div className="p-3 sm:p-4 rounded-xl bg-rose-50/50 border border-rose-200/60 space-y-2">
-                                      <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-rose-600 block font-display">
-                                        Permanently Excluded from Coverage
-                                      </span>
-                                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700">
-                                        {item.exclusionsList.map((excl, eIdx) => (
-                                          <li key={eIdx} className="flex items-start gap-1.5">
-                                            <span className="text-rose-600 font-bold">•</span>
-                                            <span>{excl}</span>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
+                                    <ul className="space-y-1 pt-1">
+                                      {item.exclusionsList.map((ex, exIdx) => (
+                                        <li key={exIdx} className="flex items-start gap-1.5 text-slate-600 font-medium">
+                                          <span className="text-rose-500 font-bold shrink-0">✕</span>
+                                          <span>{ex}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
                                   )}
-
-                                  {/* Policy Ref & Duration Tag */}
-                                  {(item.policyRef || item.durationTag) && (
-                                    <div className={`pt-2 border-t ${isPermanent ? 'border-rose-200/60' : 'border-slate-200/60'} flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-semibold`}>
-                                      <span>{item.policyRef}</span>
-                                      {item.durationTag && (
-                                        <span className={isPermanent ? 'text-rose-600 font-bold' : 'text-[#0038A8] font-bold'}>
-                                          {item.durationTag}
-                                        </span>
-                                      )}
-                                    </div>
-                                  )}
-
-                                  {/* Video Button */}
-                                  <WatchVideoButton
-                                    title={item.title}
-                                    onOpenVideo={handleOpenVideo}
-                                    videoUrl={item.videoUrl || demoVideoUrl}
-                                  />
                                 </div>
                               </motion.div>
                             )}
@@ -1381,55 +1302,54 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                 </div>
               )}
 
-              {/* MODAL 4: MUST KNOW DETAILS (SAME-PAGE MODAL) */}
+              {/* MODAL 4: MUST KNOW DETAILS */}
               {activeModal === 'mustKnow' && (
                 <div className="space-y-4 sm:space-y-5">
-                  <div className="must-know-header">
-                    <h2 className="must-know-main-heading">
-                      {planData.mustKnow?.heading || 'MUST-KNOW DETAILS'}
+                  <div className="pr-8">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                      MUST KNOW DETAILS
                     </h2>
-                    <p className="must-know-subheading">
-                      {planData.mustKnow?.subheading || 'Important policy terms that policyholders should keep in mind'}
+                    <p className="text-xs text-[#0038A8] font-medium mt-0.5">
+                      Key product takeaways
                     </p>
                   </div>
 
-                  <div className="space-y-3 sm:space-y-3.5">
-                    {planData.mustKnow?.items.map((item) => (
+                  <div className="space-y-3">
+                    {planData.mustKnow?.items?.map((item) => (
                       <div
                         key={item.id}
-                        className="must-know-card border border-[#0038A8]/20 bg-[#F0F4FF]/40 space-y-2 sm:space-y-2.5 shadow-2xs"
+                        className="p-4 rounded-2xl bg-white border border-[#0038A8]/30 shadow-2xs space-y-2 text-left"
                       >
-                        <h4 className="must-know-card-title">
-                          <span className="shrink-0 text-base sm:text-lg">{item.icon}</span>
-                          <span>{item.title}</span>
-                        </h4>
-                        <div className="must-know-paragraphs-container">
-                          {item.paragraphs.map((paragraph, pIdx) => (
-                            <p
-                              key={pIdx}
-                              className="must-know-body-text"
-                            >
-                              {paragraph}
-                            </p>
-                          ))}
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">{item.icon}</span>
+                          <h4 className="text-sm font-extrabold text-[#0F172A] font-display">
+                            {item.title}
+                          </h4>
                         </div>
+                        <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                          {item.summary}
+                        </p>
+                        {item.points && (
+                          <ul className="space-y-1 pt-1 border-t border-slate-100">
+                            {item.points.map((pt, pIdx) => (
+                              <li key={pIdx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
+                                <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-xs" />
+                                <span>{pt}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                     ))}
                   </div>
                 </div>
               )}
+
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* IN-PAGE VIDEO LIGHTBOX MODAL */}
-      <FeatureVideoModal
-        isOpen={videoModalState.isOpen}
-        onClose={handleCloseVideo}
-        videoTitle={videoModalState.title}
-        videoUrl={videoModalState.url}
-      />
     </div>
   );
 }

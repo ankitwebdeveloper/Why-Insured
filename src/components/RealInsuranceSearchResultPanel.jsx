@@ -1,75 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiCheckCircle,
   FiArrowRight,
-  FiShield,
-  FiLayers,
   FiX,
   FiSearch,
+  FiChevronDown,
+  FiChevronUp,
+  FiPlay,
   FiExternalLink,
-  FiInfo,
-  FiPlay
+  FiCheck
 } from 'react-icons/fi';
-
-/**
- * Generates a clean, simple 2-3 line explanation of the searched feature based on actual insurance content.
- */
-function getFeatureBriefExplanation(query, contentItems = [], detectedCompany = null) {
-  const lower = String(query || '').toLowerCase().trim();
-
-  if (lower.includes('2x') || lower.includes('double') || lower.includes('doubling') || lower.includes('secure benefit') || lower.includes('booster')) {
-    return '2X Benefits can increase the available coverage under eligible policy benefits, helping you get more coverage when you need it. The exact benefit and conditions depend on the plan.';
-  }
-  if (lower.includes('consumable') || lower.includes('glove') || lower.includes('syringe') || lower.includes('cotton') || lower.includes('non medical') || lower.includes('protect benefit') || lower.includes('care shield') || lower.includes('safeguard')) {
-    return 'Consumables are small medical items used during hospital treatment (like gloves, syringes, cotton, and masks). Some plans cover these expenses through dedicated add-ons, while standard policies may exclude them.';
-  }
-  if (lower.includes('room') || lower.includes('capping') || lower.includes('single private') || lower.includes('icu')) {
-    return 'Room rent refers to the daily hospital room cost covered by your policy. Having no room rent capping or single private room eligibility prevents proportionate deductions on doctor fees, surgery, and nursing charges.';
-  }
-  if (lower.includes('restor') || lower.includes('recharge') || lower.includes('reset') || lower.includes('refill')) {
-    return 'Restoration automatically refills your sum insured when it gets exhausted by earlier hospitalizations during the policy year, ensuring you stay covered for subsequent treatments.';
-  }
-  if (lower.includes('cashless') || lower.includes('network hospital')) {
-    return 'Cashless hospitalization allows the insurance company to settle eligible medical bills directly with network hospitals, saving you from paying large upfront sums during hospital discharge.';
-  }
-  if (lower.includes('waiting') || lower.includes('ped') || lower.includes('pre-existing') || lower.includes('sugar') || lower.includes('diabetes') || lower.includes('bp') || lower.includes('hypertension')) {
-    return 'A waiting period is the duration you must wait after buying a policy before specific illnesses or pre-existing diseases are covered. Choosing plans with reduced waiting riders helps you get covered sooner.';
-  }
-  if (lower.includes('copay') || lower.includes('co-pay') || lower.includes('cost sharing')) {
-    return 'Co-payment is a fixed percentage of the medical claim that you must pay from your own pocket, while the insurance company pays the rest. Policies with 0% co-pay cover the full eligible claim amount.';
-  }
-  if (lower.includes('maternity') || lower.includes('pregnancy') || lower.includes('delivery') || lower.includes('newborn')) {
-    return 'Maternity cover pays for hospitalization expenses incurred during child delivery (normal or C-section) and newborn baby care, subject to plan waiting periods and limits.';
-  }
-  if (lower.includes('opd') || lower.includes('consultation') || lower.includes('doctor') || lower.includes('clinic')) {
-    return 'OPD cover reimburses routine doctor consultations, diagnostic tests, and prescribed pharmacy medicines without requiring 24-hour hospital admission.';
-  }
-  if (lower.includes('bonus') || lower.includes('ncb') || lower.includes('cumulative')) {
-    return 'No Claim Bonus increases your total health insurance cover for every claim-free year at zero extra cost, helping your protection grow over time.';
-  }
-  if (lower.includes('day care') || lower.includes('daycare') || lower.includes('cataract') || lower.includes('dialysis')) {
-    return 'Day Care procedures cover advanced medical surgeries (like cataract, chemotherapy, dialysis) that require less than 24 hours of hospital stay due to technological advancements.';
-  }
-  if (lower.includes('ayush') || lower.includes('ayurveda') || lower.includes('homeopathy')) {
-    return 'AYUSH coverage pays for inpatient medical treatments taken at recognized Ayurvedic, Homeopathic, Unani, or Siddha hospitals.';
-  }
-  if (lower.includes('pre') && lower.includes('post')) {
-    return 'Pre & Post hospitalization covers doctor consultations, diagnostic tests, and pharmacy medicines incurred 60 days before hospital admission and up to 180 days after discharge.';
-  }
-  if (detectedCompany) {
-    return `${detectedCompany.name} is a leading health insurer offering comprehensive coverage with cashless hospital networks and high claim settlement ratios across India.`;
-  }
-  if (contentItems.length > 0) {
-    const first = contentItems[0];
-    const text = first.summary || first.description || first.subtitle;
-    if (text && text.length > 20) {
-      return text.length > 200 ? text.slice(0, 195) + '...' : text;
-    }
-  }
-  return null;
-}
 
 export default function RealInsuranceSearchResultPanel({
   searchQuery,
@@ -79,6 +21,9 @@ export default function RealInsuranceSearchResultPanel({
   onSelectSuggestion
 }) {
   const { companies = [], plans = [], contentItems = [], detectedCompany, queryConceptTitle } = searchResults;
+
+  // Track which card is currently expanded (defaults to first item for instant discoverability if results exist)
+  const [expandedPlanKey, setExpandedPlanKey] = useState(null);
 
   const totalResultsCount = companies.length + plans.length + contentItems.length;
 
@@ -95,15 +40,20 @@ export default function RealInsuranceSearchResultPanel({
   });
 
   const popularSuggestions = [
+    '2x',
     '2x benefits',
+    'gloves',
     'consumables',
     'room rent',
-    'restoration',
     'cashless',
-    'maternity'
+    'restoration'
   ];
 
-  const featureExplanation = getFeatureBriefExplanation(searchQuery, contentItems, detectedCompany);
+  const totalCount = planFeatureGroups.length > 0 ? planFeatureGroups.length : totalResultsCount;
+
+  const toggleExpand = (planKey) => {
+    setExpandedPlanKey((prev) => (prev === planKey ? null : planKey));
+  };
 
   return (
     <motion.div
@@ -113,38 +63,27 @@ export default function RealInsuranceSearchResultPanel({
       transition={{ duration: 0.2, ease: 'easeOut' }}
       className="w-full bg-white border border-slate-200/90 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden text-left font-sans mt-3 relative z-30 divide-y divide-slate-100"
     >
-      {/* 1. TOP HEADER & 2-3 LINE SIMPLE EXPLANATION */}
+      {/* Search Header: Term Title + Found in X plans */}
       {totalResultsCount > 0 && (
-        <div className="p-5 sm:p-6 bg-gradient-to-b from-slate-50/90 to-white space-y-2.5">
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-base sm:text-xl font-black text-[#0F172A] font-display">
-                {queryConceptTitle || searchQuery}
-              </h2>
-              {planFeatureGroups.length > 0 && (
-                <span className="text-[10px] sm:text-[11px] font-bold text-emerald-800 bg-emerald-100/80 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                  Available in {planFeatureGroups.length} plan{planFeatureGroups.length > 1 ? 's' : ''}
-                </span>
-              )}
-            </div>
-
-            {/* Close / Clear Button */}
-            <button
-              type="button"
-              onClick={onClose}
-              className="text-xs text-slate-400 hover:text-slate-700 hover:bg-slate-100 p-1.5 rounded-lg transition-colors cursor-pointer flex items-center gap-1 font-semibold shrink-0"
-              title="Close search"
-            >
-              <FiX className="text-base" />
-            </button>
+        <div className="px-5 sm:px-6 py-4 bg-slate-50/80 flex items-center justify-between gap-3 border-b border-slate-100">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <h2 className="text-base sm:text-lg font-black text-[#0F172A] font-display">
+              {queryConceptTitle || searchQuery}
+            </h2>
+            <span className="text-xs text-slate-500 font-medium italic">
+              Found in {totalCount} plan{totalCount > 1 ? 's' : ''}
+            </span>
           </div>
 
-          {/* 2-3 line simple explanation */}
-          {featureExplanation && (
-            <p className="text-xs sm:text-[13.5px] text-slate-600 font-medium leading-relaxed max-w-3xl">
-              {featureExplanation}
-            </p>
-          )}
+          {/* Close / Clear Button */}
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-xs text-slate-400 hover:text-slate-700 hover:bg-slate-100 p-1.5 rounded-lg transition-colors cursor-pointer flex items-center gap-1 font-semibold shrink-0"
+            title="Close search"
+          >
+            <FiX className="text-base" />
+          </button>
         </div>
       )}
 
@@ -164,7 +103,7 @@ export default function RealInsuranceSearchResultPanel({
                     <Link
                       key={comp.id}
                       to={`/insurance/${comp.id}`}
-                      className="p-3 rounded-xl bg-white border border-slate-200/80 hover:border-emerald-500 hover:shadow-md transition-all flex items-center justify-between gap-3 group"
+                      className="p-3.5 rounded-xl bg-white border border-slate-200/80 hover:border-emerald-500 hover:shadow-md transition-all flex items-center justify-between gap-3 group"
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         {comp.logo && (
@@ -179,7 +118,7 @@ export default function RealInsuranceSearchResultPanel({
                             {comp.name}
                           </span>
                           <span className="text-[11px] text-slate-400 font-medium block truncate">
-                            {comp.plans?.length || 0} Available Plans • View Details
+                            {comp.plans?.length || 0} Available Plans • Explore
                           </span>
                         </div>
                       </div>
@@ -200,7 +139,7 @@ export default function RealInsuranceSearchResultPanel({
                   {plans.map((plan, pIdx) => (
                     <div
                       key={`plan-item-${pIdx}`}
-                      className="p-4 rounded-2xl bg-white border border-slate-200/90 hover:border-slate-300 shadow-2xs hover:shadow-sm transition-all flex items-center justify-between flex-wrap gap-3"
+                      className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-slate-300 shadow-2xs hover:shadow-sm transition-all flex items-center justify-between flex-wrap gap-3"
                     >
                       <div className="flex items-center gap-3.5 min-w-0">
                         {plan.companyLogo && (
@@ -229,7 +168,7 @@ export default function RealInsuranceSearchResultPanel({
                         to={plan.planUrl}
                         className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white text-xs font-bold transition-colors cursor-pointer shrink-0"
                       >
-                        <span>View Details →</span>
+                        <span>Explore →</span>
                       </Link>
                     </div>
                   ))}
@@ -237,94 +176,162 @@ export default function RealInsuranceSearchResultPanel({
               </div>
             )}
 
-            {/* 2. AVAILABLE IN THESE PLANS */}
+            {/* INTERACTIVE MATCHING PLAN CARDS WITH SMOOTH IN-CARD EXPANSION */}
             {planFeatureGroups.length > 0 && (
               <div className="p-4 sm:p-6 space-y-3.5">
-                <div className="flex items-center justify-between px-1">
-                  <span className="text-xs font-black uppercase tracking-wider text-slate-600">
-                    Available in these plans
-                  </span>
-                </div>
+                {planFeatureGroups.map((item, idx) => {
+                  const planKey = `${item.companyId}__${item.planId}`;
+                  const isExpanded = expandedPlanKey === planKey;
 
-                <div className="space-y-3">
-                  {planFeatureGroups.map((item, idx) => (
-                    <div
+                  return (
+                    <motion.div
+                      layout
                       key={`feat-plan-${item.id}-${idx}`}
-                      className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-emerald-300 hover:shadow-md transition-all space-y-3"
+                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                      className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                        isExpanded
+                          ? 'bg-slate-50/70 border-emerald-400 shadow-md ring-2 ring-emerald-500/10'
+                          : 'bg-white border-slate-200/90 hover:border-emerald-300 hover:shadow-md'
+                      }`}
                     >
-                      {/* Top: Company & Plan Info */}
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-center gap-3 min-w-0">
-                          {item.companyLogo && (
-                            <img
-                              src={item.companyLogo}
-                              alt={item.companyName}
-                              className="w-9 h-9 object-contain p-1 border border-slate-100 rounded-xl bg-slate-50 shrink-0"
-                            />
-                          )}
-                          <div className="min-w-0">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
-                              {item.companyName}
-                            </span>
-                            <Link
-                              to={item.planUrl}
-                              className="text-sm sm:text-base font-black text-slate-900 hover:text-emerald-600 transition-colors font-sans block truncate"
+                      {/* CARD HEADER / SUMMARY ROW - Clickable to toggle */}
+                      <div
+                        onClick={() => toggleExpand(planKey)}
+                        className="p-4 sm:p-5 cursor-pointer select-none space-y-3"
+                      >
+                        {/* Top: Company & Plan Info + Action */}
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center gap-3 min-w-0">
+                            {item.companyLogo && (
+                              <img
+                                src={item.companyLogo}
+                                alt={item.companyName}
+                                className="w-10 h-10 object-contain p-1 border border-slate-100 rounded-xl bg-white shadow-2xs shrink-0"
+                              />
+                            )}
+                            <div className="min-w-0">
+                              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
+                                {item.companyName}
+                              </span>
+                              <span className="text-sm sm:text-base font-black text-slate-900 font-sans block truncate">
+                                {item.planName}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Explore Toggle Button */}
+                          <div className="flex items-center gap-2 shrink-0">
+                            {item.hasVideo && (
+                              <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-100">
+                                <FiPlay className="text-[8px] fill-current" />
+                                <span>Video</span>
+                              </span>
+                            )}
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleExpand(planKey);
+                              }}
+                              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                                isExpanded
+                                  ? 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                                  : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-xs hover:shadow-md'
+                              }`}
                             >
-                              {item.planName}
-                            </Link>
+                              <span>{isExpanded ? 'Collapse' : 'Explore →'}</span>
+                              {isExpanded ? (
+                                <FiChevronUp className="text-xs" />
+                              ) : (
+                                <FiChevronDown className="text-xs" />
+                              )}
+                            </button>
                           </div>
                         </div>
 
-                        {/* Video Available Indicator */}
-                        {item.hasVideo && (
-                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-100 shrink-0">
-                            <FiPlay className="text-[8px] fill-current" />
-                            <span>Video</span>
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Matched Feature Badge & Description */}
-                      <div className="bg-slate-50/80 rounded-xl p-3 sm:p-3.5 border border-slate-100/90 space-y-1">
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-800 flex-wrap">
-                          <FiCheckCircle className="text-emerald-600 shrink-0 text-sm" />
-                          <span className="font-extrabold">{item.title}</span>
+                        {/* Matched Feature Badge */}
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1 rounded-lg">
+                            <FiCheckCircle className="text-emerald-600 shrink-0 text-sm" />
+                            <span className="font-extrabold">{item.title}</span>
+                          </div>
                           {item.badge && (
-                            <span className="text-[9px] font-extrabold uppercase tracking-wider px-1.5 py-0.2 rounded bg-emerald-100/80 text-emerald-800">
+                            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 border border-emerald-200">
                               {item.badge}
                             </span>
                           )}
                         </div>
-                        
-                        {(item.summary || item.description || item.subtitle) && (
-                          <p className="text-xs sm:text-[13px] text-slate-600 font-medium leading-relaxed line-clamp-2">
-                            {item.summary || item.description || item.subtitle}
-                          </p>
+                      </div>
+
+                      {/* EXPANDABLE IN-CARD DETAIL PANEL */}
+                      <AnimatePresence initial={false}>
+                        {isExpanded && (
+                          <motion.div
+                            key="expanded-content"
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                            className="overflow-hidden border-t border-slate-200/80 bg-white"
+                          >
+                            <div className="p-4 sm:p-6 space-y-4 text-left">
+                              {/* Feature Title & 2-3 Line Explanation */}
+                              <div className="space-y-1.5">
+                                <h4 className="text-xs font-black uppercase tracking-wider text-slate-400">
+                                  {item.title}
+                                </h4>
+                                <p className="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
+                                  {item.summary || item.description || item.subtitle || (
+                                    'This benefit provides enhanced financial protection under eligible hospitalization conditions as defined in the policy schedule.'
+                                  )}
+                                </p>
+                              </div>
+
+                              {/* Key Highlights / Points if present in data */}
+                              {item.points && item.points.length > 0 && (
+                                <div className="space-y-2 pt-1 border-t border-slate-100">
+                                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
+                                    Key Takeaways
+                                  </span>
+                                  <ul className="space-y-1.5">
+                                    {item.points.slice(0, 3).map((pt, pIdx) => (
+                                      <li key={pIdx} className="text-xs text-slate-600 font-medium flex items-start gap-2">
+                                        <FiCheck className="text-emerald-500 mt-0.5 shrink-0 text-xs" />
+                                        <span>{pt}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+
+                              {/* Action Row: View Full Details → & Video */}
+                              <div className="flex items-center justify-between pt-3 border-t border-slate-100 flex-wrap gap-2.5">
+                                <Link
+                                  to={item.planUrl}
+                                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white text-xs sm:text-sm font-bold shadow-xs hover:shadow-md transition-all cursor-pointer"
+                                >
+                                  <span>View Full Details →</span>
+                                  <FiExternalLink className="text-xs" />
+                                </Link>
+
+                                {onSelectFeature && item.hasVideo && (
+                                  <button
+                                    type="button"
+                                    onClick={() => onSelectFeature(item)}
+                                    className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg border border-rose-200/80 transition-colors cursor-pointer"
+                                  >
+                                    <FiPlay className="text-xs fill-current" />
+                                    <span>Watch Video Guide</span>
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </motion.div>
                         )}
-                      </div>
-
-                      {/* Action Links: View Details (opens modal) & View Full Plan */}
-                      <div className="flex items-center justify-between pt-1 gap-2 flex-wrap">
-                        <button
-                          type="button"
-                          onClick={() => onSelectFeature(item)}
-                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow-xs hover:shadow-md transition-all cursor-pointer group"
-                        >
-                          <span>View Details</span>
-                          <FiArrowRight className="group-hover:translate-x-1 transition-transform text-xs" />
-                        </button>
-
-                        <Link
-                          to={item.planUrl}
-                          className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors py-1.5 px-2.5 rounded-lg hover:bg-slate-100"
-                        >
-                          <span>Full Plan Page</span>
-                          <FiExternalLink className="text-xs" />
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                      </AnimatePresence>
+                    </motion.div>
+                  );
+                })}
               </div>
             )}
           </>
@@ -376,17 +383,6 @@ export default function RealInsuranceSearchResultPanel({
         )}
 
       </div>
-
-      {/* Footer helper */}
-      {totalResultsCount > 0 && (
-        <div className="px-5 py-3 bg-slate-50/60 flex items-center justify-between text-xs text-slate-400 font-medium">
-          <span>Verified insurance policy data from official filings</span>
-          <Link to="/compare" className="text-emerald-600 hover:text-emerald-700 font-bold flex items-center gap-1">
-            <FiLayers className="text-xs" />
-            <span>Compare Plans Side-by-Side</span>
-          </Link>
-        </div>
-      )}
     </motion.div>
   );
 }

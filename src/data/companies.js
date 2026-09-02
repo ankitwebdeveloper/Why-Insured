@@ -144,25 +144,24 @@ export const companiesData = [
     },
     plans: [
       {
-        id: "medicare-select",
-        name: "MediCare Select",
-        description: "Comprehensive health insurance plan delivering full inpatient coverage, restoration, and cumulative bonus.",
-        coverage: "₹5 Lakh",
-        premium: "₹10,500/year",
+        id: "medicare-premier",
+        name: "MediCare Premier",
+        description: "Comprehensive Health Insurance with Enhanced Medical & Wellness Benefits.",
+        coverage: "₹50 Lakh - ₹3 Crore",
         benefits: [
-          "100% Restoration of Sum Insured for unrelated illnesses",
-          "Consumables & In-patient Hospitalization Covered",
-          "Cumulative Bonus of 10% per claim-free year (Max 50%)",
-          "AYUSH & All Day Care Procedures Covered"
+          "In-Patient Treatment & Consumables covered up to Sum Insured",
+          "100% Automatic Restore Benefit on base sum insured",
+          "Tier-wise coverage options from ₹50 Lakh up to ₹3 Crore",
+          "Maternity, OPD, Dental & Global Planned Hospitalization covered"
         ],
         details: {
           eligibility: "18 to 65 Years (Children: 91 days to 25 years)",
-          waitingPeriod: "30 Days initial, 24 Months for Specified Diseases, 36 Months for Pre-existing diseases",
-          roomRent: "Shared Room / Single Private Room Coverage",
+          waitingPeriod: "30 Days initial, 24 Months for Specified Diseases, as per policy terms for pre-existing diseases",
+          roomRent: "Single Private Room / No Room Rent Capping",
           hospitalization: "Actual inpatient hospitalization expenses covered up to Sum Insured",
-          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization covered",
+          prePostHospital: "60 Days Pre & 90 to 200 Days Post Hospitalization covered",
           dayCare: "All Day Care procedures covered (<24 hours admission)",
-          noClaimBonus: "10% increase in sum insured per claim-free year (Max 50%)",
+          noClaimBonus: "50% increase in sum insured per claim-free year (Max 100%)",
           exclusions: "Cosmetic surgery, self-inflicted injuries, substance abuse, rest cures"
         }
       },

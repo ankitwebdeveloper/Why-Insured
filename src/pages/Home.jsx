@@ -119,12 +119,13 @@ export default function Home() {
 
   // Curated beginner-friendly suggestions
   const popularSuggestions = [
+    '2x',
     '2x benefits',
+    'gloves',
     'consumables',
     'room rent',
-    'restoration',
     'cashless',
-    'maternity'
+    'restoration'
   ];
 
   return (
@@ -183,7 +184,7 @@ export default function Home() {
               type="text"
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              placeholder="Ask anything about your health insurance…"
+              placeholder="Search anything about insurance…"
               className="w-full h-full bg-transparent text-[#0F172A] text-sm sm:text-base font-semibold placeholder-slate-400 focus:outline-none font-sans"
             />
             {searchQuery && (
