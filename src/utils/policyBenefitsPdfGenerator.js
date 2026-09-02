@@ -35,7 +35,7 @@ const getImageData = (url) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 2. ROBUST TEXT SANITIZATION & STRING UTILITIES
+// 2. ROBUST TEXT SANITIZATION & STRING UTILITIES (PDF-SAFE UTF-8 NORMALIZATION)
 // ─────────────────────────────────────────────────────────────────────────────
 const hexToRgb = (hex) => {
   if (!hex) return [0, 56, 168]; // Default Navy #0038A8
@@ -52,22 +52,41 @@ const sanitizeForFilename = (str) => {
     .replace(/^_+|_+$/g, '');
 };
 
-const cleanText = (str) => {
+export const cleanText = (str) => {
   if (!str) return '';
   let s = String(str);
   // Remove HTML tags
   s = s.replace(/<[^>]*>?/gm, '');
-  // Fix corrupted UTF-8 / Mojibake artifacts and weird encoding glitches
-  s = s.replace(/â‚¹/g, '₹')
+  // Fix corrupted UTF-8 / Mojibake artifacts, Rupee symbols & special typography
+  s = s.replace(/â‚¹/g, 'Rs. ')
+       .replace(/₹/g, 'Rs. ')
+       .replace(/\u20B9/g, 'Rs. ')
+       .replace(/≤/g, 'Up to ')
+       .replace(/\u2264/g, 'Up to ')
+       .replace(/≥/g, '>= ')
+       .replace(/\u2265/g, '>= ')
        .replace(/â€™/g, "'")
        .replace(/â€œ/g, '"')
        .replace(/â€\x9D/g, '"')
-       .replace(/â€¦/g, '…')
-       .replace(/â†’/g, '→')
-       .replace(/âˆž/g, '∞')
+       .replace(/â€¦/g, '...')
+       .replace(/…/g, '...')
+       .replace(/\u2026/g, '...')
+       .replace(/â†’/g, '->')
+       .replace(/→/g, '->')
+       .replace(/\u2192/g, '->')
+       .replace(/âˆž/g, 'Unlimited')
+       .replace(/∞/g, 'Unlimited')
+       .replace(/\u221E/g, 'Unlimited')
        .replace(/!â€™/g, "'")
        .replace(/[¹]/g, '')
-       .replace(/![\'’]/g, "'");
+       .replace(/![\'’]/g, "'")
+       .replace(/[\u2018\u2019]/g, "'")
+       .replace(/[\u201C\u201D]/g, '"')
+       .replace(/[\u2013\u2014]/g, ' - ')
+       .replace(/•/g, '-')
+       .replace(/\*\*/g, '')
+       .replace(/\*/g, '')
+       .replace(/\s+/g, ' ');
   return s.trim();
 };
 
@@ -76,21 +95,21 @@ const formatFlowSteps = (steps) => {
 
   const cleanedSteps = steps.map(cleanText).map(s => {
     // Normalize infinite/unlimited strings to standard symbol
-    if (/infinite|infinity|∞/i.test(s)) {
-      return '∞';
+    if (/infinite|infinity|unlimited/i.test(s)) {
+      return 'Unlimited';
     }
     // Clean trailing repeated dots
     return s.replace(/\.{2,}/g, '').trim();
   });
 
-  const hasInfinite = cleanedSteps.some(s => s === '∞');
-  const filtered = cleanedSteps.filter(s => s && s !== '∞' && s !== '…');
+  const hasInfinite = cleanedSteps.some(s => s === 'Unlimited');
+  const filtered = cleanedSteps.filter(s => s && s !== 'Unlimited' && s !== '...');
 
   if (hasInfinite) {
-    return [...filtered, '…', '∞'].join('   →   ');
+    return [...filtered, '...', 'Unlimited'].join('   ->   ');
   }
 
-  return filtered.join('   →   ');
+  return filtered.join('   ->   ');
 };
 
 const lightenRgb = (r, g, b, factor) => [
@@ -223,14 +242,31 @@ const measureFeatureRow = (doc, item, isRider = false) => {
   const textLeftOffset = numWidth + gapAfterNum;
   const bodyTextW = innerW - textLeftOffset - 1.5; // full readable width for descriptions
 
-  // 1. Badge measurement (Top-right pill)
+  // 1. Badge measurement (Top-right pill) with dynamic font scaling
   const badgeText = item.badge || (isRider || item.isRider ? 'OPTIONAL RIDER' : null);
   let badgeW = 0;
   let badgeH = 0;
+  let actualBadgeSize = badgeSize;
+  let cleanedBadgeText = '';
+
   if (badgeText) {
+    cleanedBadgeText = cleanText(badgeText).toUpperCase();
     setFont(doc, 'bold', badgeSize);
-    const rawBadgeW = doc.getTextWidth(cleanText(badgeText).toUpperCase());
-    badgeW = Math.min(rawBadgeW + 4.5, 48);
+    let rawBadgeW = doc.getTextWidth(cleanedBadgeText);
+
+    // Dynamic scale down for long badge labels
+    if (rawBadgeW > 38) {
+      actualBadgeSize = 5.0;
+      setFont(doc, 'bold', actualBadgeSize);
+      rawBadgeW = doc.getTextWidth(cleanedBadgeText);
+    }
+    if (rawBadgeW > 45) {
+      actualBadgeSize = 4.4;
+      setFont(doc, 'bold', actualBadgeSize);
+      rawBadgeW = doc.getTextWidth(cleanedBadgeText);
+    }
+
+    badgeW = Math.min(rawBadgeW + 4.5, bodyTextW * 0.42);
     badgeH = 4.2;
   }
 
@@ -251,7 +287,7 @@ const measureFeatureRow = (doc, item, isRider = false) => {
   let subH = 0;
   if (item.subtitle) {
     setFont(doc, 'bold', subSize);
-    subLines = splitText(doc, `• ${item.subtitle}`, bodyTextW);
+    subLines = splitText(doc, `- ${item.subtitle}`, bodyTextW);
     subLineH = subSize * PT_TO_MM * lineHFactor;
     subH = 1.8 + (subLines.length * subLineH);
   }
@@ -288,12 +324,14 @@ const measureFeatureRow = (doc, item, isRider = false) => {
   const exactHeight = padTop + headerRowH + subH + descH + stepTotalH + padBottom;
 
   return {
-    exactHeight: Math.max(exactHeight, 18),
+    exactHeight: Math.max(exactHeight, 16),
     padX,
     padTop,
     padBottom,
     textLeftOffset,
     badgeText,
+    cleanedBadgeText,
+    actualBadgeSize,
     badgeW,
     badgeH,
     titleLines,
@@ -330,7 +368,7 @@ const drawFeatureRow = (
   const m = measureFeatureRow(doc, item, isRider);
   const rowHeight = m.exactHeight;
   const palette = getFeatureRowPalette(pR, pG, pB, rowIndex);
-  const { titleSize, subSize, descSize, badgeSize, stepSize } = TOKENS;
+  const { titleSize, subSize, descSize, stepSize } = TOKENS;
 
   // ── 1. Full-Width Row Background Box with Website-Matching Colors ──
   doc.setFillColor(palette.bg[0], palette.bg[1], palette.bg[2]);
@@ -368,8 +406,8 @@ const drawFeatureRow = (
 
     doc.setLineWidth(0.2);
     doc.roundedRect(badgeX, badgeY, m.badgeW, m.badgeH, 1.0, 1.0, 'FD');
-    setFont(doc, 'bold', badgeSize);
-    doc.text(cleanText(m.badgeText).toUpperCase(), badgeX + m.badgeW / 2, badgeY + 2.9, { align: 'center' });
+    setFont(doc, 'bold', m.actualBadgeSize);
+    doc.text(m.cleanedBadgeText, badgeX + m.badgeW / 2, badgeY + 2.9, { align: 'center' });
   }
 
   // Feature Heading (Large Bold Navy Title, matching text-[#0F172A] on website)
@@ -431,7 +469,7 @@ const drawFeatureRow = (
     doc.setTextColor(palette.accent[0], palette.accent[1], palette.accent[2]);
     doc.text('FLOW', stepBoxX + 7.6, cursorY + (stepBoxH * 0.62), { align: 'center' });
 
-    // Step text with clean ₹ amounts, arrows and ∞
+    // Step text with clean amounts & arrows
     setFont(doc, 'bold', stepSize);
     doc.setTextColor(15, 23, 42); // Bold Deep Slate
     const stepLineH = stepSize * PT_TO_MM * 1.32;
@@ -658,7 +696,7 @@ const drawRunningHeader = (doc, companyName, planName, pR, pG, pB) => {
   // Left: WHYINSURED | COMPANY — PLAN
   setFont(doc, 'bold', 7.5);
   doc.setTextColor(15, 23, 42);
-  doc.text(`WHYINSURED   |   ${cleanText(companyName).toUpperCase()} — ${cleanText(planName).toUpperCase()}`, MARGIN, y + 4.0);
+  doc.text(`WHYINSURED   |   ${cleanText(companyName).toUpperCase()} - ${cleanText(planName).toUpperCase()}`, MARGIN, y + 4.0);
 
   // Right: Document Spec Pill
   const [tintR, tintG, tintB] = lightenRgb(pR, pG, pB, 0.92);
@@ -688,8 +726,8 @@ const drawTermsBlock = (doc, startY, pR, pG, pB) => {
 
   setFont(doc, 'normal', 6.6);
   const termsText = [
-    '• Initial & Specific Waiting Periods: Standard 30-day initial waiting applies (except accidental hospitalisation). Specific diseases have 24-48 months waiting.',
-    '• Pre-existing Diseases (PED): Covered after declared waiting period. Cashless network admission requires valid ID & pre-authorization verification.',
+    '- Initial & Specific Waiting Periods: Standard 30-day initial waiting applies (except accidental hospitalisation). Specific diseases have 24-48 months waiting.',
+    '- Pre-existing Diseases (PED): Covered after declared waiting period. Cashless network admission requires valid ID & pre-authorization verification.',
   ];
 
   const termsLines = termsText.map(t => splitText(doc, t, cardW - 12));
@@ -740,7 +778,7 @@ const drawFooter = (doc, pageNum, totalPages, companyName, planName, pR, pG, pB)
   // ROW 1: Brand & Page Counter
   setFont(doc, 'bold', 7.2);
   doc.setTextColor(15, 23, 42);
-  doc.text('WHYINSURED — Policy Benefits', MARGIN, y + 3.6);
+  doc.text('WHYINSURED - Policy Benefits', MARGIN, y + 3.6);
 
   setFont(doc, 'bold', 7.2);
   doc.setTextColor(15, 23, 42);
@@ -753,12 +791,12 @@ const drawFooter = (doc, pageNum, totalPages, companyName, planName, pR, pG, pB)
 
   setFont(doc, 'normal', 5.0);
   doc.setTextColor(148, 163, 184);
-  doc.text('Privacy Policy · Terms & Conditions · Disclaimer', PAGE_W - MARGIN, y + 7.2, { align: 'right' });
+  doc.text('Privacy Policy - Terms & Conditions - Disclaimer', PAGE_W - MARGIN, y + 7.2, { align: 'right' });
 
   // ROW 3: Copyright
   setFont(doc, 'normal', 4.6);
   doc.setTextColor(148, 163, 184);
-  doc.text('© 2026 WHYINSURED · All Rights Reserved. *T&C Apply across all policies.', PAGE_W / 2, y + 10.8, { align: 'center' });
+  doc.text('© 2026 WHYINSURED - All Rights Reserved. *T&C Apply across all policies.', PAGE_W / 2, y + 10.8, { align: 'center' });
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
