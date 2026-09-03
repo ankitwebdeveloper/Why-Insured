@@ -177,7 +177,7 @@ function IciciFeatureAccordionItem({
   demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
-  const { id, title, subtitle, summary, badge, steps, isRider, iconType } = item;
+  const { id, title, subtitle, summary, badge, steps, points, isRider, isProminent, iconType } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
 
   return (
@@ -190,7 +190,9 @@ function IciciFeatureAccordionItem({
       onClick={() => onToggle(id, itemRef)}
       className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${
         isExpanded
-          ? 'bg-[#FFF4E8]/80 border-[#F58220]/60 shadow-md ring-1 ring-[#F58220]/20'
+          ? 'bg-[#FFF4E8]/90 border-[#F58220]/70 shadow-md ring-1 ring-[#F58220]/25'
+          : isProminent
+          ? 'bg-white border-amber-300/80 hover:border-[#F58220]/60 shadow-xs ring-1 ring-amber-400/15'
           : 'bg-white border-slate-200/80 hover:border-[#F58220]/40 shadow-2xs'
       }`}
     >
@@ -199,7 +201,11 @@ function IciciFeatureAccordionItem({
         <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-1 min-w-0">
           {IconComponent && (
             <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-              isExpanded ? 'bg-[#F58220] text-white shadow-xs' : 'bg-[#FFF4E8] text-[#D94A0B]'
+              isExpanded
+                ? 'bg-[#F58220] text-white shadow-xs'
+                : isProminent
+                ? 'bg-amber-50 text-[#D94A0B] border border-amber-200/60'
+                : 'bg-[#FFF4E8] text-[#D94A0B]'
             }`}>
               <IconComponent className="text-xs sm:text-base" />
             </div>
@@ -213,8 +219,9 @@ function IciciFeatureAccordionItem({
                 <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
               )}
               {isRider && (
-                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#F58220]/10 text-[#D94A0B] tracking-wide shrink-0">
-                  Rider
+                <span className="text-[7.5px] sm:text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 tracking-wide shrink-0 inline-flex items-center gap-1 shadow-2xs">
+                  <span className="w-1 h-1 rounded-full bg-[#F58220]" />
+                  Optional Rider
                 </span>
               )}
             </div>
@@ -268,6 +275,18 @@ function IciciFeatureAccordionItem({
               <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">
                 {summary}
               </div>
+
+              {/* Bullet Points List if provided */}
+              {points && points.length > 0 && (
+                <div className="pt-1.5 space-y-1">
+                  {points.map((pt, pIdx) => (
+                    <div key={pIdx} className="flex items-start gap-1.5 text-[10.5px] sm:text-xs font-semibold text-slate-700 leading-snug">
+                      <span className="text-[#F58220] font-black shrink-0 select-none">✓</span>
+                      <span>{pt}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Visual Number Step Progression */}
               {steps && steps.length > 0 && (
@@ -466,13 +485,29 @@ export default function IciciCompleteHealthSection({ plan, company, planId: plan
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4 }}
-                className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
+                className={`w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border ${
+                  sec.isProminent
+                    ? 'bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] border-emerald-900/70 ring-1 ring-emerald-400/20'
+                    : 'bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] border-emerald-900/50'
+                }`}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-                <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
-                  {sec.title}
-                </h2>
+                <div className="flex items-center justify-between relative z-10">
+                  <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
+                    {sec.title}
+                  </h2>
+                  {sec.isProminent && (
+                    <span className="text-[7.5px] sm:text-[9.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-400/30">
+                      Core Protection
+                    </span>
+                  )}
+                  {sec.isDiscountSection && (
+                    <span className="text-[7.5px] sm:text-[9.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-400/30">
+                      Special Discounts
+                    </span>
+                  )}
+                </div>
               </motion.div>
               <div className={`grid ${sec.gridCols || 'grid-cols-2 lg:grid-cols-3'} gap-2.5 sm:gap-4`}>
                 {sec.items.map((item, itemIdx) => (
@@ -491,9 +526,9 @@ export default function IciciCompleteHealthSection({ plan, company, planId: plan
           ))}
 
           {/* FOOTNOTE */}
-          <div className="text-right pt-1">
-            <span className="text-xs font-bold text-slate-400">
-              *T&C Apply
+          <div className="text-center sm:text-right pt-2 pb-6">
+            <span className="text-xs font-semibold text-slate-400">
+              *Terms & Conditions apply.
             </span>
           </div>
 

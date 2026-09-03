@@ -44,9 +44,6 @@ export const getDerivedValue = (plan, company, key) => {
       if (plan.id === 'star-cardiac-care') {
         return "90 Days (Cardiac)";
       }
-      if (plan.id === 'care-heart') {
-        return "24 Months (Cardiac)";
-      }
       const wLower = plan.details.waitingPeriod.toLowerCase();
       if (wLower.includes('no waiting period for diabetes')) {
         return "0 Months (Diabetes)";
@@ -129,10 +126,10 @@ export const getDerivedValue = (plan, company, key) => {
       return hasRewards ? "✓ Up to 10% Discount" : "✕ Not Available";
     }
     case 'dailyCash': {
-      return (isHdfcPlan(plan.id, 'hdfc-optima-secure') || plan.id.includes('premier') || plan.id.includes('select') || plan.id.includes('gold')) ? "✓ Optional Add-on" : "✕ Not Available";
+      return (isHdfcPlan(plan.id, 'hdfc-optima-secure-plus') || plan.id.includes('premier') || plan.id.includes('select') || plan.id.includes('gold')) ? "✓ Optional Add-on" : "✕ Not Available";
     }
     case 'infinityCover': {
-      if (isHdfcPlan(plan.id, 'hdfc-optima-secure') || isHdfcPlan(plan.id, 'hdfc-optima-secure-plus')) {
+      if (isHdfcPlan(plan.id, 'hdfc-optima-secure-plus')) {
         return "✓ Available (Secure Benefit)";
       }
       if (plan.id === 'reassure-2-0') {

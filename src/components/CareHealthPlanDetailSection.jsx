@@ -72,7 +72,7 @@ const getVideoEmbedUrl = (url) => {
   return { type: 'iframe', url };
 };
 
-// Compact Feature-Wise Inline Video Button Component (Care Health Navy Theme)
+// Compact Feature-Wise Inline Video Button Component (HDFC-Referenced Theme)
 const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
   return (
     <button
@@ -81,16 +81,16 @@ const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
         e.stopPropagation();
         onOpenVideo(featureTitle, videoUrl);
       }}
-      className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#F0F8FF] text-[#003366] border border-[#003366]/25 hover:bg-[#003366] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-0.5 sm:ml-1"
+      className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-0.5 sm:ml-1"
       title={`Watch demo video for ${featureTitle}`}
     >
-      <FiPlay className="text-[8px] sm:text-[10px] fill-current text-[#003366] group-hover:text-white transition-colors" />
+      <FiPlay className="text-[8px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
       <span>Video</span>
     </button>
   );
 };
 
-// Premium "WATCH VIDEO" button — matches Report Card & Modal design (Care Health Theme)
+// Premium "WATCH VIDEO" button — matches Report Card & Modal design (HDFC-Referenced Theme)
 const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '', align = 'center' }) => (
   <div className={`pt-1.5 border-t border-slate-100/80 ${align === 'center' ? 'flex justify-center' : ''} ${className}`}>
     <button
@@ -99,15 +99,15 @@ const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '', align 
         e.stopPropagation();
         onOpenVideo(title, videoUrl);
       }}
-      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#003366] border border-[#003366]/25 hover:bg-[#003366] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#E30613] border border-[#E30613]/25 hover:bg-[#E30613] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
     >
-      <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#003366] group-hover:text-white transition-colors" />
+      <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#E30613] group-hover:text-white transition-colors" />
       <span>WATCH VIDEO</span>
     </button>
   </div>
 );
 
-// Premium In-Page Video Lightbox Modal (Care Health Theme)
+// Premium In-Page Video Lightbox Modal (HDFC-Referenced Theme)
 const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
   if (!isOpen || !videoUrl) return null;
 
@@ -126,13 +126,13 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
         {/* Modal Header */}
         <div className="flex items-center justify-between p-3 sm:p-4 bg-slate-950 border-b border-slate-800 text-white">
           <div className="flex items-center gap-2 font-bold text-xs sm:text-sm">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#003366]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#E30613]" />
             <span className="truncate">{videoTitle} — Feature Demo</span>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#003366] text-slate-300 hover:text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#E30613] text-slate-300 hover:text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
             aria-label="Close video"
           >
             <FiX />
@@ -163,7 +163,7 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
   );
 };
 
-// Sub-component for Care Health Features Accordion Items with Scroll Reveal & Stagger
+// Sub-component for Care Health Features Accordion Items with Scroll Reveal & Stagger (HDFC-Referenced Design)
 function CareFeatureAccordionItem({
   item,
   isExpanded,
@@ -173,11 +173,13 @@ function CareFeatureAccordionItem({
   demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
-  const { id, title, subtitle, summary, badge, steps, isRider, iconType } = item;
+  const [isConditionsOpen, setIsConditionsOpen] = useState(false);
+  const { id, title, subtitle, summary, badge, steps, points, tableData, collapsibleConditions, isRider, iconType } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
 
   return (
     <motion.div
+      id={id}
       ref={itemRef}
       initial={{ opacity: 0, y: 25 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -186,8 +188,8 @@ function CareFeatureAccordionItem({
       onClick={() => onToggle(id, itemRef)}
       className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${
         isExpanded
-          ? 'bg-[#F0F8FF]/80 border-[#003366]/60 shadow-md ring-1 ring-[#003366]/20'
-          : 'bg-white border-slate-200/80 hover:border-[#003366]/40 shadow-2xs'
+          ? 'bg-[#FFF5F5]/80 border-[#E30613]/60 shadow-md ring-1 ring-[#E30613]/20'
+          : 'bg-white border-slate-200/80 hover:border-[#E30613]/40 shadow-2xs'
       }`}
     >
       {/* Header Row */}
@@ -195,7 +197,7 @@ function CareFeatureAccordionItem({
         <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-1 min-w-0">
           {IconComponent && (
             <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-              isExpanded ? 'bg-[#003366] text-white shadow-xs' : 'bg-[#F0F8FF] text-[#003366]'
+              isExpanded ? 'bg-[#E30613] text-white shadow-xs' : 'bg-[#FFF5F5] text-[#E30613]'
             }`}>
               <IconComponent className="text-xs sm:text-base" />
             </div>
@@ -209,7 +211,7 @@ function CareFeatureAccordionItem({
                 <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
               )}
               {isRider && (
-                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#003366]/10 text-[#003366] tracking-wide shrink-0">
+                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#E30613]/10 text-[#E30613] tracking-wide shrink-0">
                   Rider
                 </span>
               )}
@@ -224,7 +226,7 @@ function CareFeatureAccordionItem({
 
         {/* Plus / Minus Button */}
         <div className={`w-5 h-5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 mt-0.5 sm:mt-0 ${
-          isExpanded ? 'bg-[#003366] text-white rotate-180' : 'bg-[#F0F8FF] text-[#003366]'
+          isExpanded ? 'bg-[#E30613] text-white rotate-180' : 'bg-[#FFF5F5] text-[#E30613]'
         }`}>
           {isExpanded ? (
             <FiMinus className="text-[10px] sm:text-sm stroke-[2.5]" />
@@ -248,14 +250,14 @@ function CareFeatureAccordionItem({
               {/* Contextual Badge & Subtitle Checkmark */}
               <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
                 {badge && (
-                  <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#F0F8FF] text-[#003366] border border-[#003366]/20 tracking-wider">
-                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#003366]" />
+                  <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/20 tracking-wider">
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#E30613]" />
                     {badge}
                   </span>
                 )}
                 {subtitle && (
                   <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
-                    <FiCheck className="text-[#003366] text-[10px] sm:text-xs shrink-0" /> {subtitle}
+                    <FiCheck className="text-[#E30613] text-[10px] sm:text-xs shrink-0" /> {subtitle}
                   </span>
                 )}
               </div>
@@ -264,6 +266,82 @@ function CareFeatureAccordionItem({
               <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">
                 {summary}
               </div>
+
+              {/* Bullet Points with Checkmarks */}
+              {points && points.length > 0 && (
+                <div className="space-y-1.5 pt-0.5">
+                  <ul className="space-y-1.5 text-[11px] sm:text-sm font-medium text-slate-600 list-none pl-0">
+                    {points.map((pt, pIdx) => (
+                      <li key={pIdx} className="flex items-start gap-2">
+                        <FiCheck className="text-[#E30613] text-xs shrink-0 mt-1" />
+                        <span className="leading-relaxed">{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Renewal Discount Table (for Wellness benefit) */}
+              {tableData && (
+                <div className="mt-2.5 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xs">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-[#E30613] text-white">
+                        {tableData.headers.map((h, hIdx) => (
+                          <th key={hIdx} className="px-3 py-2 font-bold text-[10px] sm:text-xs uppercase tracking-wider">
+                            {h}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {tableData.rows.map((r, rIdx) => (
+                        <tr key={rIdx} className={rIdx % 2 === 0 ? 'bg-white' : 'bg-[#FFF5F5]/40'}>
+                          {r.map((c, cIdx) => (
+                            <td key={cIdx} className="px-3 py-1.5 font-semibold text-[10px] sm:text-xs text-slate-700">
+                              {c}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* Collapsible Wellness Conditions */}
+              {collapsibleConditions && (
+                <div className="mt-2 pt-2 border-t border-slate-200/60">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsConditionsOpen(!isConditionsOpen);
+                    }}
+                    className="flex items-center justify-between w-full text-[10px] sm:text-xs font-bold text-[#E30613] hover:text-[#C50510] py-1 transition-colors cursor-pointer"
+                  >
+                    <span>{collapsibleConditions.title}</span>
+                    <FiChevronDown className={`text-sm transform transition-transform ${isConditionsOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  <AnimatePresence>
+                    {isConditionsOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden pt-1.5 space-y-1.5"
+                      >
+                        {collapsibleConditions.conditions.map((cond, cIdx) => (
+                          <div key={cIdx} className="flex items-start gap-1.5 text-[9px] sm:text-xs text-slate-600">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#E30613] shrink-0 mt-1" />
+                            <span>{cond}</span>
+                          </div>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
 
               {/* Visual Number Step Progression */}
               {steps && steps.length > 0 && (
@@ -278,7 +356,7 @@ function CareFeatureAccordionItem({
                           {step}
                         </div>
                         {sIdx < steps.length - 1 && (
-                          <span className="text-[10px] sm:text-xs font-extrabold text-[#003366] px-0.5">
+                          <span className="text-[10px] sm:text-xs font-extrabold text-[#E30613] px-0.5">
                             →
                           </span>
                         )}
@@ -407,15 +485,15 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
   };
 
   // =========================================================================
-  // DEDICATED FEATURES PAGE (POLICY BENEFITS — 4 CATEGORIES)
+  // DEDICATED FEATURES PAGE (HDFC-REFERENCED POLICY BENEFITS TEMPLATE)
   // =========================================================================
   if (isFeaturesPage) {
     return (
-      <div className="w-full pb-20 bg-[#F0F8FF] min-h-screen overflow-x-hidden relative">
-        {/* Subtle Ambient Navy Glow */}
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none bg-[#003366]" />
+      <div className="w-full pb-20 bg-[#FFF5F5] min-h-screen overflow-x-hidden relative">
+        {/* Subtle Ambient Red Glow matching HDFC ERGO Theme */}
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none bg-[#E30613]" />
 
-        {/* Page Container — Care Health Theme */}
+        {/* Page Container — HDFC ERGO Referenced Theme */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-2 sm:pt-4 space-y-10 sm:space-y-12 relative z-10">
 
           {/* HEADER */}
@@ -441,9 +519,9 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
                 className="w-24 sm:w-44 h-auto max-h-9 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-5"
               />
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
-                {planData.planName} <span className="text-[#003366]">—</span> POLICY BENEFITS
+                {planData.planName} <span className="text-[#E30613]">—</span> POLICY BENEFITS
               </h1>
-              <div className="w-8 sm:w-12 h-1 bg-[#003366] mx-auto mt-1.5 rounded-full" />
+              <div className="w-8 sm:w-12 h-1 bg-[#E30613] mx-auto mt-1.5 rounded-full" />
             </div>
 
             {/* DOWNLOAD & SHARE PDF ACTION BUTTONS */}
@@ -454,7 +532,7 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
             />
           </motion.div>
 
-          {/* 4 DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
+          {/* DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
           {planData.featuresSections.map((sec, secIdx) => (
             <div key={sec.id || secIdx}>
               <motion.div

@@ -24,11 +24,11 @@ export default function PlanDetail() {
   const plan = isHdfcErgo
     ? findHdfcPlan(company, planId)
     : company?.plans.find(p => p.id === planId) ||
-    (company?.id === 'tata-aig' && (planId === 'medicare-premier' || planId === 'medicare-select') ? company?.plans[0] : null) ||
-    (company?.id === 'icici-lombard' ? company?.plans[0] : null) ||
+    (company?.id === 'tata-aig' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
+    (company?.id === 'icici-lombard' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
     (company?.id === 'niva-bupa' ? company?.plans[0] : null) ||
     (company?.id === 'star-health' ? company?.plans[0] : null) ||
-    (company?.id === 'care-health' ? company?.plans[0] : null);
+    (company?.id === 'care-health' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null);
 
   const hdfcCanonicalPlanId = isHdfcErgo ? resolveHdfcPlanId(planId) : null;
 

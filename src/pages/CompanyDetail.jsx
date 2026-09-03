@@ -131,7 +131,7 @@ export default function CompanyDetail() {
 
             {/* 3. PLAN GRID / LIST */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
-              {(company.id === 'hdfc-ergo' ? plans : plans.slice(0, 3)).map((plan) => (
+              {plans.map((plan) => (
                 <Link
                   key={plan.id}
                   to={`/insurance/${company.id}/${plan.id}`}

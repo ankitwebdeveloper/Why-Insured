@@ -6,9 +6,7 @@
 
 export const TATA_AIG_CANONICAL_PLAN_IDS = [
   'medicare-premier',
-  'medicare-select',
-  'medicare-protect',
-  'medicare-plus'
+  'medicare-select'
 ];
 
 export const resolveTataAigPlanId = (planId) => {
@@ -17,16 +15,18 @@ export const resolveTataAigPlanId = (planId) => {
   if (
     cleanId === 'medicare-premier' ||
     cleanId === 'tata-medicare-premier' ||
-    cleanId === 'medicare-select' ||
-    cleanId === 'tata-medicare-select'
+    cleanId === 'premier'
   ) {
     return 'medicare-premier';
   }
-  if (cleanId === 'medicare-protect' || cleanId === 'tata-medicare-protect') {
-    return 'medicare-protect';
-  }
-  if (cleanId === 'medicare-plus' || cleanId === 'tata-medicare-plus' || cleanId === 'medicare-topup') {
-    return 'medicare-plus';
+  if (
+    cleanId === 'medicare-select' ||
+    cleanId === 'tata-medicare-select' ||
+    cleanId === 'select' ||
+    cleanId === 'medicare-protect' ||
+    cleanId === 'tata-medicare-protect'
+  ) {
+    return 'medicare-select';
   }
   return cleanId;
 };
@@ -510,6 +510,17 @@ export const TATA_AIG_PLANS_DATA = {
               'Up to ₹25,000 or ₹50,000 per policy year depending on plan/tier',
               'Covers advanced imaging and specialized molecular diagnostics',
               'No 24-hour hospitalization required for diagnostic reimbursement'
+            ],
+            diagnosticTests: [
+              'Brain Perfusion Imaging',
+              'CT Guided Biopsy',
+              'CT Urography',
+              'Digital Subtraction Angiography (DSA)',
+              'Liver Biopsy',
+              'Magnetic Resonance Cholangiography Scan',
+              'PET CT',
+              'PET MRI',
+              'Renogram'
             ]
           },
           {
@@ -922,54 +933,434 @@ export const TATA_AIG_PLANS_DATA = {
   },
 
   // ===========================================================================
-  // PLAN 2: MEDICARE SELECT (LEGACY ALIAS)
+  // PLAN 2: MEDICARE SELECT
   // ===========================================================================
   'medicare-select': {
     planId: 'medicare-select',
     planName: 'MediCare Select',
     fullName: 'Tata AIG MediCare Select',
     companyName: 'Tata AIG',
-    subtitle: 'Comprehensive Inpatient Hospitalisation & Restoration',
-    tagline: 'Comprehensive Inpatient Hospitalisation & Restoration',
-    coverage: '₹5 Lakh - ₹50 Lakh',
+    subtitle: 'Standard essential coverage covering hospitalization and recovery benefits',
+    tagline: 'Standard essential coverage covering hospitalization and recovery benefits',
+    coverage: '₹5 Lakh - ₹20 Lakh',
+    premium: '₹8,200/year',
+
     uiConfig: {
       primaryColor: '#0038A8',
       accentColor: '#0038A8',
       lightBg: '#F0F4FF',
       demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
-    }
-  },
+    },
 
-  // ===========================================================================
-  // PLAN 3: MEDICARE PROTECT
-  // ===========================================================================
+    // --- 1. REPORT CARD (INDEPENDENT) ---
+    reportCard: {
+      heading: 'REPORT CARD',
+      subheading: 'Tata AIG Performance',
+      description: 'Official claim settlement and financial strength metrics.',
+      csr: {
+        title: 'CSR',
+        summaryValue: '99.0%',
+        subtitle: 'Claim Settlement Ratio',
+        explanation: 'CSR shows the percentage of eligible claims that Tata AIG settles during the financial year. A 99.0% ratio reflects an outstanding, dependable claim settlement track record.',
+        singleYear: '99.0%',
+        singleYearLabel: 'Recent Single Year (FY2024-25)',
+        threeYearAvg: '98.9%',
+        threeYearAvgLabel: '3 Year Average (FY2022-25)'
+      },
+      icr: {
+        title: 'ICR',
+        summaryValue: '68%',
+        subtitle: 'Incurred Claim Ratio',
+        explanation: "ICR indicates the proportion of net earned premium that the insurer pays out for claims. Tata AIG's balanced ICR of 68% ensures robust financial sustainability and timely claim settlement.",
+        range: '68% → 72%',
+        rangeLabel: 'Incurred Claim Ratio'
+      },
+      complaintVolume: {
+        title: 'COMPLAINT VOLUME',
+        summaryValue: '14.2',
+        explanation: 'Complaint volume measures customer grievances per 10,000 claims settled. Tata AIG maintains an efficient grievance resolution mechanism and prompt digital support.',
+        value: '14.2',
+        label: 'Complaints per 10,000 Claims'
+      }
+    },
+
+    // --- 2. COMPANY STRENGTH (INDEPENDENT) ---
+    companyStrength: {
+      heading: 'COMPANY STRENGTH',
+      subheading: 'How reliable/strong is the insurer?',
+      description: 'How reliable/strong is the insurer?',
+      ownership: {
+        title: 'OWNERSHIP / PERCENTAGE',
+        summaryValue: '74% / 26%',
+        explanation: 'Tata AIG General Insurance is a trusted joint venture combining the legacy of Tata Group with the global underwriting expertise of American International Group (AIG).',
+        items: [
+          { name: 'Tata Group (Tata Sons)', value: '74%', label: 'Ownership' },
+          { name: 'American International Group (AIG)', value: '26%', label: 'Ownership' }
+        ]
+      },
+      creditRating: {
+        title: 'CREDIT RATING',
+        summaryValue: 'AAA',
+        explanation: 'Top-tier credit ratings signify the highest level of financial security and outstanding capability to honor policyholder commitments.',
+        items: [
+          { agency: 'CRISIL', rating: 'AAA / Stable' },
+          { agency: 'ICRA', rating: 'AAA / Stable' }
+        ]
+      },
+      capitalStrength: {
+        title: 'CAPITAL STRENGTH',
+        summaryValue: '1.95×',
+        explanation: "Solvency ratio measures the insurer's financial buffer to pay claims under stress conditions, well above the IRDAI mandatory minimum of 1.50×.",
+        value: '1.95×',
+        label: 'Solvency Ratio (as of March 2025)'
+      },
+      financialBase: {
+        title: 'FINANCIAL BASE',
+        summaryValue: '₹22,000+ Cr',
+        explanation: 'Substantial investment assets and capital reserves ensuring long-term claim-paying liquidity across India.',
+        value: '₹22,000+ Cr',
+        label: 'Investment Assets under Management'
+      },
+      reinsuranceStrength: {
+        title: 'REINSURANCE STRENGTH',
+        summaryValue: '90%+',
+        explanation: 'Over 90% of reinsurance treaties placed with world-class A+ and AAA rated global reinsurers to absorb catastrophic risks.',
+        value: '90%+',
+        label: 'Backed by Munich Re, Swiss Re & GIC Re'
+      },
+      marketPosition: {
+        title: 'MARKET POSITION',
+        summaryValue: 'Top 5',
+        explanation: "Ranked among India's top 5 private general insurers with a comprehensive network of over 10,000+ cashless hospitals nationwide.",
+        value: 'Top 5 Private Insurer',
+        label: 'Over 2 Crore+ Policies Serviced'
+      }
+    },
+
+    // --- 3. LIMITATIONS & WAITING PERIODS ---
+    limitationsWaitingPeriods: {
+      heading: 'LIMITATIONS & WAITING PERIODS',
+      subheading: 'Terms & Waiting Periods',
+      description: 'Interactive policy timelines, specific disease waiting, and permanent exclusions.',
+      items: [
+        {
+          id: 'initial',
+          title: 'Initial Waiting Period (30 Days)',
+          summary: 'A mandatory waiting period of 30 days applies from the policy inception date for any non-accidental illness or hospitalization.',
+          highlight: 'Accidental hospitalization is covered from Day 1 with zero waiting period.',
+          policyRef: 'Tata AIG MediCare Select Policy Terms (Section 3.1)',
+          durationTag: '30 Days'
+        },
+        {
+          id: 'specific',
+          title: '2 Years Waiting Period on Specific Diseases',
+          summary: 'A continuous waiting period of 24 months (2 Years) applies for medical or surgical treatment of specified conditions:',
+          diseaseList: [
+            'Cataract & eye surgeries',
+            'Benign Prostatic Hypertrophy (BPH)',
+            'Hernia (all types) & Hydrocele',
+            'Piles, Fistula & Fissure in ano',
+            'Stones in Urinary, Biliary & Renal systems',
+            'Hysterectomy for Menorrhagia / Fibroids',
+            'Joint replacements (non-accidental)',
+            'Osteoarthritis & Osteoporosis',
+            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy',
+            'Benign cysts, nodules, polyps & tumors',
+            'Varicose veins & varicose ulcers',
+            'Spondylosis, Spondylitis & Disc disorders'
+          ],
+          policyRef: 'Tata AIG MediCare Select Specific Illness Schedule (Section 3.2)',
+          durationTag: '24 Months'
+        },
+        {
+          id: 'ped',
+          title: '48 Months Pre-Existing Disease (PED) Waiting',
+          summary: 'A waiting period of 48 months (4 Years) of continuous coverage applies for pre-existing diseases declared at inception.',
+          highlight: 'Continuous coverage and timely renewal preserve cumulative waiting credits.',
+          policyRef: 'Tata AIG MediCare Select Policy Terms (Section 3.3)',
+          durationTag: '48 Months'
+        },
+        {
+          id: 'permanent',
+          title: 'Permanent Exclusions',
+          summary: 'The policy does not cover medical expenses incurred towards treatment of the following permanent exclusions:',
+          exclusionsList: [
+            'Cosmetic, aesthetic & plastic surgery',
+            'Intentional self-injury & suicide attempt',
+            'Alcohol, drug or substance abuse treatments',
+            'Obesity & weight control procedures',
+            'Investigation & diagnostic-only admissions',
+            'Rest cure, rehabilitation & respite care',
+            'Unproven / experimental treatments',
+            'Participation in hazardous adventure sports',
+            'Expenses arising from breach of law',
+            'War, nuclear or chemical contamination'
+          ],
+          policyRef: 'Standard IRDAI & Tata AIG Guidelines (Section 4)',
+          durationTag: 'Never Covered'
+        }
+      ]
+    },
+
+    // --- 4. MUST KNOW (INDEPENDENT) ---
+    mustKnow: {
+      heading: 'MUST-KNOW DETAILS',
+      subheading: 'Important MediCare Select terms that policyholders should keep in mind',
+      buttonLabel: 'MUST KNOW DETAILS',
+      layout: 'details-modal',
+      items: [
+        {
+          id: 'room-rent',
+          icon: '🏥',
+          title: 'SINGLE PRIVATE ROOM COVERED',
+          paragraphs: [
+            'Single Private Room is covered with zero capping and zero proportionate deductions.',
+            'No daily sub-limit on room rent charges across network hospitals.'
+          ]
+        },
+        {
+          id: 'pre-post',
+          icon: '📅',
+          title: '30 DAYS PRE & 60 DAYS POST HOSPITALIZATION',
+          paragraphs: [
+            'Medical expenses incurred 30 days prior to admission and 60 days post discharge are fully covered.'
+          ]
+        },
+        {
+          id: 'no-claim-bonus',
+          icon: '📈',
+          title: '10% CUMULATIVE BONUS UP TO 100%',
+          paragraphs: [
+            'Increases basic Sum Insured by 10% for each claim-free year up to a maximum 100% bonus without extra premium.'
+          ]
+        },
+        {
+          id: 'ayush-cover',
+          icon: '🌿',
+          title: '100% INPATIENT AYUSH COVERED',
+          paragraphs: [
+            'Inpatient alternative treatments under Ayurveda, Yoga, Unani, Siddha, and Homeopathy at recognized government centers covered up to 100%.'
+          ]
+        }
+      ]
+    },
+
+    // --- 5. 4 COMPACT POLICY BENEFITS CATEGORIES (MEDICARE SELECT) ---
+    featuresSections: [
+      // -----------------------------------------------------------------------
+      // CATEGORY 1: FEATURES
+      // -----------------------------------------------------------------------
+      {
+        id: 'features',
+        title: 'FEATURES',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'select-cashless',
+            title: '100% Cashless Policy',
+            subtitle: '100% Cashless Hospitalization Network',
+            badge: '100% CASHLESS',
+            iconType: 'shield',
+            summary: 'Avail seamless 100% cashless hospitalization across 10,000+ top network hospitals with zero upfront payment hassles.',
+            points: [
+              '100% Cashless hospitalization across 10,000+ network hospitals',
+              'Direct settlement with hospital without out-of-pocket delays',
+              'Zero third-party administrator (TPA) hassle with direct in-house claims'
+            ]
+          },
+          {
+            id: 'select-room-icu',
+            title: 'Single Private A/c Room & No Limit on ICU charges',
+            subtitle: 'No Room Rent Capping & Zero ICU Limits',
+            badge: 'NO ICU LIMIT',
+            iconType: 'home',
+            summary: 'Enjoy single private air-conditioned room accommodation without daily rent capping, and complete coverage on ICU/ICCU charges up to Sum Insured.',
+            points: [
+              'Single Private A/C Room covered with zero proportionate deductions',
+              'No limit or daily sub-limit on ICU / ICCU charges',
+              'Doctor visits, nursing charges, and monitoring covered up to Sum Insured'
+            ]
+          },
+          {
+            id: 'select-pre-post',
+            title: 'Pre & Post Hospitalization (90 Days & 90 Days)',
+            subtitle: '90 Days Pre & 90 Days Post Hospitalization',
+            badge: '90 & 90 DAYS',
+            iconType: 'calendar',
+            summary: 'Comprehensive coverage for diagnostic tests, consultations, and prescribed medicines 90 days before admission and 90 days after discharge.',
+            points: [
+              '90 Days Pre-Hospitalization medical and diagnostic expenses covered',
+              '90 Days Post-Hospitalization follow-up consultations and recovery medicines covered',
+              'Full coverage for tests, scans, physiotherapy, and specialist visits'
+            ]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 2: VALUE ADDED FEATURES
+      // -----------------------------------------------------------------------
+      {
+        id: 'value-added-features',
+        title: 'VALUE ADDED FEATURES',
+        gridCols: 'grid-cols-1 sm:grid-cols-2',
+        items: [
+          {
+            id: 'select-unlimited-restore',
+            title: 'Unlimited Restoration (10+10+10....10 Lac)',
+            subtitle: 'Unlimited Refill on Base Sum Insured',
+            badge: 'UNLIMITED RESTORE',
+            iconType: 'refresh',
+            summary: 'Automatically restores 100% Sum Insured unlimited times in a policy year (10+10+10....10 Lac) upon exhaustion for subsequent claims.',
+            points: [
+              'Unlimited restoration of full Sum Insured in a single policy year',
+              'Recharges instantly upon partial or complete exhaustion (10+10+10... Lac)',
+              'Continuous financial safety net for family members and multiple claims'
+            ]
+          },
+          {
+            id: 'select-ncb-bonus',
+            title: 'Bonus on No Claim: 50% to 100% (Eg. 10 Lac → 20 Lac)',
+            subtitle: '50% Cumulative Bonus per Claim-Free Year',
+            badge: '50% TO 100% BONUS',
+            iconType: 'trending',
+            summary: 'Earn a generous 50% cumulative bonus for every claim-free year up to a maximum of 100%, doubling your coverage (e.g. ₹10 Lakh → ₹20 Lakh) with zero premium increase.',
+            steps: ['Base Sum Insured: ₹10 Lakh', '+50% Bonus (Year 1): ₹15 Lakh', 'Max 100% Bonus (Year 2): ₹20 Lakh'],
+            points: [
+              '50% increase in basic Sum Insured per claim-free year',
+              'Max cumulative bonus up to 100% (e.g. ₹10 Lakh becomes ₹20 Lakh)',
+              'No additional premium charged for accumulated bonus coverage'
+            ]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 3: ADDITIONAL FEATURES
+      // -----------------------------------------------------------------------
+      {
+        id: 'additional-features',
+        title: 'ADDITIONAL FEATURES',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'select-day-care',
+            title: 'Day Care Treatments (For less than 24 hrs hospitalization)',
+            subtitle: 'All Day Care Procedures Covered',
+            badge: 'ALL DAY CARE',
+            iconType: 'activity',
+            summary: 'Covers all advanced medical surgeries and day care procedures requiring less than 24 hours of hospital stay.',
+            points: [
+              'All day care procedures requiring less than 24 hours hospitalization covered',
+              'Covers chemotherapy, dialysis, cataract, radiotherapy, and minor surgeries',
+              '100% coverage up to base Sum Insured'
+            ]
+          },
+          {
+            id: 'select-ayush-domiciliary',
+            title: 'AYUSH & Domiciliary Treatment',
+            subtitle: 'Alternative & Home Hospitalization Covered',
+            badge: 'AYUSH & DOMICILIARY',
+            iconType: 'shield',
+            summary: 'Full coverage for inpatient AYUSH treatments (Ayurvedic, Yoga, Unani, Siddha, Homeopathy) and home hospitalization (Domiciliary) up to Sum Insured.',
+            points: [
+              'Inpatient AYUSH treatments covered up to 100% at recognized centers',
+              'Domiciliary (home) hospitalization covered up to full Sum Insured',
+              'Prescribed home care treatments covered when hospital beds are unavailable'
+            ]
+          },
+          {
+            id: 'select-ambulance',
+            title: 'Ambulance Covered: Upto Sum Insured',
+            subtitle: 'Emergency Ambulance Transportation',
+            badge: 'UP TO SUM INSURED',
+            iconType: 'truck',
+            summary: 'Emergency surface road ambulance expenses covered up to the full Sum Insured for timely transfer to the nearest medical facility.',
+            points: [
+              'Emergency road ambulance transportation covered up to full Sum Insured',
+              'Quick emergency transit to the nearest equipped network hospital',
+              'Cashless or reimbursement claim facility available'
+            ]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 4: OPTIONAL ADD-ONS
+      // -----------------------------------------------------------------------
+      {
+        id: 'optional-add-ons',
+        title: 'OPTIONAL ADD-ONS',
+        gridCols: 'grid-cols-1 sm:grid-cols-2',
+        items: [
+          {
+            id: 'select-consumables',
+            title: 'Consumables Cover',
+            subtitle: 'Non-Payable Medical Items Covered',
+            summary: 'Covers non-payable medical items such as surgical gloves, masks, PPE kits, syringes, and cotton, eliminating out-of-pocket expenses during hospital discharge.',
+            points: [
+              'Full coverage for non-medical consumable hospital items',
+              'Covers surgical gloves, masks, syringes, PPE kits, and cotton',
+              'Minimizes unexpected out-of-pocket bills at discharge'
+            ],
+            isRider: true,
+            badge: 'OPTIONAL ADD-ON',
+            iconType: 'shield'
+          },
+          {
+            id: 'select-infinite-advantage',
+            title: 'Infinite Advantage: One unlimited claim in a lifetime – No Sum Insured limit!',
+            subtitle: 'One Unlimited Claim in a Lifetime',
+            summary: 'Get a one-time infinite claim benefit in a lifetime with zero Sum Insured cap during major critical or catastrophic medical emergencies.',
+            points: [
+              'One-time unlimited claim amount in a lifetime with no Sum Insured limit',
+              'Protects personal savings against astronomical catastrophic medical bills',
+              'Provides absolute peace of mind during critical health emergencies'
+            ],
+            isRider: true,
+            badge: 'INFINITE CLAIM',
+            iconType: 'heart'
+          },
+          {
+            id: 'select-supercharge-bonus',
+            title: 'Supercharge Bonus Rider: 100% to 500% Bonus – Even if you make a claim',
+            subtitle: '100% to 500% Bonus – Even with Claims',
+            summary: 'Supercharge your cumulative bonus from 100% up to 500% of base Sum Insured guaranteed at every renewal—even if you make a claim during the year!',
+            points: [
+              '100% to 500% cumulative bonus growth on base Sum Insured',
+              'Bonus continues to grow even if you lodge a claim in the policy year',
+              'Rapidly scales coverage to beat medical inflation'
+            ],
+            isRider: true,
+            badge: '100% TO 500% BONUS',
+            iconType: 'trending'
+          },
+          {
+            id: 'select-preventive-checkup',
+            title: 'Preventive Health Check-up Rider',
+            subtitle: 'Cashless Annual Health Screening',
+            summary: 'Avail annual comprehensive preventive health check-up on a 100% cashless basis across certified diagnostic centers.',
+            points: [
+              '100% cashless annual preventive health check-up screening',
+              'Includes comprehensive diagnostic blood profiles, lipid tests, and organ markers',
+              'Early disease detection and active health monitoring'
+            ],
+            isRider: true,
+            badge: 'HEALTH CHECK-UP',
+            iconType: 'clipboard'
+          }
+        ]
+      }
+    ]
+  },
   'medicare-protect': {
-    planId: 'medicare-protect',
-    planName: 'MediCare Protect',
-    fullName: 'Tata AIG MediCare Protect',
+    planId: 'medicare-select',
+    planName: 'MediCare Select',
+    fullName: 'Tata AIG MediCare Select',
     companyName: 'Tata AIG',
     subtitle: 'Standard essential coverage covering hospitalization and recovery benefits',
     tagline: 'Standard essential coverage covering hospitalization and recovery benefits',
     coverage: '₹5 Lakh - ₹20 Lakh',
-    uiConfig: {
-      primaryColor: '#0038A8',
-      accentColor: '#0038A8',
-      lightBg: '#F0F4FF',
-      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
-    }
-  },
-
-  // ===========================================================================
-  // PLAN 4: MEDICARE PLUS (SUPER TOP-UP)
-  // ===========================================================================
-  'medicare-plus': {
-    planId: 'medicare-plus',
-    planName: 'MediCare Plus',
-    fullName: 'Tata AIG MediCare Plus',
-    companyName: 'Tata AIG',
-    subtitle: 'High-value super top-up plan to secure extra coverage over your base policy',
-    tagline: 'High-value super top-up plan to secure extra coverage over your base policy',
-    coverage: '₹10 Lakh - ₹1 Crore',
     uiConfig: {
       primaryColor: '#0038A8',
       accentColor: '#0038A8',

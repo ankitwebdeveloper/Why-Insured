@@ -9,36 +9,28 @@
 // =============================================================================
 
 export const ICICI_LOMBARD_CANONICAL_PLAN_IDS = [
-  'complete-health-insurance',
-  'health-shield',
-  'golden-shield'
+  'elevate'
 ];
 
 export const resolveIciciPlanId = (planId) => {
-  if (!planId) return 'complete-health-insurance';
+  if (!planId) return 'elevate';
   const cleanId = String(planId).toLowerCase().trim();
-  if (cleanId === 'complete-health-insurance' || cleanId === 'complete-health' || cleanId === 'icici-complete-health') {
-    return 'complete-health-insurance';
+  if (cleanId === 'elevate' || cleanId === 'icici-elevate' || cleanId === 'icici-lombard-elevate' || cleanId === 'elevate-plan') {
+    return 'elevate';
   }
-  if (cleanId === 'health-shield' || cleanId === 'shield' || cleanId === 'icici-health-shield') {
-    return 'health-shield';
-  }
-  if (cleanId === 'golden-shield' || cleanId === 'golden' || cleanId === 'icici-golden-shield') {
-    return 'golden-shield';
-  }
-  return cleanId;
+  return 'elevate';
 };
 
 export const ICICI_LOMBARD_PLANS_DATA = {
   // ===========================================================================
-  // PLAN 1: COMPLETE HEALTH INSURANCE
+  // PLAN: ELEVATE (ICICI LOMBARD — ELEVATE)
   // ===========================================================================
-  'complete-health-insurance': {
-    planId: 'complete-health-insurance',
-    planName: 'Complete Health Insurance',
-    tagline: 'Comprehensive Cover with Zero Room Capping, Reset Benefit & Wellness Rewards',
-    coverage: '₹5 Lakh - ₹1 Crore',
-    premium: '₹15,200/year',
+  'elevate': {
+    planId: 'elevate',
+    planName: 'Elevate',
+    tagline: 'Infinite Care, Power Booster, Unlimited Restoration & Customizable Healthcare Protection',
+    coverage: '₹5 Lakh - ₹3 Crore',
+    premium: '₹16,500/year',
 
     uiConfig: {
       primaryColor: '#F58220',
@@ -104,7 +96,7 @@ export const ICICI_LOMBARD_PLANS_DATA = {
       capitalStrength: {
         title: 'CAPITAL STRENGTH',
         summaryValue: '2.62×',
-        explanation: "Exceptional solvency ratio of 2.62× providing an immense capital cushion well above the IRDAI mandatory minimum of 1.50×.",
+        explanation: 'Exceptional solvency ratio of 2.62× providing an immense capital cushion well above the IRDAI mandatory minimum of 1.50×.',
         value: '2.62×',
         label: 'Solvency Ratio (as of March 2025)'
       },
@@ -141,14 +133,14 @@ export const ICICI_LOMBARD_PLANS_DATA = {
           id: 'initial',
           title: 'Initial Waiting Period (30 Days)',
           summary: 'A mandatory waiting period of 30 days applies from policy inception date for any non-accidental illness or hospitalisation.',
-          highlight: 'Accidental hospitalisation is covered from Day 1 with zero waiting period.',
-          policyRef: 'ICICI Lombard Policy Terms (Section 3.1)',
-          durationTag: '30 Days'
+          highlight: 'Accidental hospitalisation covered from Day 1. Pre-existing diseases covered from Day 31 with Jumpstart Rider.',
+          policyRef: 'ICICI Lombard Elevate Policy Terms (Section 3.1)',
+          durationTag: '30 Days / Day 31 (Jumpstart)'
         },
         {
           id: 'specific',
           title: '2 Years Waiting Period on Specific Diseases',
-          summary: 'A continuous waiting period of 24 months (2 Years) applies for medical or surgical treatment of the following specified conditions:',
+          summary: 'A continuous waiting period of 24 months (2 Years) applies for medical or surgical treatment of specified conditions:',
           diseaseList: [
             'Cataract & eye surgeries',
             'Benign Prostatic Hypertrophy (BPH)',
@@ -163,13 +155,13 @@ export const ICICI_LOMBARD_PLANS_DATA = {
             'Varicose veins & varicose ulcers',
             'Spondylosis, Spondylitis & Disc disorders'
           ],
-          policyRef: 'ICICI Lombard Specific Illness Schedule (Section 3.2)',
+          policyRef: 'ICICI Lombard Elevate Specific Illness Schedule (Section 3.2)',
           durationTag: '24 Months'
         },
         {
           id: 'permanent',
           title: 'Permanent Exclusions',
-          summary: 'The policy does not cover expenses incurred towards hospitalisation or treatment arising from the following permanent exclusions:',
+          summary: 'The policy does not cover expenses incurred towards hospitalisation or treatment arising from standard permanent exclusions:',
           exclusionsList: [
             'Cosmetic, aesthetic & plastic surgery',
             'Intentional self-injury & suicide attempt',
@@ -191,859 +183,394 @@ export const ICICI_LOMBARD_PLANS_DATA = {
     // --- 4. MUST KNOW (INDEPENDENT) ---
     mustKnow: {
       heading: 'MUST-KNOW DETAILS',
-      subheading: 'Important policy terms that policyholders should keep in mind',
+      subheading: 'Key Elevate policy terms and highlights that policyholders should keep in mind',
       buttonLabel: 'MUST KNOW DETAILS',
       layout: 'details-modal',
       items: [
         {
           id: 'room-category',
           icon: '🏥',
-          title: 'ROOM CATEGORY & ZERO SUB-LIMIT',
+          title: 'SINGLE PRIVATE A/C ROOM (100% CASHLESS)',
           paragraphs: [
-            'Single Private A/C Room is covered with zero capping and zero proportionate deduction.',
+            'Single Private A/c Room is covered with zero capping and 100% cashless claims.',
             'No daily sub-limits on room rent or ICU charges in network hospitals.'
           ]
         },
         {
-          id: 'reset-benefit',
+          id: 'unlimited-restoration',
           icon: '🔄',
-          title: 'RESET BENEFIT (100% RECHARGE)',
+          title: 'UNLIMITED RESTORATION (10+10+10...10 LAC)',
           paragraphs: [
-            'Instantly restores 100% of the Base Sum Insured upon complete exhaustion.',
-            'Available for subsequent claims for same or different illnesses during the policy tenure.'
+            'Infinite restore feature refills 100% of the Sum Insured unlimited times in a policy year.',
+            'Ensures your family never runs out of coverage even with multiple hospitalizations.'
           ]
         },
         {
-          id: 'wellness-rewards',
-          icon: '🏆',
-          title: 'WELLNESS REWARDS PROGRAM',
+          id: 'power-booster',
+          icon: '⚡',
+          title: 'POWER BOOSTER & INFINITE CARE RIDERS',
           paragraphs: [
-            'Earn up to a 20% discount on renewal premium by tracking healthy step counts and completing health assessments via IL TakeCare App.'
+            'Power Booster provides 100% bonus every year irrespective of claims for an indefinite period.',
+            'Infinite Care gives a one-time infinite claim amount during catastrophic emergencies.'
           ]
         },
         {
-          id: 'donor-expenses',
-          icon: '🫀',
-          title: 'ORGAN DONOR EXPENSES',
+          id: 'discounts-perks',
+          icon: '🏷️',
+          title: 'COMPREHENSIVE DISCOUNT STRUCTURE',
           paragraphs: [
-            'Inpatient hospitalisation expenses for organ donor harvesting are covered up to the full sum insured limit.'
+            'Up to 15% Credit Score discount, up to 30% Wellness discount on renewal, 2.5% Early Renewal discount, and up to 15% Long Tenure discount.'
           ]
         }
       ]
     },
 
-    // --- 5. FEATURES SECTIONS (INDEPENDENT) ---
+    // --- 5. POLICY BENEFITS (4 CLEAN CATEGORIES) ---
     featuresSections: [
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 1: MOST IMPORTANT FEATURES (VISUALLY PROMINENT)
+      // ───────────────────────────────────────────────────────────────────────
       {
-        id: 'sec-1',
+        id: 'sec-most-important',
         title: 'MOST IMPORTANT FEATURES',
-        gridCols: 'grid-cols-2 lg:grid-cols-3',
+        isProminent: true,
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
-            id: 's1-1',
-            title: 'No Capping on Room Rent',
-            subtitle: 'Single Private A/C Room Covered',
-            summary: 'Zero room rent sub-limits or proportionate deductions. Stay in a Single Private A/C Room with 100% cashless claims across 10,000+ network hospitals.',
-            badge: 'ROOM RENT COVER',
+            id: 'elevate-room-rent',
+            title: 'Single Private A/c Room',
+            subtitle: '100% Cashless Inpatient Hospitalisation',
+            summary: 'Full coverage for Single Private A/C Room with zero room rent sub-limits, zero proportionate deductions, and 100% cashless claim settlements across 10,000+ network hospitals.',
+            points: [
+              'Single Private A/c Room covered with 100% Cashless facility',
+              'No daily room rent capping or proportionate deductions',
+              'Smooth admission and hassle-free discharge process'
+            ],
+            badge: '100% CASHLESS',
+            isProminent: true,
             iconType: 'home'
           },
           {
-            id: 's1-2',
-            title: 'In-Patient Hospitalisation Cover',
-            subtitle: '100% Actual Inpatient Medical Expenses',
-            summary: 'Comprehensive inpatient hospitalisation expenses covered including nursing fees, surgeon fees, operation theatre, and in-hospital medications.',
-            badge: 'IN-PATIENT COVER',
-            iconType: 'heart'
-          },
-          {
-            id: 's1-3',
-            title: 'Pre & Post Hospitalisation',
-            subtitle: '60 Days Pre & 90 Days Post',
-            summary: 'Medical consultations, diagnostic tests, and prescribed pharmacy bills incurred 60 days before hospitalisation and 90 days after discharge are fully covered.',
-            badge: 'PRE & POST',
+            id: 'elevate-pre-post',
+            title: 'Pre & Post Hospitalization',
+            subtitle: '90 Days Pre & 180 Days Post Hospitalization',
+            summary: 'Comprehensive coverage for medical consultations, specialist visits, diagnostic scans, lab tests, and prescribed pharmacy expenses for 90 days before hospitalisation and 180 days after discharge.',
+            points: [
+              'Pre-hospitalization covered up to 90 days prior to admission',
+              'Post-hospitalization covered up to 180 days after discharge',
+              'Covers doctor follow-ups, diagnostic scans, and recovery medicines'
+            ],
+            badge: '90 & 180 DAYS',
+            isProminent: true,
             iconType: 'calendar'
           },
           {
-            id: 's1-4',
-            title: 'All Day Care Procedures Covered',
-            subtitle: 'Advanced Day Care Surgeries (<24 hrs)',
-            summary: 'All medical day care procedures and surgeries requiring less than 24 hours of hospital stay due to modern technological advancements are fully covered.',
-            badge: 'DAY CARE',
-            iconType: 'check'
-          },
-          {
-            id: 's1-5',
-            title: 'Modern Treatment & Robotic Surgery',
-            subtitle: 'Advanced Precision Tech Covered up to SI',
-            summary: 'Coverage for robotic surgeries, stem cell therapy, oral chemotherapy, deep brain stimulation, balloon sinuplasty, and stereotactic radio surgery.',
-            badge: 'ADVANCED SURGERY',
-            iconType: 'cpu'
+            id: 'elevate-icu-limit',
+            title: 'No Limit on ICU',
+            subtitle: 'Zero ICU Capping & Full Inpatient Care',
+            summary: 'Zero sub-limits or daily capping on Intensive Care Unit (ICU), Intensive Cardiac Care Unit (ICCU), nursing charges, doctor consultations, and surgeon fees up to the full Sum Insured limit.',
+            points: [
+              'No capping or daily limit on ICU / ICCU room charges',
+              'Surgeon, specialist, and nursing expenses covered up to Sum Insured',
+              'Complete inpatient medical and surgical procedure protection'
+            ],
+            badge: 'NO ICU LIMIT',
+            isProminent: true,
+            iconType: 'shield'
           }
         ]
       },
+
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 2: ADDITIONAL FEATURES
+      // ───────────────────────────────────────────────────────────────────────
       {
-        id: 'sec-2',
-        title: 'VALUE ADDED FEATURES',
-        gridCols: 'grid-cols-2 sm:grid-cols-2',
+        id: 'sec-additional-features',
+        title: 'ADDITIONAL FEATURES',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
-            id: 's2-1',
-            title: 'Reset Benefit (Auto-Restore)',
-            subtitle: '100% Instant Sum Insured Recharge',
-            summary: 'Automatically resets 100% of Base Sum Insured upon complete exhaustion. Can be utilised for subsequent hospitalisations for the same or different illnesses.',
-            steps: ['Base Sum Insured', '100% Instant Reset', '100% Restored Cover'],
-            badge: 'RESET BENEFIT',
+            id: 'elevate-unlimited-restoration',
+            title: 'Unlimited Restoration',
+            subtitle: '10+10+10...10 Lac Infinite Refill',
+            summary: 'Automatic 100% restoration of Sum Insured unlimited times in a policy year upon partial or complete exhaustion (e.g., 10+10+10...10 Lac), ensuring your coverage never runs out.',
+            steps: ['Base Sum Insured (10L)', '1st Restore (+10L)', '2nd Restore (+10L)', 'Unlimited Restorations'],
+            points: [
+              '100% Sum Insured restoration unlimited times in a year',
+              'Applies to both unrelated and related illnesses as per terms',
+              'Continuous financial shield for all insured family members'
+            ],
+            badge: 'UNLIMITED RESTORE',
             iconType: 'refresh'
           },
           {
-            id: 's2-2',
-            title: 'Wellness Rewards Program',
-            subtitle: 'Up to 20% Renewal Premium Discount',
-            summary: 'Earn wellness points by completing step challenges and health assessments on the IL TakeCare App to earn up to 20% discount on renewal premium.',
-            steps: ['Track Health Metrics', 'Earn Wellness Points', 'Wellness Benefits'],
-            badge: 'WELLNESS DISCOUNT',
-            iconType: 'award'
-          },
-          {
-            id: 's2-3',
-            title: 'Free Online Tele-Consultations',
-            subtitle: 'Unlimited Tele-Consults via App',
-            summary: 'Unlimited complimentary digital 24/7 video consultations with qualified general physicians and specialists through IL TakeCare App.',
-            badge: 'E-CONSULTATIONS',
-            iconType: 'phone'
-          },
-          {
-            id: 's2-4',
-            title: 'Organ Donor Inpatient Cover',
-            subtitle: 'Donor Medical Harvesting Covered',
-            summary: 'Inpatient medical expenses for harvesting organ from donor during kidney, liver, or heart transplant covered up to base sum insured.',
-            badge: 'ORGAN DONOR',
-            iconType: 'shield'
-          },
-          {
-            id: 's2-5',
-            title: 'AYUSH Inpatient Hospitalisation',
-            subtitle: 'Alternative Treatments Covered',
-            summary: 'Inpatient treatment taken at recognized government AYUSH hospitals (Ayurveda, Yoga, Unani, Siddha, Homeopathy) covered up to sum insured.',
-            badge: 'AYUSH COVER',
-            iconType: 'shield'
-          }
-        ]
-      },
-      {
-        id: 'sec-3',
-        title: 'ADDITIONAL FEATURES',
-        gridCols: 'grid-cols-2 sm:grid-cols-2',
-        items: [
-          {
-            id: 's3-1',
-            title: 'Cumulative Bonus (NCB)',
-            subtitle: '10% per year up to 50% max',
-            summary: 'Increases basic Sum Insured by 10% for every claim-free year up to a maximum 50% cumulative bonus without extra premium.',
-            steps: ['Base Cover', '10% Bonus (Yr 1)', '20% Bonus (Yr 2)', 'Max 50% Bonus'],
-            badge: 'NO CLAIM BONUS',
+            id: 'elevate-bonus',
+            title: 'Bonus: 20% to 100%',
+            subtitle: 'Eg: 20 Lac → 40 Lac Coverage Growth',
+            summary: 'Cumulative bonus ranging from 20% to 100% of Sum Insured for claim-free years. For example, a ₹20 Lac base cover doubles to ₹40 Lac without paying any extra premium.',
+            steps: ['Base ₹20 Lac', '20% Annual Bonus', 'Up to 100% Bonus', 'Total ₹40 Lac Cover'],
+            points: [
+              'Cumulative bonus increases Sum Insured from 20% up to 100%',
+              'Example: 20 Lac coverage grows up to 40 Lac',
+              'Zero increase in base premium for earned bonus'
+            ],
+            badge: '20% TO 100% BONUS',
             iconType: 'trending'
           },
           {
-            id: 's3-2',
-            title: 'Emergency Road Ambulance',
-            subtitle: 'Ambulance Charges Covered',
-            summary: 'Emergency road surface ambulance transportation charges covered to the nearest hospital per hospitalisation.',
+            id: 'elevate-road-ambulance',
+            title: 'Road Ambulance Cover Available',
+            subtitle: 'Emergency Road Surface Ambulance Charges',
+            summary: 'Emergency road surface ambulance transportation charges covered for shifting the insured patient to the nearest hospital per hospitalisation event.',
+            points: [
+              'Emergency road surface ambulance expenses covered',
+              'Quick hospital transit support during medical emergencies',
+              'Cashless / reimbursement claim facility available'
+            ],
             badge: 'AMBULANCE COVER',
             iconType: 'truck'
           },
           {
-            id: 's3-3',
-            title: 'Preventive Health Check-up',
-            subtitle: 'Annual Health Screening Vouchers',
-            summary: 'Complimentary comprehensive preventive health check-up package for all insured adults every claim-free year.',
-            badge: 'HEALTH CHECKUP',
-            iconType: 'clipboard'
-          },
-          {
-            id: 's3-4',
-            title: 'Tax Savings under Section 80D',
-            subtitle: 'Income Tax Savings under Sec 80D',
-            summary: 'Health insurance premiums paid qualify for tax deductions up to ₹75,000 under Section 80D of the Income Tax Act.',
-            badge: 'TAX SAVER 80D',
-            iconType: 'dollar'
-          }
-        ]
-      },
-      {
-        id: 'sec-4',
-        title: 'OPTIONAL RIDERS (ADD-ONS)',
-        gridCols: 'grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 's4-1',
-            title: 'OPD Consultation Rider',
-            subtitle: 'Outpatient Doctor Fees & Diagnostics',
-            summary: 'Covers outpatient doctor consultation fees, specialist visits, routine lab tests, and prescribed pharmacy bills.',
-            isRider: true,
-            badge: 'OPD RIDER',
-            iconType: 'heart'
-          },
-          {
-            id: 's4-2',
-            title: 'Hospital Daily Cash Benefit',
-            subtitle: 'Fixed Daily Cash Allowance',
-            summary: 'Provides a fixed daily cash allowance for every 24 hours of continuous hospitalisation to manage out-of-pocket expenses.',
-            isRider: true,
-            badge: 'DAILY CASH',
-            iconType: 'clock'
-          },
-          {
-            id: 's4-3',
-            title: 'Compassionate Visit Benefit',
-            subtitle: 'Family Member Travel Assistance',
-            summary: 'Reimburses economy airfare or railway ticket expenses for an immediate family member to travel during critical hospitalisation.',
-            isRider: true,
-            badge: 'COMPASSIONATE VISIT',
-            iconType: 'users'
-          }
-        ]
-      }
-    ]
-  },
-
-  // ===========================================================================
-  // PLAN 2: HEALTH SHIELD
-  // ===========================================================================
-  'health-shield': {
-    planId: 'health-shield',
-    planName: 'Health Shield',
-    tagline: 'Value-Packed Essential Health Cover with OPD & Inpatient Care',
-    coverage: '₹3 Lakh - ₹25 Lakh',
-    premium: '₹8,900/year',
-
-    uiConfig: {
-      primaryColor: '#F58220',
-      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    },
-
-    // --- 1. REPORT CARD (INDEPENDENT) ---
-    reportCard: {
-      heading: 'REPORT CARD',
-      subheading: 'ICICI Lombard Performance',
-      description: 'Official claim settlement and financial strength metrics.',
-      csr: {
-        title: 'CSR',
-        summaryValue: '98.0%',
-        subtitle: 'Claim Settlement Ratio',
-        explanation: 'CSR shows the percentage of claims settled by ICICI Lombard within the financial year.',
-        singleYear: '98.0%',
-        singleYearLabel: 'Recent Single Year',
-        threeYearAvg: '98.1%',
-        threeYearAvgLabel: '3 Year Average'
-      },
-      icr: {
-        title: 'ICR',
-        summaryValue: '71%',
-        subtitle: 'Incurred Claim Ratio',
-        explanation: 'Sustainable claims payout ratio ensuring prompt claim settlement.',
-        range: '71% → 74%',
-        rangeLabel: 'Incurred Claim Ratio'
-      },
-      complaintVolume: {
-        title: 'COMPLAINT VOLUME',
-        summaryValue: '13.8',
-        explanation: 'Low customer grievance volume backed by digital claim desks.',
-        value: '13.8',
-        label: 'Complaints per 10,000 Claims'
-      }
-    },
-
-    // --- 2. COMPANY STRENGTH (INDEPENDENT) ---
-    companyStrength: {
-      heading: 'COMPANY STRENGTH',
-      subheading: 'How reliable/strong is the insurer?',
-      description: 'How reliable/strong is the insurer?',
-      ownership: {
-        title: 'OWNERSHIP / PERCENTAGE',
-        summaryValue: 'ICICI Bank 51.2%',
-        explanation: 'Backed by ICICI Bank Limited and institutional investors.',
-        items: [
-          { name: 'ICICI Bank Limited (Promoter)', value: '51.2%', label: 'Shareholding' },
-          { name: 'Institutional & Public Investors', value: '48.8%', label: 'Shareholding' }
-        ]
-      },
-      creditRating: {
-        title: 'CREDIT RATING',
-        summaryValue: 'AAA',
-        explanation: 'CRISIL AAA rating signifying utmost safety and claim solvency.',
-        items: [
-          { agency: 'CRISIL', rating: 'AAA / Stable' },
-          { agency: 'ICRA', rating: 'AAA / Stable' }
-        ]
-      },
-      capitalStrength: {
-        title: 'CAPITAL STRENGTH',
-        summaryValue: '2.62×',
-        explanation: 'Solvency ratio of 2.62× well above the 1.50× regulatory threshold.',
-        value: '2.62×',
-        label: 'Solvency Ratio (as of March 2025)'
-      },
-      financialBase: {
-        title: 'FINANCIAL BASE',
-        summaryValue: '₹48,000+ Cr',
-        explanation: 'Massive investment assets supporting cashless claim settlements.',
-        value: '₹48,000+ Cr',
-        label: 'Investment Assets under Management'
-      },
-      reinsuranceStrength: {
-        title: 'REINSURANCE STRENGTH',
-        summaryValue: '90%+',
-        explanation: 'Reinsurance treaties backed by Munich Re, Swiss Re & GIC Re.',
-        value: '90%+',
-        label: 'Backed by Munich Re, Swiss Re & GIC Re'
-      },
-      marketPosition: {
-        title: 'MARKET POSITION',
-        summaryValue: '#1 Private Non-Life',
-        explanation: 'Over 10,000+ cashless network hospitals across India.',
-        value: '#1 Private General Insurer',
-        label: 'Over 3.5 Crore+ Policies Issued'
-      }
-    },
-
-    // --- 3. LIMITATIONS & WAITING PERIODS (INDEPENDENT) ---
-    limitationsWaitingPeriods: {
-      heading: 'LIMITATIONS & WAITING PERIODS',
-      subheading: 'Terms & Waiting Periods',
-      description: 'Interactive policy timelines, specific disease waiting, and permanent exclusions.',
-      items: [
-        {
-          id: 'initial',
-          title: 'Initial Waiting Period (30 Days)',
-          summary: '30-day initial waiting period applies from inception for any non-accidental illness.',
-          highlight: 'Accidental hospitalisation covered from Day 1.',
-          policyRef: 'Health Shield Policy Terms (Section 3.1)',
-          durationTag: '30 Days'
-        },
-        {
-          id: 'specific',
-          title: '2 Years Waiting Period on Specific Diseases',
-          summary: '24 months waiting period applies for specified illnesses such as Cataract, Hernia, Hydrocele, Piles, Stones, Joint Replacements, and ENT procedures.',
-          diseaseList: [
-            'Cataract & eye surgeries',
-            'Hernia (all types) & Hydrocele',
-            'Piles, Fistula & Fissure in ano',
-            'Stones in Urinary & Biliary systems',
-            'Benign Prostatic Hypertrophy (BPH)',
-            'Joint replacements (non-accidental)',
-            'Sinusitis, DNS, Tonsillectomy',
-            'Varicose veins & ulcers'
-          ],
-          policyRef: 'Health Shield Specific Illness Schedule (Section 3.2)',
-          durationTag: '24 Months'
-        },
-        {
-          id: 'permanent',
-          title: 'Permanent Exclusions',
-          summary: 'Excludes cosmetic surgeries, intentional self-injury, drug/alcohol abuse, weight control surgery, and unproven experimental treatments.',
-          exclusionsList: [
-            'Cosmetic, aesthetic & plastic surgery',
-            'Intentional self-injury & suicide attempt',
-            'Alcohol, drug or substance abuse',
-            'Investigation & evaluation admissions',
-            'Unproven / experimental treatments'
-          ],
-          policyRef: 'ICICI Lombard Standard Exclusions (Section 4)',
-          durationTag: 'Never Covered'
-        }
-      ]
-    },
-
-    // --- 4. MUST KNOW (INDEPENDENT) ---
-    mustKnow: {
-      heading: 'MUST-KNOW DETAILS',
-      subheading: 'Key policy nuances for Health Shield',
-      buttonLabel: 'MUST KNOW DETAILS',
-      layout: 'details-modal',
-      items: [
-        {
-          id: 'room-rent-capping',
-          icon: '🏥',
-          title: 'ROOM RENT CAPPING (1% SI)',
-          paragraphs: [
-            'Room rent covered up to 1% of Sum Insured per day for standard private rooms.',
-            'ICU charges covered up to 2% of Sum Insured per day.'
-          ]
-        },
-        {
-          id: 'opd-consults',
-          icon: '🩺',
-          title: 'OPD TELE-CONSULTATIONS',
-          paragraphs: [
-            'Free online medical consultations available 24/7 via IL TakeCare App.'
-          ]
-        },
-        {
-          id: 'ayush-inpatient',
-          icon: '🌿',
-          title: 'AYUSH HOSPITALISATION',
-          paragraphs: [
-            'Inpatient alternative treatments under AYUSH covered up to policy limits.'
-          ]
-        }
-      ]
-    },
-
-    // --- 5. FEATURES SECTIONS (INDEPENDENT) ---
-    featuresSections: [
-      {
-        id: 'sec-1',
-        title: 'MOST IMPORTANT FEATURES',
-        gridCols: 'grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 's1-1',
-            title: 'Private Room Coverage',
-            subtitle: 'Standard Private Room Covered',
-            summary: 'Inpatient room rent covered up to 1% of Sum Insured per day across all 10,000+ network hospitals.',
-            badge: 'PRIVATE ROOM',
-            iconType: 'home'
-          },
-          {
-            id: 's1-2',
-            title: 'Inpatient Hospitalisation',
-            subtitle: 'Complete Inpatient Medical Care',
-            summary: 'Comprehensive coverage for surgeon fees, nursing, operation theatre, and in-hospital medications.',
-            badge: 'INPATIENT CARE',
-            iconType: 'heart'
-          },
-          {
-            id: 's1-3',
-            title: 'Pre & Post Hospitalisation',
-            subtitle: '30 Days Pre & 60 Days Post',
-            summary: 'Diagnostic tests, consultations, and pharmacy bills 30 days before and 60 days after discharge covered.',
-            badge: '30 & 60 DAYS',
-            iconType: 'calendar'
-          },
-          {
-            id: 's1-4',
-            title: 'Day Care Surgeries Covered',
-            subtitle: 'Advanced Daycare Procedures',
-            summary: 'Covers daycare surgical procedures requiring less than 24 hours of hospital stay.',
-            badge: 'DAY CARE',
+            id: 'elevate-day-care',
+            title: 'All Day Care Treatment',
+            subtitle: 'Less Than 24 Hrs Admission Covered',
+            summary: 'All advanced day care procedures and surgical treatments requiring less than 24 hours of hospital admission due to modern medical advancements are fully covered.',
+            points: [
+              'All day care procedures requiring <24 hrs admission covered',
+              'Covers dialysis, chemotherapy, radiotherapy, cataract, and minor surgeries',
+              'Covered up to the full Sum Insured limit'
+            ],
+            badge: 'ALL DAY CARE',
             iconType: 'check'
           },
           {
-            id: 's1-5',
-            title: 'Advanced Modern Treatments',
-            subtitle: 'Robotic & Modern Tech Covered',
-            summary: 'Coverage for modern medical procedures and robotic surgeries up to policy sub-limits.',
-            badge: 'ROBOTIC TECH',
-            iconType: 'cpu'
+            id: 'elevate-domiciliary-ayush',
+            title: 'Domiciliary, Organ & AYUSH Treatment',
+            subtitle: 'Ayurvedic, Unani, Organ Donor & Home Care',
+            summary: 'Comprehensive coverage including doctor-prescribed home hospitalization (Domiciliary), organ donor harvesting inpatient expenses, and alternative treatments under AYUSH (Ayurveda, Yoga, Unani, Siddha, Homeopathy).',
+            points: [
+              'Domiciliary treatment covered when hospital beds are unavailable',
+              'Inpatient organ donor harvesting medical expenses covered up to Sum Insured',
+              'AYUSH inpatient alternative treatments (Ayurvedic, Unani, etc.) covered'
+            ],
+            badge: 'AYUSH & ORGAN COVER',
+            iconType: 'heart'
           }
         ]
       },
+
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 3: OPTIONAL RIDERS
+      // ───────────────────────────────────────────────────────────────────────
       {
-        id: 'sec-2',
-        title: 'VALUE ADDED FEATURES',
-        gridCols: 'grid-cols-2 sm:grid-cols-2',
+        id: 'sec-optional-riders',
+        title: 'OPTIONAL RIDERS',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
-            id: 's2-1',
-            title: 'Free Online Medical Consultations',
-            subtitle: '24/7 Digital Consultations',
-            summary: 'Complimentary online consultations with certified doctors via IL TakeCare App.',
-            badge: 'ONLINE CONSULTS',
-            iconType: 'phone'
+            id: 'elevate-rider-infinite-care',
+            title: 'Infinite Care',
+            subtitle: 'Get One-Time Infinite Claim Amount',
+            summary: 'Get a one-time infinite claim amount during critical emergencies, removing standard Sum Insured caps for catastrophic medical situations.',
+            points: [
+              'One-time uncapped / infinite claim amount available',
+              'Ultimate financial protection against catastrophic healthcare events',
+              'Optional add-on rider selected at policy inception'
+            ],
+            isRider: true,
+            badge: 'OPTIONAL RIDER',
+            iconType: 'zap'
           },
           {
-            id: 's2-2',
-            title: 'Cumulative Bonus',
-            subtitle: '10% per year up to 50%',
-            summary: 'Increases basic Sum Insured by 10% for every claim-free year up to a maximum 50%.',
-            steps: ['Yr 1 (+10%)', 'Yr 2 (+10%)', 'Max 50% Bonus'],
-            badge: 'BONUS GROWTH',
+            id: 'elevate-rider-power-booster',
+            title: 'Power Booster',
+            subtitle: '100% Bonus Every Year Irrespective of Claim',
+            summary: 'Get a bonus of 100% every single year irrespective of whether a claim was filed, guaranteed for an indefinite period.',
+            points: [
+              '100% Sum Insured bonus added every single year',
+              'Applies irrespective of claim history throughout the tenure',
+              'Continuous compounding coverage protection'
+            ],
+            isRider: true,
+            badge: 'OPTIONAL RIDER',
             iconType: 'trending'
           },
           {
-            id: 's2-3',
-            title: 'AYUSH Hospitalisation Cover',
-            subtitle: 'Alternative medicine covered',
-            summary: 'Inpatient AYUSH treatment covered at government recognized centres.',
-            badge: 'AYUSH COVER',
+            id: 'elevate-rider-claim-protector',
+            title: 'Claim Protector',
+            subtitle: 'Non-Payable Items (Gloves, Syringes, Masks)',
+            summary: 'Covers non-payable and consumable hospital items like surgical gloves, cotton, syringes, PPE kits, and masks during inpatient hospitalisation.',
+            points: [
+              'Full cover for non-payable hospital consumables',
+              'Includes gloves, cotton, syringes, masks, and administrative items',
+              'Minimizes out-of-pocket expenses at hospital discharge'
+            ],
+            isRider: true,
+            badge: 'OPTIONAL RIDER',
             iconType: 'shield'
           },
           {
-            id: 's2-4',
+            id: 'elevate-rider-inflation-protector',
+            title: 'Inflation Protector',
+            subtitle: 'Sum Insured Increases Based on Annual Inflation',
+            summary: 'Sum insured will increase automatically at each policy renewal based on the previous year’s official inflation rate.',
+            points: [
+              'Sum Insured automatically adjusted upwards at renewal',
+              'Indexed to the previous year’s consumer price inflation rate',
+              'Protects your medical coverage from rising healthcare inflation'
+            ],
+            isRider: true,
+            badge: 'OPTIONAL RIDER',
+            iconType: 'trending'
+          },
+          {
+            id: 'elevate-rider-annual-health-checkup',
             title: 'Annual Health Check-up',
-            subtitle: 'Preventive Health Vouchers',
-            summary: 'Complimentary annual health screening check-up vouchers on policy renewal.',
-            badge: 'HEALTH CHECK',
-            iconType: 'clipboard'
-          }
-        ]
-      },
-      {
-        id: 'sec-3',
-        title: 'ADDITIONAL FEATURES',
-        gridCols: 'grid-cols-2 sm:grid-cols-2',
-        items: [
-          {
-            id: 's3-1',
-            title: 'Emergency Road Ambulance',
-            subtitle: 'Ambulance Charges Covered',
-            summary: 'Surface road ambulance transportation covered per hospitalisation.',
-            badge: 'AMBULANCE',
-            iconType: 'truck'
-          },
-          {
-            id: 's3-2',
-            title: 'Tax Savings under Sec 80D',
-            subtitle: 'Tax Deduction Benefit',
-            summary: 'Premiums qualify for tax deductions under Section 80D of the Income Tax Act.',
-            badge: 'TAX SAVER 80D',
-            iconType: 'dollar'
-          }
-        ]
-      },
-      {
-        id: 'sec-4',
-        title: 'OPTIONAL RIDERS (ADD-ONS)',
-        gridCols: 'grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 's4-1',
-            title: 'Hospital Daily Cash Rider',
-            subtitle: 'Daily Cash Allowance',
-            summary: 'Daily cash payout for each completed 24 hours of hospital stay.',
+            subtitle: 'Available on Cashless Basis Every Year',
+            summary: 'Comprehensive preventive annual health check-up available on a 100% cashless basis every policy year for all enrolled members.',
+            points: [
+              '100% cashless annual health screening every year',
+              'Available across certified diagnostic partner networks',
+              'Helps track vital health parameters and early detection'
+            ],
             isRider: true,
-            badge: 'DAILY CASH',
-            iconType: 'dollar'
-          },
-          {
-            id: 's4-2',
-            title: 'OPD Consultation Add-on',
-            subtitle: 'Outpatient Doctor Fees Covered',
-            summary: 'Covers physical outpatient doctor visits and routine lab tests.',
-            isRider: true,
-            badge: 'OPD COVER',
-            iconType: 'heart'
-          }
-        ]
-      }
-    ]
-  },
-
-  // ===========================================================================
-  // PLAN 3: GOLDEN SHIELD
-  // ===========================================================================
-  'golden-shield': {
-    planId: 'golden-shield',
-    planName: 'Golden Shield',
-    tagline: 'Specialized Senior Citizen Health Protection with Home Care Support',
-    coverage: '₹5 Lakh - ₹20 Lakh',
-    premium: '₹23,500/year',
-
-    uiConfig: {
-      primaryColor: '#F58220',
-      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    },
-
-    // --- 1. REPORT CARD (INDEPENDENT) ---
-    reportCard: {
-      heading: 'REPORT CARD',
-      subheading: 'ICICI Lombard Performance',
-      description: 'Official claim settlement and financial strength metrics.',
-      csr: {
-        title: 'CSR',
-        summaryValue: '98.0%',
-        subtitle: 'Claim Settlement Ratio',
-        explanation: 'CSR shows the percentage of senior citizen claims settled by ICICI Lombard within the financial year.',
-        singleYear: '98.0%',
-        singleYearLabel: 'Recent Single Year',
-        threeYearAvg: '98.1%',
-        threeYearAvgLabel: '3 Year Average'
-      },
-      icr: {
-        title: 'ICR',
-        summaryValue: '71%',
-        subtitle: 'Incurred Claim Ratio',
-        explanation: 'Sustainable claims payout ratio ensuring high claims liquidity for senior hospitalisations.',
-        range: '71% → 74%',
-        rangeLabel: 'Incurred Claim Ratio'
-      },
-      complaintVolume: {
-        title: 'COMPLAINT VOLUME',
-        summaryValue: '13.8',
-        explanation: 'Dedicated senior citizen claim assistance desk with fast-track processing.',
-        value: '13.8',
-        label: 'Complaints per 10,000 Claims'
-      }
-    },
-
-    // --- 2. COMPANY STRENGTH (INDEPENDENT) ---
-    companyStrength: {
-      heading: 'COMPANY STRENGTH',
-      subheading: 'How reliable/strong is the insurer?',
-      description: 'How reliable/strong is the insurer?',
-      ownership: {
-        title: 'OWNERSHIP / PERCENTAGE',
-        summaryValue: 'ICICI Bank 51.2%',
-        explanation: 'Promoted by ICICI Bank Limited with strong corporate governance.',
-        items: [
-          { name: 'ICICI Bank Limited (Promoter)', value: '51.2%', label: 'Shareholding' },
-          { name: 'Institutional & Public Investors', value: '48.8%', label: 'Shareholding' }
-        ]
-      },
-      creditRating: {
-        title: 'CREDIT RATING',
-        summaryValue: 'AAA',
-        explanation: 'CRISIL AAA rating certifying top-tier financial strength.',
-        items: [
-          { agency: 'CRISIL', rating: 'AAA / Stable' },
-          { agency: 'ICRA', rating: 'AAA / Stable' }
-        ]
-      },
-      capitalStrength: {
-        title: 'CAPITAL STRENGTH',
-        summaryValue: '2.62×',
-        explanation: 'Solvency ratio of 2.62× providing strong financial security.',
-        value: '2.62×',
-        label: 'Solvency Ratio (as of March 2025)'
-      },
-      financialBase: {
-        title: 'FINANCIAL BASE',
-        summaryValue: '₹48,000+ Cr',
-        explanation: 'Substantial investment assets supporting senior hospitalisation payouts.',
-        value: '₹48,000+ Cr',
-        label: 'Investment Assets under Management'
-      },
-      reinsuranceStrength: {
-        title: 'REINSURANCE STRENGTH',
-        summaryValue: '90%+',
-        explanation: 'Reinsurance treaties backed by Munich Re, Swiss Re & GIC Re.',
-        value: '90%+',
-        label: 'Backed by Munich Re, Swiss Re & GIC Re'
-      },
-      marketPosition: {
-        title: 'MARKET POSITION',
-        summaryValue: '#1 Private Non-Life',
-        explanation: 'Over 10,000+ cashless network hospitals with senior citizen priority desks.',
-        value: '#1 Private General Insurer',
-        label: 'Over 3.5 Crore+ Policies Issued'
-      }
-    },
-
-    // --- 3. LIMITATIONS & WAITING PERIODS (INDEPENDENT) ---
-    limitationsWaitingPeriods: {
-      heading: 'LIMITATIONS & WAITING PERIODS',
-      subheading: 'Terms & Waiting Periods',
-      description: 'Interactive policy timelines, specific disease waiting, and permanent exclusions.',
-      items: [
-        {
-          id: 'initial',
-          title: 'Initial Waiting Period (30 Days)',
-          summary: '30-day initial waiting period applies from inception for any non-accidental illness.',
-          highlight: 'Accidental hospitalisation covered from Day 1.',
-          policyRef: 'Golden Shield Policy Terms (Section 3.1)',
-          durationTag: '30 Days'
-        },
-        {
-          id: 'specific',
-          title: '2 Years Waiting Period on Specific Senior Diseases',
-          summary: 'Short 24-month waiting period applies for age-related specific illnesses such as Cataract, Joint Replacements, Hernia, and BPH.',
-          diseaseList: [
-            'Cataract & eye surgeries',
-            'Joint replacements (non-accidental)',
-            'Benign Prostatic Hypertrophy (BPH)',
-            'Hernia (all types) & Hydrocele',
-            'Piles, Fistula & Fissure in ano',
-            'Stones in Urinary & Biliary systems',
-            'Varicose veins & ulcers'
-          ],
-          policyRef: 'Golden Shield Specific Illness Terms (Section 3.2)',
-          durationTag: '24 Months'
-        },
-        {
-          id: 'permanent',
-          title: 'Permanent Exclusions',
-          summary: 'Excludes cosmetic surgeries, self-inflicted injuries, substance abuse, investigation admissions, and non-prescribed rest cures.',
-          exclusionsList: [
-            'Cosmetic, aesthetic & plastic surgery',
-            'Intentional self-injury & suicide attempt',
-            'Substance abuse treatments',
-            'Investigation & evaluation admissions',
-            'Unproven / experimental treatments'
-          ],
-          policyRef: 'ICICI Lombard Standard Exclusions (Section 4)',
-          durationTag: 'Never Covered'
-        }
-      ]
-    },
-
-    // --- 4. MUST KNOW (INDEPENDENT) ---
-    mustKnow: {
-      heading: 'MUST-KNOW DETAILS',
-      subheading: 'Key senior citizen policy nuances to keep in mind',
-      buttonLabel: 'MUST KNOW DETAILS',
-      layout: 'details-modal',
-      items: [
-        {
-          id: 'home-care',
-          icon: '🏡',
-          title: 'HOME CARE HOSPITALISATION',
-          paragraphs: [
-            'Covers doctor-prescribed home nursing and treatment when hospitalisation is advised but bed is unavailable.'
-          ]
-        },
-        {
-          id: 'senior-room',
-          icon: '🛏️',
-          title: 'SINGLE PRIVATE ROOM',
-          paragraphs: [
-            'Covers Single Private Room with zero capping on room rent.'
-          ]
-        },
-        {
-          id: 'free-checkup',
-          icon: '🩺',
-          title: 'FREE ANNUAL GERIATRIC CHECK-UP',
-          paragraphs: [
-            'Comprehensive health check-up including ECG, blood sugar, and lipid profile on every renewal.'
-          ]
-        }
-      ]
-    },
-
-    // --- 5. FEATURES SECTIONS (INDEPENDENT) ---
-    featuresSections: [
-      {
-        id: 'sec-1',
-        title: 'MOST IMPORTANT FEATURES',
-        gridCols: 'grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 's1-1',
-            title: 'Single Private Room Covered',
-            subtitle: 'No Sub-Limit on Room Rent',
-            summary: 'Full coverage for Single Private Room across all 10,000+ cashless network hospitals.',
-            badge: 'PRIVATE ROOM',
-            iconType: 'home'
-          },
-          {
-            id: 's1-2',
-            title: 'Senior Inpatient Hospitalisation',
-            subtitle: 'Full Inpatient Medical Costs Covered',
-            summary: 'Comprehensive coverage for surgeon fees, nursing, ICU, and in-hospital medications for seniors.',
-            badge: 'INPATIENT CARE',
-            iconType: 'heart'
-          },
-          {
-            id: 's1-3',
-            title: 'Pre & Post Hospitalisation',
-            subtitle: '30 Days Pre & 60 Days Post',
-            summary: 'Diagnostic tests, consultations, and pharmacy bills 30 days before and 60 days after discharge.',
-            badge: '30 & 60 DAYS',
-            iconType: 'calendar'
-          },
-          {
-            id: 's1-4',
-            title: 'Senior Day Care Surgeries Covered',
-            subtitle: 'Daycare Surgeries (Cataract, Dialysis)',
-            summary: 'Covers day care procedures requiring less than 24 hours of hospital stay.',
-            badge: 'DAY CARE',
-            iconType: 'check'
-          },
-          {
-            id: 's1-5',
-            title: 'Home Care Hospitalisation',
-            subtitle: 'Doctor-Prescribed Home Care Covered',
-            summary: 'Covers medical care taken at home when hospital beds are unavailable or patient cannot be moved.',
-            badge: 'HOME CARE',
-            iconType: 'home'
-          }
-        ]
-      },
-      {
-        id: 'sec-2',
-        title: 'VALUE ADDED FEATURES',
-        gridCols: 'grid-cols-2 sm:grid-cols-2',
-        items: [
-          {
-            id: 's2-1',
-            title: 'Annual Senior Health Check-up',
-            subtitle: 'Complimentary Geriatric Screening',
-            summary: 'Comprehensive annual preventive health check-up package for seniors on renewal.',
-            badge: 'HEALTH CHECK',
+            badge: 'OPTIONAL RIDER',
             iconType: 'clipboard'
           },
           {
-            id: 's2-2',
-            title: 'AYUSH Alternative Inpatient Cover',
-            subtitle: '100% Inpatient AYUSH Covered',
-            summary: 'Inpatient alternative treatments at recognized government AYUSH hospitals covered.',
-            badge: 'AYUSH COVER',
-            iconType: 'shield'
-          },
-          {
-            id: 's2-3',
-            title: '24/7 Doctor Tele-Consultations',
-            subtitle: 'Unlimited Tele-Consults via App',
-            summary: 'Unlimited digital video consultations with qualified doctors on IL TakeCare App.',
-            badge: 'TELE-DOCTOR',
+            id: 'elevate-rider-tele-consultation',
+            title: 'Tele-consultation',
+            subtitle: 'Unlimited 24/7 Digital Consultations',
+            summary: 'Unlimited 24/7 digital tele-consultations with certified general physicians and medical specialists across multiple specialties.',
+            points: [
+              'Unlimited digital tele-consultations via app/portal',
+              'Instant access to general practitioners and specialists',
+              'Zero out-of-pocket fees per consultation session'
+            ],
+            isRider: true,
+            badge: 'OPTIONAL RIDER',
             iconType: 'phone'
           },
           {
-            id: 's2-4',
-            title: 'Organ Donor Hospitalisation',
-            subtitle: 'Donor Medical Harvesting Covered',
-            summary: 'Inpatient harvesting medical expenses for organ donor during transplantation covered.',
-            badge: 'ORGAN DONOR',
+            id: 'elevate-rider-room-modifier',
+            title: 'Room Modifier',
+            subtitle: 'Upgrade or Downgrade Room Category Freely',
+            summary: 'Provides policyholders the freedom to upgrade or downgrade their hospital room category as per their personal choice without proportionate deductions.',
+            points: [
+              'Flexibility to upgrade or downgrade hospital room category',
+              'Eliminates proportionate deductions on room category change',
+              'Personalized comfort during planned or emergency hospitalisation'
+            ],
+            isRider: true,
+            badge: 'OPTIONAL RIDER',
+            iconType: 'home'
+          },
+          {
+            id: 'elevate-rider-worldwide-cover',
+            title: 'Worldwide Cover',
+            subtitle: 'Global Healthcare with Cashless up to ₹3 Crore',
+            summary: 'Global healthcare protection offering cashless coverage of up to ₹3 Crore across top-rated international hospitals worldwide for planned and emergency treatments.',
+            points: [
+              'Cashless overseas healthcare coverage up to ₹3 Crore',
+              'Access to leading international medical centers and specialists',
+              'Covers critical planned and emergency medical procedures globally'
+            ],
+            isRider: true,
+            badge: 'OPTIONAL RIDER',
+            iconType: 'shield'
+          },
+          {
+            id: 'elevate-rider-nri-advantage',
+            title: 'NRI Advantage',
+            subtitle: 'Get a 25% Discount on Base Premium',
+            summary: 'Get a flat 25% discount on the base policy premium for Non-Resident Indians (NRIs) purchasing healthcare coverage in India.',
+            points: [
+              'Flat 25% discount on base premium for NRIs',
+              'Comprehensive healthcare coverage during visits to India',
+              'Cashless hospitalization across 10,000+ network hospitals'
+            ],
+            isRider: true,
+            badge: 'OPTIONAL RIDER',
+            iconType: 'dollar'
+          },
+          {
+            id: 'elevate-rider-jumpstart',
+            title: 'Jumpstart',
+            subtitle: 'PED (Asthma, Diabetes, BP, etc.) Covered from Day 31',
+            summary: 'Pre-existing diseases (PED) such as asthma, diabetes, hypertension/BP, and other declared conditions covered from Day 31 instead of waiting years.',
+            points: [
+              'Pre-existing disease waiting reduced to just 30 days',
+              'Asthma, diabetes, hypertension & BP covered from Day 31',
+              'Immediate peace of mind for individuals with existing conditions'
+            ],
+            isRider: true,
+            badge: 'OPTIONAL RIDER',
             iconType: 'activity'
           }
         ]
       },
+
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 4: DISCOUNTS (DEDICATED SUBSECTION WITHIN POLICY BENEFITS)
+      // ───────────────────────────────────────────────────────────────────────
       {
-        id: 'sec-3',
-        title: 'ADDITIONAL FEATURES',
-        gridCols: 'grid-cols-2 sm:grid-cols-2',
+        id: 'sec-discounts',
+        title: 'DISCOUNTS',
+        isDiscountSection: true,
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
         items: [
           {
-            id: 's3-1',
-            title: 'Emergency Road Ambulance',
-            subtitle: 'Ambulance Charges Covered',
-            summary: 'Surface road ambulance transportation covered per hospitalisation.',
-            badge: 'AMBULANCE',
-            iconType: 'truck'
+            id: 'elevate-disc-credit-score',
+            title: 'Credit Score Based Discount',
+            subtitle: 'Up to 15% in Premium+ Based on Score',
+            summary: 'Get up to a 15% discount in Premium+ based on maintaining a good credit score / financial track record.',
+            points: [
+              'Up to 15% discount based on healthy credit score',
+              'Applies directly to the Premium+ policy tier',
+              'Rewards financially disciplined policyholders'
+            ],
+            badge: 'UP TO 15% OFF',
+            iconType: 'credit'
           },
           {
-            id: 's3-2',
-            title: 'Tax Deductions under Sec 80D',
-            subtitle: 'Up to ₹50,000 Tax Deduction',
-            summary: 'Senior citizen premiums qualify for enhanced tax deductions under Section 80D.',
-            badge: 'TAX SAVER 80D',
-            iconType: 'dollar'
-          }
-        ]
-      },
-      {
-        id: 'sec-4',
-        title: 'OPTIONAL RIDERS (ADD-ONS)',
-        gridCols: 'grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 's4-1',
-            title: 'Senior Hospital Daily Cash',
-            subtitle: 'Daily Cash Allowance',
-            summary: 'Fixed daily cash payout for each day of hospital admission to manage out-of-pocket expenses.',
-            isRider: true,
-            badge: 'DAILY CASH',
-            iconType: 'dollar'
+            id: 'elevate-disc-wellness',
+            title: 'Wellness Discount',
+            subtitle: 'Up to 30% on Renewal by Redeeming Points',
+            summary: 'Get up to 30% discount on renewal premium by tracking healthy activities, logging steps, and redeeming wellness points in the subsequent year.',
+            points: [
+              'Up to 30% discount on subsequent year renewal premium',
+              'Earn points via daily step tracking and health assessments',
+              'Direct financial rewards for maintaining an active lifestyle'
+            ],
+            badge: 'UP TO 30% OFF',
+            iconType: 'award'
           },
           {
-            id: 's4-2',
-            title: 'Personal Accident Cover',
-            subtitle: '24/7 Worldwide Accident Cover',
-            summary: 'Round-the-clock accidental death and permanent disability financial protection.',
-            isRider: true,
-            badge: 'ACCIDENT COVER',
-            iconType: 'shield'
+            id: 'elevate-disc-early-renewal',
+            title: 'Early Renewal Discount',
+            subtitle: '2.5% Discount for Renewal >30 Days Early',
+            summary: 'Get a 2.5% discount on policy renewal premium by completing the renewal process 30 days before policy expiry.',
+            points: [
+              '2.5% discount on renewal premium',
+              'Valid for policy renewals initiated 30+ days in advance',
+              'Instant discount applied at time of renewal checkout'
+            ],
+            badge: '2.5% EARLY OFF',
+            iconType: 'clock'
+          },
+          {
+            id: 'elevate-disc-long-tenure',
+            title: 'Long Tenure Discount (2/3/4/5 yrs)',
+            subtitle: 'Up to 10% on 2nd Year & 15% on 3rd-5th Years',
+            summary: 'Multi-year policy discount offering up to 10% discount for the 2nd year and 15% discount on the 3rd, 4th & 5th years’ premium.',
+            steps: ['1-Year: Standard', '2-Year: 10% Off 2nd Yr', '3-Year: 15% Off 3rd Yr', '4-5 Year: 15% Off'],
+            points: [
+              'Up to 10% discount on the 2nd year’s premium',
+              '15% discount on the 3rd, 4th & 5th years’ premium',
+              'Locks in coverage and protects against annual premium hikes'
+            ],
+            badge: 'UP TO 15% TENURE OFF',
+            iconType: 'dollar'
           }
         ]
       }
@@ -1053,5 +580,5 @@ export const ICICI_LOMBARD_PLANS_DATA = {
 
 export const getIciciPlanData = (planId) => {
   const canonicalId = resolveIciciPlanId(planId);
-  return ICICI_LOMBARD_PLANS_DATA[canonicalId] || ICICI_LOMBARD_PLANS_DATA['complete-health-insurance'];
+  return ICICI_LOMBARD_PLANS_DATA[canonicalId] || ICICI_LOMBARD_PLANS_DATA['elevate'];
 };

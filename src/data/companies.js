@@ -31,99 +31,6 @@ export const companiesData = [
         premium: optimaSecurePlusData.premium,
         benefits: optimaSecurePlusData.benefits,
         details: optimaSecurePlusData.details
-      },
-
-      {
-        id: "hdfc-optima-secure",
-        name: "Optima Secure",
-        description: "4X Coverage with Secure, Plus, Restore & Protect benefits.",
-        coverage: "₹10 Lakh",
-        premium: "₹13,200/year",
-        benefits: [
-          "2X Cover from Day 1 (Secure Benefit)",
-          "100% Increase in 2 Years (Plus Benefit)",
-          "Automatic Restoration up to 100%",
-          "Consumables & Non-Medical items covered"
-        ],
-        details: {
-          eligibility: "18 to 65 Years",
-          waitingPeriod: "30 Days initial, 36 Months for Pre-existing diseases",
-          roomRent: "Any Room Category with no sub-limits",
-          hospitalization: "Covered up to Sum Insured",
-          prePostHospital: "60 Days Pre & 180 Days Post Hospitalization",
-          dayCare: "All Day Care procedures covered",
-          noClaimBonus: "50% increase per claim-free year (Max 100%)",
-          exclusions: "Cosmetic surgery, intentional self-injury, substance abuse"
-        }
-      },
-      {
-        id: "hdfc-optima-restore",
-        name: "Optima Restore",
-        description: "Instant 100% Restoration with Stay Active and Multiply benefits.",
-        coverage: "₹5 Lakh - ₹50 Lakh",
-        premium: "₹11,500/year",
-        benefits: [
-          "Instant 100% Restoration for unrelated illnesses",
-          "Stay Active discount on premium up to 8%",
-          "Multiply Benefit: 50% No Claim Bonus every year",
-          "Zero co-payment across India"
-        ],
-        details: {
-          eligibility: "18 to 65 Years",
-          waitingPeriod: "30 Days initial, 36 Months for Pre-existing diseases",
-          roomRent: "Single Private Room",
-          hospitalization: "Covered up to Sum Insured",
-          prePostHospital: "60 Days Pre & 180 Days Post Hospitalization",
-          dayCare: "All Day Care procedures covered",
-          noClaimBonus: "50% increase per claim-free year (Max 100%)",
-          exclusions: "Cosmetic treatments, experimental treatments, maternity"
-        }
-      },
-      {
-        id: "hdfc-energy",
-        name: "Energy",
-        description: "Specialized health insurance covering Diabetes & Hypertension from Day 1.",
-        coverage: "₹5 Lakh - ₹50 Lakh",
-        premium: "₹18,200/year",
-        benefits: [
-          "Covers Diabetes Type 1, Type 2 & Hypertension from Day 1",
-          "Personalized health coaching and rewards",
-          "Annual comprehensive health check-ups",
-          "E-consultations with specialists included"
-        ],
-        details: {
-          eligibility: "18 to 65 Years",
-          waitingPeriod: "Day 1 for Diabetes & Hypertension; 30 days for others",
-          roomRent: "Single Private A/C Room",
-          hospitalization: "Covered up to Sum Insured",
-          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization",
-          dayCare: "All Day Care procedures covered",
-          noClaimBonus: "Wellness incentive discount on renewals",
-          exclusions: "Weight control surgeries, cosmetic procedures, congenital disorders"
-        }
-      },
-      {
-        id: "hdfc-myhealth-medisure-super-topup",
-        name: "my:health Medisure (Super Top-Up)",
-        description: "High-sum insured super top-up protection above deductible threshold.",
-        coverage: "₹10 Lakh - ₹1 Crore",
-        premium: "₹4,800/year",
-        benefits: [
-          "Aggregate deductible across the entire policy year",
-          "No pre-policy medical checkup up to 55 years",
-          "Cashless treatment at 12,000+ network hospitals",
-          "Lifelong renewability with zero co-pay"
-        ],
-        details: {
-          eligibility: "18 to 65 Years",
-          waitingPeriod: "30 Days initial, 36 Months for Pre-existing diseases",
-          roomRent: "Up to Single Private Room",
-          hospitalization: "Covered for claims exceeding chosen deductible",
-          prePostHospital: "60 Days Pre & 90 Days Post Hospitalization",
-          dayCare: "Day Care procedures covered after deductible",
-          noClaimBonus: "Not applicable on top-up plans",
-          exclusions: "Claims within deductible threshold, cosmetic treatments, breach of law"
-        }
       }
     ]
   },
@@ -166,8 +73,8 @@ export const companiesData = [
         }
       },
       {
-        id: "medicare-protect",
-        name: "MediCare Protect",
+        id: "medicare-select",
+        name: "MediCare Select",
         description: "Standard essential coverage covering hospitalization and recovery benefits.",
         coverage: "₹5 Lakh",
         premium: "₹8,200/year",
@@ -186,29 +93,6 @@ export const companiesData = [
           dayCare: "Day Care procedures covered",
           noClaimBonus: "10% of sum insured per year (Max 100%)",
           exclusions: "Intentional self-injury, war, dental surgeries unless accidental"
-        }
-      },
-      {
-        id: "medicare-plus",
-        name: "MediCare Plus",
-        description: "High-value super top-up plan to secure extra coverage over your base policy.",
-        coverage: "₹20 Lakh",
-        premium: "₹6,500/year",
-        benefits: [
-          "Super top-up format with deductible options",
-          "No pre-policy medical check-up up to 55 years",
-          "Aggregate deductible benefit",
-          "Covers Ayush & daycare"
-        ],
-        details: {
-          eligibility: "18 to 70 Years",
-          waitingPeriod: "30 Days initial, 36 Months for Pre-existing diseases",
-          roomRent: "Single Private A/C Room",
-          hospitalization: "Expenses above deductible covered up to Sum Insured",
-          prePostHospital: "60 Days Pre & 90 Days Post Hospitalization",
-          dayCare: "Covered above defined deductible",
-          noClaimBonus: "No cumulative bonus on top-up policies",
-          exclusions: "Congenital external anomalies, cosmetic treatment"
         }
       }
     ]
@@ -404,72 +288,26 @@ export const companiesData = [
     },
     plans: [
       {
-        id: "complete-health-insurance",
-        name: "Complete Health Insurance",
-        description: "Rich wellness rewards, donor expense covers, and reset benefits for maximum security.",
-        coverage: "₹10 Lakh",
-        premium: "₹15,200/year",
+        id: "elevate",
+        name: "Elevate",
+        description: "Infinite Care, Power Booster, Unlimited Restoration & Customizable Healthcare Protection.",
+        coverage: "₹5 Lakh - ₹3 Crore",
+        premium: "₹16,500/year",
         benefits: [
-          "Earn Wellness Rewards up to 20% discount",
-          "Donor expenses covered fully",
-          "Reset Benefit (instant restore upon exhaustion)",
-          "No capping on room rent"
+          "Single Private A/c Room (100% Cashless)",
+          "Pre & Post Hospitalization: 90 & 180 Days",
+          "No Limit on ICU & Unlimited Restoration",
+          "Power Booster & Infinite Care Riders Available"
         ],
         details: {
           eligibility: "18 to 65 Years",
-          waitingPeriod: "30 Days initial, 36 Months for Pre-existing conditions",
-          roomRent: "No capping - Private A/C Room",
-          hospitalization: "Full cover up to sum insured",
-          prePostHospital: "60 Days Pre & 90 Days Post Hospitalization",
-          dayCare: "All Day Care treatments covered",
-          noClaimBonus: "10% of sum insured added yearly (Max 50%)",
-          exclusions: "Aesthetic treatment, fertility treatments, voluntary rehabilitation"
-        }
-      },
-      {
-        id: "health-shield",
-        name: "Health Shield",
-        description: "Perfect budget coverage with OPD benefits and pre-hospitalization allowances.",
-        coverage: "₹5 Lakh",
-        premium: "₹8,900/year",
-        benefits: [
-          "Cashless medical treatments",
-          "OPD consult benefits included",
-          "Ayush hospitalization coverage",
-          "Free online medical consultations"
-        ],
-        details: {
-          eligibility: "18 to 60 Years",
-          waitingPeriod: "30 Days initial, 48 Months for Pre-existing conditions",
-          roomRent: "Private Room up to 1% of Sum Insured",
-          hospitalization: "Standard hospitalization covered",
-          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization",
-          dayCare: "Common daycare surgeries covered",
-          noClaimBonus: "10% increase in sum insured per claim-free year",
-          exclusions: "Self-inflicted injuries, beauty surgery, drug addiction therapies"
-        }
-      },
-      {
-        id: "golden-shield",
-        name: "Golden Shield",
-        description: "Senior citizen protection covering age-related conditions and offering home care assistance.",
-        coverage: "₹10 Lakh",
-        premium: "₹23,500/year",
-        benefits: [
-          "Specifically covers senior citizen health concerns",
-          "Home care hospitalization covered",
-          "Free medical checkups every year",
-          "Emergency ambulance fees covered"
-        ],
-        details: {
-          eligibility: "60 to 80 Years",
-          waitingPeriod: "30 Days initial, 24 Months for Pre-existing conditions",
-          roomRent: "Private Single Room",
-          hospitalization: "Senior in-patient treatment covered",
-          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization",
-          dayCare: "Common senior surgeries covered",
-          noClaimBonus: "Cumulative bonus not applicable",
-          exclusions: "Obesity surgeries, hair transplants, cosmetic dental fixes"
+          waitingPeriod: "30 Days initial, Day 31 with Jumpstart",
+          roomRent: "Single Private A/C Room (100% Cashless)",
+          hospitalization: "Covered up to Sum Insured with No Limit on ICU",
+          prePostHospital: "90 Days Pre & 180 Days Post Hospitalization",
+          dayCare: "All Day Care procedures covered (<24 hrs admission)",
+          noClaimBonus: "20% to 100% Cumulative Bonus / 100% yearly with Power Booster",
+          exclusions: "Cosmetic surgery, intentional self-injury, breach of law"
         }
       }
     ]
@@ -491,72 +329,49 @@ export const companiesData = [
     },
     plans: [
       {
-        id: "care-plan",
-        name: "Care Plan",
-        description: "The flagship comprehensive health policy covering hospitalization, day care, and ambulance costs.",
-        coverage: "₹10 Lakh",
-        premium: "₹12,800/year",
+        id: "care-supreme",
+        name: "Care Supreme",
+        description: "Comprehensive health insurance with unlimited automatic recharge, cumulative bonus super, and premium healthcare privileges.",
+        coverage: "₹7 Lakh - ₹1 Crore",
+        premium: "₹14,200/year",
         benefits: [
-          "No co-payment across any age group",
-          "Alternative treatments covered up to 100%",
-          "Recharge Benefit (auto restores sum insured)",
-          "No pre-policy medical checkup up to 45 years"
+          "Unlimited Automatic Recharge of Sum Insured",
+          "Cumulative Bonus Super up to 500%",
+          "No Room Rent Capping (Single Private Room)",
+          "Annual Health Check-up for all insured members"
         ],
         details: {
-          eligibility: "18 to 65 Years (Floater options for children)",
+          eligibility: "18 to Lifetime (Children: 91 days to 24 years)",
           waitingPeriod: "30 Days initial, 36 Months for Pre-existing conditions",
-          roomRent: "Single Private Room covered",
-          hospitalization: "Actual inpatient expenses covered",
-          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization",
+          roomRent: "Single Private Room with no sub-limits",
+          hospitalization: "Actual inpatient expenses covered up to Sum Insured",
+          prePostHospital: "60 Days Pre & 180 Days Post Hospitalization",
           dayCare: "All Day Care procedures covered",
-          noClaimBonus: "10% of sum insured per year (Max 50%)",
-          exclusions: "Sexually transmitted diseases, self-harm, beauty enhancement surgeries"
+          noClaimBonus: "Up to 500% Cumulative Bonus Super",
+          exclusions: "Cosmetic surgery, self-inflicted injuries, substance abuse"
         }
       },
       {
-        id: "care-freedom",
-        name: "Care Freedom",
-        description: "Simplified health insurance with no pre-policy medical tests required for any age.",
-        coverage: "₹5 Lakh",
-        premium: "₹11,400/year",
+        id: "ultimate-care",
+        name: "Ultimate Care",
+        description: "Next-generation health insurance providing high-value coverage with global treatments, wellness rewards, and inflation shield.",
+        coverage: "₹10 Lakh - ₹2 Crore",
+        premium: "₹18,500/year",
         benefits: [
-          "No pre-policy medical check-up required",
-          "Consumables cover included",
-          "Durable medical equipment covered",
-          "Free health portal access"
+          "Global inpatient hospitalization coverage",
+          "Instant restore benefit on sum insured",
+          "Zero co-pay and zero room sub-limits",
+          "Comprehensive health & wellness perks"
         ],
         details: {
-          eligibility: "91 days to Lifetime",
+          eligibility: "18 to Lifetime",
           waitingPeriod: "30 Days initial, 24 Months for Pre-existing conditions",
-          roomRent: "Standard Twin Sharing Room covered",
-          hospitalization: "Standard inpatient cover up to Sum Insured",
-          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization",
-          dayCare: "Over 170 Day Care procedures covered",
-          noClaimBonus: "10% of sum insured added annually (Max 50%)",
-          exclusions: "Psychological disorders, hormone replacement therapy, cosmetic care"
-        }
-      },
-      {
-        id: "care-heart",
-        name: "Care Heart",
-        description: "Dedicated cardiac health cover designed specifically for pre-existing heart patients.",
-        coverage: "₹7.5 Lakh",
-        premium: "₹19,800/year",
-        benefits: [
-          "Covers cardiac pre-existing ailments",
-          "OPD consultations for cardiologists included",
-          "Annual cardiac screening checkups",
-          "Short 24-month waiting period for heart treatments"
-        ],
-        details: {
-          eligibility: "18 to 75 Years",
-          waitingPeriod: "24 Months for cardiac treatments, 30 days initial for other diseases",
-          roomRent: "Single Standard Room",
-          hospitalization: "Hospitalization expenses covered up to Sum Insured",
-          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization",
-          dayCare: "Cardiac daycare treatments covered",
-          noClaimBonus: "No cumulative bonus on specialized heart plans",
-          exclusions: "Genetic disorders, dental cleanings, vanity surgeries"
+          roomRent: "Any room category without capping",
+          hospitalization: "Inpatient expenses covered up to Sum Insured",
+          prePostHospital: "90 Days Pre & 180 Days Post Hospitalization",
+          dayCare: "All Day Care procedures covered",
+          noClaimBonus: "100% Cumulative Bonus",
+          exclusions: "Intentional self-injury, non-medical experimental treatments"
         }
       }
     ]

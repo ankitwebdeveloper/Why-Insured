@@ -191,6 +191,7 @@ function TataAigFeatureAccordionItem({
   index = 0,
   onOpenVideo,
   onOpenDetailsModal,
+  onOpenDiagnosticModal,
   demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
@@ -249,15 +250,32 @@ function TataAigFeatureAccordionItem({
           </div>
         </div>
 
-        {/* Plus / Minus Button */}
-        <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 mt-0.5 sm:mt-0 ${
-          isExpanded ? 'bg-[#0038A8] text-white rotate-180' : 'bg-[#F0F4FF] text-[#0038A8]'
-        }`}>
-          {isExpanded ? (
-            <FiMinus className="text-[10px] sm:text-xs stroke-[2.5]" />
-          ) : (
-            <FiPlus className="text-[10px] sm:text-xs stroke-[2.5]" />
+        {/* Right Controls: View Details Button (for High End Diagnostics) & Plus/Minus Button */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {id === 'high-end-diagnostics' && onOpenDiagnosticModal && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenDiagnosticModal();
+              }}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/25 hover:bg-[#0038A8] hover:text-white transition-all duration-200 cursor-pointer shadow-2xs group select-none shrink-0"
+              title="View High End Diagnostic details"
+            >
+              <span>View Details</span>
+            </button>
           )}
+
+          {/* Plus / Minus Button */}
+          <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 ${
+            isExpanded ? 'bg-[#0038A8] text-white rotate-180' : 'bg-[#F0F4FF] text-[#0038A8]'
+          }`}>
+            {isExpanded ? (
+              <FiMinus className="text-[10px] sm:text-xs stroke-[2.5]" />
+            ) : (
+              <FiPlus className="text-[10px] sm:text-xs stroke-[2.5]" />
+            )}
+          </div>
         </div>
       </div>
 
@@ -348,6 +366,134 @@ function TataAigFeatureAccordionItem({
   );
 }
 
+// Premium Floating High End Diagnostic Details Modal / Overlay
+function HighEndDiagnosticModal({ isOpen, onClose }) {
+  if (!isOpen) return null;
+
+  const diagnosticTests = [
+    'Brain Perfusion Imaging',
+    'CT Guided Biopsy',
+    'CT Urography',
+    'Digital Subtraction Angiography (DSA)',
+    'Liver Biopsy',
+    'Magnetic Resonance Cholangiography Scan',
+    'PET CT',
+    'PET MRI',
+    'Renogram'
+  ];
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
+      />
+
+      {/* Floating Card */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 12 }}
+        transition={{ duration: 0.22, ease: "easeOut" }}
+        className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg overflow-y-auto z-10 p-4 sm:p-7 max-h-[90vh] text-left"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close 'X' Button */}
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors cursor-pointer"
+          aria-label="Close modal"
+        >
+          <FiX className="text-sm sm:text-base" />
+        </button>
+
+        {/* Modal Header */}
+        <div className="pr-8 mb-3 sm:mb-4">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#0038A8] shrink-0" />
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#0038A8]">
+              Tata AIG MediCare Premier
+            </span>
+          </div>
+          <h3 className="text-base sm:text-xl font-extrabold text-slate-900 font-display tracking-tight">
+            High End Diagnostic
+          </h3>
+        </div>
+
+        {/* Description Quote Box */}
+        <div className="p-3 sm:p-3.5 rounded-xl bg-[#F0F4FF] border border-[#0038A8]/20 mb-3.5 sm:mb-5">
+          <p className="text-xs sm:text-[13px] text-slate-700 font-medium leading-relaxed italic">
+            “Expenses incurred on diagnostic tests mentioned below on OPD basis will be covered upto Rs.25,000 per policy year:”
+          </p>
+        </div>
+
+        {/* Covered Diagnostic Tests Section */}
+        <div className="space-y-2 mb-4 sm:mb-5">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#0038A8]" />
+            <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 font-display tracking-tight">
+              Covered Diagnostic Tests
+            </h4>
+          </div>
+
+          <div className="bg-slate-50/80 rounded-xl border border-slate-200/80 p-3 sm:p-4">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 sm:gap-y-2">
+              {diagnosticTests.map((test, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-[11px] sm:text-xs text-slate-700 font-medium leading-snug">
+                  <span className="text-[#0038A8] font-black text-sm shrink-0 select-none leading-none mt-0.5">•</span>
+                  <span>{test}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Comparison Table Section */}
+        <div className="mb-3.5 sm:mb-4">
+          <div className="rounded-xl border border-slate-200 overflow-hidden bg-white shadow-2xs">
+            <div className="grid grid-cols-3 bg-slate-100/80 border-b border-slate-200 px-3 sm:px-4 py-2 text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-700 font-display">
+              <div>Features</div>
+              <div className="text-center">MediCare</div>
+              <div className="text-right">MediCare Premier</div>
+            </div>
+            <div className="grid grid-cols-3 px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-sm items-center font-medium bg-white">
+              <div className="font-bold text-slate-800 text-[10px] sm:text-xs">
+                High End Diagnostic
+              </div>
+              <div className="text-center font-bold text-slate-400 text-xs">
+                NA
+              </div>
+              <div className="text-right">
+                <span className="inline-flex items-center gap-1 text-[9px] sm:text-xs font-bold text-[#0038A8] bg-[#F0F4FF] px-2 py-0.5 rounded-md border border-[#0038A8]/20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0038A8]" />
+                  Available
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Modal Footer / Close Action */}
+        <div className="pt-3 border-t border-slate-100 flex justify-end">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-5 py-1.5 sm:py-2 rounded-xl bg-[#0038A8] text-white text-xs font-bold hover:bg-[#002670] transition-colors shadow-2xs cursor-pointer select-none"
+          >
+            Got It
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function MedicareSelectSection({ plan, company, planId: planIdProp }) {
   const [activeModal, setActiveModal] = useState(null);
   const [activeLimitationId, setActiveLimitationId] = useState(null);
@@ -356,6 +502,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     title: '',
     content: ''
   });
+  const [isDiagnosticModalOpen, setIsDiagnosticModalOpen] = useState(false);
   const [videoModalState, setVideoModalState] = useState({
     isOpen: false,
     title: '',
@@ -409,6 +556,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     setActiveModal(null);
     setActiveLimitationId(null);
     setDetailsModalState({ isOpen: false, title: '', content: '' });
+    setIsDiagnosticModalOpen(false);
     setVideoModalState({ isOpen: false, title: '', url: '' });
     setExpandedReportCard({ csr: false, icr: false, complaint: false });
     setExpandedCompanyStrength({
@@ -424,7 +572,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
 
   // Lock background body scroll when modal is active
   useEffect(() => {
-    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen) {
+    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen || isDiagnosticModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -432,7 +580,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen]);
+  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen, isDiagnosticModalOpen]);
 
   const handleOpenVideo = (title, url) => {
     setVideoModalState({
@@ -565,6 +713,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     onToggle={toggleAccordionItem}
                     onOpenVideo={handleOpenVideo}
                     onOpenDetailsModal={handleOpenDetailsModal}
+                    onOpenDiagnosticModal={() => setIsDiagnosticModalOpen(true)}
                     demoVideoUrl={demoVideoUrl}
                   />
                 ))}
@@ -635,6 +784,16 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                 </div>
               </motion.div>
             </div>
+          )}
+        </AnimatePresence>
+
+        {/* FLOATING HIGH END DIAGNOSTIC DETAILS MODAL */}
+        <AnimatePresence>
+          {isDiagnosticModalOpen && (
+            <HighEndDiagnosticModal
+              isOpen={isDiagnosticModalOpen}
+              onClose={() => setIsDiagnosticModalOpen(false)}
+            />
           )}
         </AnimatePresence>
 
