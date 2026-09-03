@@ -268,6 +268,31 @@ export const companiesData = [
           noClaimBonus: "10% sum insured bonus per year (Max 50%)",
           exclusions: "Rest cures, cosmetic surgery, non-prescription medicines"
         }
+      },
+      {
+        id: "aspire",
+        name: "Aspire",
+        description: "Next-gen protection with Booster+ cumulative coverage, Lock the Clock premium freezing, and unlimited restoration.",
+        coverage: "₹5 Lakh - ₹1 Crore",
+        premium: "₹12,800/year",
+        benefits: [
+          "100% Cashless Policy across network hospitals",
+          "Any Room Category & No Limit on ICU charges",
+          "Pre & Post Hospitalization: 60 & 180 Days",
+          "Unlimited Restoration (10+10+10.....10 Lac)",
+          "Bonus / Booster+ up to 10X based on entry age",
+          "Health Check-up: ₹5,000 from Day 1"
+        ],
+        details: {
+          eligibility: "18 to Lifetime",
+          waitingPeriod: "30 Days initial, 36 Months for Pre-existing conditions",
+          roomRent: "Any Room Category with no sub-limits",
+          hospitalization: "Inpatient expenses covered up to Sum Insured with no limit on ICU",
+          prePostHospital: "60 Days Pre & 180 Days Post Hospitalization",
+          dayCare: "All Day Care procedures covered",
+          noClaimBonus: "Booster+ unutilised Sum Insured carry forward up to 10X",
+          exclusions: "Cosmetic surgery, intentional self-injury, substance abuse"
+        }
       }
     ]
   },

@@ -11,7 +11,8 @@
 export const NIVA_BUPA_CANONICAL_PLAN_IDS = [
   'reassure-2-0',
   'health-companion',
-  'seniors-first'
+  'seniors-first',
+  'aspire'
 ];
 
 export const resolveNivaBupaPlanId = (planId) => {
@@ -25,6 +26,9 @@ export const resolveNivaBupaPlanId = (planId) => {
   }
   if (cleanId === 'seniors-first' || cleanId === 'senior-first' || cleanId === 'niva-seniors-first') {
     return 'seniors-first';
+  }
+  if (cleanId === 'aspire' || cleanId === 'niva-aspire' || cleanId === 'niva-bupa-aspire' || cleanId === 'aspire-plan') {
+    return 'aspire';
   }
   return cleanId;
 };
@@ -1107,6 +1111,428 @@ export const NIVA_BUPA_PLANS_DATA = {
             isRider: true,
             badge: 'ACCIDENT SHIELD',
             iconType: 'users'
+          }
+        ]
+      }
+    ]
+  },
+
+  // ===========================================================================
+  // PLAN 4: ASPIRE
+  // ===========================================================================
+  'aspire': {
+    planId: 'aspire',
+    planName: 'Aspire',
+    fullName: 'Niva Bupa Aspire',
+    companyName: 'Niva Bupa',
+    tagline: 'Next-Gen Protection with Booster+ Cumulative Coverage, Lock the Clock & Unlimited Restoration',
+    subtitle: 'Next-Gen Protection with Booster+ Cumulative Coverage, Lock the Clock & Unlimited Restoration',
+    coverage: '₹5 Lakh - ₹1 Crore',
+    premium: '₹12,800/year',
+
+    uiConfig: {
+      primaryColor: '#0EA5E9',
+      accentColor: '#F97316',
+      lightBg: '#F0F9FF',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    },
+
+    // --- 1. REPORT CARD (INDEPENDENT) ---
+    reportCard: {
+      heading: 'REPORT CARD',
+      subheading: 'Niva Bupa Performance',
+      description: 'Official claim settlement and financial strength metrics.',
+      csr: {
+        title: 'CSR',
+        summaryValue: '98.2%',
+        subtitle: 'Claim Settlement Ratio',
+        explanation: 'CSR reflects the percentage of eligible claims settled by Niva Bupa with ultra-fast 30-minute cashless processing across 10,000+ network hospitals.',
+        singleYear: '98.2%',
+        singleYearLabel: 'Recent Single Year (FY2024-25)',
+        threeYearAvg: '98.0%',
+        threeYearAvgLabel: '3 Year Average (FY2022-25)'
+      },
+      icr: {
+        title: 'ICR',
+        summaryValue: '58%',
+        subtitle: 'Incurred Claim Ratio',
+        explanation: "ICR shows the proportion of earned premium spent on honoring customer claims. Niva Bupa's 58% ratio ensures strong claims solvency and liquidity reserves.",
+        range: '58% → 62%',
+        rangeLabel: 'Incurred Claim Ratio'
+      },
+      complaintVolume: {
+        title: 'COMPLAINT VOLUME',
+        summaryValue: '16.1',
+        explanation: 'Complaints registered per 10,000 settled claims. Niva Bupa maintains automated digital claims desk and proactive customer grievance handling.',
+        value: '16.1',
+        label: 'Complaints per 10,000 Claims'
+      }
+    },
+
+    // --- 2. COMPANY STRENGTH (INDEPENDENT) ---
+    companyStrength: {
+      heading: 'COMPANY STRENGTH',
+      subheading: 'How reliable/strong is the insurer?',
+      description: 'How reliable/strong is the insurer?',
+      ownership: {
+        title: 'OWNERSHIP / PERCENTAGE',
+        summaryValue: '63% / 37%',
+        explanation: 'Joint venture combining the international healthcare legacy of Bupa Group (UK) with private equity giant True North (India).',
+        items: [
+          { name: 'Bupa Group (UK)', value: '63%', label: 'Ownership' },
+          { name: 'True North (India)', value: '37%', label: 'Ownership' }
+        ]
+      },
+      creditRating: {
+        title: 'CREDIT RATING',
+        summaryValue: 'AA',
+        explanation: 'Crisil AA / Stable credit ratings reflect top-tier financial strength, high claim-paying solvency, and disciplined risk management.',
+        items: [
+          { agency: 'CRISIL', rating: 'AA / Stable' },
+          { agency: 'ICRA', rating: 'AA / Stable' }
+        ]
+      },
+      capitalStrength: {
+        title: 'CAPITAL STRENGTH',
+        summaryValue: '1.65×',
+        explanation: "Solvency ratio demonstrates financial capacity to honor all claims under extreme conditions, surpassing the IRDAI minimum mandate of 1.50×.",
+        value: '1.65×',
+        label: 'Solvency Ratio (as of March 2025)'
+      },
+      financialBase: {
+        title: 'FINANCIAL BASE',
+        summaryValue: '₹8,500+ Cr',
+        explanation: 'Robust investment assets and capital base supporting seamless cashless hospital claim settlements nationwide.',
+        value: '₹8,500+ Cr',
+        label: 'Investment Assets under Management'
+      },
+      reinsuranceStrength: {
+        title: 'REINSURANCE STRENGTH',
+        summaryValue: '85%+',
+        explanation: 'Over 85% of reinsurance capacity backed by Bupa Global Re, Swiss Re, and General Insurance Corporation of India (GIC Re).',
+        value: '85%+',
+        label: 'Backed by Bupa Re, Swiss Re & GIC Re'
+      },
+      marketPosition: {
+        title: 'MARKET POSITION',
+        summaryValue: 'Top 3 SAHI',
+        explanation: 'Pioneer of revolutionary features like ReAssure Lock-in with over 10,000+ cashless hospitals and 30-minute cashless approval speed.',
+        value: 'Top 3 Standalone Health Insurer',
+        label: 'Over 1 Crore+ Policies Issued'
+      }
+    },
+
+    // --- 3. LIMITATIONS & WAITING PERIODS ---
+    limitationsWaitingPeriods: {
+      heading: 'LIMITATIONS & WAITING PERIODS',
+      subheading: 'Terms & Waiting Periods',
+      description: 'Standard waiting periods and statutory terms applied to this policy.',
+      items: [
+        {
+          id: 'initial',
+          title: 'Initial Waiting Period (30 Days)',
+          summary: 'A mandatory waiting period of 30 days applies from policy inception for any non-accidental illness.',
+          highlight: 'Accidental hospitalization is covered from Day 1.',
+          policyRef: 'Niva Bupa Aspire Policy Terms (Section 3.1)',
+          durationTag: '30 Days'
+        },
+        {
+          id: 'specific',
+          title: 'Specific Illness Waiting Period (24 Months)',
+          summary: 'A 24-month waiting duration applies for medical treatment of specified conditions such as cataract, hernia, joint replacements, and stones.',
+          diseaseList: [
+            'Cataract & eye surgeries',
+            'Benign Prostatic Hypertrophy (BPH)',
+            'Hernia (all types) & Hydrocele',
+            'Piles, Fistula & Fissure in ano',
+            'Stones in Urinary, Biliary & Renal systems',
+            'Joint replacements (non-accidental)',
+            'Osteoarthritis & Osteoporosis',
+            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy'
+          ],
+          policyRef: 'Niva Bupa Aspire Specific Illness Schedule',
+          durationTag: '24 Months'
+        },
+        {
+          id: 'ped',
+          title: 'Pre-Existing Disease (PED) Waiting (36 Months)',
+          summary: 'A waiting period of 36 months applies for pre-existing conditions declared at proposal.',
+          highlight: 'Continuous policy renewals preserve PED waiting credits.',
+          policyRef: 'Niva Bupa Aspire Policy Terms (Section 3.3)',
+          durationTag: '36 Months'
+        },
+        {
+          id: 'permanent',
+          title: 'Permanent Exclusions',
+          summary: 'The policy excludes expenses for cosmetic surgery, intentional self-injury, substance abuse, and unproven experimental treatments.',
+          exclusionsList: [
+            'Cosmetic, aesthetic & plastic surgery',
+            'Intentional self-injury & suicide attempt',
+            'Substance, alcohol & drug abuse rehabilitation',
+            'Obesity & bariatric surgery unless life-threatening',
+            'Diagnostic-only / investigation admissions',
+            'Unproven / experimental treatments'
+          ],
+          policyRef: 'Standard IRDAI & Niva Bupa Guidelines',
+          durationTag: 'Never Covered'
+        }
+      ]
+    },
+
+    // --- 4. MUST KNOW ---
+    mustKnow: {
+      heading: 'MUST-KNOW DETAILS',
+      subheading: 'Important Aspire terms that policyholders should keep in mind',
+      buttonLabel: 'MUST KNOW DETAILS',
+      layout: 'details-modal',
+      items: [
+        {
+          id: 'room-rent',
+          icon: '🏥',
+          title: 'ANY ROOM CATEGORY & NO LIMIT ON ICU',
+          paragraphs: [
+            'Any room category covered with zero proportionate deduction penalties.',
+            'No daily sub-limit or ceiling on ICU/ICCU charges.'
+          ]
+        },
+        {
+          id: 'pre-post',
+          icon: '📅',
+          title: '60 DAYS PRE & 180 DAYS POST HOSPITALIZATION',
+          paragraphs: [
+            'Medical expenses incurred 60 days before hospital admission and 180 days after discharge are covered.'
+          ]
+        },
+        {
+          id: 'restore',
+          icon: '🔄',
+          title: 'UNLIMITED RESTORATION (10+10+10.....10 LAC)',
+          paragraphs: [
+            'Automatically restores 100% Sum Insured unlimited times in a policy year upon exhaustion for subsequent claims.'
+          ]
+        },
+        {
+          id: 'lock-clock',
+          icon: '⏰',
+          title: 'LOCK THE CLOCK (PREMIUM FREEZING)',
+          paragraphs: [
+            'Freeze policy premium at entry age across Diamond, Platinum & Titanium+ variants until a claim is lodged.'
+          ]
+        }
+      ]
+    },
+
+    // --- 5. POLICY BENEFITS ---
+    featuresSections: [
+      // -----------------------------------------------------------------------
+      // CATEGORY 1: MOST IMPORTANT BENEFITS
+      // -----------------------------------------------------------------------
+      {
+        id: 'most-important',
+        title: 'MOST IMPORTANT BENEFITS',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'asp-cashless',
+            title: '100% Cashless Policy',
+            subtitle: '100% Cashless Hospitalization Network',
+            badge: '100% CASHLESS',
+            iconType: 'shield',
+            summary: 'Avail seamless 100% cashless hospitalization across 10,000+ top network hospitals nationwide.',
+            points: [
+              '100% Cashless Policy across network hospitals',
+              'Direct settlement with hospital without out-of-pocket delays',
+              '30-minute cashless approval speed'
+            ]
+          },
+          {
+            id: 'asp-room-icu',
+            title: 'Any Room Category & No Limit ICU, Etc',
+            subtitle: 'Any Room Category with No Limit on ICU Charges',
+            badge: 'NO ROOM/ICU LIMIT',
+            iconType: 'home',
+            summary: 'Enjoy any hospital room category without daily rent capping, and complete coverage on ICU/ICCU charges up to Sum Insured.',
+            points: [
+              'Any Room Category covered with zero proportionate deductions',
+              'No Limit on ICU, Etc charges',
+              'Full coverage for doctor visits and nursing fees up to Sum Insured'
+            ]
+          },
+          {
+            id: 'asp-pre-post',
+            title: 'Pre & Post Hospitalization (60 & 180 days)',
+            subtitle: '60 Days Pre & 180 Days Post Hospitalization',
+            badge: '60 & 180 DAYS',
+            iconType: 'calendar',
+            summary: 'Comprehensive coverage for medical expenses incurred 60 days before hospital admission and 180 days after hospital discharge.',
+            points: [
+              '60 Days Pre-Hospitalization medical expenses covered',
+              '180 Days Post-Hospitalization follow-up and medicine expenses covered',
+              'Diagnostic tests, consultations, and pharmacy bills included'
+            ]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 2: VALUE ADDED SERVICES
+      // -----------------------------------------------------------------------
+      {
+        id: 'value-added',
+        title: 'VALUE ADDED SERVICES',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'asp-unlimited-restore',
+            title: 'Unlimited Restoration (10+10+10.....10 Lac)',
+            subtitle: 'Unlimited Refill on Base Sum Insured',
+            badge: 'UNLIMITED RESTORATION',
+            iconType: 'refresh',
+            summary: 'Automatically restores 100% Sum Insured unlimited times in a policy year (10+10+10.....10 Lac) upon exhaustion for subsequent claims.',
+            points: [
+              'Unlimited Restoration (10+10+10.....10 Lac)',
+              'Recharges instantly upon partial or complete exhaustion',
+              'Continuous financial security for multiple admissions in a policy year'
+            ]
+          },
+          {
+            id: 'asp-booster-plus',
+            title: 'Bonus / Booster+',
+            subtitle: 'Unutilised Base Sum Insured carries forward to next policy year',
+            badge: 'UP TO 10X COVER',
+            iconType: 'trending',
+            summary: 'Unutilised Base Sum Insured carries forward to the next policy year, as per your entry age.',
+            tableData: {
+              headers: ['Variant', 'Entry Age 18–35', 'Entry Age 36–45', 'Entry Age 46+'],
+              rows: [
+                ['Gold', 'up to 3X', 'up to 2X', 'up to 1X'],
+                ['Diamond', 'up to 5X', 'up to 3X', 'up to 2X'],
+                ['Platinum', 'up to 10X', 'up to 5X', 'up to 3X'],
+                ['Titanium', 'up to 10X', 'up to 5X', 'up to 3X']
+              ]
+            },
+            points: [
+              'Bonus / Booster+: Unutilised Base Sum Insured carries forward to the next policy year, as per your entry age.',
+              'Gold: Entry Age 18–35 up to 3X, 36–45 up to 2X, 46+ up to 1X',
+              'Diamond: Entry Age 18–35 up to 5X, 36–45 up to 3X, 46+ up to 2X',
+              'Platinum & Titanium: Entry Age 18–35 up to 10X, 36–45 up to 5X, 46+ up to 3X'
+            ]
+          },
+          {
+            id: 'asp-health-checkup',
+            title: 'Health Check-up: ₹5,000 from Day 1',
+            subtitle: 'Comprehensive Health Check-up from Day 1',
+            badge: 'DAY 1 CHECK-UP',
+            iconType: 'clipboard',
+            summary: 'Avail comprehensive health check-up worth ₹5,000 from Day 1 of policy inception across network diagnostic centers.',
+            points: [
+              'Health Check-up: ₹5,000 from Day 1',
+              'Available from Day 1 across network diagnostic centers',
+              'Comprehensive diagnostic screenings for preventive wellness'
+            ]
+          },
+          {
+            id: 'asp-lock-the-clock',
+            title: 'Lock the Clock',
+            subtitle: 'Diamond, Platinum & Titanium+: Available (Premium Freezing Option)',
+            badge: 'PREMIUM FREEZE',
+            iconType: 'clock',
+            summary: 'Lock the Clock: Diamond, Platinum & Titanium+: Available (Premium Freezing Option), locking your premium at your entry age until first claim.',
+            points: [
+              'Lock the Clock: Diamond, Platinum & Titanium+: Available (Premium Freezing Option)',
+              'Freezes premium rate at entry age until first claim is made',
+              'Protects against age-bracket premium escalations'
+            ]
+          },
+          {
+            id: 'asp-tele-consultation',
+            title: 'Tele-consultation: Unlimited',
+            subtitle: 'Unlimited 24/7 Tele-Consultations',
+            badge: 'UNLIMITED E-CONSULTS',
+            iconType: 'phone',
+            summary: 'Enjoy unlimited 24/7 digital tele-consultations and video consultations with qualified doctors.',
+            points: [
+              'Tele-consultation: Unlimited',
+              '24/7 digital tele-consultations with general physicians and specialists',
+              'Instant digital prescriptions and medical advice'
+            ]
+          },
+          {
+            id: 'asp-safeguard-plus',
+            title: 'Safeguard+: Optional Rider',
+            subtitle: 'Non-Payable Medical Consumables Covered',
+            badge: 'OPTIONAL RIDER',
+            iconType: 'shield',
+            summary: 'Optional rider providing complete coverage for non-payable medical consumable items (gloves, PPE kits, syringes, etc.).',
+            isRider: true,
+            points: [
+              'Safeguard+: Optional Rider',
+              'Coverage for non-payable medical items such as gloves, syringes, and PPE kits',
+              'Maximum out-of-pocket savings during hospitalisation'
+            ]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 3: ADDITIONAL FEATURES
+      // -----------------------------------------------------------------------
+      {
+        id: 'additional',
+        title: 'ADDITIONAL FEATURES',
+        gridCols: 'grid-cols-1 sm:grid-cols-2',
+        items: [
+          {
+            id: 'asp-ayush',
+            title: 'AYUSH Treatment (Inpatient, Pre & Post)',
+            subtitle: 'Inpatient, Pre & Post AYUSH Covered',
+            badge: 'AYUSH COVERED',
+            iconType: 'heart',
+            summary: 'Full coverage for inpatient AYUSH treatments (Ayurveda, Yoga, Unani, Siddha, Homeopathy) including pre and post hospitalization expenses.',
+            points: [
+              'AYUSH Treatment (Inpatient, Pre & Post) covered up to Sum Insured',
+              'Ayurveda, Yoga, Unani, Siddha, and Homeopathy at recognized centers',
+              'Includes pre and post hospitalization AYUSH medical expenses'
+            ]
+          },
+          {
+            id: 'asp-day-care',
+            title: 'Day Care Treatment',
+            subtitle: 'All Day Care Procedures Covered (<24 hrs admission)',
+            badge: 'DAY CARE',
+            iconType: 'activity',
+            summary: 'Covers day care medical procedures requiring less than 24 hours of hospital stay.',
+            points: [
+              'Day Care Treatment covered up to Sum Insured',
+              'All medical treatments requiring <24 hrs hospitalization',
+              'Advanced procedures covered without overnight stay requirement'
+            ]
+          },
+          {
+            id: 'asp-domiciliary',
+            title: 'Domiciliary Treatment',
+            subtitle: 'Home Hospitalization Treatment Covered',
+            badge: 'DOMICILIARY',
+            iconType: 'home',
+            summary: 'Medical treatment taken at home (Domiciliary Hospitalization) when hospital beds are unavailable or the patient cannot be safely moved.',
+            points: [
+              'Domiciliary Treatment covered up to Sum Insured',
+              'Prescribed home care treatments when hospital beds are unavailable',
+              'Continuous medical care under treating doctor supervision'
+            ]
+          },
+          {
+            id: 'asp-ambulance-donor',
+            title: 'Ambulance & Organ Donor Expenses',
+            subtitle: 'Road Ambulance & Organ Harvesting Costs Covered',
+            badge: 'AMBULANCE & DONOR',
+            iconType: 'truck',
+            summary: 'Emergency road ambulance transportation and inpatient hospitalization expenses for organ donor during organ harvesting covered up to Sum Insured.',
+            points: [
+              'Ambulance & Organ Donor Expenses covered up to Sum Insured',
+              'Emergency road ambulance transportation to nearest hospital',
+              'Inpatient medical expenses for organ harvesting from donor covered'
+            ]
           }
         ]
       }

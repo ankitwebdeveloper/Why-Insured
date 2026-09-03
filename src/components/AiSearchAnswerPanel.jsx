@@ -58,7 +58,7 @@ export default function AiSearchAnswerPanel({ solution, onClose, onQuerySelect }
 
       {/* Main Answer Body */}
       <div className="p-5 sm:p-7 space-y-6">
-        
+
         {/* 1. SIMPLE ANSWER (Prominent 1-2 line summary) */}
         <div className="bg-emerald-50/70 border border-emerald-100 rounded-2xl p-4 sm:p-5">
           <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-emerald-800 mb-1.5">
@@ -174,7 +174,7 @@ export default function AiSearchAnswerPanel({ solution, onClose, onQuerySelect }
         <div className="text-xs text-slate-500 font-medium">
           Ready to verify your health coverage?
         </div>
-        
+
         <div className="flex items-center gap-2">
           <Link
             to={solution.ctaTarget || '/compare'}

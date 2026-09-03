@@ -172,14 +172,14 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
 // Sub-component for Niva Bupa Features Accordion Items with Scroll Reveal & Stagger
 function NivaBupaFeatureAccordionItem({
   item,
+  index,
   isExpanded,
   onToggle,
-  index = 0,
   onOpenVideo,
   demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
-  const { id, title, subtitle, summary, badge, steps, isRider, iconType } = item;
+  const { id, title, subtitle, summary, badge, steps, isRider, iconType, points, tableData } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
 
   return (
@@ -190,19 +190,17 @@ function NivaBupaFeatureAccordionItem({
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.45, delay: (index % 3) * 0.08, ease: "easeOut" }}
       onClick={() => onToggle(id, itemRef)}
-      className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${
-        isExpanded
+      className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${isExpanded
           ? 'bg-[#F0F9FF]/80 border-[#0EA5E9]/60 shadow-md ring-1 ring-[#0EA5E9]/20'
           : 'bg-white border-slate-200/80 hover:border-[#0EA5E9]/40 shadow-2xs'
-      }`}
+        }`}
     >
       {/* Header Row */}
       <div className="p-2.5 sm:p-4 flex items-start sm:items-center justify-between gap-1.5 sm:gap-3">
         <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-1 min-w-0">
           {IconComponent && (
-            <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-              isExpanded ? 'bg-[#0284C7] text-white shadow-xs' : 'bg-[#F0F9FF] text-[#0284C7]'
-            }`}>
+            <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${isExpanded ? 'bg-[#0284C7] text-white shadow-xs' : 'bg-[#F0F9FF] text-[#0284C7]'
+              }`}>
               <IconComponent className="text-xs sm:text-base" />
             </div>
           )}
@@ -229,9 +227,8 @@ function NivaBupaFeatureAccordionItem({
         </div>
 
         {/* Plus / Minus Button */}
-        <div className={`w-5 h-5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 mt-0.5 sm:mt-0 ${
-          isExpanded ? 'bg-[#0284C7] text-white rotate-180' : 'bg-[#F0F9FF] text-[#0284C7]'
-        }`}>
+        <div className={`w-5 h-5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 mt-0.5 sm:mt-0 ${isExpanded ? 'bg-[#0284C7] text-white rotate-180' : 'bg-[#F0F9FF] text-[#0284C7]'
+          }`}>
           {isExpanded ? (
             <FiMinus className="text-[10px] sm:text-sm stroke-[2.5]" />
           ) : (
@@ -270,6 +267,48 @@ function NivaBupaFeatureAccordionItem({
               <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">
                 {summary}
               </div>
+
+              {/* Bullet Points with Checkmarks */}
+              {points && points.length > 0 && (
+                <div className="space-y-1.5 pt-0.5">
+                  <ul className="space-y-1.5 text-[11px] sm:text-sm font-medium text-slate-600 list-none pl-0">
+                    {points.map((pt, pIdx) => (
+                      <li key={pIdx} className="flex items-start gap-2">
+                        <FiCheck className="text-[#0284C7] text-xs shrink-0 mt-1" />
+                        <span className="leading-relaxed">{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Structured Comparison / Booster+ Table */}
+              {tableData && (
+                <div className="mt-2.5 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xs">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-[#0284C7] text-white">
+                        {tableData.headers.map((h, hIdx) => (
+                          <th key={hIdx} className="px-3 py-2 font-bold text-[10px] sm:text-xs uppercase tracking-wider">
+                            {h}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {tableData.rows.map((r, rIdx) => (
+                        <tr key={rIdx} className={rIdx % 2 === 0 ? 'bg-white' : 'bg-[#F0F9FF]/40'}>
+                          {r.map((c, cIdx) => (
+                            <td key={cIdx} className="px-3 py-1.5 font-semibold text-[10px] sm:text-xs text-slate-700">
+                              {c}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
 
               {/* Visual Number Step Progression */}
               {steps && steps.length > 0 && (
@@ -1294,9 +1333,8 @@ export default function NivaBupaPlanDetailSection({ plan, company, planId: planI
                             </span>
                             <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0284C7] group-hover:bg-[#F0F9FF] group-hover:border-[#0EA5E9]/25 transition-all duration-200 shrink-0 select-none">
                               <FiArrowRight
-                                className={`text-xs sm:text-sm transition-transform duration-200 ${
-                                  isItemExpanded ? 'rotate-90 text-[#0284C7]' : 'group-hover:translate-x-0.5'
-                                }`}
+                                className={`text-xs sm:text-sm transition-transform duration-200 ${isItemExpanded ? 'rotate-90 text-[#0284C7]' : 'group-hover:translate-x-0.5'
+                                  }`}
                               />
                             </div>
                           </button>
