@@ -102,9 +102,6 @@ export const getDerivedValue = (plan, company, key) => {
       return networkSizes[company.id] || "10,000+ Hospitals";
     }
     case 'claimSupport':
-      if (plan.id === 'reassure-2-0') {
-        return "30-Min Cashless Processing";
-      }
       return "24/7 Claim Support";
     case 'prePostHosp':
     case 'prePostHospital':
@@ -131,9 +128,6 @@ export const getDerivedValue = (plan, company, key) => {
     case 'infinityCover': {
       if (isHdfcPlan(plan.id, 'hdfc-optima-secure-plus')) {
         return "✓ Available (Secure Benefit)";
-      }
-      if (plan.id === 'reassure-2-0') {
-        return "✓ Available (ReAssure Forever)";
       }
       return "✕ Not Available";
     }

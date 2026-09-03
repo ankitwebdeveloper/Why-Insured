@@ -27,7 +27,6 @@ export const AI_TOPIC_KNOWLEDGE_BASE = [
     topPlansOffering: [
       { company: 'HDFC ERGO', plan: 'Optima Secure+', feature: 'Protect Benefit (In-built)' },
       { company: 'Care Health', plan: 'Care Supreme', feature: 'Care Shield Add-on' },
-      { company: 'Niva Bupa', plan: 'ReAssure 2.0', feature: 'Safeguard+ Add-on' },
       { company: 'Star Health', plan: 'Smart Health Pro', feature: 'Consumables Cover' }
     ],
     ctaLabel: 'Check My Coverage →',
@@ -55,7 +54,6 @@ export const AI_TOPIC_KNOWLEDGE_BASE = [
       { company: 'HDFC ERGO', plan: 'Optima Secure+', feature: 'Any Room Category (No Capping)' },
       { company: 'ICICI Lombard', plan: 'Elevate', feature: 'Single Private Room' },
       { company: 'Care Health', plan: 'Care Supreme', feature: 'Any Room Category' },
-      { company: 'Niva Bupa', plan: 'ReAssure 2.0', feature: 'Single Private Room' }
     ],
     ctaLabel: 'Check My Coverage →',
     ctaTarget: '/compare',
@@ -80,7 +78,6 @@ export const AI_TOPIC_KNOWLEDGE_BASE = [
     featureToLookFor: 'Unlimited Restoration / Forever Restore / Reset Benefit',
     topPlansOffering: [
       { company: 'HDFC ERGO', plan: 'Optima Secure+', feature: 'Automatic Restore Benefit' },
-      { company: 'Niva Bupa', plan: 'ReAssure 2.0', feature: 'ReAssure Forever (Unlimited)' },
       { company: 'Care Health', plan: 'Care Supreme', feature: 'Cumulative & Auto Recharge' },
       { company: 'Star Health', plan: 'Star Comprehensive', feature: '100% Automatic Restoration' }
     ],
@@ -157,7 +154,6 @@ export const AI_TOPIC_KNOWLEDGE_BASE = [
     topPlansOffering: [
       { company: 'HDFC ERGO', plan: 'Optima Secure+', feature: '0% Co-pay across all ages & zones' },
       { company: 'Care Health', plan: 'Care Supreme', feature: 'Zero Co-payment' },
-      { company: 'Niva Bupa', plan: 'ReAssure 2.0', feature: 'No Co-pay anywhere in India' },
       { company: 'ICICI Lombard', plan: 'Elevate', feature: 'Zero Co-pay' }
     ],
     ctaLabel: 'Check My Coverage →',
@@ -184,7 +180,6 @@ export const AI_TOPIC_KNOWLEDGE_BASE = [
     topPlansOffering: [
       { company: 'HDFC ERGO', plan: 'Optima Secure+', feature: 'Reduction to 1 / 2 Years Available' },
       { company: 'Care Health', plan: 'Care Supreme', feature: 'Instant PED / Reduced Waiting' },
-      { company: 'Niva Bupa', plan: 'ReAssure 2.0', feature: 'Wait Period Modification Rider' }
     ],
     ctaLabel: 'Check My Coverage →',
     ctaTarget: '/compare',
@@ -209,7 +204,6 @@ export const AI_TOPIC_KNOWLEDGE_BASE = [
     topPlansOffering: [
       { company: 'HDFC ERGO', plan: 'Optima Secure+', feature: '2X Cover from Day 1 + 4X in 2 Years' },
       { company: 'Care Health', plan: 'Care Supreme', feature: '500% Cumulative Bonus (6X Cover)' },
-      { company: 'Niva Bupa', plan: 'ReAssure 2.0', feature: 'Booster+ up to 10X Base SI' }
     ],
     ctaLabel: 'Check My Coverage →',
     ctaTarget: '/compare',
@@ -309,7 +303,6 @@ export const AI_TOPIC_KNOWLEDGE_BASE = [
     topPlansOffering: [
       { company: 'HDFC ERGO', plan: 'Optima Secure+', feature: '60 Days Pre / 180 Days Post' },
       { company: 'Care Health', plan: 'Care Supreme', feature: '60 Days Pre / 180 Days Post' },
-      { company: 'Niva Bupa', plan: 'ReAssure 2.0', feature: '60 Days Pre / 180 Days Post' }
     ],
     ctaLabel: 'Check My Coverage →',
     ctaTarget: '/compare',
@@ -333,7 +326,6 @@ export const AI_TOPIC_KNOWLEDGE_BASE = [
     topPlansOffering: [
       { company: 'Care Health', plan: 'Care Supreme', feature: 'Up to 500% Cumulative Bonus' },
       { company: 'HDFC ERGO', plan: 'Optima Secure+', feature: 'Plus Benefit (100% in 2 Years)' },
-      { company: 'Niva Bupa', plan: 'ReAssure 2.0', feature: 'Lock the Clock + Booster+' }
     ],
     ctaLabel: 'Check My Coverage →',
     ctaTarget: '/compare',
@@ -382,7 +374,6 @@ export const AI_TOPIC_KNOWLEDGE_BASE = [
     topPlansOffering: [
       { company: 'HDFC ERGO', plan: 'Optima Secure+', feature: 'Fast Portability Processing' },
       { company: 'Care Health', plan: 'Care Supreme', feature: 'Full Bonus & Waiting Period Transfer' },
-      { company: 'Niva Bupa', plan: 'ReAssure 2.0', feature: 'Portability Special Benefits' }
     ],
     ctaLabel: 'Check My Coverage →',
     ctaTarget: '/compare',
@@ -532,7 +523,6 @@ function generateIntelligentFallback(query) {
     topPlansOffering: [
       { company: 'HDFC ERGO', plan: 'Optima Secure+', feature: 'Comprehensive 4X Coverage' },
       { company: 'Care Health', plan: 'Care Supreme', feature: 'High Cumulative Bonus' },
-      { company: 'Niva Bupa', plan: 'ReAssure 2.0', feature: 'ReAssure Forever Benefit' }
     ],
     ctaLabel: 'Check My Coverage →',
     ctaTarget: '/compare'

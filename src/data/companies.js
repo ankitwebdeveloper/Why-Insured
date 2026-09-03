@@ -191,7 +191,7 @@ export const companiesData = [
     slug: "niva-bupa",
     category: "Health Insurance",
     logo: nivaLogo,
-    description: "Pioneering highly flexible policies like ReAssure with lock-in premiums and comprehensive diagnostic benefits.",
+    description: "Next-generation health protection with flexible coverage and comprehensive diagnostic benefits.",
     theme: {
       primary: "#0EA5E9",      // Cyan / Sky Blue
       secondary: "#FFFFFF",    // White
@@ -200,75 +200,6 @@ export const companiesData = [
       text: "#0F172A"
     },
     plans: [
-      {
-        id: "reassure-2-0",
-        name: "ReAssure 2.0",
-        description: "Never run out of cover with forever restore benefit and lock-in premium rates.",
-        coverage: "₹10 Lakh",
-        premium: "₹13,900/year",
-        benefits: [
-          "ReAssure Forever Benefit",
-          "Lock-in premium rate until first claim",
-          "Booster Benefit (Carry forward unused cover)",
-          "100% cashless claims processed in 30 minutes"
-        ],
-        details: {
-          eligibility: "18 to 65 Years",
-          waitingPeriod: "30 Days initial, 36 Months for Pre-existing conditions",
-          roomRent: "No capping - Private Suite covered",
-          hospitalization: "Covers medical costs up to Sum Insured",
-          prePostHospital: "60 Days Pre & 180 Days Post Hospitalization covered",
-          dayCare: "All Day Care treatments covered",
-          noClaimBonus: "Booster benefit doubles sum insured if no claim in 2 years",
-          exclusions: "Alternative therapy unless pre-approved, birth control, hormone replacement"
-        }
-      },
-      {
-        id: "health-companion",
-        name: "Health Companion",
-        description: "Affordable family cover with alternative treatment benefits and no co-pay.",
-        coverage: "₹5 Lakh",
-        premium: "₹9,200/year",
-        benefits: [
-          "No co-payment across any age group",
-          "Alternative Ayush treatment covered up to 100%",
-          "Refill Benefit (refills sum insured if exhausted)",
-          "Free health checks annually"
-        ],
-        details: {
-          eligibility: "18 to 65 Years",
-          waitingPeriod: "30 Days initial, 48 Months for Pre-existing conditions",
-          roomRent: "Private Room covered",
-          hospitalization: "Actual inpatient costs covered",
-          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization",
-          dayCare: "Day Care procedures covered",
-          noClaimBonus: "20% increase in sum insured per claim-free year (Max 100%)",
-          exclusions: "Self-medication, cosmetic therapy, dental check-up costs"
-        }
-      },
-      {
-        id: "seniors-first",
-        name: "Seniors First",
-        description: "Tailor-made seniors policy with co-pay waiver options and pre-existing illness coverage.",
-        coverage: "₹7.5 Lakh",
-        premium: "₹21,500/year",
-        benefits: [
-          "Co-pay waiver options available",
-          "Covers pre-existing conditions from 2nd year",
-          "Regular health screenings included",
-          "Hospital daily cash allowance"
-        ],
-        details: {
-          eligibility: "61 to 75 Years",
-          waitingPeriod: "30 Days initial, 24 Months for Pre-existing diseases",
-          roomRent: "Single Room up to 1% of Sum Insured per day",
-          hospitalization: "Inpatient care covered",
-          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization",
-          dayCare: "Day Care procedures covered",
-          noClaimBonus: "10% sum insured bonus per year (Max 50%)",
-          exclusions: "Rest cures, cosmetic surgery, non-prescription medicines"
-        }
-      },
       {
         id: "aspire",
         name: "Aspire",

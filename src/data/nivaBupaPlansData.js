@@ -1,32 +1,15 @@
 // =============================================================================
 // NIVA BUPA PLANS INDEPENDENT DATA CONFIGURATION
-// 1. ReAssure 2.0        → reassure-2-0
-// 2. Health Companion   → health-companion
-// 3. Seniors First       → seniors-first
-//
-// Each plan has completely separate, independent data, UI config, and content.
-// Editing one plan will NOT affect any other plan.
+// Aspire is the only Niva Bupa plan configured here.
 // =============================================================================
 
 export const NIVA_BUPA_CANONICAL_PLAN_IDS = [
-  'reassure-2-0',
-  'health-companion',
-  'seniors-first',
   'aspire'
 ];
 
 export const resolveNivaBupaPlanId = (planId) => {
-  if (!planId) return 'reassure-2-0';
+  if (!planId) return 'aspire';
   const cleanId = String(planId).toLowerCase().trim();
-  if (cleanId === 'reassure-2-0' || cleanId === 'reassure' || cleanId === 'niva-reassure') {
-    return 'reassure-2-0';
-  }
-  if (cleanId === 'health-companion' || cleanId === 'companion' || cleanId === 'niva-companion') {
-    return 'health-companion';
-  }
-  if (cleanId === 'seniors-first' || cleanId === 'senior-first' || cleanId === 'niva-seniors-first') {
-    return 'seniors-first';
-  }
   if (cleanId === 'aspire' || cleanId === 'niva-aspire' || cleanId === 'niva-bupa-aspire' || cleanId === 'aspire-plan') {
     return 'aspire';
   }
@@ -35,11 +18,7 @@ export const resolveNivaBupaPlanId = (planId) => {
 
 export const NIVA_BUPA_PLANS_DATA = {
   // ===========================================================================
-  // PLAN 1: REASSURE 2.0
-  // ===========================================================================
-  'reassure-2-0': {
-    planId: 'reassure-2-0',
-    planName: 'ReAssure 2.0',
+  /*
     tagline: 'Never Run Out of Cover with Forever Restore & Lock the Clock',
     coverage: '₹5 Lakh - ₹1 Crore',
     premium: '₹13,900/year',
@@ -145,7 +124,6 @@ export const NIVA_BUPA_PLANS_DATA = {
           title: 'Initial Waiting Period (30 Days)',
           summary: 'A mandatory waiting period of 30 days applies from the policy inception date for any illness or medical hospitalisation.',
           highlight: 'Accidental hospitalisation is covered from Day 1 with zero waiting period.',
-          policyRef: 'ReAssure 2.0 Policy Terms (Section 3.1)',
           durationTag: '30 Days'
         },
         {
@@ -422,11 +400,7 @@ export const NIVA_BUPA_PLANS_DATA = {
   },
 
   // ===========================================================================
-  // PLAN 2: HEALTH COMPANION
   // ===========================================================================
-  'health-companion': {
-    planId: 'health-companion',
-    planName: 'Health Companion',
     tagline: 'Affordable Family Health Protection with Zero Co-Payment',
     coverage: '₹3 Lakh - ₹1 Crore',
     premium: '₹9,200/year',
@@ -532,7 +506,6 @@ export const NIVA_BUPA_PLANS_DATA = {
           title: 'Initial Waiting Period (30 Days)',
           summary: '30-day initial waiting period applies from inception for any non-accidental hospitalisation.',
           highlight: 'Accidental hospitalisation covered from Day 1.',
-          policyRef: 'Health Companion Policy Terms (Section 3.1)',
           durationTag: '30 Days'
         },
         {
@@ -549,7 +522,6 @@ export const NIVA_BUPA_PLANS_DATA = {
             'Sinusitis, DNS, Tonsillectomy',
             'Varicose veins & ulcers'
           ],
-          policyRef: 'Health Companion Specific Disease Terms (Section 3.2)',
           durationTag: '24 Months'
         },
         {
@@ -573,7 +545,6 @@ export const NIVA_BUPA_PLANS_DATA = {
     // --- 4. MUST KNOW (INDEPENDENT) ---
     mustKnow: {
       heading: 'MUST-KNOW DETAILS',
-      subheading: 'Key policy nuances for Health Companion',
       buttonLabel: 'MUST KNOW DETAILS',
       layout: 'details-modal',
       items: [
@@ -771,11 +742,7 @@ export const NIVA_BUPA_PLANS_DATA = {
   },
 
   // ===========================================================================
-  // PLAN 3: SENIORS FIRST
   // ===========================================================================
-  'seniors-first': {
-    planId: 'seniors-first',
-    planName: 'Seniors First',
     tagline: 'Tailor-Made Protection for Senior Citizens with Short Waiting Periods',
     coverage: '₹5 Lakh - ₹25 Lakh',
     premium: '₹21,500/year',
@@ -881,7 +848,6 @@ export const NIVA_BUPA_PLANS_DATA = {
           title: 'Initial Waiting Period (30 Days)',
           summary: '30-day initial waiting period applies from inception for any non-accidental hospitalisation.',
           highlight: 'Accidental hospitalisation covered from Day 1.',
-          policyRef: 'Seniors First Policy Terms (Section 3.1)',
           durationTag: '30 Days'
         },
         {
@@ -898,7 +864,6 @@ export const NIVA_BUPA_PLANS_DATA = {
             'Stones in Urinary & Biliary systems',
             'Varicose veins & ulcers'
           ],
-          policyRef: 'Seniors First Specific Disease Terms (Section 3.2)',
           durationTag: '24 Months'
         },
         {
@@ -1118,6 +1083,7 @@ export const NIVA_BUPA_PLANS_DATA = {
   },
 
   // ===========================================================================
+  */
   // PLAN 4: ASPIRE
   // ===========================================================================
   'aspire': {
@@ -1401,7 +1367,7 @@ export const NIVA_BUPA_PLANS_DATA = {
             subtitle: 'Unutilised Base Sum Insured carries forward to next policy year',
             badge: 'UP TO 10X COVER',
             iconType: 'trending',
-            summary: 'Unutilised Base Sum Insured carries forward to the next policy year, as per your entry age.',
+            summary: 'Unutilised Base Sum Insured carries forward to the next policy year.',
             tableData: {
               headers: ['Variant', 'Entry Age 18–35', 'Entry Age 36–45', 'Entry Age 46+'],
               rows: [
@@ -1412,7 +1378,7 @@ export const NIVA_BUPA_PLANS_DATA = {
               ]
             },
             points: [
-              'Bonus / Booster+: Unutilised Base Sum Insured carries forward to the next policy year, as per your entry age.',
+              'Bonus / Booster+: Unutilised Base Sum Insured carries forward to the next policy year.',
               'Gold: Entry Age 18–35 up to 3X, 36–45 up to 2X, 46+ up to 1X',
               'Diamond: Entry Age 18–35 up to 5X, 36–45 up to 3X, 46+ up to 2X',
               'Platinum & Titanium: Entry Age 18–35 up to 10X, 36–45 up to 5X, 46+ up to 3X'
@@ -1542,5 +1508,5 @@ export const NIVA_BUPA_PLANS_DATA = {
 
 export const getNivaBupaPlanData = (planId) => {
   const canonicalId = resolveNivaBupaPlanId(planId);
-  return NIVA_BUPA_PLANS_DATA[canonicalId] || NIVA_BUPA_PLANS_DATA['reassure-2-0'];
+  return NIVA_BUPA_PLANS_DATA[canonicalId] || NIVA_BUPA_PLANS_DATA.aspire;
 };
