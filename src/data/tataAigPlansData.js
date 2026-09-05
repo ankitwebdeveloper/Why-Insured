@@ -6,7 +6,8 @@
 
 export const TATA_AIG_CANONICAL_PLAN_IDS = [
   'medicare-premier',
-  'medicare-select'
+  'medicare-select',
+  'medicare-reserve'
 ];
 
 export const resolveTataAigPlanId = (planId) => {
@@ -27,6 +28,13 @@ export const resolveTataAigPlanId = (planId) => {
     cleanId === 'tata-medicare-protect'
   ) {
     return 'medicare-select';
+  }
+  if (
+    cleanId === 'medicare-reserve' ||
+    cleanId === 'tata-medicare-reserve' ||
+    cleanId === 'reserve'
+  ) {
+    return 'medicare-reserve';
   }
   return cleanId;
 };
@@ -1367,6 +1375,539 @@ export const TATA_AIG_PLANS_DATA = {
       lightBg: '#F0F4FF',
       demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
     }
+  },
+
+  // ===========================================================================
+  // PLAN 3: MEDICARE RESERVE (SUPER TOP-UP POLICY)
+  // ===========================================================================
+  'medicare-reserve': {
+    planId: 'medicare-reserve',
+    planName: 'MediCare Reserve',
+    fullName: 'Tata AIG MediCare Reserve',
+    companyName: 'Tata AIG',
+    subtitle: 'Super Top-Up Health Insurance with flexible aggregate deductible and restoration benefits',
+    tagline: 'Super Top-Up Health Insurance with flexible aggregate deductible and restoration benefits',
+    coverage: '₹5 Lakh - ₹1 Crore',
+    premium: '₹3,500/year',
+
+    uiConfig: {
+      primaryColor: '#0038A8',
+      accentColor: '#0038A8',
+      lightBg: '#F0F4FF',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    },
+
+    // --- 1. REPORT CARD (INDEPENDENT) ---
+    reportCard: {
+      heading: 'REPORT CARD',
+      subheading: 'Tata AIG Performance',
+      description: 'Official claim settlement and financial strength metrics.',
+      csr: {
+        title: 'CSR',
+        summaryValue: '99.0%',
+        subtitle: 'Claim Settlement Ratio',
+        explanation: 'CSR shows the percentage of eligible claims that Tata AIG settles during the financial year. A 99.0% ratio reflects an outstanding, dependable claim settlement track record.',
+        singleYear: '99.0%',
+        singleYearLabel: 'Recent Single Year (FY2024-25)',
+        threeYearAvg: '98.9%',
+        threeYearAvgLabel: '3 Year Average (FY2022-25)'
+      },
+      icr: {
+        title: 'ICR',
+        summaryValue: '68%',
+        subtitle: 'Incurred Claim Ratio',
+        explanation: "ICR indicates the proportion of net earned premium that the insurer pays out for claims. Tata AIG's balanced ICR of 68% ensures robust financial sustainability and timely claim settlement.",
+        range: '68% → 72%',
+        rangeLabel: 'Incurred Claim Ratio'
+      },
+      complaintVolume: {
+        title: 'COMPLAINT VOLUME',
+        summaryValue: '14.2',
+        explanation: 'Complaint volume measures customer grievances per 10,000 claims settled. Tata AIG maintains an efficient grievance resolution mechanism and prompt digital support.',
+        value: '14.2',
+        label: 'Complaints per 10,000 Claims'
+      }
+    },
+
+    // --- 2. COMPANY STRENGTH (INDEPENDENT) ---
+    companyStrength: {
+      heading: 'COMPANY STRENGTH',
+      subheading: 'How reliable/strong is the insurer?',
+      description: 'How reliable/strong is the insurer?',
+      ownership: {
+        title: 'OWNERSHIP / PERCENTAGE',
+        summaryValue: '74% / 26%',
+        explanation: 'Tata AIG General Insurance is a trusted joint venture combining the legacy of Tata Group with the global underwriting expertise of American International Group (AIG).',
+        items: [
+          { name: 'Tata Group (Tata Sons)', value: '74%', label: 'Ownership' },
+          { name: 'American International Group (AIG)', value: '26%', label: 'Ownership' }
+        ]
+      },
+      creditRating: {
+        title: 'CREDIT RATING',
+        summaryValue: 'AAA',
+        explanation: 'Top-tier credit ratings signify the highest level of financial security and outstanding capability to honor policyholder commitments.',
+        items: [
+          { agency: 'CRISIL', rating: 'AAA / Stable' },
+          { agency: 'ICRA', rating: 'AAA / Stable' }
+        ]
+      },
+      capitalStrength: {
+        title: 'CAPITAL STRENGTH',
+        summaryValue: '1.95×',
+        explanation: "Solvency ratio measures the insurer's financial buffer to pay claims under stress conditions, well above the IRDAI mandatory minimum of 1.50×.",
+        value: '1.95×',
+        label: 'Solvency Ratio (as of March 2025)'
+      },
+      financialBase: {
+        title: 'FINANCIAL BASE',
+        summaryValue: '₹22,000+ Cr',
+        explanation: 'Substantial investment assets and capital reserves ensuring long-term claim-paying liquidity across India.',
+        value: '₹22,000+ Cr',
+        label: 'Investment Assets under Management'
+      },
+      reinsuranceStrength: {
+        title: 'REINSURANCE STRENGTH',
+        summaryValue: '90%+',
+        explanation: 'Over 90% of reinsurance treaties placed with world-class A+ and AAA rated global reinsurers to absorb catastrophic risks.',
+        value: '90%+',
+        label: 'Backed by Munich Re, Swiss Re & GIC Re'
+      },
+      marketPosition: {
+        title: 'MARKET POSITION',
+        summaryValue: 'Top 5',
+        explanation: "Ranked among India's top 5 private general insurers with a comprehensive network of over 10,000+ cashless hospitals nationwide.",
+        value: 'Top 5 Private Insurer',
+        label: 'Over 2 Crore+ Policies Serviced'
+      }
+    },
+
+    // --- 3. LIMITATIONS & WAITING PERIODS ---
+    limitationsWaitingPeriods: {
+      heading: 'LIMITATIONS & WAITING PERIODS',
+      subheading: 'Terms & Waiting Periods',
+      description: 'Interactive policy timelines, specific disease waiting, and permanent exclusions.',
+      items: [
+        {
+          id: 'reserve-initial',
+          title: 'Initial Waiting Period (30 Days)',
+          summary: 'A mandatory waiting period of 30 days applies from the policy inception date for any non-accidental illness or hospitalization.',
+          highlight: 'Accidental hospitalization is covered from Day 1 with zero waiting period.',
+          policyRef: 'Tata AIG MediCare Reserve Policy Terms (Section 3.1)',
+          durationTag: '30 Days'
+        },
+        {
+          id: 'reserve-specific',
+          title: '36 Months Waiting Period on Specific Diseases & Surgeries',
+          summary: 'A continuous waiting period of 36 months applies for medical or surgical treatment of specified conditions including cataract, hernia, joint replacements, and benign tumors.',
+          diseaseList: [
+            'Cataract & eye surgeries',
+            'Benign Prostatic Hypertrophy (BPH)',
+            'Hernia (all types) & Hydrocele',
+            'Piles, Fistula & Fissure in ano',
+            'Stones in Urinary, Biliary & Renal systems',
+            'Hysterectomy for Menorrhagia / Fibroids',
+            'Joint replacements (non-accidental)',
+            'Osteoarthritis & Osteoporosis',
+            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy',
+            'Benign cysts, nodules, polyps & tumors',
+            'Varicose veins & varicose ulcers',
+            'Spondylosis, Spondylitis & Disc disorders'
+          ],
+          policyRef: 'Tata AIG MediCare Reserve Specific Illness Schedule (Section 3.2)',
+          durationTag: '36 Months'
+        },
+        {
+          id: 'reserve-ped',
+          title: '36 Months Pre-Existing Disease (PED) Waiting',
+          summary: 'A waiting period of 36 months of continuous coverage applies for pre-existing diseases declared at inception.',
+          highlight: 'Continuous coverage and timely renewal preserve cumulative waiting credits.',
+          policyRef: 'Tata AIG MediCare Reserve Policy Terms (Section 3.3)',
+          durationTag: '36 Months'
+        },
+        {
+          id: 'reserve-permanent',
+          title: 'Permanent Exclusions',
+          summary: 'The policy does not cover medical expenses incurred towards treatment of standard permanent exclusions:',
+          exclusionsList: [
+            'Cosmetic, aesthetic & plastic surgery',
+            'Intentional self-injury & suicide attempt',
+            'Alcohol, drug or substance abuse treatments',
+            'Obesity & weight control procedures',
+            'Investigation & diagnostic-only admissions',
+            'Rest cure, rehabilitation & respite care',
+            'Unproven / experimental treatments',
+            'Participation in hazardous adventure sports',
+            'Expenses arising from breach of law',
+            'War, nuclear or chemical contamination'
+          ],
+          policyRef: 'Standard IRDAI & Tata AIG Guidelines (Section 4)',
+          durationTag: 'Never Covered'
+        }
+      ]
+    },
+
+    // --- 4. MUST KNOW (INDEPENDENT) ---
+    mustKnow: {
+      heading: 'MUST-KNOW DETAILS',
+      subheading: 'Important MediCare Reserve terms that policyholders should keep in mind',
+      buttonLabel: 'MUST KNOW DETAILS',
+      layout: 'details-modal',
+      items: [
+        {
+          id: 'super-top-up',
+          icon: '🛡️',
+          title: 'SUPER TOP-UP POLICY STRUCTURE',
+          paragraphs: [
+            'MediCare Reserve acts as a high-deductible Super Top-Up policy to extend your coverage beyond base policy limits.',
+            'Aggregate deductible applies across multiple hospitalizations in a single policy year.'
+          ]
+        },
+        {
+          id: 'room-rent',
+          icon: '🏥',
+          title: 'SINGLE PRIVATE ROOM COVERED',
+          paragraphs: [
+            'Single Private Room is covered with zero proportionate deductions on associated medical expenses.',
+            'No daily sub-limit on room rent charges across network hospitals.'
+          ]
+        },
+        {
+          id: 'pre-post',
+          icon: '📅',
+          title: '90 DAYS PRE & 90 DAYS POST HOSPITALIZATION',
+          paragraphs: [
+            'Medical expenses incurred 90 days prior to admission and 90 days post discharge are fully covered.'
+          ]
+        },
+        {
+          id: 'waiver-deductible-5yr',
+          icon: '✨',
+          title: 'WAIVER OF AGGREGATE DEDUCTIBLE AFTER 5 YEARS',
+          paragraphs: [
+            'If the policy is renewed continuously for 5 years, the customer can remove the deductible at renewal without any fresh underwriting.'
+          ]
+        }
+      ]
+    },
+
+    // --- 5. 4 POLICY BENEFITS CATEGORIES (EXACTLY 4 MAIN HEADINGS) ---
+    featuresSections: [
+      // -----------------------------------------------------------------------
+      // CATEGORY 1: MOST IMPORTANT
+      // -----------------------------------------------------------------------
+      {
+        id: 'most-important',
+        title: 'MOST IMPORTANT',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'reserve-inpatient',
+            title: 'Inpatient Hospitalization – Up to Sum Insured',
+            subtitle: 'Inpatient Hospitalization Coverage',
+            badge: 'UP TO SUM INSURED',
+            iconType: 'shield',
+            summary: 'Inpatient Hospitalization is covered up to the full Sum Insured for medical treatment and surgeries requiring admission.',
+            points: [
+              'Covers doctor fees, nursing, ICU, operating theater charges, and diagnostics',
+              'Medical expenses covered up to full Sum Insured',
+              'Cashless settlement available across 10,000+ network hospitals'
+            ]
+          },
+          {
+            id: 'reserve-room-category',
+            title: 'Room Category – Single Private Room',
+            subtitle: 'Single Private Room Accommodation',
+            badge: 'SINGLE PRIVATE ROOM',
+            iconType: 'home',
+            summary: 'Single Private Room category is covered with zero proportionate deductions on associated medical charges.',
+            points: [
+              'Single Private Room accommodation covered',
+              'Zero proportionate deduction on doctor visits and nursing costs',
+              'Ensures comfortable and private patient recovery'
+            ]
+          },
+          {
+            id: 'reserve-pre-post',
+            title: 'Pre & Post Hospitalization – 90 & 90 days',
+            subtitle: '90 Days Pre & 90 Days Post Hospitalization',
+            badge: '90 & 90 DAYS',
+            iconType: 'calendar',
+            summary: 'Comprehensive coverage for medical consultations, diagnostic tests, and prescribed medicines 90 days before admission and 90 days after discharge.',
+            points: [
+              '90 Days Pre-Hospitalization medical and diagnostic expenses covered',
+              '90 Days Post-Hospitalization follow-up consultations and recovery medicines covered',
+              'Eliminates major out-of-pocket expenses before and after hospital stay'
+            ]
+          },
+          {
+            id: 'reserve-day-care',
+            title: 'Day Care Treatments – Covered',
+            subtitle: 'Advanced Day Care Surgeries & Procedures',
+            badge: 'COVERED',
+            iconType: 'activity',
+            summary: 'All advanced medical surgeries and day care procedures requiring less than 24 hours of hospital stay are fully covered.',
+            points: [
+              'All Day Care Treatments requiring less than 24 hours hospitalization covered',
+              'Includes chemotherapy, dialysis, radiotherapy, cataract, and minor surgeries',
+              '100% coverage up to base Sum Insured'
+            ]
+          },
+          {
+            id: 'reserve-organ-donor',
+            title: 'Organ Donor Expenses – Covered',
+            subtitle: 'Inpatient Harvesting Expenses for Donor',
+            badge: 'COVERED',
+            iconType: 'heart',
+            summary: 'Medical and surgical expenses incurred towards harvesting the organ from a living donor for the insured recipient are fully covered.',
+            points: [
+              'Organ harvesting hospitalization expenses for donor covered up to Sum Insured',
+              'Provides complete financial protection during organ transplant surgeries',
+              'Standard IRDAI & Tata AIG clinical guidelines apply'
+            ]
+          },
+          {
+            id: 'reserve-ayush',
+            title: 'AYUSH Treatment – Covered',
+            subtitle: 'Alternative AYUSH Hospitalization Covered',
+            badge: 'COVERED',
+            iconType: 'shield',
+            summary: 'Inpatient hospitalization expenses incurred under AYUSH treatment systems (Ayurveda, Yoga, Unani, Siddha, and Homeopathy) at recognized government and accredited medical centers are covered.',
+            points: [
+              'Inpatient alternative AYUSH treatments covered up to full Sum Insured',
+              'Available at recognized government and accredited centers',
+              'Holistic healthcare coverage without room rent capping'
+            ]
+          },
+          {
+            id: 'reserve-domiciliary',
+            title: 'Domiciliary Treatment – Covered',
+            subtitle: 'Home Hospitalization Treatment Covered',
+            badge: 'COVERED',
+            iconType: 'home',
+            summary: 'Medical treatment administered at home (Domiciliary Treatment) when hospital accommodation is unavailable or the patient cannot be moved due to severe medical conditions is covered.',
+            points: [
+              'Domiciliary (home) hospitalization covered up to Sum Insured',
+              'Applicable when patient cannot be safely moved or hospital beds are unavailable',
+              'Prescribed active medical supervision required'
+            ]
+          },
+          {
+            id: 'reserve-ambulance',
+            title: 'Ambulance – Up to Sum Insured',
+            subtitle: 'Emergency Ambulance Transportation',
+            badge: 'UP TO SUM INSURED',
+            iconType: 'truck',
+            summary: 'Emergency surface road ambulance expenses incurred for timely transportation to the nearest equipped medical facility are covered up to the Sum Insured.',
+            points: [
+              'Emergency road ambulance transportation covered up to Sum Insured',
+              'Immediate emergency transit to nearest equipped hospital',
+              'Seamless cashless or reimbursement claim settlement'
+            ]
+          },
+          {
+            id: 'reserve-initial-waiting',
+            title: 'Initial Waiting Period – 30 days',
+            subtitle: '30 Days Initial Waiting Period',
+            badge: '30 DAYS',
+            iconType: 'clock',
+            summary: 'A mandatory initial waiting period of 30 days applies from policy inception for any non-accidental illness or disease hospitalization.',
+            points: [
+              '30 days initial waiting period applies for medical illnesses',
+              'Accidental hospitalization covered from Day 1 with zero waiting period',
+              'Waived on continuous annual renewals'
+            ]
+          },
+          {
+            id: 'reserve-ped-waiting',
+            title: 'Pre-existing Diseases (PED) – 36 months',
+            subtitle: '36 Months Pre-Existing Conditions Waiting',
+            badge: '36 MONTHS',
+            iconType: 'shield',
+            summary: 'A waiting period of 36 months of continuous coverage applies for pre-existing diseases and declared medical conditions.',
+            points: [
+              'Pre-existing diseases (PED) covered after 36 months of continuous coverage',
+              'Timely renewals ensure continuous waiting period credit',
+              'Declared conditions covered up to Sum Insured post 36-month period'
+            ]
+          },
+          {
+            id: 'reserve-specific-waiting',
+            title: 'Specified Diseases / Surgeries – 36 months',
+            subtitle: '36 Months Waiting Period for Specified Illnesses',
+            badge: '36 MONTHS',
+            iconType: 'clock',
+            summary: 'A continuous waiting period of 36 months applies for medical or surgical treatment of specified diseases and scheduled surgeries.',
+            points: [
+              '36 months waiting period for specified diseases and surgeries',
+              'Covers cataract, hernia, piles, stones, joint replacements, and cyst removals post waiting period',
+              'Immediate coverage if caused directly by accidental injury'
+            ]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 2: VALUE ADDED
+      // -----------------------------------------------------------------------
+      {
+        id: 'value-added',
+        title: 'VALUE ADDED',
+        gridCols: 'grid-cols-1 sm:grid-cols-2',
+        items: [
+          {
+            id: 'reserve-ncb-bonus',
+            title: 'No claim bonus: 50% to 100% - claim free year (After opting waiver of aggregate deductible)',
+            subtitle: '50% to 100% Bonus per Claim-Free Year',
+            badge: '50% TO 100% BONUS',
+            iconType: 'trending',
+            summary: 'No claim bonus: 50% to 100% - claim free year is earned after opting for waiver of aggregate deductible, boosting your sum insured without extra premium.',
+            steps: [
+              'Opt for Waiver of Aggregate Deductible',
+              'Earn 50% to 100% Bonus per Claim-Free Year',
+              'Max Bonus up to 100%'
+            ],
+            points: [
+              '50% to 100% increase in basic Sum Insured per claim-free year',
+              'Available after opting waiver of aggregate deductible',
+              'Substantial financial growth against rising medical costs'
+            ]
+          },
+          {
+            id: 'reserve-wellness-teleconsult',
+            title: 'Wellness Benefit – Unlimited Teleconsultation (General & Specialty)',
+            subtitle: 'Unlimited General & Specialty E-Consultations',
+            badge: 'UNLIMITED',
+            iconType: 'heart',
+            summary: 'Enjoy unlimited teleconsultation with general physicians and certified medical specialists from anywhere.',
+            points: [
+              'Unlimited Teleconsultation (General & Specialty)',
+              'Convenient digital consultations with certified doctors',
+              'Prompt medical advice and digital prescriptions'
+            ]
+          },
+          {
+            id: 'reserve-waiver-deductible',
+            title: 'Waiver of Aggregate Deductible: If the policy is renewed continuously for 5 years, the customer can remove the deductible at renewal without any fresh underwriting.',
+            subtitle: 'Remove Deductible After 5 Years Continuous Renewal',
+            badge: '5 YEARS RENEWAL',
+            iconType: 'check',
+            summary: 'If the policy is renewed continuously for 5 years, the customer can remove the deductible at renewal without any fresh underwriting.',
+            points: [
+              'If the policy is renewed continuously for 5 years, the customer can remove the deductible at renewal without any fresh underwriting',
+              'Allows seamless transition to a zero-deductible policy format',
+              'Guaranteed eligibility without fresh medical tests'
+            ]
+          },
+          {
+            id: 'reserve-restore-benefit',
+            title: 'Restore Benefit: Upto Sum Insured - (After opting waiver of aggregate deductible)',
+            subtitle: 'Restore Benefit Up to Sum Insured',
+            badge: 'UP TO SUM INSURED',
+            iconType: 'refresh',
+            summary: 'Restore Benefit: Upto Sum Insured - (After opting waiver of aggregate deductible). Restore can be used only one time in a Policy Year.',
+            points: [
+              'Restore Benefit: Upto Sum Insured - (After opting waiver of aggregate deductible)',
+              'Restore can be used only one time in a Policy Year',
+              'Second claim or an unrelated illness/disease is covered immediately',
+              'If second hospitalization is for the same or related illness, Restore will be available only if the admission is after 45 days from the discharge date of the earlier claim'
+            ]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 3: ADDITIONAL
+      // -----------------------------------------------------------------------
+      {
+        id: 'additional',
+        title: 'ADDITIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2',
+        items: [
+          {
+            id: 'reserve-pocket-protect',
+            title: 'Pocket Protect: Customer receives ₹10,000 cash per hospitalization',
+            subtitle: '₹10,000 Cash Benefit on Extended Hospitalization',
+            badge: '₹10,000 CASH',
+            iconType: 'dollar',
+            summary: 'Pocket Protect: Customer receives ₹10,000 cash per hospitalization for extended hospital stays to cover incidental expenses.',
+            points: [
+              'Customer receives ₹10,000 cash per hospitalization',
+              'Hospitalization must be more than 7 continuous days',
+              '1-year waiting period',
+              'Maximum 5 claims in one policy year',
+              'Benefit is not available after opting for Waiver of Aggregate Deductible'
+            ]
+          },
+          {
+            id: 'reserve-migration-condition',
+            title: 'Migration condition:',
+            subtitle: 'Option to Migrate to Base Health Product',
+            badge: 'MIGRATION OPTION',
+            iconType: 'globe',
+            summary: 'On completion of one year of coverage after availing the waiver of the Aggregate Deductible option, the Policyholder shall have the option to migrate to a suitable base product offered by Us, subject to applicable terms, conditions, and underwriting guidelines.',
+            points: [
+              'On completion of one year of coverage after availing the waiver of the Aggregate Deductible option, the Policyholder shall have the option to migrate to a suitable base product offered by Us, subject to applicable terms, conditions, and underwriting guidelines',
+              'Enables flexible policy migration within Tata AIG portfolio',
+              'Protects accrued cumulative benefits and waiting credits'
+            ]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 4: OPTIONAL
+      // -----------------------------------------------------------------------
+      {
+        id: 'optional',
+        title: 'OPTIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'reserve-consumables',
+            title: 'Consumables cover',
+            subtitle: 'Non-Payable Medical Items & Disposables Covered',
+            badge: 'OPTIONAL COVER',
+            isRider: true,
+            iconType: 'shield',
+            summary: 'Consumables cover provides full coverage for non-payable hospital items including surgical gloves, PPE kits, masks, and syringes.',
+            points: [
+              'Full coverage for non-medical consumable hospital items',
+              'Covers surgical gloves, masks, syringes, PPE kits, and cotton',
+              'Minimizes unexpected out-of-pocket bills at discharge'
+            ]
+          },
+          {
+            id: 'reserve-transicare-wallet',
+            title: 'TransiCare Wallet: If the company health insurance (GMC) ends due to resignation or termination, the policy provides up to ₹3 lakh coverage for 90 days',
+            subtitle: 'Transition Coverage When GMC Ends',
+            badge: 'OPTIONAL COVER',
+            isRider: true,
+            iconType: 'credit',
+            summary: 'If the company health insurance (GMC) ends due to resignation or termination, the policy provides up to ₹3 lakh coverage for 90 days.',
+            points: [
+              'If the company health insurance (GMC) ends due to resignation or termination, the policy provides up to ₹3 lakh coverage for 90 days',
+              'Protects during career transitions between employers',
+              'Active financial backup during sudden job termination or resignation'
+            ]
+          },
+          {
+            id: 'reserve-inbound-emergency',
+            title: 'Inbound Emergency Hospitalization: Provides emergency hospitalization coverage for NRI/OCI customers if they meet with an accident while visiting India.',
+            subtitle: 'Emergency Accident Cover in India for NRI/OCI',
+            badge: 'OPTIONAL COVER',
+            isRider: true,
+            iconType: 'globe',
+            summary: 'Provides emergency hospitalization coverage for NRI/OCI customers if they meet with an accident while visiting India.',
+            points: [
+              'Provides emergency hospitalization coverage for NRI/OCI customers if they meet with an accident while visiting India.',
+              'Cashless hospitalization access across 10,000+ network hospitals in India',
+              'Accidental emergency medical expenses covered'
+            ]
+          }
+        ]
+      }
+    ]
   }
 };
 

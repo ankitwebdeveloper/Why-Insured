@@ -30,6 +30,7 @@ import {
   FiLock,
   FiAward,
   FiPhoneCall
+  ,FiGlobe
 } from 'react-icons/fi';
 import { getNivaBupaPlanData, resolveNivaBupaPlanId } from '../data/nivaBupaPlansData';
 import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
@@ -58,7 +59,8 @@ const ICON_MAP = {
   activity: FiActivity,
   lock: FiLock,
   award: FiAward,
-  phone: FiPhoneCall
+  phone: FiPhoneCall,
+  globe: FiGlobe
 };
 
 // Helper to format YouTube or Direct MP4 URLs
@@ -179,7 +181,7 @@ function NivaBupaFeatureAccordionItem({
   demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
-  const { id, title, subtitle, summary, badge, steps, isRider, iconType, points, tableData } = item;
+  const { id, title, subtitle, summary, badge, steps, isRider, iconType, points, tableData, variantTable } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
 
   return (
@@ -301,6 +303,33 @@ function NivaBupaFeatureAccordionItem({
                           {r.map((c, cIdx) => (
                             <td key={cIdx} className="px-3 py-1.5 font-semibold text-[10px] sm:text-xs text-slate-700">
                               {c}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {variantTable && (
+                <div className="mt-2.5 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-2xs">
+                  <table className="w-full min-w-[280px] text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-[#0284C7] text-white">
+                        {variantTable.headers.map((header, headerIndex) => (
+                          <th key={headerIndex} className="px-3 py-2 font-bold text-[10px] sm:text-xs uppercase tracking-wider">
+                            {header}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {variantTable.rows.map((row, rowIndex) => (
+                        <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-[#F0F9FF]/40'}>
+                          {row.map((cell, cellIndex) => (
+                            <td key={cellIndex} className="px-3 py-1.5 font-semibold text-[10px] sm:text-xs text-slate-700 align-top">
+                              {cell}
                             </td>
                           ))}
                         </tr>
@@ -486,7 +515,7 @@ export default function NivaBupaPlanDetailSection({ plan, company, planId: planI
                 className="w-24 sm:w-44 h-auto max-h-9 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-5"
               />
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
-                {planData.planName} <span className="text-[#0EA5E9]">—</span> POLICY BENEFITS
+                {currentPlanId === 'reassure-3-0' ? planData.planName : <>{planData.planName} <span className="text-[#0EA5E9]">—</span> POLICY BENEFITS</>}
               </h1>
               <div className="w-8 sm:w-12 h-1 bg-[#0EA5E9] mx-auto mt-1.5 rounded-full" />
             </div>

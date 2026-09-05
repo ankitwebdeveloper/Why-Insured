@@ -6,6 +6,8 @@ import { STAR_HEALTH_PLANS_DATA } from '../data/starHealthPlansData.js';
 import { NIVA_BUPA_PLANS_DATA } from '../data/nivaBupaPlansData.js';
 import { ICICI_LOMBARD_PLANS_DATA } from '../data/iciciLombardPlansData.js';
 import { CARE_HEALTH_PLANS_DATA } from '../data/careHealthPlansData.js';
+import { MAGMA_PLANS_DATA } from '../data/magmaPlansData.js';
+import { RELIANCE_PLANS_DATA } from '../data/reliancePlansData.js';
 
 // Helper to check if a feature has a genuine video asset (and not a placeholder demo url)
 export function hasValidVideo(url) {
@@ -46,6 +48,21 @@ const COMPANY_DICTIONARY = [
     id: 'care-health',
     name: 'Care Health',
     aliases: ['care', 'care health', 'carehealth', 'religare']
+  },
+  {
+    id: 'reliance-general',
+    name: 'Reliance General Insurance',
+    aliases: ['reliance', 'reliance general', 'reliance general insurance', 'reliance health', 'reliance insurance']
+  },
+  {
+    id: 'magma-hdi',
+    name: 'Magma General Insurance',
+    aliases: ['magma', 'magma hdi', 'magma hdi general insurance', 'magma health', 'magma insurance']
+  },
+  {
+    id: 'indusind-general',
+    name: 'IndusInd General Insurance',
+    aliases: ['indusind', 'indusind general', 'indusind general insurance', 'indusind health', 'indusind insurance', 'indusind bank']
   }
 ];
 
@@ -635,6 +652,8 @@ function buildGlobalContentIndex() {
   indexCompanyPlansData(NIVA_BUPA_PLANS_DATA, 'niva-bupa', 'Niva Bupa');
   indexCompanyPlansData(ICICI_LOMBARD_PLANS_DATA, 'icici-lombard', 'ICICI Lombard');
   indexCompanyPlansData(CARE_HEALTH_PLANS_DATA, 'care-health', 'Care Health');
+  indexCompanyPlansData(MAGMA_PLANS_DATA, 'magma-hdi', 'Magma General Insurance');
+  indexCompanyPlansData(RELIANCE_PLANS_DATA, 'reliance-general', 'Reliance General Insurance');
 
   // 4. Index Basic Company Plans ONLY for plans that do NOT already have rich features indexed!
   companiesData.forEach((comp) => {

@@ -23,7 +23,7 @@ export default function CompanyDetail() {
   }
 
   const { theme, name, fullName, logo, description, plans } = company;
-  const isSpecialCompany = company.id === 'hdfc-ergo' || company.slug === 'hdfc-ergo' || company.id === 'tata-aig' || company.slug === 'tata-aig' || company.id === 'icici-lombard' || company.slug === 'icici-lombard' || company.id === 'niva-bupa' || company.slug === 'niva-bupa' || company.id === 'star-health' || company.slug === 'star-health' || company.id === 'care-health' || company.slug === 'care-health';
+  const isSpecialCompany = company.id === 'hdfc-ergo' || company.slug === 'hdfc-ergo' || company.id === 'tata-aig' || company.slug === 'tata-aig' || company.id === 'icici-lombard' || company.slug === 'icici-lombard' || company.id === 'niva-bupa' || company.slug === 'niva-bupa' || company.id === 'star-health' || company.slug === 'star-health' || company.id === 'care-health' || company.slug === 'care-health' || company.id === 'reliance-general' || company.slug === 'reliance-general' || company.id === 'magma-hdi' || company.slug === 'magma-hdi' || company.id === 'indusind-general' || company.slug === 'indusind-general';
 
   // Apply custom CSS variables for the theme
   const themeStyles = {
@@ -130,32 +130,42 @@ export default function CompanyDetail() {
             </div>
 
             {/* 3. PLAN GRID / LIST */}
-            <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
-              {plans.map((plan) => (
-                <Link
-                  key={plan.id}
-                  to={`/insurance/${company.id}/${plan.id}`}
-                  className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
-                  style={{ '--company-primary': theme.primary }}
-                >
-                  {/* Subtle bottom accent line */}
-                  <div 
-                    className="absolute bottom-0 left-0 right-0 h-[2.5px] opacity-40 group-hover:opacity-100 transition-opacity duration-200"
-                    style={{ backgroundColor: theme.primary }}
-                  />
+            {plans && plans.length > 0 ? (
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
+                {plans.map((plan) => (
+                  <Link
+                    key={plan.id}
+                    to={`/insurance/${company.id}/${plan.id}`}
+                    className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+                    style={{ '--company-primary': theme.primary }}
+                  >
+                    {/* Subtle bottom accent line */}
+                    <div 
+                      className="absolute bottom-0 left-0 right-0 h-[2.5px] opacity-40 group-hover:opacity-100 transition-opacity duration-200"
+                      style={{ backgroundColor: theme.primary }}
+                    />
 
-                  {/* Left: Plan name */}
-                  <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[var(--primary)] transition-colors duration-200 font-display leading-tight pr-2">
-                    {plan.name}
-                  </h3>
+                    {/* Left: Plan name */}
+                    <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[var(--primary)] transition-colors duration-200 font-display leading-tight pr-2">
+                      {plan.name}
+                    </h3>
 
-                  {/* Right: Small arrow */}
-                  <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-white group-hover:bg-[var(--primary)] transition-all duration-200 shrink-0">
-                    <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
-                  </div>
-                </Link>
-              ))}
-            </div>
+                    {/* Right: Small arrow */}
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-white group-hover:bg-[var(--primary)] transition-all duration-200 shrink-0">
+                      <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white rounded-2xl border border-slate-200/80 p-8 sm:p-12 text-center shadow-xs">
+                <div className="w-12 h-12 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mx-auto mb-3 text-slate-400">
+                  <FiArrowRight className="text-xl rotate-90" />
+                </div>
+                <h3 className="text-sm sm:text-base font-bold text-slate-800 font-display">No Plans Available Yet</h3>
+                <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-sm mx-auto">Health insurance plans for {name} will be added soon.</p>
+              </div>
+            )}
           </div>
         ) : (
           /* ========================================================================= */

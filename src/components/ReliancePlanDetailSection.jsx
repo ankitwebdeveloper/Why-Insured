@@ -29,12 +29,13 @@ import {
   FiActivity,
   FiGlobe,
   FiAward,
-  FiInfo
+  FiInfo,
+  FiAlertTriangle
 } from 'react-icons/fi';
-import { getTataAigPlanData, resolveTataAigPlanId } from '../data/tataAigPlansData';
+import { getReliancePlanData, resolveReliancePlanId } from '../data/reliancePlansData';
 import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
 
-// Default demo video
+// Default demo video URL
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
 
 // Icon Dictionary Mapping by Icon Type
@@ -57,7 +58,8 @@ const ICON_MAP = {
   users: FiUsers,
   activity: FiActivity,
   globe: FiGlobe,
-  award: FiAward
+  award: FiAward,
+  'alert-triangle': FiAlertTriangle
 };
 
 // Helper to format YouTube or Direct MP4 URLs
@@ -77,7 +79,7 @@ const getVideoEmbedUrl = (url) => {
   return { type: 'iframe', url };
 };
 
-// Compact Feature-Wise Inline Video Button Component
+// Compact Feature-Wise Inline Video Button Component (Reliance Royal Blue Theme)
 const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
   return (
     <button
@@ -86,16 +88,16 @@ const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
         e.stopPropagation();
         onOpenVideo(featureTitle, videoUrl);
       }}
-      className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/25 hover:bg-[#0038A8] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-0.5 sm:ml-1"
+      className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#F0F5FA] text-[#205398] border border-[#205398]/25 hover:bg-[#205398] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-0.5 sm:ml-1"
       title={`Watch demo video for ${featureTitle}`}
     >
-      <FiPlay className="text-[8px] sm:text-[10px] fill-current text-[#0038A8] group-hover:text-white transition-colors" />
+      <FiPlay className="text-[8px] sm:text-[10px] fill-current text-[#205398] group-hover:text-white transition-colors" />
       <span>Video</span>
     </button>
   );
 };
 
-// Compact "View Details" Pill Button
+// Compact "View Details" Pill Button (Reliance Royal Blue Theme)
 const ViewDetailsPill = ({ onClick, label = "View Details" }) => (
   <button
     type="button"
@@ -103,14 +105,14 @@ const ViewDetailsPill = ({ onClick, label = "View Details" }) => (
       e.stopPropagation();
       onClick();
     }}
-    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/30 hover:bg-[#0038A8] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group"
+    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-[#F0F5FA] text-[#205398] border border-[#205398]/30 hover:bg-[#205398] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group"
   >
-    <FiInfo className="text-[9px] text-[#0038A8] group-hover:text-white" />
+    <FiInfo className="text-[9px] text-[#205398] group-hover:text-white" />
     <span>{label}</span>
   </button>
 );
 
-// Premium "WATCH VIDEO" button
+// Premium "WATCH VIDEO" button (Reliance Royal Blue Theme)
 const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '', align = 'center' }) => (
   <div className={`pt-1.5 border-t border-slate-100/80 ${align === 'center' ? 'flex justify-center' : ''} ${className}`}>
     <button
@@ -119,9 +121,9 @@ const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '', align 
         e.stopPropagation();
         onOpenVideo(title, videoUrl);
       }}
-      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#0038A8] border border-[#0038A8]/25 hover:bg-[#0038A8] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#205398] border border-[#205398]/25 hover:bg-[#205398] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
     >
-      <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#0038A8] group-hover:text-white transition-colors" />
+      <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#205398] group-hover:text-white transition-colors" />
       <span>WATCH VIDEO</span>
     </button>
   </div>
@@ -146,13 +148,13 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
         {/* Modal Header */}
         <div className="flex items-center justify-between p-3 sm:p-4 bg-slate-950 border-b border-slate-800 text-white">
           <div className="flex items-center gap-2 font-bold text-xs sm:text-sm">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#0038A8]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#205398]" />
             <span className="truncate">{videoTitle} — Feature Demo</span>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#0038A8] text-slate-300 hover:text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#205398] text-slate-300 hover:text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
             aria-label="Close video"
           >
             <FiX />
@@ -183,15 +185,14 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
   );
 };
 
-// Sub-component for Tata AIG Features Accordion Items
-function TataAigFeatureAccordionItem({
+// Sub-component for Reliance Features Accordion Items (Tested Reference Pattern)
+function RelianceFeatureAccordionItem({
   item,
   isExpanded,
   onToggle,
   index = 0,
   onOpenVideo,
   onOpenDetailsModal,
-  onOpenDiagnosticModal,
   demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
@@ -208,8 +209,8 @@ function TataAigFeatureAccordionItem({
       onClick={() => onToggle(id, itemRef)}
       className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${
         isExpanded
-          ? 'bg-[#F0F4FF]/80 border-[#0038A8]/60 shadow-md ring-1 ring-[#0038A8]/20'
-          : 'bg-white border-slate-200/80 hover:border-[#0038A8]/40 shadow-2xs hover:shadow-xs'
+          ? 'bg-[#F0F5FA]/90 border-[#205398]/60 shadow-md ring-1 ring-[#205398]/20'
+          : 'bg-white border-slate-200/80 hover:border-[#205398]/40 shadow-2xs hover:shadow-xs'
       }`}
     >
       {/* Header Row */}
@@ -217,7 +218,7 @@ function TataAigFeatureAccordionItem({
         <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
           {IconComponent && (
             <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-              isExpanded ? 'bg-[#0038A8] text-white shadow-xs' : 'bg-[#F0F4FF] text-[#0038A8]'
+              isExpanded ? 'bg-[#205398] text-white shadow-xs' : 'bg-[#F0F5FA] text-[#205398]'
             }`}>
               <IconComponent className="text-xs sm:text-base" />
             </div>
@@ -237,8 +238,8 @@ function TataAigFeatureAccordionItem({
                 />
               )}
               {isRider && (
-                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#0038A8]/10 text-[#0038A8] tracking-wide shrink-0">
-                  Rider
+                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#ED1C24]/10 text-[#ED1C24] border border-[#ED1C24]/20 tracking-wide shrink-0">
+                  Optional / Add-on
                 </span>
               )}
             </div>
@@ -250,25 +251,10 @@ function TataAigFeatureAccordionItem({
           </div>
         </div>
 
-        {/* Right Controls: View Details Button (for High End Diagnostics) & Plus/Minus Button */}
+        {/* Right Controls: Plus/Minus Button */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          {id === 'high-end-diagnostics' && onOpenDiagnosticModal && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpenDiagnosticModal();
-              }}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/25 hover:bg-[#0038A8] hover:text-white transition-all duration-200 cursor-pointer shadow-2xs group select-none shrink-0"
-              title="View High End Diagnostic details"
-            >
-              <span>View Details</span>
-            </button>
-          )}
-
-          {/* Plus / Minus Button */}
           <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 ${
-            isExpanded ? 'bg-[#0038A8] text-white rotate-180' : 'bg-[#F0F4FF] text-[#0038A8]'
+            isExpanded ? 'bg-[#205398] text-white rotate-180' : 'bg-[#F0F5FA] text-[#205398]'
           }`}>
             {isExpanded ? (
               <FiMinus className="text-[10px] sm:text-xs stroke-[2.5]" />
@@ -293,8 +279,8 @@ function TataAigFeatureAccordionItem({
               {/* Contextual Badge */}
               <div className="pt-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
                 {badge && (
-                  <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/20 tracking-wider">
-                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#0038A8]" />
+                  <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#F0F5FA] text-[#205398] border border-[#205398]/20 tracking-wider">
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#205398]" />
                     {badge}
                   </span>
                 )}
@@ -313,8 +299,8 @@ function TataAigFeatureAccordionItem({
                   </div>
                   <ul className="space-y-1">
                     {points.map((pt, pIdx) => (
-                      <li key={pIdx} className="flex items-start gap-1.5 text-[10px] sm:text-xs text-slate-600 font-medium">
-                        <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-xs" />
+                      <li key={pIdx} className="flex items-start gap-1.5 text-[10px] sm:text-xs text-slate-700 font-medium">
+                        <FiCheck className="text-[#205398] mt-0.5 shrink-0 text-xs" />
                         <span>{pt}</span>
                       </li>
                     ))}
@@ -332,7 +318,7 @@ function TataAigFeatureAccordionItem({
                     {tierData.tiers.map((tItem, tIdx) => (
                       <div key={tIdx} className="py-1 flex items-center justify-between">
                         <span className="font-semibold text-slate-700">{tItem.tier}</span>
-                        <span className="font-bold text-[#0038A8]">{tItem.value}</span>
+                        <span className="font-bold text-[#205398]">{tItem.value}</span>
                       </div>
                     ))}
                   </div>
@@ -349,7 +335,7 @@ function TataAigFeatureAccordionItem({
                           {step}
                         </div>
                         {sIdx < steps.length - 1 && (
-                          <span className="text-[9px] sm:text-xs font-extrabold text-[#0038A8] px-0.5">
+                          <span className="text-[9px] sm:text-xs font-extrabold text-[#205398] px-0.5">
                             →
                           </span>
                         )}
@@ -366,135 +352,7 @@ function TataAigFeatureAccordionItem({
   );
 }
 
-// Premium Floating High End Diagnostic Details Modal / Overlay
-function HighEndDiagnosticModal({ isOpen, onClose }) {
-  if (!isOpen) return null;
-
-  const diagnosticTests = [
-    'Brain Perfusion Imaging',
-    'CT Guided Biopsy',
-    'CT Urography',
-    'Digital Subtraction Angiography (DSA)',
-    'Liver Biopsy',
-    'Magnetic Resonance Cholangiography Scan',
-    'PET CT',
-    'PET MRI',
-    'Renogram'
-  ];
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
-      {/* Backdrop */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        onClick={onClose}
-        className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
-      />
-
-      {/* Floating Card */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 12 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 12 }}
-        transition={{ duration: 0.22, ease: "easeOut" }}
-        className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg overflow-y-auto z-10 p-4 sm:p-7 max-h-[90vh] text-left"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close 'X' Button */}
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors cursor-pointer"
-          aria-label="Close modal"
-        >
-          <FiX className="text-sm sm:text-base" />
-        </button>
-
-        {/* Modal Header */}
-        <div className="pr-8 mb-3 sm:mb-4">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#0038A8] shrink-0" />
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#0038A8]">
-              Tata AIG MediCare Premier
-            </span>
-          </div>
-          <h3 className="text-base sm:text-xl font-extrabold text-slate-900 font-display tracking-tight">
-            High End Diagnostic
-          </h3>
-        </div>
-
-        {/* Description Quote Box */}
-        <div className="p-3 sm:p-3.5 rounded-xl bg-[#F0F4FF] border border-[#0038A8]/20 mb-3.5 sm:mb-5">
-          <p className="text-xs sm:text-[13px] text-slate-700 font-medium leading-relaxed italic">
-            “Expenses incurred on diagnostic tests mentioned below on OPD basis will be covered upto Rs.25,000 per policy year:”
-          </p>
-        </div>
-
-        {/* Covered Diagnostic Tests Section */}
-        <div className="space-y-2 mb-4 sm:mb-5">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#0038A8]" />
-            <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 font-display tracking-tight">
-              Covered Diagnostic Tests
-            </h4>
-          </div>
-
-          <div className="bg-slate-50/80 rounded-xl border border-slate-200/80 p-3 sm:p-4">
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 sm:gap-y-2">
-              {diagnosticTests.map((test, idx) => (
-                <li key={idx} className="flex items-start gap-2 text-[11px] sm:text-xs text-slate-700 font-medium leading-snug">
-                  <span className="text-[#0038A8] font-black text-sm shrink-0 select-none leading-none mt-0.5">•</span>
-                  <span>{test}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Comparison Table Section */}
-        <div className="mb-3.5 sm:mb-4">
-          <div className="rounded-xl border border-slate-200 overflow-hidden bg-white shadow-2xs">
-            <div className="grid grid-cols-3 bg-slate-100/80 border-b border-slate-200 px-3 sm:px-4 py-2 text-[9px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-700 font-display">
-              <div>Features</div>
-              <div className="text-center">MediCare</div>
-              <div className="text-right">MediCare Premier</div>
-            </div>
-            <div className="grid grid-cols-3 px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-sm items-center font-medium bg-white">
-              <div className="font-bold text-slate-800 text-[10px] sm:text-xs">
-                High End Diagnostic
-              </div>
-              <div className="text-center font-bold text-slate-400 text-xs">
-                NA
-              </div>
-              <div className="text-right">
-                <span className="inline-flex items-center gap-1 text-[9px] sm:text-xs font-bold text-[#0038A8] bg-[#F0F4FF] px-2 py-0.5 rounded-md border border-[#0038A8]/20">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#0038A8]" />
-                  Available
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Modal Footer / Close Action */}
-        <div className="pt-3 border-t border-slate-100 flex justify-end">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-5 py-1.5 sm:py-2 rounded-xl bg-[#0038A8] text-white text-xs font-bold hover:bg-[#002670] transition-colors shadow-2xs cursor-pointer select-none"
-          >
-            Got It
-          </button>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-export default function MedicareSelectSection({ plan, company, planId: planIdProp }) {
+export default function ReliancePlanDetailSection({ plan, company, planId: planIdProp }) {
   const [activeModal, setActiveModal] = useState(null);
   const [activeLimitationId, setActiveLimitationId] = useState(null);
   const [detailsModalState, setDetailsModalState] = useState({
@@ -502,7 +360,6 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     title: '',
     content: ''
   });
-  const [isDiagnosticModalOpen, setIsDiagnosticModalOpen] = useState(false);
   const [videoModalState, setVideoModalState] = useState({
     isOpen: false,
     title: '',
@@ -544,9 +401,9 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
   const location = useLocation();
   const isFeaturesPage = location.pathname.endsWith('/features');
 
-  // Resolve to canonical Tata AIG plan ID — MediCare Premier
-  const currentPlanId = resolveTataAigPlanId(planIdProp || plan?.id || urlPlanId);
-  const planData = getTataAigPlanData(currentPlanId);
+  // Resolve to canonical Reliance plan ID — Reliance Health Infinity Insurance
+  const currentPlanId = resolveReliancePlanId(planIdProp || plan?.id || urlPlanId);
+  const planData = getReliancePlanData(currentPlanId);
   const uiConfig = planData?.uiConfig ?? {};
   const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
   const { logo, name } = company;
@@ -556,7 +413,6 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     setActiveModal(null);
     setActiveLimitationId(null);
     setDetailsModalState({ isOpen: false, title: '', content: '' });
-    setIsDiagnosticModalOpen(false);
     setVideoModalState({ isOpen: false, title: '', url: '' });
     setExpandedReportCard({ csr: false, icr: false, complaint: false });
     setExpandedCompanyStrength({
@@ -572,7 +428,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
 
   // Lock background body scroll when modal is active
   useEffect(() => {
-    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen || isDiagnosticModalOpen) {
+    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -580,7 +436,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen, isDiagnosticModalOpen]);
+  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen]);
 
   const handleOpenVideo = (title, url) => {
     setVideoModalState({
@@ -630,13 +486,13 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
   };
 
   // =========================================================================
-  // DEDICATED FEATURES PAGE (EXACT REFERENCE: 4 COMPACT DARK GREEN CATEGORIES)
+  // DEDICATED FEATURES PAGE (EXACT 4 CATEGORIES - RELIANCE BLUE & RED THEME)
   // =========================================================================
   if (isFeaturesPage) {
     return (
-      <div className="w-full pb-20 bg-[#F0F4FF] min-h-screen overflow-x-hidden relative font-sans">
-        {/* Subtle Ambient Blue Glow */}
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none bg-[#0038A8]" />
+      <div className="w-full pb-20 bg-white min-h-screen overflow-x-hidden relative font-sans">
+        {/* Subtle Ambient Royal Blue Glow */}
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none bg-[#205398]" />
 
         {/* Page Container — Matching Reference Spacing & Density */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-2 sm:pt-4 space-y-8 sm:space-y-10 relative z-10">
@@ -651,7 +507,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             <div className="text-left mb-3 sm:mb-4">
               <Link
                 to={`/insurance/${company.id}/${currentPlanId}`}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
               >
                 <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {planData.planName}</span><span className="sm:hidden">Back to Plan</span>
               </Link>
@@ -661,18 +517,18 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               <img
                 src={logo}
                 alt={name}
-                className="w-24 sm:w-44 h-auto max-h-9 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-4"
+                className="w-28 sm:w-48 h-auto max-h-10 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-4"
               />
-              <span className="text-xs font-bold uppercase tracking-widest text-[#0038A8] block mb-0.5">
-                Tata AIG
+              <span className="text-xs font-bold uppercase tracking-widest text-[#205398] block mb-0.5">
+                Reliance General Insurance
               </span>
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
                 {planData.planName}
               </h1>
-              <span className="text-xs sm:text-sm font-extrabold text-[#0038A8] uppercase tracking-wider block mt-1">
+              <span className="text-xs sm:text-sm font-extrabold text-[#ED1C24] uppercase tracking-wider block mt-1">
                 POLICY BENEFITS
               </span>
-              <div className="w-8 sm:w-12 h-1 bg-[#0038A8] mx-auto mt-2 rounded-full" />
+              <div className="w-8 sm:w-12 h-1 bg-[#205398] mx-auto mt-2 rounded-full" />
             </div>
 
             {/* DOWNLOAD & SHARE PDF ACTION BUTTONS */}
@@ -683,29 +539,29 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             />
           </motion.div>
 
-          {/* 4 COMPACT DARK GREEN CATEGORY SECTIONS (EXACT REFERENCE DESIGN) */}
+          {/* 4 CATEGORY SECTIONS (EXACT 4 TITLES ONLY) */}
           {planData.featuresSections?.map((sec, secIdx) => (
             <div key={sec.id || secIdx} className="space-y-3 sm:space-y-3.5">
               
-              {/* Reference Dark Green Category Banner */}
+              {/* Premium Royal Blue / Red Accent Category Banner */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4 }}
-                className="w-full relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
+                className="w-full relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#1A3A6B] via-[#205398] to-[#1A3A6B] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-[#ED1C24]/40"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
                 <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
+                  <span className="w-2 h-2 rounded-full bg-[#ED1C24] inline-block shadow-xs shrink-0" />
                   {sec.title}
                 </h2>
               </motion.div>
 
-              {/* Compact Grid of Cards */}
+              {/* Compact Grid of Benefit Cards */}
               <div className={`grid ${sec.gridCols || 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'} gap-2.5 sm:gap-4`}>
                 {sec.items.map((item, itemIdx) => (
-                  <TataAigFeatureAccordionItem
+                  <RelianceFeatureAccordionItem
                     key={item.id}
                     item={item}
                     index={itemIdx}
@@ -713,7 +569,6 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     onToggle={toggleAccordionItem}
                     onOpenVideo={handleOpenVideo}
                     onOpenDetailsModal={handleOpenDetailsModal}
-                    onOpenDiagnosticModal={() => setIsDiagnosticModalOpen(true)}
                     demoVideoUrl={demoVideoUrl}
                   />
                 ))}
@@ -724,7 +579,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           {/* FOOTNOTE */}
           <div className="text-right pt-2">
             <span className="text-xs font-bold text-slate-400">
-              *Terms & Conditions Apply as per official {planData.fullName || planData.planName || 'Tata AIG'} policy wording.
+              *Terms & Conditions Apply as per official Reliance General Insurance Reliance Health Infinity Insurance policy wording.
             </span>
           </div>
 
@@ -738,7 +593,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           videoUrl={videoModalState.url}
         />
 
-        {/* COMPACT DETAILS MODAL (FOR GLOBAL COVER & COVERAGE DETAILS) */}
+        {/* COMPACT DETAILS MODAL */}
         <AnimatePresence>
           {detailsModalState.isOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
@@ -747,7 +602,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={handleCloseDetailsModal}
-                className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
+                className="absolute inset-0 bg-black/60 backdrop-blur-xs cursor-pointer"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -760,13 +615,13 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                 <button
                   type="button"
                   onClick={handleCloseDetailsModal}
-                  className="absolute top-4 right-4 w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors"
+                  className="absolute top-4 right-4 w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
                 >
                   <FiX className="text-sm" />
                 </button>
                 <div className="flex items-center gap-2 mb-3 pr-6">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#0038A8]" />
-                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900 font-display">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#205398]" />
+                  <h3 className="text-sm sm:text-base font-extrabold text-[#0F172A] font-display">
                     {detailsModalState.title}
                   </h3>
                 </div>
@@ -777,7 +632,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                   <button
                     type="button"
                     onClick={handleCloseDetailsModal}
-                    className="px-4 py-1.5 rounded-lg bg-[#0038A8] text-white text-xs font-bold hover:bg-[#002670] transition-colors"
+                    className="px-4 py-1.5 rounded-lg bg-[#205398] text-white text-xs font-bold hover:bg-[#1A437C] transition-colors cursor-pointer"
                   >
                     Got It
                   </button>
@@ -787,22 +642,12 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           )}
         </AnimatePresence>
 
-        {/* FLOATING HIGH END DIAGNOSTIC DETAILS MODAL */}
-        <AnimatePresence>
-          {isDiagnosticModalOpen && (
-            <HighEndDiagnosticModal
-              isOpen={isDiagnosticModalOpen}
-              onClose={() => setIsDiagnosticModalOpen(false)}
-            />
-          )}
-        </AnimatePresence>
-
       </div>
     );
   }
 
   // =========================================================================
-  // MAIN TATA AIG PLAN OVERVIEW PAGE (SINGLE VIEWPORT HUB)
+  // MAIN RELIANCE PLAN OVERVIEW PAGE (SINGLE VIEWPORT HUB)
   // =========================================================================
   return (
     <div className="w-full font-sans">
@@ -813,27 +658,27 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
         <div className="shrink-0 text-left mb-3.5 sm:mb-5">
           <Link
             to={`/insurance/${company.id}`}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
           >
-            <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to Tata AIG Plans</span><span className="sm:hidden">Back to Plans</span>
+            <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to Reliance General Insurance Plans</span><span className="sm:hidden">Back to Plans</span>
           </Link>
         </div>
 
-        {/* 1. TATA AIG LOGO */}
+        {/* 1. RELIANCE LOGO */}
         <div className="flex flex-col items-center justify-center shrink-0 mb-2.5 sm:mb-4">
           <img
             src={logo}
             alt={name}
-            className="w-24 sm:w-48 h-auto max-h-9 sm:max-h-20 object-contain select-none"
+            className="w-28 sm:w-52 h-auto max-h-10 sm:max-h-20 object-contain select-none"
           />
         </div>
 
         {/* 2. PLAN NAME HEADING */}
         <div className="text-center shrink-0 mb-3.5 sm:mb-6">
-          <h1 className="text-base sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+          <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
             {planData.planName}
           </h1>
-          <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#0038A8] mx-auto mt-1 sm:mt-1.5 rounded-full" />
+          <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#205398] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
         {/* 3. 2-COLUMN BUTTON GRID */}
@@ -842,13 +687,13 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           <button
             type="button"
             onClick={() => setActiveModal('ratio')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#0038A8]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#205398]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0038A8]/30 group-hover:bg-[#0038A8] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#205398]/30 group-hover:bg-[#205398] transition-colors duration-200" />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#205398] transition-colors duration-200 font-display leading-tight pr-1">
               REPORT CARD
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#205398] group-hover:bg-[#F0F5FA] group-hover:border-[#205398]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -857,13 +702,13 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           <button
             type="button"
             onClick={() => setActiveModal('fundamental')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#0038A8]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#205398]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0038A8]/30 group-hover:bg-[#0038A8] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#205398]/30 group-hover:bg-[#205398] transition-colors duration-200" />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#205398] transition-colors duration-200 font-display leading-tight pr-1">
               COMPANY STRENGTH
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#205398] group-hover:bg-[#F0F5FA] group-hover:border-[#205398]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -871,13 +716,13 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           {/* Card 3: POLICY BENEFITS */}
           <Link
             to={`/insurance/${company.id}/${currentPlanId}/features`}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#0038A8]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#205398]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0038A8]/30 group-hover:bg-[#0038A8] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#205398]/30 group-hover:bg-[#205398] transition-colors duration-200" />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#205398] transition-colors duration-200 font-display leading-tight pr-1">
               POLICY BENEFITS
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#205398] group-hover:bg-[#F0F5FA] group-hover:border-[#205398]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </Link>
@@ -889,13 +734,13 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               setActiveModal('limitations');
               setActiveLimitationId(null);
             }}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#0038A8]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#205398]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0038A8]/30 group-hover:bg-[#0038A8] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#205398]/30 group-hover:bg-[#205398] transition-colors duration-200" />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#205398] transition-colors duration-200 font-display leading-tight pr-1">
               LIMITATIONS & WAITING PERIODS
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#205398] group-hover:bg-[#F0F5FA] group-hover:border-[#205398]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -906,26 +751,26 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           <button
             type="button"
             onClick={() => setActiveModal('mustKnow')}
-            className="w-full sm:max-w-md bg-white rounded-xl sm:rounded-2xl border border-[#0038A8]/35 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#0038A8] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ring-1 ring-[#0038A8]/10 hover:ring-[#0038A8]/25"
+            className="w-full sm:max-w-md bg-white rounded-xl sm:rounded-2xl border border-[#205398]/35 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#205398] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ring-1 ring-[#205398]/10 hover:ring-[#205398]/25"
           >
             {/* Bottom accent indicator bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0038A8] transition-colors duration-200" />
+            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#205398] transition-colors duration-200" />
 
             {/* Subtle ambient soft blue background overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#F0F4FF]/90 via-white to-[#F0F4FF]/90 group-hover:from-[#E6EEFF] group-hover:to-[#E6EEFF] transition-colors duration-200 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#F0F5FA]/90 via-white to-[#F0F5FA]/90 group-hover:from-[#E4EDF7] group-hover:to-[#E4EDF7] transition-colors duration-200 pointer-events-none" />
 
             {/* Text label with attention icon */}
             <div className="flex items-center gap-1.5 sm:gap-2.5 relative z-10 min-w-0 pr-1">
-              <span className="text-[#0038A8] text-xs sm:text-base font-black select-none shrink-0 group-hover:scale-110 transition-transform duration-200">
+              <span className="text-[#ED1C24] text-xs sm:text-base font-black select-none shrink-0 group-hover:scale-110 transition-transform duration-200">
                 ✦
               </span>
-              <h3 className="text-xs sm:text-base font-black text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display tracking-wide uppercase leading-tight truncate">
+              <h3 className="text-xs sm:text-base font-black text-[#0F172A] group-hover:text-[#205398] transition-colors duration-200 font-display tracking-wide uppercase leading-tight truncate">
                 {planData.mustKnow?.buttonLabel || 'MUST KNOW DETAILS'}
               </h3>
             </div>
 
             {/* Right Arrow Bubble */}
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#F0F4FF] border border-[#0038A8]/25 flex items-center justify-center text-[#0038A8] group-hover:bg-[#0038A8] group-hover:text-white transition-all duration-200 shrink-0 relative z-10">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#F0F5FA] border border-[#205398]/25 flex items-center justify-center text-[#205398] group-hover:bg-[#205398] group-hover:text-white transition-all duration-200 shrink-0 relative z-10">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -933,7 +778,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
       </div>
 
       {/* ========================================================================= */}
-      {/* SAME-PAGE MODAL OVERLAYS */}
+      {/* SAME-PAGE MODAL OVERLAYS (RELIANCE BLUE & RED THEME) */}
       {/* ========================================================================= */}
       <AnimatePresence>
         {activeModal && (
@@ -944,7 +789,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveModal(null)}
-              className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
+              className="absolute inset-0 bg-black/60 backdrop-blur-xs cursor-pointer"
             />
 
             {/* Modal Box */}
@@ -969,24 +814,24 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               {activeModal === 'ratio' && (
                 <div className="space-y-4 sm:space-y-5">
                   <div className="pr-8">
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                    <h2 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
                       REPORT CARD
                     </h2>
-                    <p className="text-xs text-[#0038A8] font-medium mt-0.5">
-                      Tata AIG Performance
+                    <p className="text-xs text-[#205398] font-semibold mt-0.5">
+                      Reliance General Insurance Performance
                     </p>
                   </div>
 
                   <div className="space-y-2.5 sm:space-y-3">
                     {/* Box 1: CSR */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
+                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleReportCard('csr')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
                             CSR
                           </span>
                           {planData.reportCard?.csr?.summaryValue && (
@@ -995,8 +840,8 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             </span>
                           )}
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.csr ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.csr ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1011,7 +856,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
                               <div>
-                                <span className="text-[11px] sm:text-xs font-semibold text-[#0038A8] tracking-wide block font-display">
+                                <span className="text-[11px] sm:text-xs font-semibold text-[#205398] tracking-wide block font-display">
                                   {planData.reportCard.csr.subtitle || 'Claim Settlement Ratio'}
                                 </span>
                                 <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
@@ -1051,14 +896,14 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     </div>
 
                     {/* Box 2: ICR */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
+                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleReportCard('icr')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
                             ICR
                           </span>
                           {planData.reportCard?.icr?.summaryValue && (
@@ -1067,8 +912,8 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             </span>
                           )}
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.icr ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.icr ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1083,7 +928,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
                               <div>
-                                <span className="text-[11px] sm:text-xs font-semibold text-[#0038A8] tracking-wide block font-display">
+                                <span className="text-[11px] sm:text-xs font-semibold text-[#205398] tracking-wide block font-display">
                                   {planData.reportCard.icr.subtitle || 'Incurred Claim Ratio'}
                                 </span>
                                 <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
@@ -1112,14 +957,14 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     </div>
 
                     {/* Box 3: COMPLAINT VOLUME */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
+                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleReportCard('complaint')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
                             COMPLAINT VOLUME
                           </span>
                           {planData.reportCard?.complaintVolume?.summaryValue && (
@@ -1128,8 +973,8 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             </span>
                           )}
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.complaint ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.complaint ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1174,32 +1019,32 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               {activeModal === 'fundamental' && (
                 <div className="space-y-4 sm:space-y-5">
                   <div className="pr-8">
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                    <h2 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
                       COMPANY STRENGTH
                     </h2>
-                    <p className="text-xs text-[#0038A8] font-medium mt-0.5">
+                    <p className="text-xs text-[#205398] font-semibold mt-0.5">
                       How reliable/strong is the insurer?
                     </p>
                   </div>
 
                   <div className="space-y-2.5 sm:space-y-3">
                     {/* OWNERSHIP */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
+                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleCompanyStrength('ownership')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
                             OWNERSHIP / PERCENTAGE
                           </span>
                           <span className="text-xs sm:text-sm font-bold text-slate-700 font-display">
                             {planData.companyStrength?.ownership?.summaryValue}
                           </span>
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.ownership ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.ownership ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1220,7 +1065,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                                 {planData.companyStrength.ownership.items?.map((item, idx) => (
                                   <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-white border border-slate-100 text-xs">
                                     <span className="font-semibold text-slate-800">{item.name}</span>
-                                    <span className="font-bold text-[#0038A8]">{item.value}</span>
+                                    <span className="font-bold text-[#205398]">{item.value}</span>
                                   </div>
                                 ))}
                               </div>
@@ -1231,22 +1076,22 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     </div>
 
                     {/* CREDIT RATING */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
+                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleCompanyStrength('creditRating')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
                             CREDIT RATING
                           </span>
                           <span className="text-xs sm:text-sm font-bold text-amber-600 font-display">
                             {planData.companyStrength?.creditRating?.summaryValue}
                           </span>
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.creditRating ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.creditRating ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1278,22 +1123,22 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     </div>
 
                     {/* CAPITAL STRENGTH */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
+                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleCompanyStrength('capitalStrength')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
                             CAPITAL STRENGTH (SOLVENCY)
                           </span>
                           <span className="text-xs sm:text-sm font-bold text-slate-700 font-display">
                             {planData.companyStrength?.capitalStrength?.summaryValue}
                           </span>
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.capitalStrength ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.capitalStrength ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1325,22 +1170,22 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     </div>
 
                     {/* FINANCIAL BASE */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
+                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleCompanyStrength('financialBase')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
                             FINANCIAL BASE (AUM)
                           </span>
                           <span className="text-xs sm:text-sm font-bold text-slate-700 font-display">
                             {planData.companyStrength?.financialBase?.summaryValue}
                           </span>
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.financialBase ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.financialBase ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1378,10 +1223,10 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               {activeModal === 'limitations' && (
                 <div className="space-y-4 sm:space-y-5">
                   <div className="pr-8">
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                    <h2 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
                       LIMITATIONS & WAITING PERIODS
                     </h2>
-                    <p className="text-xs text-[#0038A8] font-medium mt-0.5">
+                    <p className="text-xs text-[#205398] font-semibold mt-0.5">
                       Terms, Waiting Periods & Exclusions
                     </p>
                   </div>
@@ -1392,7 +1237,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                       return (
                         <div
                           key={item.id}
-                          className="rounded-xl sm:rounded-2xl border border-[#0038A8]/30 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/60 transition-colors"
+                          className="rounded-xl sm:rounded-2xl border border-[#205398]/30 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/60 transition-colors"
                         >
                           <button
                             type="button"
@@ -1400,17 +1245,17 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                           >
                             <div className="flex-1 min-w-0 pr-2">
-                              <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-[#0038A8] transition-colors leading-tight">
+                              <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-[#205398] transition-colors leading-tight">
                                 {item.title}
                               </h4>
                               {item.durationTag && (
-                                <span className="inline-block mt-1 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/20">
+                                <span className="inline-block mt-1 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-[#F0F5FA] text-[#205398] border border-[#205398]/20">
                                   {item.durationTag}
                                 </span>
                               )}
                             </div>
-                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F4FF] transition-all duration-300 shrink-0">
-                              <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${isExpanded ? 'rotate-180 text-[#0038A8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
+                              <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${isExpanded ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                             </div>
                           </button>
 
@@ -1434,7 +1279,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                                     <ul className="space-y-1 pt-1 grid grid-cols-1 sm:grid-cols-2 gap-1">
                                       {item.diseaseList.map((d, dIdx) => (
                                         <li key={dIdx} className="flex items-center gap-1.5 text-slate-700 font-medium">
-                                          <span className="w-1.5 h-1.5 rounded-full bg-[#0038A8] shrink-0" />
+                                          <span className="w-1.5 h-1.5 rounded-full bg-[#205398] shrink-0" />
                                           <span className="truncate">{d}</span>
                                         </li>
                                       ))}
@@ -1444,7 +1289,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                                     <ul className="space-y-1 pt-1">
                                       {item.exclusionsList.map((ex, exIdx) => (
                                         <li key={exIdx} className="flex items-start gap-1.5 text-slate-600 font-medium">
-                                          <span className="text-rose-500 font-bold shrink-0">✕</span>
+                                          <span className="text-[#ED1C24] font-bold shrink-0">✕</span>
                                           <span>{ex}</span>
                                         </li>
                                       ))}
@@ -1465,10 +1310,10 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               {activeModal === 'mustKnow' && (
                 <div className="space-y-4 sm:space-y-5">
                   <div className="pr-8">
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                    <h2 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
                       MUST KNOW DETAILS
                     </h2>
-                    <p className="text-xs text-[#0038A8] font-medium mt-0.5">
+                    <p className="text-xs text-[#205398] font-semibold mt-0.5">
                       Key product takeaways
                     </p>
                   </div>
@@ -1477,7 +1322,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     {planData.mustKnow?.items?.map((item) => (
                       <div
                         key={item.id}
-                        className="p-4 rounded-2xl bg-white border border-[#0038A8]/30 shadow-2xs space-y-2 text-left"
+                        className="p-4 rounded-2xl bg-white border border-[#205398]/30 shadow-2xs space-y-2 text-left"
                       >
                         <div className="flex items-center gap-2">
                           <span className="text-xl">{item.icon}</span>
@@ -1492,7 +1337,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                           <ul className="space-y-1 pt-1 border-t border-slate-100">
                             {item.points.map((pt, pIdx) => (
                               <li key={pIdx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
-                                <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-xs" />
+                                <FiCheck className="text-[#205398] mt-0.5 shrink-0 text-xs" />
                                 <span>{pt}</span>
                               </li>
                             ))}

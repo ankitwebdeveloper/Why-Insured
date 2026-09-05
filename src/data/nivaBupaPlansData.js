@@ -1,10 +1,13 @@
 // =============================================================================
 // NIVA BUPA PLANS INDEPENDENT DATA CONFIGURATION
-// Aspire is the only Niva Bupa plan configured here.
+// Each Niva Bupa plan is stored as an independent data record.
 // =============================================================================
 
 export const NIVA_BUPA_CANONICAL_PLAN_IDS = [
-  'aspire'
+  'aspire',
+  'reassure-2-0',
+  'health-recharge',
+  'reassure-3-0'
 ];
 
 export const resolveNivaBupaPlanId = (planId) => {
@@ -12,6 +15,38 @@ export const resolveNivaBupaPlanId = (planId) => {
   const cleanId = String(planId).toLowerCase().trim();
   if (cleanId === 'aspire' || cleanId === 'niva-aspire' || cleanId === 'niva-bupa-aspire' || cleanId === 'aspire-plan') {
     return 'aspire';
+  }
+  if (
+    cleanId === 'reassure-2-0' ||
+    cleanId === 'reassure-2.0' ||
+    cleanId === 'reassure-2' ||
+    cleanId === 'reassure2-0' ||
+    cleanId === 'reassure2.0' ||
+    cleanId === 'reassure2' ||
+    cleanId === 'reassure' ||
+    cleanId === 'niva-bupa-reassure-2-0' ||
+    cleanId === 'niva-bupa-reassure' ||
+    cleanId === 'niva-reassure-2-0' ||
+    cleanId === 'niva-reassure'
+  ) {
+    return 'reassure-2-0';
+  }
+  if (
+    cleanId === 'health-recharge' ||
+    cleanId === 'niva-bupa-health-recharge' ||
+    cleanId === 'healthrecharge'
+  ) {
+    return 'health-recharge';
+  }
+  if (
+    cleanId === 'reassure-3-0' ||
+    cleanId === 'reassure-3.0' ||
+    cleanId === 'reassure3-0' ||
+    cleanId === 'reassure3.0' ||
+    cleanId === 'niva-bupa-reassure-3-0' ||
+    cleanId === 'niva-reassure-3-0'
+  ) {
+    return 'reassure-3-0';
   }
   return cleanId;
 };
@@ -1498,6 +1533,1261 @@ export const NIVA_BUPA_PLANS_DATA = {
               'Ambulance & Organ Donor Expenses covered up to Sum Insured',
               'Emergency road ambulance transportation to nearest hospital',
               'Inpatient medical expenses for organ harvesting from donor covered'
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  // ===========================================================================
+  // ===========================================================================
+  // PLAN: HEALTH RECHARGE (INDEPENDENT PLAN)
+  // ===========================================================================
+  'health-recharge': {
+    planId: 'health-recharge',
+    planName: 'Health Recharge',
+    fullName: 'Niva Bupa Health Recharge',
+    companyName: 'Niva Bupa',
+    tagline: 'Flexible Sum Insured, Deductible and Customer-Level Add-on Options',
+    subtitle: 'Flexible Sum Insured, Deductible and Customer-Level Add-on Options',
+    coverage: '₹2 Lakh - ₹95 Lakh',
+    premium: 'Available on request',
+
+    uiConfig: {
+      primaryColor: '#0EA5E9',
+      accentColor: '#F97316',
+      lightBg: '#F0F9FF',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    },
+
+    reportCard: {
+      heading: 'REPORT CARD',
+      subheading: 'Niva Bupa Performance',
+      description: 'Niva Bupa company-level performance information.',
+      csr: {
+        title: 'CSR',
+        summaryValue: 'Niva Bupa',
+        subtitle: 'Company-level information',
+        explanation: 'Refer to the latest Niva Bupa policy and regulatory disclosures for current company-level metrics.',
+        singleYear: 'Refer to latest disclosure',
+        singleYearLabel: 'Current company information',
+        threeYearAvg: 'Refer to latest disclosure',
+        threeYearAvgLabel: 'Historical company information'
+      },
+      icr: {
+        title: 'ICR',
+        summaryValue: 'Niva Bupa',
+        subtitle: 'Company-level information',
+        explanation: 'Refer to the latest Niva Bupa policy and regulatory disclosures for current company-level metrics.',
+        range: 'Refer to latest disclosure',
+        rangeLabel: 'Current company information'
+      },
+      complaintVolume: {
+        title: 'COMPLAINT VOLUME',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to the latest Niva Bupa policy and regulatory disclosures for current company-level metrics.',
+        value: 'Refer to latest disclosure',
+        label: 'Current company information'
+      }
+    },
+
+    companyStrength: {
+      heading: 'COMPANY STRENGTH',
+      subheading: 'Niva Bupa company information',
+      description: 'Niva Bupa company information.',
+      ownership: {
+        title: 'OWNERSHIP / PERCENTAGE',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to Niva Bupa disclosures for current ownership information.',
+        items: [{ name: 'Niva Bupa', value: 'Refer to latest disclosure', label: 'Ownership information' }]
+      },
+      creditRating: {
+        title: 'CREDIT RATING',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to Niva Bupa disclosures for current credit rating information.',
+        items: [{ agency: 'Niva Bupa disclosures', rating: 'Refer to latest disclosure' }]
+      },
+      capitalStrength: {
+        title: 'CAPITAL STRENGTH',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to Niva Bupa disclosures for current capital strength information.',
+        value: 'Refer to latest disclosure',
+        label: 'Current company information'
+      },
+      financialBase: {
+        title: 'FINANCIAL BASE',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to Niva Bupa disclosures for current financial information.',
+        value: 'Refer to latest disclosure',
+        label: 'Current company information'
+      },
+      reinsuranceStrength: {
+        title: 'REINSURANCE STRENGTH',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to Niva Bupa disclosures for current reinsurance information.',
+        value: 'Refer to latest disclosure',
+        label: 'Current company information'
+      },
+      marketPosition: {
+        title: 'MARKET POSITION',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to Niva Bupa disclosures for current market information.',
+        value: 'Refer to latest disclosure',
+        label: 'Current company information'
+      }
+    },
+
+    limitationsWaitingPeriods: {
+      heading: 'LIMITATIONS & WAITING PERIODS',
+      subheading: 'Policy terms',
+      description: 'Refer to the policy wording for applicable waiting periods, exclusions and conditions.',
+      items: [
+        { id: 'health-recharge-policy-wording', title: 'Policy wording', summary: 'Applicable waiting periods, exclusions and conditions are as stated in the policy wording.', iconType: 'clipboard' }
+      ]
+    },
+
+    mustKnow: {
+      buttonLabel: 'MUST KNOW DETAILS',
+      heading: 'MUST-KNOW DETAILS',
+      subheading: 'Health Recharge policy options',
+      items: [
+        { id: 'health-recharge-options', title: 'Flexible options', summary: 'Choose the applicable Sum Insured, deductible and available customer-level add-ons as stated in the policy wording.', iconType: 'check' }
+      ]
+    },
+
+    featuresSections: [
+      {
+        id: 'most-important',
+        title: 'MOST IMPORTANT',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'health-recharge-base-si',
+            title: 'Base Sum Insured per Policy Year',
+            subtitle: '₹2 Lakh to ₹95 Lakh options',
+            summary: 'Select the available Base Sum Insured for each policy year.',
+            badge: 'SUM INSURED OPTIONS',
+            iconType: 'credit',
+            points: ['₹2 Lakh', '₹3 Lakh / ₹4 Lakh', '₹5 Lakh / ₹7.5 Lakh / ₹10 Lakh / ₹15 Lakh / ₹25 Lakh / ₹40 Lakh / ₹45 Lakh / ₹65 Lakh / ₹70 Lakh / ₹90 Lakh / ₹95 Lakh']
+          },
+          {
+            id: 'health-recharge-deductible',
+            title: 'Annual Aggregate Deductible',
+            subtitle: 'E-Saver or Super Top-up options',
+            summary: 'Choose the applicable annual aggregate deductible structure.',
+            badge: 'DEDUCTIBLE OPTIONS',
+            iconType: 'dollar',
+            points: ['E-Saver: ₹10,000; ₹25,000; ₹50,000', 'Super Top-up: ₹1 Lakh to ₹10 Lakh', 'Super Top-up is available in multiples of ₹1 Lakh']
+          },
+          {
+            id: 'health-recharge-inpatient',
+            title: 'In-patient Treatment',
+            subtitle: 'Covered up to Sum Insured',
+            summary: 'In-patient treatment expenses are covered up to Sum Insured, subject to the policy terms.',
+            badge: 'IN-PATIENT COVER',
+            iconType: 'heart',
+            points: ['Nursing charges excluding Private Nursing charges', "Medical Practitioners' fees excluding Standby Services", 'Physiotherapy, investigation & diagnostics related to current admission', 'Medicines, drugs & consumables prescribed by treating Medical Practitioner', 'Intravenous fluids', 'Blood transfusion', 'Injection administration charges and/or consumables', 'Operation theatre charges', 'Prosthetics/devices/equipment implanted internally during surgery', 'Intensive Care Unit charges']
+          },
+          {
+            id: 'health-recharge-room-rent',
+            title: 'Room Rent',
+            subtitle: 'Tier-based room rent coverage',
+            summary: 'Room rent coverage depends on the applicable Base Sum Insured tier.',
+            badge: 'ROOM RENT',
+            iconType: 'home',
+            points: ['Up to 1% of Base Sum Insured per day for lower Sum Insured tiers', 'Single Private Room, up to Sum Insured for higher tiers']
+          },
+          {
+            id: 'health-recharge-pre-hospitalization',
+            title: 'Pre-Hospitalization',
+            subtitle: '60 days, covered up to Sum Insured',
+            summary: 'Eligible pre-hospitalization expenses are covered for the stated period.',
+            badge: '60 DAYS',
+            iconType: 'calendar',
+            points: ['60 days', 'Covered up to Sum Insured']
+          },
+          {
+            id: 'health-recharge-post-hospitalization',
+            title: 'Post-Hospitalization',
+            subtitle: '90 days, covered up to Sum Insured',
+            summary: 'Eligible post-hospitalization expenses are covered for the stated period.',
+            badge: '90 DAYS',
+            iconType: 'calendar',
+            points: ['90 days', 'Covered up to Sum Insured']
+          },
+          {
+            id: 'health-recharge-day-care',
+            title: 'Day Care Treatment',
+            subtitle: 'Covered up to Sum Insured',
+            summary: 'Day Care Treatment is covered up to Sum Insured.',
+            badge: 'DAY CARE',
+            iconType: 'activity',
+            points: ['Covered up to Sum Insured']
+          },
+          {
+            id: 'health-recharge-domiciliary',
+            title: 'Domiciliary Treatment',
+            subtitle: 'Covered up to Sum Insured',
+            summary: 'Domiciliary Treatment is covered up to Sum Insured.',
+            badge: 'DOMICILIARY',
+            iconType: 'home',
+            points: ['Covered up to Sum Insured']
+          },
+          {
+            id: 'health-recharge-alternative',
+            title: 'Alternative Treatment',
+            subtitle: 'Covered up to Sum Insured',
+            summary: 'Alternative Treatment is covered up to Sum Insured.',
+            badge: 'ALTERNATIVE TREATMENT',
+            iconType: 'activity',
+            points: ['Covered up to Sum Insured']
+          },
+          {
+            id: 'health-recharge-organ-donor',
+            title: 'Living Organ Donor Transplant',
+            subtitle: 'Covered up to Sum Insured',
+            summary: 'Living Organ Donor Transplant expenses are covered up to Sum Insured.',
+            badge: 'ORGAN DONOR',
+            iconType: 'users',
+            points: ['Covered up to Sum Insured']
+          },
+          {
+            id: 'health-recharge-ambulance',
+            title: 'Emergency Ambulance',
+            subtitle: 'Up to ₹1,500 per hospitalization',
+            summary: 'Emergency ambulance expenses are covered up to the stated limit per hospitalization.',
+            badge: '₹1,500 LIMIT',
+            iconType: 'truck',
+            points: ['Up to ₹1,500 per hospitalization']
+          }
+        ]
+      },
+      {
+        id: 'value-added',
+        title: 'VALUE ADDED',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'health-recharge-e-consultation',
+            title: 'e-Consultation',
+            subtitle: 'Unlimited tele / online consultations',
+            summary: 'Unlimited tele / online consultations are available.',
+            badge: 'UNLIMITED',
+            iconType: 'phone',
+            points: ['Unlimited tele / online consultations']
+          },
+          {
+            id: 'health-recharge-pharmacy-diagnostics',
+            title: 'Pharmacy & Diagnostic Services',
+            subtitle: 'Available through empanelled service provider',
+            summary: 'Pharmacy and diagnostic services are available through an empanelled service provider.',
+            badge: 'SERVICE PROVIDER',
+            iconType: 'clipboard',
+            points: ['Available through empanelled service provider']
+          },
+          {
+            id: 'health-recharge-loyalty-additions',
+            title: 'Loyalty Additions',
+            subtitle: '5% addition per Policy Year, up to 50%',
+            summary: 'Loyalty Additions increase the expiring Base Sum Insured subject to the stated conditions.',
+            badge: 'UP TO 50%',
+            iconType: 'award',
+            points: ['Increase of 5% of expiring Base Sum Insured in a Policy Year', 'Maximum up to 50% of Base Sum Insured', 'No increase in sub-limits', 'Applicable only for Base Sum Insured up to ₹25 Lakh']
+          }
+        ]
+      },
+      {
+        id: 'additional',
+        title: 'ADDITIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
+        items: [
+          {
+            id: 'health-recharge-mental-disorders',
+            title: 'Mental Disorders Treatment',
+            subtitle: 'Covered up to Sum Insured',
+            summary: 'Mental Disorders Treatment is covered up to Sum Insured, with sub-limit applicable on certain conditions.',
+            badge: 'SUB-LIMIT MAY APPLY',
+            iconType: 'heart',
+            points: ['Covered up to Sum Insured', 'Sub-limit applicable on certain conditions']
+          },
+          {
+            id: 'health-recharge-hiv-aids',
+            title: 'HIV / AIDS',
+            subtitle: 'Covered up to Sum Insured',
+            summary: 'HIV / AIDS treatment is covered up to Sum Insured.',
+            badge: 'COVERED',
+            iconType: 'shield',
+            points: ['Covered up to Sum Insured']
+          },
+          {
+            id: 'health-recharge-artificial-life',
+            title: 'Artificial Life Maintenance',
+            subtitle: 'Covered up to Sum Insured',
+            summary: 'Artificial Life Maintenance is covered up to Sum Insured.',
+            badge: 'COVERED',
+            iconType: 'activity',
+            points: ['Covered up to Sum Insured']
+          },
+          {
+            id: 'health-recharge-modern-treatments',
+            title: 'Modern Treatments',
+            subtitle: 'Covered up to Sum Insured',
+            summary: 'Modern Treatments are covered up to Sum Insured, with sub-limit applicable on certain conditions.',
+            badge: 'SUB-LIMIT MAY APPLY',
+            iconType: 'cpu',
+            points: ['Covered up to Sum Insured', 'Sub-limit applicable on certain conditions']
+          }
+        ]
+      },
+      {
+        id: 'optional',
+        title: 'OPTIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'health-recharge-personal-accident',
+            title: 'Personal Accident Cover',
+            subtitle: 'Optional Benefits / Add-ons',
+            summary: 'Customer-level optional Personal Accident Cover is available at an additional premium.',
+            badge: 'OPTIONAL ADD-ON',
+            iconType: 'shield',
+            isRider: true,
+            points: ['Accident Death', 'Accident Permanent Total Disability', 'Accident Permanent Partial Disability', '₹1 Lakh', '₹2 Lakh', '₹5 Lakh to ₹50 Lakh', '₹5 Lakh increments for the ₹5 Lakh–₹50 Lakh range']
+          },
+          {
+            id: 'health-recharge-critical-illness',
+            title: 'Critical Illness Cover',
+            subtitle: 'Optional Benefits / Add-ons',
+            summary: 'Customer-level optional Critical Illness Cover is available at an additional premium.',
+            badge: 'OPTIONAL ADD-ON',
+            iconType: 'heart',
+            isRider: true,
+            points: ['₹1 Lakh to ₹10 Lakh', 'Available in multiples of ₹1 Lakh']
+          },
+          {
+            id: 'health-recharge-room-rent-modification',
+            title: 'Modification in Room Rent',
+            subtitle: 'Optional Benefits / Add-ons',
+            summary: 'Customer-level optional room rent modification is available at an additional premium for eligible tiers.',
+            badge: 'OPTIONAL ADD-ON',
+            iconType: 'home',
+            isRider: true,
+            points: ['Single Private Room', 'Covered up to Sum Insured', 'Optional available only for deductible above ₹50,000', 'Applicable for eligible tiers', 'Not applicable for other tiers']
+          }
+        ]
+      }
+    ]
+    },
+
+  // ===========================================================================
+  // PLAN: REASSURE 3.0 (INDEPENDENT PLAN)
+  // ===========================================================================
+  'reassure-3-0': {
+    planId: 'reassure-3-0',
+    planName: 'ReAssure 3.0',
+    fullName: 'Niva Bupa – ReAssure 3.0',
+    companyName: 'Niva Bupa',
+    tagline: 'Flexible Variants with Booster+, ReAssure Forever and Worldwide Treatment Options',
+    subtitle: 'Flexible Variants with Booster+, ReAssure Forever and Worldwide Treatment Options',
+    coverage: '₹5 Lakh / ₹10 Lakh / Unlimited',
+    premium: 'Available on request',
+
+    uiConfig: {
+      primaryColor: '#0EA5E9',
+      accentColor: '#F97316',
+      lightBg: '#F0F9FF',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    },
+
+    variants: [
+      {
+        id: 'classic',
+        name: 'Classic',
+        roomRent: 'General Room',
+        ambulance: '₹2,000 per hospitalization',
+        airAmbulance: 'Not Covered',
+        modernTreatment: 'Up to ₹1 Lakh',
+        lockTheClock: 'Not Available',
+        hospitalDailyCash: '₹1,000 per day',
+        borderlessCover: 'Not Available'
+      },
+      {
+        id: 'select',
+        name: 'Select',
+        roomRent: 'Twin Sharing',
+        ambulance: '₹2,000 per hospitalization',
+        airAmbulance: 'Not Covered',
+        modernTreatment: 'Up to ₹1 Lakh',
+        lockTheClock: 'Not Available',
+        hospitalDailyCash: '₹1,000 per day',
+        borderlessCover: 'Up to ₹10 Lakh'
+      },
+      {
+        id: 'elite',
+        name: 'Elite',
+        roomRent: 'Single Private Room',
+        ambulance: 'Up to Sum Insured',
+        airAmbulance: 'Up to ₹5 Lakh',
+        modernTreatment: 'Up to Sum Insured',
+        lockTheClock: 'Available',
+        hospitalDailyCash: '₹2,000 per day',
+        borderlessCover: '₹5 Lakh & ₹10 Lakh SI: Up to ₹10 Lakh; Unlimited SI: Up to ₹50 Lakh'
+      },
+      {
+        id: 'black',
+        name: 'Black',
+        roomRent: 'Any Room',
+        ambulance: 'Up to Sum Insured',
+        airAmbulance: 'Up to ₹5 Lakh',
+        modernTreatment: 'Up to Sum Insured',
+        lockTheClock: 'Available',
+        hospitalDailyCash: '₹4,000 per day',
+        borderlessCover: '₹5 Lakh & ₹10 Lakh SI: Up to ₹10 Lakh; Unlimited SI: Up to ₹5 Crore'
+      }
+    ],
+
+    reportCard: {
+      heading: 'REPORT CARD',
+      subheading: 'Niva Bupa Performance',
+      description: 'Refer to current Niva Bupa disclosures for company-level performance information.',
+      csr: {
+        title: 'CSR',
+        summaryValue: 'Niva Bupa',
+        subtitle: 'Company-level information',
+        explanation: 'Refer to current Niva Bupa disclosures for the latest company-level metric.',
+        singleYear: 'Refer to latest disclosure',
+        singleYearLabel: 'Current company information',
+        threeYearAvg: 'Refer to latest disclosure',
+        threeYearAvgLabel: 'Historical company information'
+      },
+      icr: {
+        title: 'ICR',
+        summaryValue: 'Niva Bupa',
+        subtitle: 'Company-level information',
+        explanation: 'Refer to current Niva Bupa disclosures for the latest company-level metric.',
+        range: 'Refer to latest disclosure',
+        rangeLabel: 'Current company information'
+      },
+      complaintVolume: {
+        title: 'COMPLAINT VOLUME',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to current Niva Bupa disclosures for the latest company-level metric.',
+        value: 'Refer to latest disclosure',
+        label: 'Current company information'
+      }
+    },
+
+    companyStrength: {
+      heading: 'COMPANY STRENGTH',
+      subheading: 'Niva Bupa company information',
+      description: 'Refer to current Niva Bupa disclosures for company information.',
+      ownership: {
+        title: 'OWNERSHIP / PERCENTAGE',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to current Niva Bupa disclosures for ownership information.',
+        items: [{ name: 'Niva Bupa', value: 'Refer to latest disclosure', label: 'Ownership information' }]
+      },
+      creditRating: {
+        title: 'CREDIT RATING',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to current Niva Bupa disclosures for credit rating information.',
+        items: [{ agency: 'Niva Bupa disclosures', rating: 'Refer to latest disclosure' }]
+      },
+      capitalStrength: {
+        title: 'CAPITAL STRENGTH',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to current Niva Bupa disclosures for capital strength information.',
+        value: 'Refer to latest disclosure',
+        label: 'Current company information'
+      },
+      financialBase: {
+        title: 'FINANCIAL BASE',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to current Niva Bupa disclosures for financial information.',
+        value: 'Refer to latest disclosure',
+        label: 'Current company information'
+      },
+      reinsuranceStrength: {
+        title: 'REINSURANCE STRENGTH',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to current Niva Bupa disclosures for reinsurance information.',
+        value: 'Refer to latest disclosure',
+        label: 'Current company information'
+      },
+      marketPosition: {
+        title: 'MARKET POSITION',
+        summaryValue: 'Niva Bupa',
+        explanation: 'Refer to current Niva Bupa disclosures for market information.',
+        value: 'Refer to latest disclosure',
+        label: 'Current company information'
+      }
+    },
+
+    limitationsWaitingPeriods: {
+      heading: 'LIMITATIONS & WAITING PERIODS',
+      subheading: 'Policy terms',
+      description: 'Refer to the policy wording for applicable waiting periods, exclusions and conditions.',
+      items: [
+        { id: 'reassure-3-policy-wording', title: 'Policy wording', summary: 'Applicable terms, conditions and exclusions are as stated in the policy wording.', iconType: 'clipboard' }
+      ]
+    },
+
+    mustKnow: {
+      buttonLabel: 'MUST KNOW DETAILS',
+      heading: 'MUST-KNOW DETAILS',
+      subheading: 'ReAssure 3.0 variant options',
+      items: [
+        { id: 'reassure-3-variants', title: 'Choose a variant', summary: 'Select Classic, Select, Elite or Black to view the applicable variant-wise coverage.', iconType: 'check' }
+      ]
+    },
+
+    featuresSections: [
+      {
+        id: 'most-important',
+        title: 'MOST IMPORTANT',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'reassure-3-variants',
+            title: 'Available Variants',
+            subtitle: 'Classic, Select, Elite and Black',
+            summary: 'Choose the variant that matches the required room, ambulance and treatment limits.',
+            badge: 'FOUR VARIANTS',
+            iconType: 'award',
+            points: ['Classic', 'Select', 'Elite', 'Black', 'Classic & Select: With sub-limits & cappings', 'Elite & Black: Higher coverage']
+          },
+          {
+            id: 'reassure-3-si',
+            title: 'Sum Insured (SI)',
+            subtitle: '₹5 Lakh, ₹10 Lakh or Unlimited',
+            summary: 'Available Sum Insured options are ₹5 Lakh, ₹10 Lakh and Unlimited.',
+            badge: 'SI OPTIONS',
+            iconType: 'credit',
+            points: ['₹5 Lakh', '₹10 Lakh', 'Unlimited']
+          },
+          {
+            id: 'reassure-3-tenure',
+            title: 'Policy Tenure',
+            subtitle: '1 to 5 Years',
+            summary: 'Select a policy tenure from 1 to 5 Years.',
+            badge: 'TENURE',
+            iconType: 'calendar',
+            points: ['1 to 5 Years']
+          },
+          {
+            id: 'reassure-3-room-rent',
+            title: 'Room Rent Eligibility',
+            subtitle: 'Variant-wise room eligibility',
+            summary: 'Room Rent Eligibility varies by selected variant.',
+            badge: 'ROOM CATEGORY',
+            iconType: 'home',
+            variantTable: {
+              headers: ['Variant', 'Eligibility'],
+              rows: [['Classic', 'General Room'], ['Select', 'Twin Sharing'], ['Elite', 'Single Private Room'], ['Black', 'Any Room']]
+            }
+          },
+          {
+            id: 'reassure-3-hospitalization',
+            title: 'Hospitalization',
+            subtitle: '2+ hours; 24+ hours for AYUSH',
+            summary: 'Hospitalization cover applies from 2+ hours, and AYUSH requires 24+ hours.',
+            badge: 'ADMISSION',
+            iconType: 'heart',
+            points: ['2+ hours', '24+ hours for AYUSH']
+          },
+          {
+            id: 'reassure-3-pre-post',
+            title: 'Pre & Post Hospitalization',
+            subtitle: '60 / 180 Days',
+            summary: 'Pre and post hospitalization coverage is available for 60 / 180 Days.',
+            badge: '60 / 180 DAYS',
+            iconType: 'calendar',
+            points: ['60 Days pre-hospitalization', '180 Days post-hospitalization']
+          },
+          {
+            id: 'reassure-3-domiciliary',
+            title: 'Domiciliary Treatment',
+            subtitle: 'Up to Sum Insured',
+            summary: 'Domiciliary Treatment is covered up to Sum Insured.',
+            badge: 'DOMICILIARY',
+            iconType: 'home',
+            points: ['Up to Sum Insured']
+          },
+          {
+            id: 'reassure-3-organ-donor',
+            title: 'Organ Donor Expenses',
+            subtitle: 'Up to Sum Insured',
+            summary: 'Organ Donor Expenses are covered up to Sum Insured.',
+            badge: 'ORGAN DONOR',
+            iconType: 'users',
+            points: ['Up to Sum Insured']
+          },
+          {
+            id: 'reassure-3-ped',
+            title: 'PED Cover',
+            subtitle: 'From Day 1***',
+            summary: 'PED Cover is available from Day 1***.',
+            badge: 'FROM DAY 1***',
+            iconType: 'shield',
+            points: ['From Day 1***']
+          },
+          {
+            id: 'reassure-3-modern-treatment',
+            title: 'Modern Treatment Cover',
+            subtitle: 'Variant-wise limit',
+            summary: 'Modern Treatment Cover varies by variant.',
+            badge: 'MODERN TREATMENT',
+            iconType: 'cpu',
+            variantTable: {
+              headers: ['Variant', 'Limit'],
+              rows: [['Classic & Select', 'Up to ₹1 Lakh'], ['Elite & Black', 'Up to Sum Insured']]
+            }
+          },
+          {
+            id: 'reassure-3-road-ambulance',
+            title: 'Road Ambulance',
+            subtitle: 'Variant-wise limit',
+            summary: 'Road Ambulance coverage varies by variant.',
+            badge: 'ROAD AMBULANCE',
+            iconType: 'truck',
+            variantTable: {
+              headers: ['Variant', 'Limit'],
+              rows: [['Classic & Select', '₹2,000 per hospitalization'], ['Elite & Black', 'Up to Sum Insured']]
+            }
+          },
+          {
+            id: 'reassure-3-air-ambulance',
+            title: 'Air Ambulance',
+            subtitle: 'Variant-wise limit',
+            summary: 'Air Ambulance coverage varies by variant.',
+            badge: 'AIR AMBULANCE',
+            iconType: 'truck',
+            variantTable: {
+              headers: ['Variant', 'Limit'],
+              rows: [['Classic & Select', 'Not Covered'], ['Elite & Black', 'Up to ₹5 Lakh']]
+            }
+          }
+        ]
+      },
+      {
+        id: 'value-added',
+        title: 'VALUE ADDED',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'reassure-3-booster',
+            title: 'Booster+ (Bonus)',
+            subtitle: 'Up to 10×; applicable on ₹5 Lakh & ₹10 Lakh SI',
+            summary: 'Unutilized Sum Insured is carried forward up to 10× on ₹5 Lakh and ₹10 Lakh SI.',
+            badge: 'UP TO 10×',
+            iconType: 'trending',
+            points: ['Unutilized Sum Insured carried forward up to 10×', 'Applicable on ₹5 Lakh & ₹10 Lakh SI', 'Example: ₹10 Lakh → up to ₹1.10 Crore']
+          },
+          {
+            id: 'reassure-3-forever',
+            title: 'ReAssure Forever (Restoration)',
+            subtitle: 'Unlimited restorations',
+            summary: 'ReAssure Forever provides unlimited restorations for ₹5 Lakh and ₹10 Lakh SI.',
+            badge: 'UNLIMITED RESTORATION',
+            iconType: 'refresh',
+            points: ['Unlimited restorations', 'Applicable for ₹5 Lakh & ₹10 Lakh SI']
+          },
+          {
+            id: 'reassure-3-lock-clock',
+            title: 'Lock the Clock',
+            subtitle: 'Variant-wise availability',
+            summary: 'Lock the Clock availability depends on the selected variant.',
+            badge: 'PREMIUM OPTION',
+            iconType: 'clock',
+            variantTable: {
+              headers: ['Variant', 'Availability'],
+              rows: [['Classic & Select', 'Not Available'], ['Elite & Black', 'Available']]
+            }
+          },
+          {
+            id: 'reassure-3-second-opinion',
+            title: 'Second Medical Opinion',
+            subtitle: 'Covered within Niva Bupa network',
+            summary: 'Second Medical Opinion is covered within the Niva Bupa network.',
+            badge: 'NETWORK COVER',
+            iconType: 'activity',
+            points: ['Covered within Niva Bupa network']
+          },
+          {
+            id: 'reassure-3-e-consultation',
+            title: 'E-Consultation',
+            subtitle: 'Unlimited; cashless only',
+            summary: 'Unlimited E-Consultation is available on a cashless-only basis.',
+            badge: 'UNLIMITED',
+            iconType: 'phone',
+            points: ['Unlimited', 'Cashless only']
+          },
+          {
+            id: 'reassure-3-surprise',
+            title: 'Surprise Benefit',
+            subtitle: 'Download the Niva Bupa app and get SURPRISED',
+            summary: 'Download the Niva Bupa app and get SURPRISED.',
+            badge: 'SURPRISE BENEFIT',
+            iconType: 'zap',
+            points: ['Download the Niva Bupa app and get SURPRISED']
+          }
+        ]
+      },
+      {
+        id: 'additional',
+        title: 'ADDITIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'reassure-3-cash-bag',
+            title: 'Cash-Bag+',
+            subtitle: 'Wallet credit for renewal or OPD expenses',
+            summary: 'Cash-Bag+ credits an amount to a wallet for renewal or OPD expenses.',
+            badge: 'WALLET BENEFIT',
+            iconType: 'dollar',
+            points: ['Amount credited to wallet', 'Usable for renewal or OPD expenses', '10% on 1st Renewal', '5% on 2nd Renewal', '10% after 3 claim-free years']
+          },
+          {
+            id: 'reassure-3-heads-up',
+            title: 'Heads Up',
+            subtitle: 'Inform before hospitalization',
+            summary: 'Inform the insurance company before hospitalization and get treatment at recommended hospitals.',
+            badge: '15% DISCOUNT / 20% CO-PAY',
+            iconType: 'zap',
+            points: ['Inform insurance company before hospitalization', 'Get treatment at recommended hospitals', 'Benefit: 15% Discount / 20% Co-pay', 'No intimation → Co-payment applicable']
+          },
+          {
+            id: 'reassure-3-tiered-network',
+            title: 'Tiered Network Hospitals',
+            subtitle: 'Listed hospitals with tier-based benefit',
+            summary: 'Treatment is available at listed hospitals with a 15% Discount / 20% Co-pay benefit.',
+            badge: 'NETWORK HOSPITALS',
+            iconType: 'activity',
+            points: ['Treatment available at listed hospitals', 'Benefit: 15% Discount / 20% Co-pay']
+          },
+          {
+            id: 'reassure-3-daily-cash',
+            title: 'Hospital Daily Cash',
+            subtitle: 'Variant-wise daily amount',
+            summary: 'Hospital Daily Cash varies by selected variant.',
+            badge: 'DAILY CASH',
+            iconType: 'dollar',
+            variantTable: {
+              headers: ['Variant', 'Amount'],
+              rows: [['Classic / Select', '₹1,000 per day'], ['Elite', '₹2,000 per day'], ['Black', '₹4,000 per day']]
+            }
+          },
+          {
+            id: 'reassure-3-borderless',
+            title: 'Borderless Cover (Worldwide Treatment)',
+            subtitle: 'Variant-wise worldwide treatment limit',
+            summary: 'Borderless Cover limits vary by variant.',
+            badge: 'WORLDWIDE TREATMENT',
+            iconType: 'globe',
+            variantTable: {
+              headers: ['Variant', 'Worldwide treatment limit'],
+              rows: [['Classic', 'Not Available'], ['Select', 'Up to ₹10 Lakh'], ['Elite', '₹5 Lakh & ₹10 Lakh SI: Up to ₹10 Lakh; Unlimited SI: Up to ₹50 Lakh'], ['Black', '₹5 Lakh & ₹10 Lakh SI: Up to ₹10 Lakh; Unlimited SI: Up to ₹5 Crore']]
+            }
+          }
+        ]
+      },
+      {
+        id: 'optional',
+        title: 'OPTIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'reassure-3-niva-bupa-one',
+            title: 'Niva Bupa One (Membership)',
+            subtitle: 'Optional Benefits / Add-ons',
+            summary: 'Niva Bupa One membership is available as an optional add-on.',
+            badge: 'OPTIONAL ADD-ON',
+            iconType: 'award',
+            isRider: true,
+            points: ['Priority Claims', 'Annual Health Check-ups', 'Dedicated Support']
+          },
+          {
+            id: 'reassure-3-waiting-period-reduction',
+            title: 'Specific Diseases Waiting Period Reduction',
+            subtitle: 'Optional Benefits / Add-ons',
+            summary: 'Optional reduction of the Specific Diseases waiting period.',
+            badge: 'OPTIONAL ADD-ON',
+            iconType: 'clock',
+            isRider: true,
+            points: ['Specific Diseases: 24 → 12 / 36 Months']
+          },
+          {
+            id: 'reassure-3-ped-waiting-period-reduction',
+            title: 'PED Waiting Period Reduction',
+            subtitle: 'Optional Benefits / Add-ons',
+            summary: 'Optional reduction of the PED waiting period.',
+            badge: 'OPTIONAL ADD-ON',
+            iconType: 'clock',
+            isRider: true,
+            points: ['PED Waiting Period: 36 → 12 / 24 Months']
+          },
+          {
+            id: 'reassure-3-annual-deductible',
+            title: 'Annual Deductible',
+            subtitle: 'Optional Benefits / Add-ons',
+            summary: 'Optional Annual Deductible from ₹10,000 to ₹5 Lakh.',
+            badge: 'OPTIONAL ADD-ON',
+            iconType: 'credit',
+            isRider: true,
+            points: ['₹10,000 to ₹5 Lakh']
+          },
+          {
+            id: 'reassure-3-claim-safeguard',
+            title: 'Claim Safeguard+',
+            subtitle: 'Optional Benefits / Add-ons',
+            summary: 'Claim Safeguard+ is available as an optional add-on.',
+            badge: 'OPTIONAL ADD-ON',
+            iconType: 'shield',
+            isRider: true,
+            points: ['Claim Safeguard+']
+          },
+          {
+            id: 'reassure-3-personal-accident',
+            title: 'Personal Accident Cover',
+            subtitle: 'Optional Benefits / Add-ons',
+            summary: 'Personal Accident Cover is available as an optional add-on.',
+            badge: 'OPTIONAL ADD-ON',
+            iconType: 'shield',
+            isRider: true,
+            points: ['Personal Accident Cover']
+          },
+          {
+            id: 'reassure-3-wellconsult',
+            title: 'WellConsult OPD',
+            subtitle: 'Optional Benefits / Add-ons',
+            summary: 'WellConsult OPD is available as an optional add-on.',
+            badge: 'OPTIONAL ADD-ON',
+            iconType: 'activity',
+            isRider: true,
+            points: ['WellConsult OPD']
+          }
+        ]
+      }
+    ]
+  },
+
+  // Existing ReAssure 2.0 record retained independently from ReAssure 3.0.
+  'reassure-2-0': {
+    // --- 1. REPORT CARD (INDEPENDENT) ---
+    reportCard: {
+      heading: 'REPORT CARD',
+      subheading: 'Niva Bupa Performance',
+      description: 'Official claim settlement and financial strength metrics.',
+      csr: {
+        title: 'CSR',
+        summaryValue: '98.2%',
+        subtitle: 'Claim Settlement Ratio',
+        explanation: 'CSR reflects the percentage of eligible claims settled by Niva Bupa with ultra-fast 30-minute cashless processing across 10,000+ network hospitals.',
+        singleYear: '98.2%',
+        singleYearLabel: 'Recent Single Year (FY2024-25)',
+        threeYearAvg: '98.0%',
+        threeYearAvgLabel: '3 Year Average (FY2022-25)'
+      },
+      icr: {
+        title: 'ICR',
+        summaryValue: '58%',
+        subtitle: 'Incurred Claim Ratio',
+        explanation: "ICR shows the proportion of earned premium spent on honoring customer claims. Niva Bupa's 58% ratio ensures strong claims solvency and liquidity reserves.",
+        range: '58% → 62%',
+        rangeLabel: 'Incurred Claim Ratio'
+      },
+      complaintVolume: {
+        title: 'COMPLAINT VOLUME',
+        summaryValue: '16.1',
+        explanation: 'Complaints registered per 10,000 settled claims. Niva Bupa maintains automated digital claims desk and proactive customer grievance handling.',
+        value: '16.1',
+        label: 'Complaints per 10,000 Claims'
+      }
+    },
+
+    // --- 2. COMPANY STRENGTH (INDEPENDENT) ---
+    companyStrength: {
+      heading: 'COMPANY STRENGTH',
+      subheading: 'How reliable/strong is the insurer?',
+      description: 'How reliable/strong is the insurer?',
+      ownership: {
+        title: 'OWNERSHIP / PERCENTAGE',
+        summaryValue: '63% / 37%',
+        explanation: 'Joint venture combining the international healthcare legacy of Bupa Group (UK) with private equity giant True North (India).',
+        items: [
+          { name: 'Bupa Group (UK)', value: '63%', label: 'Ownership' },
+          { name: 'True North (India)', value: '37%', label: 'Ownership' }
+        ]
+      },
+      creditRating: {
+        title: 'CREDIT RATING',
+        summaryValue: 'AA',
+        explanation: 'Crisil AA / Stable credit ratings reflect top-tier financial strength, high claim-paying solvency, and disciplined risk management.',
+        items: [
+          { agency: 'CRISIL', rating: 'AA / Stable' },
+          { agency: 'ICRA', rating: 'AA / Stable' }
+        ]
+      },
+      capitalStrength: {
+        title: 'CAPITAL STRENGTH',
+        summaryValue: '1.65×',
+        explanation: "Solvency ratio demonstrates financial capacity to honor all claims under extreme conditions, surpassing the IRDAI minimum mandate of 1.50×.",
+        value: '1.65×',
+        label: 'Solvency Ratio (as of March 2025)'
+      },
+      financialBase: {
+        title: 'FINANCIAL BASE',
+        summaryValue: '₹8,500+ Cr',
+        explanation: 'Robust investment assets and capital base supporting seamless cashless hospital claim settlements nationwide.',
+        value: '₹8,500+ Cr',
+        label: 'Investment Assets under Management'
+      },
+      reinsuranceStrength: {
+        title: 'REINSURANCE STRENGTH',
+        summaryValue: '85%+',
+        explanation: 'Over 85% of reinsurance capacity backed by Bupa Global Re, Swiss Re, and General Insurance Corporation of India (GIC Re).',
+        value: '85%+',
+        label: 'Backed by Bupa Re, Swiss Re & GIC Re'
+      },
+      marketPosition: {
+        title: 'MARKET POSITION',
+        summaryValue: 'Top 3 SAHI',
+        explanation: 'Pioneer of revolutionary features like ReAssure Lock-in with over 10,000+ cashless hospitals and 30-minute cashless approval speed.',
+        value: 'Top 3 Standalone Health Insurer',
+        label: 'Over 1 Crore+ Policies Issued'
+      }
+    },
+
+    // --- 3. LIMITATIONS & WAITING PERIODS ---
+    limitationsWaitingPeriods: {
+      heading: 'LIMITATIONS & WAITING PERIODS',
+      subheading: 'Terms & Waiting Periods',
+      description: 'Standard waiting periods and statutory terms applied to this policy.',
+      items: [
+        {
+          id: 'initial',
+          title: 'Initial Waiting Period (30 Days)',
+          summary: 'A mandatory waiting period of 30 days applies from policy inception for any non-accidental illness.',
+          highlight: 'Accidental hospitalization is covered from Day 1.',
+          policyRef: 'Niva Bupa ReAssure 2.0 Policy Terms (Section 3.1)',
+          durationTag: '30 Days'
+        },
+        {
+          id: 'specific',
+          title: 'Specific Illness Waiting Period (24 Months)',
+          summary: 'A 24-month waiting duration applies for medical treatment of specified conditions such as cataract, hernia, joint replacements, and stones.',
+          diseaseList: [
+            'Cataract & eye surgeries',
+            'Benign Prostatic Hypertrophy (BPH)',
+            'Hernia (all types) & Hydrocele',
+            'Piles, Fistula & Fissure in ano',
+            'Stones in Urinary, Biliary & Renal systems',
+            'Joint replacements (non-accidental)',
+            'Osteoarthritis & Osteoporosis',
+            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy'
+          ],
+          policyRef: 'Niva Bupa ReAssure 2.0 Specific Illness Schedule',
+          durationTag: '24 Months'
+        },
+        {
+          id: 'ped',
+          title: 'Pre-Existing Disease (PED) Waiting (36 Months)',
+          summary: 'A waiting period of 36 months applies for pre-existing conditions declared at proposal.',
+          highlight: 'Continuous policy renewals preserve PED waiting credits.',
+          policyRef: 'Niva Bupa ReAssure 2.0 Policy Terms (Section 3.3)',
+          durationTag: '36 Months'
+        },
+        {
+          id: 'permanent',
+          title: 'Permanent Exclusions',
+          summary: 'The policy excludes expenses for cosmetic surgery, intentional self-injury, substance abuse, and unproven experimental treatments.',
+          exclusionsList: [
+            'Cosmetic, aesthetic & plastic surgery',
+            'Intentional self-injury & suicide attempt',
+            'Substance, alcohol & drug abuse rehabilitation',
+            'Obesity & bariatric surgery unless life-threatening',
+            'Diagnostic-only / investigation admissions',
+            'Unproven / experimental treatments'
+          ],
+          policyRef: 'Standard IRDAI & Niva Bupa Guidelines',
+          durationTag: 'Never Covered'
+        }
+      ]
+    },
+
+    // --- 4. MUST KNOW ---
+    mustKnow: {
+      heading: 'MUST-KNOW DETAILS',
+      subheading: 'Important ReAssure 2.0 terms that policyholders should keep in mind',
+      buttonLabel: 'MUST KNOW DETAILS',
+      layout: 'details-modal',
+      items: [
+        {
+          id: 'cashless-room',
+          icon: '🏥',
+          title: '100% CASHLESS & ANY ROOM CATEGORY',
+          paragraphs: [
+            '100% Cashless Policy across 10,000+ network hospitals nationwide.',
+            'Any room category covered with zero proportionate deductions and no limit on ICU charges.'
+          ]
+        },
+        {
+          id: 'pre-post',
+          icon: '📅',
+          title: '60 DAYS PRE & 180 DAYS POST HOSPITALIZATION',
+          paragraphs: [
+            'Medical expenses incurred 60 days before hospital admission and 180 days after discharge are covered.'
+          ]
+        },
+        {
+          id: 'restore',
+          icon: '🔄',
+          title: 'UNLIMITED RESTORATION (10+10+10.....10 LAC)',
+          paragraphs: [
+            'Automatically restores 100% Sum Insured unlimited times in a policy year upon exhaustion for subsequent claims.'
+          ]
+        },
+        {
+          id: 'booster',
+          icon: '📈',
+          title: 'BOOSTER (BONUS) UP TO 10X CARRY FORWARD',
+          paragraphs: [
+            'Unused Sum Insured carries forward to next year: Bronze+ 3x, Platinum+ 5x, Titanium+ 10x.'
+          ]
+        },
+        {
+          id: 'checkup-tele',
+          icon: '🩺',
+          title: 'HEALTH CHECK-UP (₹5,000 DAY 1) & TELE-CONSULTATION',
+          paragraphs: [
+            '₹5,000 Health Check-up available from Day 1 for all members and unlimited 24/7 tele-consultations.'
+          ]
+        }
+      ]
+    },
+
+    // --- 5. POLICY BENEFITS (EXACT 4 HEADINGS) ---
+    featuresSections: [
+      // -----------------------------------------------------------------------
+      // CATEGORY 1: MOST IMPORTANT
+      // -----------------------------------------------------------------------
+      {
+        id: 'most-important',
+        title: 'MOST IMPORTANT',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'rea-cashless',
+            title: '100% Cashless Policy',
+            subtitle: '100% Cashless Hospitalization Network',
+            badge: '100% CASHLESS',
+            iconType: 'shield',
+            summary: 'Avail seamless 100% cashless hospitalization across 10,000+ top network hospitals nationwide.',
+            points: [
+              '100% Cashless Policy across network hospitals',
+              'Direct settlement with hospital without out-of-pocket delays',
+              '30-minute cashless approval speed'
+            ]
+          },
+          {
+            id: 'rea-room-icu',
+            title: 'Any Room Category & No Limit on ICU Charges',
+            subtitle: 'Any Room Category with No Limit on ICU Charges',
+            badge: 'NO ROOM/ICU LIMIT',
+            iconType: 'home',
+            summary: 'Enjoy any hospital room category without daily rent capping, and complete coverage on ICU/ICCU charges up to Sum Insured.',
+            points: [
+              'Any Room Category covered with zero proportionate deductions',
+              'No Limit on ICU Charges',
+              'Full coverage for doctor visits and nursing fees up to Sum Insured'
+            ]
+          },
+          {
+            id: 'rea-pre-post',
+            title: 'Pre & Post Hospitalization (60 & 180 days)',
+            subtitle: '60 Days Pre & 180 Days Post Hospitalization',
+            badge: '60 & 180 DAYS',
+            iconType: 'calendar',
+            summary: 'Comprehensive coverage for medical expenses incurred 60 days before hospital admission and 180 days after hospital discharge.',
+            points: [
+              'Pre-Hospitalization: 60 Days medical expenses covered',
+              'Post-Hospitalization: 180 Days follow-up consultations and medicines covered',
+              'Diagnostic tests, consultations, and pharmacy bills included'
+            ]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 2: VALUE ADDED
+      // -----------------------------------------------------------------------
+      {
+        id: 'value-added',
+        title: 'VALUE ADDED',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'rea-unlimited-restore',
+            title: 'Unlimited Restoration (10+10+10.....10 Lac)',
+            subtitle: 'Unlimited Refill on Base Sum Insured',
+            badge: 'UNLIMITED RESTORATION',
+            iconType: 'refresh',
+            summary: 'Automatically restores 100% Sum Insured unlimited times in a policy year (10+10+10.....10 Lac) upon exhaustion for subsequent claims.',
+            points: [
+              'Unlimited Restoration (10+10+10.....10 Lac)',
+              'Recharges instantly upon partial or complete exhaustion',
+              'Continuous financial security for multiple admissions in a policy year'
+            ]
+          },
+          {
+            id: 'rea-booster-bonus',
+            title: 'Booster (Bonus)',
+            subtitle: 'Unused Sum Insured will be carried forward to next year',
+            badge: 'UP TO 10X COVER',
+            iconType: 'trending',
+            summary: 'Unused Sum Insured will be carried forward to the next year\'s policy coverage.',
+            tableData: {
+              headers: ['Tier Variant', 'Coverage Multiplier', 'Example Calculation'],
+              rows: [
+                ['BRONZE+', '3x', '₹10 LAC → ₹40 LAC'],
+                ['PLATINUM+', '5x', '₹10 LAC → ₹60 LAC'],
+                ['TITANIUM+', '10x', '₹10 LAC → ₹1 CR 10 LAC']
+              ]
+            },
+            points: [
+              'BRONZE+: 3x (Eg. ₹10 LAC → ₹40 LAC)',
+              'PLATINUM+: 5x (Eg. ₹10 LAC → ₹60 LAC)',
+              'TITANIUM+: 10x (Eg. ₹10 LAC → ₹1 CR 10 LAC)',
+              "Note: Unused Sum Insured will be carried forward to the next year's policy coverage."
+            ]
+          },
+          {
+            id: 'rea-health-checkup',
+            title: 'Health Check-up (₹5,000 Available from Day 1)',
+            subtitle: 'Comprehensive Health Check-up from Day 1',
+            badge: 'DAY 1 CHECK-UP',
+            iconType: 'clipboard',
+            summary: 'Avail comprehensive health check-up worth ₹5,000 from Day 1 of policy inception across network diagnostic centers.',
+            points: [
+              'Health Check-up (₹5,000 Available from Day 1)',
+              'Available from Day 1 of policy inception with zero waiting period',
+              'Comprehensive diagnostic screenings for preventive wellness'
+            ]
+          },
+          {
+            id: 'rea-tele-consultation',
+            title: 'Unlimited Tele-consultation',
+            subtitle: 'Unlimited 24/7 Tele-Consultations',
+            badge: 'UNLIMITED E-CONSULTS',
+            iconType: 'phone',
+            summary: 'Enjoy unlimited 24/7 digital tele-consultations and video consultations with qualified doctors.',
+            points: [
+              'Unlimited Tele-consultation',
+              '24/7 digital tele-consultations with general physicians and specialists',
+              'Instant digital prescriptions and medical advice'
+            ]
+          },
+          {
+            id: 'rea-safeguard-plus',
+            title: 'Safeguard+ (Optional Rider)',
+            subtitle: 'Non-Payable Medical Consumables Covered',
+            badge: 'OPTIONAL RIDER',
+            iconType: 'shield',
+            summary: 'Optional rider providing complete coverage for non-payable medical consumable items (gloves, PPE kits, syringes, etc.).',
+            isRider: true,
+            points: [
+              'Safeguard+ (Optional Rider)',
+              'Coverage for non-payable medical items such as gloves, syringes, and PPE kits',
+              'Maximum out-of-pocket savings during hospitalisation'
+            ]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 3: ADDITIONAL
+      // -----------------------------------------------------------------------
+      {
+        id: 'additional',
+        title: 'ADDITIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2',
+        items: [
+          {
+            id: 'rea-ayush',
+            title: 'AYUSH Treatment (Inpatient, Pre & Post)',
+            subtitle: 'Inpatient, Pre & Post AYUSH Covered',
+            badge: 'AYUSH COVERED',
+            iconType: 'heart',
+            summary: 'Full coverage for inpatient AYUSH treatments (Ayurveda, Yoga, Unani, Siddha, Homeopathy) including pre and post hospitalization expenses.',
+            points: [
+              'AYUSH Treatment (Inpatient, Pre & Post) covered up to Sum Insured',
+              'Ayurveda, Yoga, Unani, Siddha, and Homeopathy at recognized centers',
+              'Includes pre and post hospitalization AYUSH medical expenses'
+            ]
+          },
+          {
+            id: 'rea-day-care',
+            title: 'Day Care Treatment (Also covered if admission is more than 2 hrs)',
+            subtitle: 'All Day Care Procedures Covered (<24 hrs & >2 hrs admission)',
+            badge: 'DAY CARE',
+            iconType: 'activity',
+            summary: 'Covers day care medical procedures requiring less than 24 hours of hospital stay; also covered if admission is more than 2 hours.',
+            points: [
+              'Day Care Treatment covered up to Sum Insured',
+              'Also covered if admission is more than 2 hrs',
+              'Advanced procedures covered without overnight stay requirement'
+            ]
+          },
+          {
+            id: 'rea-domiciliary',
+            title: 'Domiciliary Treatment',
+            subtitle: 'Home Hospitalization Treatment Covered',
+            badge: 'DOMICILIARY',
+            iconType: 'home',
+            summary: 'Medical treatment taken at home (Domiciliary Hospitalization) when hospital beds are unavailable or the patient cannot be safely moved.',
+            points: [
+              'Domiciliary Treatment covered up to Sum Insured',
+              'Prescribed home care treatments when hospital beds are unavailable',
+              'Continuous medical care under treating doctor supervision'
+            ]
+          },
+          {
+            id: 'rea-ambulance-donor',
+            title: 'Ambulance & Organ Donor Expenses',
+            subtitle: 'Road Ambulance & Organ Harvesting Costs Covered',
+            badge: 'AMBULANCE & DONOR',
+            iconType: 'truck',
+            summary: 'Emergency road ambulance transportation and inpatient hospitalization expenses for organ donor during organ harvesting covered up to Sum Insured.',
+            points: [
+              'Ambulance & Organ Donor Expenses covered up to Sum Insured',
+              'Emergency road ambulance transportation to nearest hospital',
+              'Inpatient medical expenses for organ harvesting from donor covered'
+            ]
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 4: OPTIONAL
+      // -----------------------------------------------------------------------
+      {
+        id: 'optional',
+        title: 'OPTIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'rea-optional-safeguard-ref',
+            title: 'Safeguard+ (Optional Rider)',
+            subtitle: 'Optional Consumables & Inflation Add-on',
+            badge: 'OPTIONAL RIDER',
+            iconType: 'shield',
+            summary: 'Safeguard+ optional rider covers non-payable consumable medical expenses and CPI inflation protection. Configured under Value Added Services.',
+            isRider: true,
+            points: [
+              'Safeguard+ (Optional Rider)',
+              'Complete coverage for non-medical consumables (gloves, syringes, PPE kits)',
+              'Details and coverage benefits listed under Value Added Services'
             ]
           }
         ]

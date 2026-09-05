@@ -9,7 +9,8 @@
 // =============================================================================
 
 export const ICICI_LOMBARD_CANONICAL_PLAN_IDS = [
-  'elevate'
+  'elevate',
+  'activate-booster'
 ];
 
 export const resolveIciciPlanId = (planId) => {
@@ -18,7 +19,18 @@ export const resolveIciciPlanId = (planId) => {
   if (cleanId === 'elevate' || cleanId === 'icici-elevate' || cleanId === 'icici-lombard-elevate' || cleanId === 'elevate-plan') {
     return 'elevate';
   }
-  return 'elevate';
+  if (
+    cleanId === 'activate-booster' ||
+    cleanId === 'activatebooster' ||
+    cleanId === 'activate-booster-super-top-up' ||
+    cleanId === 'activate-booster-top-up' ||
+    cleanId === 'icici-activate-booster' ||
+    cleanId === 'icici-lombard-activate-booster' ||
+    cleanId === 'activate-booster-plan'
+  ) {
+    return 'activate-booster';
+  }
+  return cleanId;
 };
 
 export const ICICI_LOMBARD_PLANS_DATA = {
@@ -571,6 +583,856 @@ export const ICICI_LOMBARD_PLANS_DATA = {
             ],
             badge: 'UP TO 15% TENURE OFF',
             iconType: 'dollar'
+          }
+        ]
+      }
+    ]
+  },
+
+  // ===========================================================================
+  // PLAN: ACTIVATE BOOSTER (SUPER TOP-UP POLICY)
+  // ===========================================================================
+  'activate-booster': {
+    planId: 'activate-booster',
+    planName: 'Activate Booster',
+    planType: 'Super Top-Up Policy',
+    fullName: 'ICICI Lombard Activate Booster (Super Top-Up Policy)',
+    companyName: 'ICICI Lombard',
+    tagline: 'High Sum Insured Super Top-Up Protection up to ₹3 Crore with Flexible Deductibles & Guaranteed Deductible Reduction',
+    subtitle: 'High Sum Insured Super Top-Up Protection up to ₹3 Crore with Flexible Deductibles & Guaranteed Deductible Reduction',
+    coverage: '₹10 Lakh - ₹3 Crore',
+    premium: '₹4,200/year',
+
+    uiConfig: {
+      primaryColor: '#F58220',
+      accentColor: '#D94A0B',
+      lightBg: '#FFF4E8',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    },
+
+    // --- 1. REPORT CARD (INDEPENDENT) ---
+    reportCard: {
+      heading: 'REPORT CARD',
+      subheading: 'ICICI Lombard Performance',
+      description: 'Official claim settlement and financial strength metrics.',
+      csr: {
+        title: 'CSR',
+        summaryValue: '98.0%',
+        subtitle: 'Claim Settlement Ratio',
+        explanation: 'CSR represents the percentage of eligible claims settled by ICICI Lombard with instant cashless processing across 11,000+ network hospitals.',
+        singleYear: '98.0%',
+        singleYearLabel: 'Recent Single Year (FY2024-25)',
+        threeYearAvg: '98.1%',
+        threeYearAvgLabel: '3 Year Average (FY2022-25)'
+      },
+      icr: {
+        title: 'ICR',
+        summaryValue: '71%',
+        subtitle: 'Incurred Claim Ratio',
+        explanation: 'ICR measures the percentage of earned premium paid back to policyholders as claims. A stable ICR of 71% reflects balanced underwriting and high financial security.',
+        range: '71% → 74%',
+        rangeLabel: 'Incurred Claim Ratio'
+      },
+      complaintVolume: {
+        title: 'COMPLAINT VOLUME',
+        summaryValue: '13.8',
+        explanation: 'Lowest complaint ratios in the general insurance industry per 10,000 claims with AI-backed cashless desk.',
+        value: '13.8',
+        label: 'Complaints per 10,000 Claims'
+      }
+    },
+
+    // --- 2. COMPANY STRENGTH (INDEPENDENT) ---
+    companyStrength: {
+      heading: 'COMPANY STRENGTH',
+      subheading: 'How reliable/strong is the insurer?',
+      description: 'How reliable/strong is the insurer?',
+      ownership: {
+        title: 'OWNERSHIP / PERCENTAGE',
+        summaryValue: 'ICICI Bank 51.2%',
+        explanation: 'Backed by banking giant ICICI Bank Limited with strong corporate governance and institutional shareholders.',
+        items: [
+          { name: 'ICICI Bank Limited (Promoter)', value: '51.2%', label: 'Shareholding' },
+          { name: 'Foreign & Domestic Institutional Investors', value: '38.4%', label: 'Shareholding' },
+          { name: 'Public & Retail Shareholders', value: '10.4%', label: 'Shareholding' }
+        ]
+      },
+      creditRating: {
+        title: 'CREDIT RATING',
+        summaryValue: 'AAA',
+        explanation: 'CRISIL AAA / Stable and ICRA AAA ratings signify highest safety regarding timely servicing of financial obligations.',
+        items: [
+          { agency: 'CRISIL', rating: 'AAA / Stable' },
+          { agency: 'ICRA', rating: 'AAA / Stable' }
+        ]
+      },
+      capitalStrength: {
+        title: 'CAPITAL STRENGTH',
+        summaryValue: '2.62×',
+        explanation: 'Exceptional solvency ratio of 2.62× providing an immense capital cushion well above the IRDAI mandatory minimum of 1.50×.',
+        value: '2.62×',
+        label: 'Solvency Ratio (as of March 2025)'
+      },
+      financialBase: {
+        title: 'FINANCIAL BASE',
+        summaryValue: '₹48,000+ Cr',
+        explanation: 'Massive investment assets under management ensuring prompt payouts and liquidity under heavy claim surges.',
+        value: '₹48,000+ Cr',
+        label: 'Total Assets under Management'
+      },
+      reinsuranceStrength: {
+        title: 'REINSURANCE STRENGTH',
+        summaryValue: '90%+',
+        explanation: 'Reinsurance relationships backed by global giants Swiss Re, Munich Re, and Hannover Re.',
+        value: '90%+',
+        label: 'Global Reinsurer Capacity'
+      },
+      marketPosition: {
+        title: 'MARKET POSITION',
+        summaryValue: '#1 Private Non-Life',
+        explanation: 'Largest private sector general insurance provider in India with over 20+ years of trust and 11,000+ cashless hospitals.',
+        value: '#1 Private Non-Life Insurer',
+        label: 'Over 3.2 Crore Policies Issued'
+      }
+    },
+
+    // --- 3. LIMITATIONS & WAITING PERIODS ---
+    limitationsWaitingPeriods: {
+      heading: 'LIMITATIONS & WAITING PERIODS',
+      subheading: 'Terms & Waiting Periods',
+      description: 'Standard waiting periods and statutory terms applied to this policy.',
+      items: [
+        {
+          id: 'initial',
+          title: 'Initial Waiting Period (30 Days)',
+          summary: 'A mandatory waiting period of 30 days applies from policy inception for any non-accidental illness.',
+          highlight: 'Accidental hospitalization is covered from Day 1.',
+          policyRef: 'Activate Booster Policy Terms (Section 3.1)',
+          durationTag: '30 Days'
+        },
+        {
+          id: 'specific',
+          title: 'Specific Disease Waiting Period (2 Years)',
+          summary: 'A continuous waiting period of 2 years (24 months) applies for medical or surgical treatment of specified conditions.',
+          diseaseList: [
+            'Cataract & eye surgeries',
+            'Benign Prostatic Hypertrophy (BPH)',
+            'Hernia (all types) & Hydrocele',
+            'Piles, Fistula & Fissure in ano',
+            'Stones in Urinary, Biliary & Renal systems',
+            'Joint replacements (non-accidental)',
+            'Osteoarthritis & Osteoporosis',
+            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy'
+          ],
+          policyRef: 'ICICI Lombard Specific Disease Schedule',
+          durationTag: '2 Years'
+        },
+        {
+          id: 'ped',
+          title: 'Pre-Existing Disease (PED) Waiting (3 Years)',
+          summary: 'A waiting period of 3 years applies for pre-existing conditions declared at proposal.',
+          highlight: 'Can be reduced to 2 or 1 year with the Waiting Period Reduction Option or Jumpstart.',
+          policyRef: 'Activate Booster Policy Terms (Section 3.3)',
+          durationTag: '3 Years'
+        },
+        {
+          id: 'permanent',
+          title: 'Permanent Exclusions',
+          summary: 'The policy excludes expenses for cosmetic surgery, intentional self-injury, substance abuse, and unproven experimental treatments.',
+          exclusionsList: [
+            'Cosmetic, aesthetic & plastic surgery',
+            'Intentional self-injury & suicide attempt',
+            'Substance, alcohol & drug abuse rehabilitation',
+            'Obesity & bariatric surgery unless life-threatening / indicated',
+            'Diagnostic-only / investigation admissions',
+            'Unproven / experimental treatments'
+          ],
+          policyRef: 'Standard IRDAI & ICICI Lombard Guidelines',
+          durationTag: 'Never Covered'
+        }
+      ]
+    },
+
+    // --- 4. MUST KNOW ---
+    mustKnow: {
+      heading: 'MUST-KNOW DETAILS',
+      subheading: 'Important Activate Booster terms that policyholders should keep in mind',
+      buttonLabel: 'MUST KNOW DETAILS',
+      layout: 'details-modal',
+      items: [
+        {
+          id: 'super-top-up',
+          icon: '🛡️',
+          title: 'SUPER TOP-UP DEDUCTIBLE MECHANISM',
+          paragraphs: [
+            'A Super Top-Up policy pays for total cumulative medical expenses that exceed the chosen deductible in a single policy year.',
+            'Deductibles range from ₹3 Lakh to ₹20 Lakh, with Sum Insured options up to ₹3 Crore.'
+          ]
+        },
+        {
+          id: 'deductible-reduction',
+          icon: '📉',
+          title: 'GUARANTEED DEDUCTIBLE REDUCTION',
+          paragraphs: [
+            'Reduces the deductible by 10% at each renewal, maximum reduction is up to 50% of the deductible opted during first policy issuance.',
+            'Helps you gradually lower your out-of-pocket threshold at zero extra cost.'
+          ]
+        },
+        {
+          id: 'room-modifier',
+          icon: '🏥',
+          title: 'ROOM MODIFIER FLEXIBILITY',
+          paragraphs: [
+            'Provides option to either upgrade or downgrade the room category as per requirement.',
+            'Ensures customizable hospital accommodation benefits across network hospitals.'
+          ]
+        },
+        {
+          id: 'jumpstart',
+          icon: '⚡',
+          title: 'JUMPSTART & CHRONIC CARE PROGRAM',
+          paragraphs: [
+            'Jumpstart reduces waiting periods on diabetes, hypertension, cardiac, and bariatric conditions from 2 years/3 years down to 30 days.',
+            'Chronic Disease Management Program provides structured OPD wellness & consultations.'
+          ]
+        }
+      ]
+    },
+
+    // --- 5. POLICY BENEFITS (EXACT 4 HEADINGS) ---
+    featuresSections: [
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 1: MOST IMPORTANT
+      // ───────────────────────────────────────────────────────────────────────
+      {
+        id: 'most-important',
+        title: 'MOST IMPORTANT',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'act-sum-insured',
+            title: 'Overall Sum Insured (SI) (₹.)',
+            subtitle: 'High Sum Insured Options up to ₹3 Crore',
+            badge: 'UP TO ₹3 CR',
+            iconType: 'shield',
+            planComparison: {
+              planA: '10L, 15L, 20L, 25L, 45L, 50L, 85L, 90L, 95L, 1Cr, 3Cr',
+              planB: '10L, 15L, 20L, 25L, 45L, 50L, 85L, 90L, 95L, 1Cr, 3Cr'
+            },
+            summary: 'Comprehensive super top-up coverage with flexible Sum Insured slabs ranging from ₹10 Lakh up to ₹3 Crore.',
+            points: [
+              'Plan A: 10L, 15L, 20L, 25L, 45L, 50L, 85L, 90L, 95L, 1Cr, 3Cr',
+              'Plan B: 10L, 15L, 20L, 25L, 45L, 50L, 85L, 90L, 95L, 1Cr, 3Cr'
+            ]
+          },
+          {
+            id: 'act-deductible',
+            title: 'Deductible (₹.)',
+            subtitle: 'Flexible Aggregate Deductible Thresholds',
+            badge: '₹3L - ₹20L',
+            iconType: 'dollar',
+            planComparison: {
+              planA: '3L, 4L, 5L, 7.5L, 10L, 15L, 20L',
+              planB: '3L, 4L, 5L, 7.5L, 10L, 15L, 20L'
+            },
+            summary: 'Choose from a wide range of aggregate deductible options to seamlessly pair with your existing base health cover.',
+            points: [
+              'Plan A: 3L, 4L, 5L, 7.5L, 10L, 15L, 20L',
+              'Plan B: 3L, 4L, 5L, 7.5L, 10L, 15L, 20L'
+            ]
+          },
+          {
+            id: 'act-zones',
+            title: 'Zones',
+            subtitle: 'Zero Geographic Co-Payment',
+            badge: 'NO ZONE CO-PAY',
+            iconType: 'home',
+            planComparison: {
+              planA: 'No Zone Based Co-pay',
+              planB: 'No Zone Based Co-pay'
+            },
+            summary: 'Avail treatments across India without any zone-based co-payment penalties or city-wise restrictions.',
+            points: [
+              'Plan A: No Zone Based Co-pay',
+              'Plan B: No Zone Based Co-pay'
+            ]
+          },
+          {
+            id: 'act-inpatient',
+            title: 'In-patient Treatment',
+            subtitle: 'Full Hospitalization Covered up to SI',
+            badge: 'UP TO SI',
+            iconType: 'heart',
+            planComparison: {
+              planA: 'Up to SI',
+              planB: 'Up to SI'
+            },
+            summary: 'Covers inpatient medical expenses, room rent, nursing fees, ICU charges, and specialist visits up to Sum Insured above chosen deductible.',
+            points: [
+              'Plan A: Up to SI',
+              'Plan B: Up to SI'
+            ]
+          },
+          {
+            id: 'act-daycare',
+            title: 'Day care Procedures/Treatment',
+            subtitle: 'Advanced Surgeries Requiring <24 hrs Stay',
+            badge: 'DAY CARE',
+            iconType: 'check',
+            planComparison: {
+              planA: 'Up to SI',
+              planB: 'Up to SI'
+            },
+            summary: 'All medical day care procedures and modern day surgeries requiring less than 24 hours hospitalization are covered up to Sum Insured.',
+            points: [
+              'Plan A: Up to SI',
+              'Plan B: Up to SI'
+            ]
+          },
+          {
+            id: 'act-tech-advancements',
+            title: 'Technological advancements and Treatments',
+            subtitle: 'Modern Robotic & High-End Procedures',
+            badge: 'MODERN TECH',
+            iconType: 'cpu',
+            planComparison: {
+              planA: 'Up to SI',
+              planB: 'Up to SI'
+            },
+            summary: 'Robotic surgeries, stem cell therapies, deep brain stimulation, and stereotactic radio surgery covered up to Sum Insured.',
+            points: [
+              'Plan A: Up to SI',
+              'Plan B: Up to SI'
+            ]
+          },
+          {
+            id: 'act-pre-hosp',
+            title: 'Pre-Hospitalization Medical Expenses',
+            subtitle: 'Diagnostics & Consultations Before Admission',
+            badge: '90 / 60 DAYS',
+            iconType: 'calendar',
+            planComparison: {
+              planA: '90 days',
+              planB: '60 days'
+            },
+            summary: 'Medical expenses, doctor consultations, investigations, and diagnostics incurred prior to hospital admission.',
+            points: [
+              'Plan A: 90 days',
+              'Plan B: 60 days'
+            ]
+          },
+          {
+            id: 'act-post-hosp',
+            title: 'Post-Hospitalization Medical Expenses',
+            subtitle: 'Follow-ups & Medicines Post Discharge',
+            badge: '180 / 90 DAYS',
+            iconType: 'calendar',
+            planComparison: {
+              planA: '180 days',
+              planB: '90 days'
+            },
+            summary: 'Medical expenses, follow-up consultations, physiotherapy, and medicines incurred after hospital discharge.',
+            points: [
+              'Plan A: 180 days',
+              'Plan B: 90 days'
+            ]
+          },
+          {
+            id: 'act-ayush',
+            title: 'In patient AYUSH Hospitalization',
+            subtitle: 'Ayurveda, Yoga, Unani, Siddha & Homeopathy',
+            badge: 'AYUSH COVERED',
+            iconType: 'heart',
+            planComparison: {
+              planA: 'Up to SI',
+              planB: 'Up to SI'
+            },
+            summary: 'Inpatient treatment taken in recognized AYUSH hospitals covered up to Sum Insured above chosen deductible.',
+            points: [
+              'Plan A: Up to SI',
+              'Plan B: Up to SI'
+            ]
+          },
+          {
+            id: 'act-road-ambulance',
+            title: 'Domestic Road Ambulance',
+            subtitle: 'Emergency Transportation Costs Covered',
+            badge: 'ROAD AMBULANCE',
+            iconType: 'truck',
+            planComparison: {
+              planA: 'Up to SI',
+              planB: 'Up to SI'
+            },
+            summary: 'Emergency road ambulance transportation to the nearest equipped hospital covered up to Sum Insured.',
+            points: [
+              'Plan A: Up to SI',
+              'Plan B: Up to SI'
+            ]
+          },
+          {
+            id: 'act-donor-expenses',
+            title: 'Donor expenses',
+            subtitle: 'Organ Harvesting Inpatient Expenses',
+            badge: 'DONOR COVER',
+            iconType: 'activity',
+            planComparison: {
+              planA: 'Up to SI',
+              planB: 'Up to SI'
+            },
+            summary: 'Inpatient hospitalization costs incurred for harvesting organ from donor during transplantation covered up to Sum Insured.',
+            points: [
+              'Plan A: Up to SI',
+              'Plan B: Up to SI'
+            ]
+          },
+          {
+            id: 'act-domiciliary',
+            title: 'Domiciliary Hospitalization',
+            subtitle: 'Home Hospitalization Care Covered',
+            badge: 'DOMICILIARY',
+            iconType: 'home',
+            planComparison: {
+              planA: 'Up to SI',
+              planB: 'Up to SI'
+            },
+            summary: 'Medical treatment taken at home under medical advice when hospital beds are unavailable or patient cannot be safely transported.',
+            points: [
+              'Plan A: Up to SI',
+              'Plan B: Up to SI'
+            ]
+          },
+          {
+            id: 'act-bariatric',
+            title: 'Bariatric surgery',
+            subtitle: 'Metabolic & Bariatric Procedures Covered',
+            badge: 'BARIATRIC COVER',
+            iconType: 'shield',
+            planComparison: {
+              planA: 'Up to SI',
+              planB: 'Up to SI'
+            },
+            summary: 'Medically indicated bariatric/metabolic surgeries for severe obesity and comorbid conditions covered up to Sum Insured.',
+            points: [
+              'Plan A: Up to SI',
+              'Plan B: Up to SI'
+            ]
+          }
+        ]
+      },
+
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 2: VALUE ADDED
+      // ───────────────────────────────────────────────────────────────────────
+      {
+        id: 'value-added',
+        title: 'VALUE ADDED',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'act-waiver-deductible',
+            title: 'Waiver of Deductible',
+            subtitle: 'Option to Waive Deductible at Specified Age',
+            badge: 'AVAILABLE',
+            iconType: 'shield',
+            planComparison: {
+              planA: 'Available',
+              planB: 'Available'
+            },
+            summary: 'Provides flexibility to waive policy deductible upon reaching a specified continuous renewal milestone without fresh medical underwriting.',
+            points: [
+              'Plan A: Available',
+              'Plan B: Available'
+            ]
+          },
+          {
+            id: 'act-surrogate-mothers',
+            title: 'In Patient Treatment for Surrogate Mothers',
+            subtitle: 'Maternity Inpatient Care for Surrogate Mothers',
+            badge: 'PLAN A ONLY',
+            iconType: 'users',
+            planComparison: {
+              planA: 'Up to ₹5 Lakh',
+              planB: 'Not Available'
+            },
+            summary: 'Inpatient hospitalization treatment expenses for surrogate mothers covered up to ₹5 Lakh under Plan A.',
+            points: [
+              'Plan A: Up to ₹5 Lakh',
+              'Plan B: Not Available'
+            ]
+          },
+          {
+            id: 'act-oocyte-donor',
+            title: 'In Patient Treatment for Oocyte donor',
+            subtitle: 'Harvesting & Inpatient Care for Oocyte Donors',
+            badge: 'PLAN A ONLY',
+            iconType: 'heart',
+            planComparison: {
+              planA: 'Up to ₹5 Lakh',
+              planB: 'Not Available'
+            },
+            summary: 'Inpatient treatment and complications arising during oocyte donation covered up to ₹5 Lakh under Plan A.',
+            points: [
+              'Plan A: Up to ₹5 Lakh',
+              'Plan B: Not Available'
+            ]
+          },
+          {
+            id: 'act-home-care',
+            title: 'Home Care Treatment',
+            subtitle: 'Prescribed In-Home Medical Nursing Care',
+            badge: 'PLAN B ONLY',
+            iconType: 'home',
+            planComparison: {
+              planA: 'Not Available',
+              planB: 'Max up to 5L'
+            },
+            summary: 'Prescribed home medical nursing, post-operative support, and clinical monitoring at home covered up to ₹5 Lakh under Plan B.',
+            points: [
+              'Plan A: Not Available',
+              'Plan B: Max up to 5L'
+            ]
+          },
+          {
+            id: 'act-claim-protector',
+            title: 'Claim protector',
+            subtitle: 'Non-Payable Consumables Protection',
+            badge: 'UP TO SI',
+            iconType: 'shield',
+            planComparison: {
+              planA: 'Up to SI',
+              planB: 'Up to SI'
+            },
+            summary: 'Covers non-payable medical items, administrative charges, gloves, PPE kits, and syringes up to Sum Insured during hospitalization.',
+            points: [
+              'Plan A: Up to SI',
+              'Plan B: Up to SI'
+            ]
+          },
+          {
+            id: 'act-inflation-protector',
+            title: 'Inflation Protector',
+            subtitle: 'Automatic CPI Inflation Sum Insured Adjustment',
+            badge: 'INFLATION COVER',
+            iconType: 'trending',
+            planComparison: {
+              planA: 'Available',
+              planB: 'Available'
+            },
+            summary: 'Automatically increases base Sum Insured upon each policy renewal linked with consumer price index (CPI) inflation.',
+            points: [
+              'Plan A: Available',
+              'Plan B: Available'
+            ]
+          },
+          {
+            id: 'act-guaranteed-deductible-red',
+            title: 'Guaranteed Deductible Reduction',
+            subtitle: '10% Deductible Reduction Per Renewal (Max 50%)',
+            badge: 'UP TO 50% REDUCTION',
+            iconType: 'trending',
+            planComparison: {
+              planA: 'Reduces the deductible by 10% at each renewal, maximum reduction is up to 50% of the deductible opted during the first policy issuance',
+              planB: 'Reduces the deductible by 10% at each renewal, maximum reduction is up to 50% of the deductible opted during the first policy issuance'
+            },
+            summary: 'Reduces the deductible by 10% at each renewal, maximum reduction is up to 50% of the deductible opted during the first policy issuance.',
+            steps: ['Year 1: 100% Deductible', 'Year 2: 10% Off', 'Year 3: 20% Off', 'Max: 50% Off Deductible'],
+            points: [
+              'Plan A: Reduces the deductible by 10% at each renewal, maximum reduction is up to 50% of the deductible opted during the first policy issuance',
+              'Plan B: Reduces the deductible by 10% at each renewal, maximum reduction is up to 50% of the deductible opted during the first policy issuance'
+            ]
+          },
+          {
+            id: 'act-room-modifier',
+            title: 'Room Modifier',
+            subtitle: 'Option to Upgrade or Downgrade Room Category',
+            badge: 'ROOM MODIFIER',
+            iconType: 'home',
+            planComparison: {
+              planA: 'Option to either upgrade or downgrade the room category',
+              planB: 'Option to either upgrade or downgrade the room category'
+            },
+            summary: 'Flexible policy option allowing policyholders to choose an upgraded or customized room category without proportionate rent deductions.',
+            points: [
+              'Plan A: Option to either upgrade or downgrade the room category',
+              'Plan B: Option to either upgrade or downgrade the room category'
+            ]
+          },
+          {
+            id: 'act-teleconsultation',
+            title: 'Teleconsultation',
+            subtitle: 'Unlimited 24/7 Digital Doctor Consultations',
+            badge: 'UNLIMITED',
+            iconType: 'phone',
+            planComparison: {
+              planA: 'Unlimited',
+              planB: 'Unlimited'
+            },
+            summary: 'Unlimited digital and video teleconsultations with certified general physicians and specialists on mobile app.',
+            points: [
+              'Plan A: Unlimited',
+              'Plan B: Unlimited'
+            ]
+          }
+        ]
+      },
+
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 3: ADDITIONAL
+      // ───────────────────────────────────────────────────────────────────────
+      {
+        id: 'additional',
+        title: 'ADDITIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2',
+        items: [
+          {
+            id: 'act-waiting-periods',
+            title: 'Waiting Periods',
+            subtitle: 'Initial, Specific Disease, PED & Special Waiting Timelines',
+            badge: 'STATUTORY TIMELINES',
+            iconType: 'clock',
+            summary: 'Policy waiting periods apply from policy inception date for specified conditions as detailed below:',
+            tableData: {
+              headers: ['Waiting Period Category', 'Standard Duration / Terms'],
+              rows: [
+                ['Initial Waiting Period', '30 days'],
+                ['PED Waiting Period', '3 years'],
+                ['Specific Disease Waiting Period', '2 years'],
+                ['Bariatric Surgery', '2 years (30 days if Jumpstart is opted)'],
+                ['Diabetes, Hypertension & Cardiac Conditions (unless PED)', '90 days']
+              ]
+            },
+            points: [
+              'Initial Waiting Period: 30 days',
+              'PED Waiting Period: 3 years',
+              'Specific Disease Waiting Period: 2 years',
+              'Bariatric Surgery: 2 years (30 days if Jumpstart is opted)',
+              'Diabetes, Hypertension & Cardiac Conditions (unless PED): 90 days'
+            ]
+          },
+          {
+            id: 'act-discounts',
+            title: 'Discounts Available',
+            subtitle: 'Wellness, NRI, CIBIL, PPN & Long Term Premium Discounts',
+            badge: 'UP TO 30% OFF',
+            iconType: 'dollar',
+            summary: 'Avail substantial policy discounts on initial purchase and renewal by fulfilling eligibility criteria:',
+            tableData: {
+              headers: ['Discount Category', 'Discount Rate / Eligibility'],
+              rows: [
+                ['Wellness Discount', 'Up to 30%'],
+                ['NRI Discount', '25%'],
+                ['CIBIL Score-Based Discount', 'Up to 15%'],
+                ['PPN Network$', '10% discount (if Network Advantage is opted)'],
+                ['Early Renewal Discount', '2.5%'],
+                ['Long Term Tenure Discount', 'Up to 15%']
+              ]
+            },
+            points: [
+              'Wellness Discount: Up to 30%',
+              'NRI Discount: 25%',
+              'CIBIL Score-Based Discount: Up to 15%',
+              'PPN Network$: 10% discount (if Network Advantage is opted)',
+              'Early Renewal Discount: 2.5%',
+              'Long Term Tenure Discount: Up to 15%'
+            ]
+          }
+        ]
+      },
+
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 4: OPTIONAL
+      // ───────────────────────────────────────────────────────────────────────
+      {
+        id: 'optional',
+        title: 'OPTIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'act-jumpstart',
+            title: 'Jumpstart',
+            subtitle: 'Waive/Reduce Initial Waiting on Key Ailments',
+            badge: 'OPTIONAL RIDER',
+            isRider: true,
+            iconType: 'zap',
+            planComparison: {
+              planA: 'Available',
+              planB: 'Available'
+            },
+            summary: 'Optional add-on reducing waiting period on diabetes, hypertension, cardiac ailments, and bariatric surgery to 30 days.',
+            points: [
+              'Plan A: Available',
+              'Plan B: Available'
+            ]
+          },
+          {
+            id: 'act-cdmp',
+            title: 'Chronic Disease Management Program',
+            subtitle: 'Specialized Care for Chronic Illnesses',
+            badge: 'OPTIONAL RIDER',
+            isRider: true,
+            iconType: 'activity',
+            planComparison: {
+              planA: 'Available',
+              planB: 'Available'
+            },
+            summary: 'Comprehensive management program for chronic conditions including health coaching, doctor reviews, and diagnostics.',
+            points: [
+              'Plan A: Available',
+              'Plan B: Available'
+            ]
+          },
+          {
+            id: 'act-befit',
+            title: 'BeFit',
+            subtitle: 'Cashless OPD Consultations & Diagnostic Tests',
+            badge: 'OPTIONAL RIDER',
+            isRider: true,
+            iconType: 'award',
+            planComparison: {
+              planA: 'Available',
+              planB: 'Available'
+            },
+            summary: 'Complete outpatient wellness program offering unlimited cashless doctor consultations, pharmacy delivery, and diagnostic screenings.',
+            points: [
+              'Plan A: Available',
+              'Plan B: Available'
+            ]
+          },
+          {
+            id: 'act-air-ambulance',
+            title: 'Domestic Air Ambulance Cover',
+            subtitle: 'Emergency Aeromedical Evacuation in India',
+            badge: 'AIR AMBULANCE',
+            isRider: true,
+            iconType: 'truck',
+            planComparison: {
+              planA: 'Up to SI',
+              planB: 'Up to SI'
+            },
+            summary: 'Emergency domestic air ambulance transportation to specialized tertiary medical center covered up to Sum Insured.',
+            points: [
+              'Plan A: Up to SI',
+              'Plan B: Up to SI'
+            ]
+          },
+          {
+            id: 'act-durable-equipment',
+            title: 'Durable medical equipment cover',
+            subtitle: 'Coverage for Wheelchairs, CPAP, Oxygen Concentrators',
+            badge: 'EQUIPMENT COVER',
+            isRider: true,
+            iconType: 'shield',
+            planComparison: {
+              planA: 'Up to SI, max up to ₹5 Lakh',
+              planB: 'Up to SI, max up to ₹5 Lakh'
+            },
+            summary: 'Expenses towards purchasing/renting durable medical equipment (wheelchairs, CPAP/BiPAP, oxygen concentrators) covered up to ₹5 Lakh.',
+            points: [
+              'Plan A: Up to SI, max up to ₹5 Lakh',
+              'Plan B: Up to SI, max up to ₹5 Lakh'
+            ]
+          },
+          {
+            id: 'act-ped-reduction',
+            title: 'Waiting Period Reduction Option',
+            subtitle: 'Reduce PED Waiting from 3 Years to 2/1 Year',
+            badge: 'PED REDUCTION',
+            isRider: true,
+            iconType: 'clock',
+            planComparison: {
+              planA: 'Reduce to 2/1 year',
+              planB: 'Reduce to 2/1 year'
+            },
+            summary: 'Option to reduce standard 3-year Pre-Existing Disease (PED) waiting period down to 2 years or 1 year at proposal.',
+            points: [
+              'Plan A: Reduce to 2/1 year',
+              'Plan B: Reduce to 2/1 year'
+            ]
+          },
+          {
+            id: 'act-specific-reduction',
+            title: 'Specific Illness Waiting Period Reduction Option',
+            subtitle: 'Reduce Specific Disease Waiting from 2 Years to 1 Year',
+            badge: '1 YEAR REDUCTION',
+            isRider: true,
+            iconType: 'clock',
+            planComparison: {
+              planA: 'Reduce to 1 year',
+              planB: 'Reduce to 1 year'
+            },
+            summary: 'Option to reduce specific illness waiting period from standard 2 years down to 1 year upon policy inception.',
+            points: [
+              'Plan A: Reduce to 1 year',
+              'Plan B: Reduce to 1 year'
+            ]
+          },
+          {
+            id: 'act-nursing-home',
+            title: 'Nursing at home',
+            subtitle: '₹2,000/day for Max 10 Days Post Hospitalization',
+            badge: 'PLAN B ONLY',
+            isRider: true,
+            iconType: 'home',
+            planComparison: {
+              planA: 'Not Available',
+              planB: '₹2000 per day, maximum up to 10 days'
+            },
+            summary: 'Qualified nursing care assistance at home post-discharge covered at ₹2,000 per day for a maximum of 10 days under Plan B.',
+            points: [
+              'Plan A: Not Available',
+              'Plan B: ₹2000 per day, maximum up to 10 days'
+            ]
+          },
+          {
+            id: 'act-compassionate-visit',
+            title: 'Compassionate Visit',
+            subtitle: 'Travel Reimbursement for Immediate Family Member',
+            badge: 'PLAN B ONLY',
+            isRider: true,
+            iconType: 'users',
+            planComparison: {
+              planA: 'Not Available',
+              planB: 'Maximum up to ₹20000'
+            },
+            summary: 'Economy class travel transportation costs for an immediate family member to visit hospitalized insured covered up to ₹20,000 under Plan B.',
+            points: [
+              'Plan A: Not Available',
+              'Plan B: Maximum up to ₹20000'
+            ]
+          },
+          {
+            id: 'act-health-checkup',
+            title: 'Health Check-up',
+            subtitle: 'Cashless Preventive Screening up to ₹5,000',
+            badge: 'PLAN B ONLY',
+            isRider: true,
+            iconType: 'clipboard',
+            planComparison: {
+              planA: 'Not Available',
+              planB: 'Cashless, maximum up to ₹5000'
+            },
+            summary: 'Comprehensive annual preventive health check-up on a cashless basis across network diagnostics up to ₹5,000 under Plan B.',
+            points: [
+              'Plan A: Not Available',
+              'Plan B: Cashless, maximum up to ₹5000'
+            ]
+          },
+          {
+            id: 'act-dependent-accom',
+            title: 'Dependent Accommodation Benefit',
+            subtitle: '₹1,000/day for Max 10 Days Accommodation',
+            badge: 'PLAN B ONLY',
+            isRider: true,
+            iconType: 'home',
+            planComparison: {
+              planA: 'Not Available',
+              planB: '₹1000 per day, maximum up to 10 days'
+            },
+            summary: 'Hotel or hospital accommodation expenses for accompanying dependent family member covered at ₹1,000/day up to 10 days under Plan B.',
+            points: [
+              'Plan A: Not Available',
+              'Plan B: ₹1000 per day, maximum up to 10 days'
+            ]
           }
         ]
       }

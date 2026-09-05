@@ -9,7 +9,8 @@
 
 export const CARE_HEALTH_CANONICAL_PLAN_IDS = [
   'care-supreme',
-  'ultimate-care'
+  'ultimate-care',
+  'ultimate-joy'
 ];
 
 export const resolveCarePlanId = (planId) => {
@@ -29,6 +30,15 @@ export const resolveCarePlanId = (planId) => {
     cleanId === 'care-ultimate'
   ) {
     return 'ultimate-care';
+  }
+  if (
+    cleanId === 'ultimate-joy' ||
+    cleanId === 'joy' ||
+    cleanId === 'care-ultimate-joy' ||
+    cleanId === 'care-joy' ||
+    cleanId === 'ultimatejoy'
+  ) {
+    return 'ultimate-joy';
   }
   return cleanId;
 };
@@ -1204,6 +1214,537 @@ export const CARE_HEALTH_PLANS_DATA = {
               'Unlimited access to Fitness centres can be availed by Insured Person aged above 12 years',
               'Access network fitness centers and premium gyms nationwide',
               'Promotes active health, daily workouts, and physical well-being'
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  // ===========================================================================
+  // PLAN 3: ULTIMATE JOY (INDEPENDENT PLAN)
+  // ===========================================================================
+  'ultimate-joy': {
+    planId: 'ultimate-joy',
+    planName: 'Ultimate Joy',
+    fullName: 'Care Health Ultimate Joy',
+    companyName: 'Care Health',
+    tagline: 'Family & Maternity Health Protection with Unlimited Automatic Recharge, 500% Cumulative Bonus & Global Newborn Care',
+    subtitle: 'Family & Maternity Health Protection with Unlimited Automatic Recharge, 500% Cumulative Bonus & Global Newborn Care',
+    coverage: '₹5 Lakh - ₹1 Crore',
+    premium: '₹16,800/year',
+
+    uiConfig: {
+      primaryColor: '#003366',
+      accentColor: '#FACC15',
+      lightBg: '#FEFCE8',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    },
+
+    // --- 1. REPORT CARD (INDEPENDENT) ---
+    reportCard: {
+      heading: 'REPORT CARD',
+      subheading: 'Care Health Performance',
+      description: 'Official claim settlement and financial strength metrics.',
+      csr: {
+        title: 'CSR',
+        summaryValue: '98.3%',
+        subtitle: 'Claim Settlement Ratio',
+        explanation: 'CSR represents the percentage of eligible claims settled by Care Health through its wide network of 24,800+ cashless healthcare providers.',
+        singleYear: '98.3%',
+        singleYearLabel: 'Recent Single Year (FY2024-25)',
+        threeYearAvg: '98.2%',
+        threeYearAvgLabel: '3 Year Average (FY2022-25)'
+      },
+      icr: {
+        title: 'ICR',
+        summaryValue: '57%',
+        subtitle: 'Incurred Claim Ratio',
+        explanation: "ICR shows the proportion of earned premium spent on honoring claims. A healthy ICR of 57% reflects disciplined risk management and reliable claims liquidity.",
+        range: '57% → 61%',
+        rangeLabel: 'Incurred Claim Ratio'
+      },
+      complaintVolume: {
+        title: 'COMPLAINT VOLUME',
+        summaryValue: '15.4',
+        explanation: 'Low grievance volume per 10,000 settled claims with dedicated digital claim settlement desks.',
+        value: '15.4',
+        label: 'Complaints per 10,000 Claims'
+      }
+    },
+
+    // --- 2. COMPANY STRENGTH (INDEPENDENT) ---
+    companyStrength: {
+      heading: 'COMPANY STRENGTH',
+      subheading: 'How reliable/strong is the insurer?',
+      description: 'How reliable/strong is the insurer?',
+      ownership: {
+        title: 'OWNERSHIP / PERCENTAGE',
+        summaryValue: 'Religare 68.4%',
+        explanation: 'Promoted by Religare Enterprises Limited alongside Union Bank of India and marquee institutional investors.',
+        items: [
+          { name: 'Religare Enterprises Limited', value: '68.4%', label: 'Shareholding' },
+          { name: 'Union Bank of India', value: '5.6%', label: 'Shareholding' },
+          { name: 'Institutional & Public Investors', value: '26.0%', label: 'Shareholding' }
+        ]
+      },
+      creditRating: {
+        title: 'CREDIT RATING',
+        summaryValue: 'A+',
+        explanation: 'CARE A+ / Stable credit rating indicates strong claim paying ability, robust balance sheet, and financial stability.',
+        items: [
+          { agency: 'CARE Ratings', rating: 'A+ / Stable' },
+          { agency: 'ICRA', rating: 'A+ / Stable' }
+        ]
+      },
+      capitalStrength: {
+        title: 'CAPITAL STRENGTH',
+        summaryValue: '1.82×',
+        explanation: 'Strong solvency ratio of 1.82× provides substantial financial safety well above the statutory requirement of 1.50×.',
+        value: '1.82×',
+        label: 'Solvency Ratio (as of March 2025)'
+      },
+      financialBase: {
+        title: 'FINANCIAL BASE',
+        summaryValue: '₹5,200+ Cr',
+        explanation: 'Investment assets and financial reserve base ensuring smooth claims settlement operations across India.',
+        value: '₹5,200+ Cr',
+        label: 'Assets Under Management'
+      },
+      reinsuranceStrength: {
+        title: 'REINSURANCE STRENGTH',
+        summaryValue: '85%+',
+        explanation: 'Over 85% of reinsurance backed by leading global reinsurers including Swiss Re, Hannover Re, and GIC Re.',
+        value: '85%+',
+        label: 'Backed by Swiss Re, Hannover Re & GIC Re'
+      },
+      marketPosition: {
+        title: 'MARKET POSITION',
+        summaryValue: '#2 SAHI',
+        explanation: 'Second largest standalone health insurer in India with over 24,800+ cashless healthcare network providers.',
+        value: '#2 Standalone Health Insurer',
+        label: 'Over 3.5 Crore Lives Protected'
+      }
+    },
+
+    // --- 3. LIMITATIONS & WAITING PERIODS ---
+    limitationsWaitingPeriods: {
+      heading: 'LIMITATIONS & WAITING PERIODS',
+      subheading: 'Terms & Waiting Periods',
+      description: 'Standard waiting periods and statutory terms applied to this policy.',
+      items: [
+        {
+          id: 'initial',
+          title: 'Initial Wait Period (30 Days)',
+          summary: 'A mandatory waiting period of 30 days applies from policy inception for any non-accidental illness.',
+          highlight: 'Not applicable on accident cases.',
+          policyRef: 'Ultimate Joy Policy Terms (Section 3.1)',
+          durationTag: '30 Days'
+        },
+        {
+          id: 'named-ailment',
+          title: 'Named Ailment Waiting Period (24 Months)',
+          summary: 'A continuous waiting period of 24 months applies for medical treatment of specified named ailments.',
+          diseaseList: [
+            'Cataract & eye surgeries',
+            'Benign Prostatic Hypertrophy (BPH)',
+            'Hernia (all types) & Hydrocele',
+            'Piles, Fistula & Fissure in ano',
+            'Stones in Urinary, Biliary & Renal systems',
+            'Joint replacements (non-accidental)',
+            'Osteoarthritis & Osteoporosis',
+            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy'
+          ],
+          policyRef: 'Care Health Named Ailment Schedule',
+          durationTag: '24 Months'
+        },
+        {
+          id: 'ped',
+          title: 'Pre-Existing Diseases (PED) Waiting (36 Months)',
+          summary: 'A waiting period of 36 months applies for pre-existing conditions declared at proposal.',
+          highlight: 'Continuous policy renewals preserve PED waiting credits.',
+          policyRef: 'Ultimate Joy Policy Terms (Section 3.3)',
+          durationTag: '36 Months'
+        },
+        {
+          id: 'maternity',
+          title: 'Maternity Wait Period — Bronze (48 Months)',
+          summary: 'A waiting period of 48 months applies for Mother & New Born Baby Care (Bronze) under base terms. Can be modified to 12 months with the Modification Rider.',
+          highlight: 'Waiting period 12 months available with modification rider.',
+          policyRef: 'Care Health Maternity Schedule (Section 4.1)',
+          durationTag: '48 Months'
+        },
+        {
+          id: 'permanent',
+          title: 'Permanent Exclusions',
+          summary: 'The policy excludes expenses for cosmetic surgery, intentional self-injury, substance abuse, and unproven experimental treatments.',
+          exclusionsList: [
+            'Cosmetic, aesthetic & plastic surgery',
+            'Intentional self-injury & suicide attempt',
+            'Substance, alcohol & drug abuse rehabilitation',
+            'Obesity & bariatric surgery unless life-threatening',
+            'Diagnostic-only / investigation admissions',
+            'Unproven / experimental treatments'
+          ],
+          policyRef: 'Standard IRDAI & Care Health Guidelines',
+          durationTag: 'Never Covered'
+        }
+      ]
+    },
+
+    // --- 4. MUST KNOW ---
+    mustKnow: {
+      heading: 'MUST-KNOW DETAILS',
+      subheading: 'Important Ultimate Joy terms that policyholders should keep in mind',
+      buttonLabel: 'MUST KNOW DETAILS',
+      layout: 'details-modal',
+      items: [
+        {
+          id: 'recharge',
+          icon: '🔄',
+          title: 'UNLIMITED AUTOMATIC RECHARGE',
+          paragraphs: [
+            'Recharges 100% Sum Insured unlimited times in a policy year upon exhaustion.',
+            'Applicable for the same illness as well as unrelated medical conditions.'
+          ]
+        },
+        {
+          id: 'cumulative-bonus',
+          icon: '📈',
+          title: '500% CUMULATIVE BONUS (NO REDUCTION ON CLAIM)',
+          paragraphs: [
+            '50% increase in base Sum Insured per claim-free policy year up to a maximum of 500% SI.',
+            'Cumulative bonus shall not reduce even if a claim is lodged during the policy year.'
+          ]
+        },
+        {
+          id: 'room-rent-icu',
+          icon: '🏥',
+          title: 'ALL ROOM CATEGORIES COVERED & NO ICU LIMIT',
+          paragraphs: [
+            'Stay in any hospital room category with zero daily rent capping or proportionate deductions.',
+            'No daily ceiling or sub-limit on Intensive Care Unit (ICU) expenses.'
+          ]
+        },
+        {
+          id: 'mother-baby-care',
+          icon: '👶',
+          title: 'MOTHER & NEW BORN BABY CARE (WORLDWIDE)',
+          paragraphs: [
+            'Available for insured females aged 18 to 45 years with worldwide maternity coverage.',
+            'Coverage amount can accumulate up to 4 times with newborn coverage included in maternity limit.'
+          ]
+        }
+      ]
+    },
+
+    // --- 5. POLICY BENEFITS (EXACT 4 HEADINGS) ---
+    featuresSections: [
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 1: MOST IMPORTANT
+      // ───────────────────────────────────────────────────────────────────────
+      {
+        id: 'most-important',
+        title: 'MOST IMPORTANT',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'uj-eligibility',
+            title: 'Eligibility Criteria',
+            subtitle: 'Proposer 18+ | Adult Lifelong | Child 24/25 Yrs',
+            badge: 'ELIGIBILITY',
+            iconType: 'users',
+            summary: 'Comprehensive eligibility guidelines covering individual & floater options with lifelong renewals and wide family relationships.',
+            points: [
+              'Age of Proposer: 18 Years or above',
+              'Entry Age - Minimum: Individual: 18 Years | Floater: 91 Days with at least 1 member of age 18 years or above',
+              'Entry Age - Maximum: Adult: Lifelong | Child: 24 Years',
+              'Exit Age: Adult: Lifelong | Child: 25 Years',
+              'Cover Type: Individual: Maximum up to 6 Persons | Floater: 1A1C / 1A2C / 2A / 2A1C / 2A2C',
+              'Who are covered: Self, spouse/live-in partner/same sex partner, son, daughter, father, mother, mother-in-law, father-in-law, grand-father, grand-mother and as per insurable interest'
+            ]
+          },
+          {
+            id: 'uj-zonal-pricing',
+            title: 'Zonal Pricing',
+            subtitle: '5 Zones Nationwide with City Mappings',
+            badge: 'ZONAL PRICING',
+            iconType: 'home',
+            summary: 'Geographical zonal pricing categorization across 5 zones with clearly specified city clusters.',
+            points: [
+              'Zone 1: Delhi NCR, Surat, Mathura, Alwar, Aligarh, Bharatpur, Hisar',
+              'Zone 2: Telangana including Hyderabad, Trivandrum',
+              'Zone 3: Mumbai Metropolitan Region, Ahmedabad, Nashik, Vadodara, Indore, Kolkata, Howrah, Asansol, Pune, Ahmednagar',
+              'Zone 4: Rest of Gujarat, Bangalore Urban, Ludhiana, Jaipur, Dehradun, Jalgaon',
+              'Zone 5: Rest of India',
+              'Note: Cities include adjoining cities; Delhi-NCR and Mumbai MMR as defined by Government'
+            ]
+          },
+          {
+            id: 'uj-core-benefits',
+            title: 'Core Plan Benefits',
+            subtitle: 'Sum Insured ₹5L–₹100L | All Rooms | No ICU Limit',
+            badge: 'CORE PROTECTION',
+            iconType: 'shield',
+            summary: 'Comprehensive hospitalization and inpatient care covered up to Sum Insured with all room categories and zero ICU limit.',
+            points: [
+              'Sum Insured (SI): ₹5L / ₹7L / ₹10L / ₹15L / ₹20L / ₹25L / ₹50L / ₹75L / ₹100L',
+              'In-Patient Care: Up to SI',
+              'Day Care Treatments: All Day Care procedures, up to SI',
+              'Advance Technology Methods: Up to SI',
+              'Pre & Post Hospitalization Medical Expenses: Up to 60 days & up to 180 days',
+              'Ambulance Cover: Up to SI, any mode of transport such as Road / Air / Train / Boat etc.',
+              'Organ Donor Cover: Up to SI',
+              'Domiciliary Hospitalization: Up to SI',
+              'AYUSH Treatments: Up to SI',
+              'Room Rent: All categories covered',
+              'ICU Charges: No Limit'
+            ]
+          }
+        ]
+      },
+
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 2: VALUE ADDED
+      // ───────────────────────────────────────────────────────────────────────
+      {
+        id: 'value-added',
+        title: 'VALUE ADDED',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'uj-unlimited-recharge',
+            title: 'Unlimited Automatic Recharge',
+            subtitle: 'Up to SI, Unlimited Times, Same Illness Covered',
+            badge: 'UNLIMITED RECHARGE',
+            iconType: 'refresh',
+            summary: 'Automatically restores 100% Sum Insured unlimited times in a policy year upon exhaustion, applicable for the same illness as well.',
+            points: [
+              'Unlimited Automatic Recharge: Up to SI, unlimited times',
+              'Applicable for same illness as well as unrelated conditions',
+              'Recharges instantly upon partial or complete exhaustion'
+            ]
+          },
+          {
+            id: 'uj-cumulative-bonus',
+            title: 'Cumulative Bonus',
+            subtitle: '50% Per Year up to 500% SI (No Claim Reduction)',
+            badge: 'UP TO 500% BONUS',
+            iconType: 'trending',
+            summary: '50% increase in SI per Policy Year; maximum up to 500% SI. Shall not reduce in case of claim.',
+            points: [
+              '50% increase in SI per Policy Year',
+              'Maximum accumulation up to 500% SI',
+              'Shall not reduce in case of claim'
+            ]
+          },
+          {
+            id: 'uj-e-consultation',
+            title: 'Unlimited E-Consultation',
+            subtitle: 'General Physicians & Specified Specialists',
+            badge: 'UNLIMITED E-CONSULTS',
+            iconType: 'phone',
+            summary: 'Available for digital and video consultations with General Physicians and Specified Specialists 24/7.',
+            points: [
+              'Unlimited E-Consultation available 24/7',
+              'Consultations with General Physicians and Specified Specialists',
+              'Instant digital prescriptions and medical advice'
+            ]
+          },
+          {
+            id: 'uj-health-services',
+            title: 'Health Services',
+            subtitle: 'Health Portal, Doctor on Chat & Digital Locker',
+            badge: 'DIGITAL HEALTH',
+            iconType: 'activity',
+            summary: 'Integrated digital health ecosystem to manage personal healthcare, consultations, and reminders.',
+            points: [
+              'Health Portal',
+              'Doctor on chat',
+              'Healthy tips reminder',
+              'Digital locker for medical records, etc.'
+            ]
+          },
+          {
+            id: 'uj-discount-connect',
+            title: 'Discount Connect',
+            subtitle: 'Discounts on Services at Network Centers',
+            badge: 'NETWORK DISCOUNTS',
+            iconType: 'dollar',
+            summary: 'Avail exclusive discounts on diagnostic tests, pharmacy purchases, and healthcare services across network providers.',
+            points: [
+              'Discounts on various services at the network',
+              'Savings on diagnostic screenings and pharmacy purchases'
+            ]
+          },
+          {
+            id: 'uj-wellness-benefit',
+            title: 'Wellness Benefit',
+            subtitle: 'Active Days Renewal Discount & Fitness Coaching',
+            badge: 'WELLNESS REWARDS',
+            iconType: 'smile',
+            summary: 'Earn discounts on renewal premium by achieving daily active steps, plus access online fitness coaching and counselling sessions.',
+            points: [
+              'Discount on renewal premium based on active days achieved',
+              'Online fitness Coaching / Counselling session from Wellness Coaches'
+            ]
+          },
+          {
+            id: 'uj-vintage-discount',
+            title: 'Vintage Discount',
+            subtitle: 'Yr 1: 15% | Yr 2: 10% | Yr 3+: 0%',
+            badge: 'LOYALTY DISCOUNT',
+            iconType: 'clock',
+            summary: 'Special vintage discount structure applied across initial policy years.',
+            points: [
+              'Policy Year 1: 15%',
+              'Policy Year 2: 10%',
+              'Policy Year 3 & Above: 0%'
+            ]
+          }
+        ]
+      },
+
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 3: ADDITIONAL
+      // ───────────────────────────────────────────────────────────────────────
+      {
+        id: 'additional',
+        title: 'ADDITIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2',
+        items: [
+          {
+            id: 'uj-wait-periods',
+            title: 'Wait Periods',
+            subtitle: 'Initial 30d, Named Ailments 24m, PED 36m, Maternity 48m',
+            badge: 'WAITING PERIODS',
+            iconType: 'clock',
+            summary: 'Standard policy waiting periods applicable from policy inception.',
+            points: [
+              'Initial Wait Period: 30 Days (Not applicable on accident cases)',
+              'Named Ailment: 24 Months',
+              'Pre-Existing Diseases: 36 Months',
+              'Maternity Wait Period (Bronze): 48 Months'
+            ]
+          }
+        ]
+      },
+
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 4: OPTIONAL
+      // ───────────────────────────────────────────────────────────────────────
+      {
+        id: 'optional',
+        title: 'OPTIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'uj-oocyte-care',
+            title: 'Oocyte Care^^',
+            subtitle: 'Covers up to ₹1 Lac for Oocyte Donor Retrieval',
+            badge: 'OPTIONAL RIDER',
+            isRider: true,
+            iconType: 'heart',
+            summary: 'Covers up to ₹1 Lac hospitalization expenses related to complications arising due to Oocyte retrieval of Oocyte donor.',
+            points: [
+              'Oocyte Care^^: Covers up to ₹1 Lac hospitalization expenses',
+              'Covers complications arising due to Oocyte retrieval of Oocyte donor'
+            ]
+          },
+          {
+            id: 'uj-surrogacy-care',
+            title: 'Surrogacy Care^^^',
+            subtitle: 'Covers up to ₹1 Lac for Surrogate Mother Care',
+            badge: 'OPTIONAL RIDER',
+            isRider: true,
+            iconType: 'users',
+            summary: 'Covers up to ₹1 Lac hospitalization expenses related to complications arising during pregnancy & post-partum delivery for the Surrogate Mother.',
+            points: [
+              'Surrogacy Care^^^: Covers up to ₹1 Lac hospitalization expenses',
+              'Covers complications arising during pregnancy & post-partum delivery for the Surrogate Mother'
+            ]
+          },
+          {
+            id: 'uj-child-adoption',
+            title: 'Child Adoption',
+            subtitle: 'Up to ₹50,000 for Child Adoption Expenses',
+            badge: 'OPTIONAL RIDER',
+            isRider: true,
+            iconType: 'users',
+            summary: 'Covers medical and legal costs incurred during formal child adoption up to ₹50,000.',
+            points: [
+              'Child Adoption: Up to ₹50,000'
+            ]
+          },
+          {
+            id: 'uj-room-rent-mod',
+            title: 'Room Rent Modification',
+            subtitle: 'Single Pvt. AC Room Covered',
+            badge: 'OPTIONAL RIDER',
+            isRider: true,
+            iconType: 'home',
+            summary: 'Option to specify and guarantee Single Private A/C Room category.',
+            points: [
+              'Room Rent Modification: Single Pvt. AC Room'
+            ]
+          },
+          {
+            id: 'uj-infinity-bonus',
+            title: 'Infinity Bonus',
+            subtitle: '100% Bonus of Base SI/Year Irrespective of Claim',
+            badge: 'OPTIONAL RIDER',
+            isRider: true,
+            iconType: 'trending',
+            summary: '100% bonus of Base SI per year, irrespective of claim made — unlimited times on continuous policy renewal. Shall not reduce in case of claim.',
+            points: [
+              '100% bonus of Base SI per year, irrespective of claim made',
+              'Unlimited times on continuous policy renewal',
+              'Shall not reduce in case of claim'
+            ]
+          },
+          {
+            id: 'uj-spouse-care',
+            title: 'Spouse Care',
+            subtitle: 'Special Spouse Protection Rider',
+            badge: 'OPTIONAL RIDER',
+            isRider: true,
+            iconType: 'heart',
+            summary: 'Special coverage provisions for spouse under policy terms.',
+            points: [
+              'Spouse Care: Applicable'
+            ]
+          },
+          {
+            id: 'uj-mother-baby-care',
+            title: 'Mother & New Born Baby Care (Bronze)',
+            subtitle: 'Worldwide Maternity Cover (Age 18–45)',
+            badge: 'OPTIONAL RIDER',
+            isRider: true,
+            iconType: 'heart',
+            summary: 'Comprehensive worldwide maternity and newborn protection with accumulative cover.',
+            points: [
+              'Available only for Insured Person aged 18 to 45 years',
+              'Coverage available worldwide',
+              '1% of SI per year up to maximum ₹1 Lac',
+              'Coverage amount can accumulate up to 4 times if no claim is made under this benefit',
+              'Pre & Post-Natal covered within maternity limit',
+              'Coverage for New Born is part of maternity Sum Insured'
+            ]
+          },
+          {
+            id: 'uj-mother-baby-mod',
+            title: 'Mother & New Born Baby Care Modification (Bronze)',
+            subtitle: 'Higher Limits (up to ₹3 Lac) with 12m Waiting',
+            badge: 'OPTIONAL RIDER',
+            isRider: true,
+            iconType: 'heart',
+            summary: 'Enhanced maternity sum insured tiers with waiting period reduced to 12 months.',
+            points: [
+              '1% of SI per year, maximum ₹1 Lac — waiting period 12 months',
+              '2% of SI per year, maximum ₹2 Lac — waiting period 12 months',
+              '3% of SI per year, maximum ₹3 Lac — waiting period 12 months',
+              '4% of SI per year, maximum ₹3 Lac — waiting period 12 months',
+              '5% of SI per year, maximum ₹3 Lac — waiting period 12 months'
             ]
           }
         ]

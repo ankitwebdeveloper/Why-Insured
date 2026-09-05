@@ -11,7 +11,10 @@ export const getCompanyRatioValue = (companyId, ratioType) => {
     'star-health': { complaint: '18.5 per 10k', settlement: '97.9%', incurred: '63%', solvency: '1.72' },
     'niva-bupa': { complaint: '16.1 per 10k', settlement: '98.2%', incurred: '58%', solvency: '1.65' },
     'icici-lombard': { complaint: '15.3 per 10k', settlement: '98.5%', incurred: '72%', solvency: '1.78' },
-    'care-health': { complaint: '19.2 per 10k', settlement: '97.4%', incurred: '51%', solvency: '1.82' }
+    'care-health': { complaint: '19.2 per 10k', settlement: '97.4%', incurred: '51%', solvency: '1.82' },
+    'reliance-general': { complaint: '14.8 per 10k', settlement: '98.1%', incurred: '62%', solvency: '1.75' },
+    'magma-hdi': { complaint: '16.5 per 10k', settlement: '97.8%', incurred: '59%', solvency: '1.71' },
+    'indusind-general': { complaint: '15.2 per 10k', settlement: '98.0%', incurred: '60%', solvency: '1.74' }
   };
   const data = ratios[companyId] || { complaint: '15.0 per 10k', settlement: '98.0%', incurred: '60%', solvency: '1.70' };
   return data[ratioType];

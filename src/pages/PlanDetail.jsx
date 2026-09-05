@@ -11,6 +11,8 @@ import IciciCompleteHealthSection from '../components/IciciCompleteHealthSection
 import NivaBupaPlanDetailSection from '../components/NivaBupaPlanDetailSection';
 import StarHealthPlanDetailSection from '../components/StarHealthPlanDetailSection';
 import CareHealthPlanDetailSection from '../components/CareHealthPlanDetailSection';
+import MagmaPlanDetailSection from '../components/MagmaPlanDetailSection';
+import ReliancePlanDetailSection from '../components/ReliancePlanDetailSection';
 
 export default function PlanDetail() {
   const { companyId, planId } = useParams();
@@ -27,8 +29,10 @@ export default function PlanDetail() {
     (company?.id === 'tata-aig' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
     (company?.id === 'icici-lombard' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
     (company?.id === 'niva-bupa' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
-    (company?.id === 'star-health' ? company?.plans[0] : null) ||
-    (company?.id === 'care-health' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null);
+    (company?.id === 'star-health' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
+    (company?.id === 'care-health' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
+    (company?.id === 'reliance-general' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
+    (company?.id === 'magma-hdi' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null);
 
   const hdfcCanonicalPlanId = isHdfcErgo ? resolveHdfcPlanId(planId) : null;
 
@@ -46,7 +50,9 @@ export default function PlanDetail() {
 
   const { theme, name, logo } = company;
 
-  const rawDetailSections = getPlanDetailData(plan, company);
+  const isSpecialCompanyWithOwnComponent = company.id === 'hdfc-life' || company.id === 'hdfc-ergo' || company.id === 'tata-aig' || company.id === 'icici-lombard' || company.id === 'niva-bupa' || company.id === 'star-health' || company.id === 'care-health' || company.id === 'reliance-general' || company.id === 'magma-hdi';
+  
+  const rawDetailSections = isSpecialCompanyWithOwnComponent ? [] : getPlanDetailData(plan, company);
   const detailSections = company.id === 'tata-aig'
     ? rawDetailSections.filter(section => section.title !== 'Ratio' && section.title !== 'Fundamentals')
     : rawDetailSections;
@@ -107,18 +113,20 @@ export default function PlanDetail() {
     '--text': theme.text,
   };
 
-  const isSpecialCompany = company.id === 'hdfc-life' || company.id === 'hdfc-ergo' || company.id === 'tata-aig' || company.id === 'icici-lombard' || company.id === 'niva-bupa' || company.id === 'star-health' || company.id === 'care-health';
+  const isSpecialCompany = company.id === 'hdfc-life' || company.id === 'hdfc-ergo' || company.id === 'tata-aig' || company.id === 'icici-lombard' || company.id === 'niva-bupa' || company.id === 'star-health' || company.id === 'care-health' || company.id === 'reliance-general' || company.id === 'magma-hdi';
 
   return (
     <div style={{ ...themeStyles, backgroundColor: 'var(--bg)' }} className={`min-h-screen font-sans ${isSpecialCompany ? 'pt-[88px] sm:pt-24 pb-2 sm:pb-20' : 'pt-24 pb-20'} relative transition-colors duration-300`}>
-      <div
-        className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none"
-        style={{ backgroundColor: 'var(--primary)' }}
-      />
+      {company.id !== 'magma-hdi' && (
+        <div
+          className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none"
+          style={{ backgroundColor: 'var(--primary)' }}
+        />
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* HDFC ERGO, Tata AIG, ICICI Lombard, Niva Bupa, Star Health & Care Health Viewport Structure */}
+        {/* HDFC ERGO, Tata AIG, ICICI Lombard, Niva Bupa, Star Health, Care Health & Magma Viewport Structure */}
         {(company.id === 'hdfc-life' || company.id === 'hdfc-ergo') ? (
           <HdfcPlanDetailSection
             key={hdfcCanonicalPlanId || plan.id}
@@ -136,6 +144,10 @@ export default function PlanDetail() {
           <StarHealthPlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
         ) : company.id === 'care-health' ? (
           <CareHealthPlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
+        ) : company.id === 'reliance-general' ? (
+          <ReliancePlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
+        ) : company.id === 'magma-hdi' ? (
+          <MagmaPlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
         ) : (
               <>
                 {/* Plan Header Card */}

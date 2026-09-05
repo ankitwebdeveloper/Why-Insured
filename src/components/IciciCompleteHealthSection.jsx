@@ -177,7 +177,7 @@ function IciciFeatureAccordionItem({
   demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
-  const { id, title, subtitle, summary, badge, steps, points, isRider, isProminent, iconType } = item;
+  const { id, title, subtitle, summary, badge, steps, points, tableData, planComparison, isRider, isProminent, iconType } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
 
   return (
@@ -197,52 +197,68 @@ function IciciFeatureAccordionItem({
       }`}
     >
       {/* Header Row */}
-      <div className="p-2.5 sm:p-4 flex items-start sm:items-center justify-between gap-1.5 sm:gap-3">
-        <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-1 min-w-0">
-          {IconComponent && (
-            <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-              isExpanded
-                ? 'bg-[#F58220] text-white shadow-xs'
-                : isProminent
-                ? 'bg-amber-50 text-[#D94A0B] border border-amber-200/60'
-                : 'bg-[#FFF4E8] text-[#D94A0B]'
-            }`}>
-              <IconComponent className="text-xs sm:text-base" />
-            </div>
-          )}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
-              <h3 className="text-xs sm:text-base font-extrabold font-display leading-tight sm:leading-snug text-[#0F172A]">
-                {title}
-              </h3>
-              {onOpenVideo && (
-                <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
+      <div className="p-2.5 sm:p-4 flex flex-col justify-between h-full gap-2">
+        <div className="flex items-start sm:items-center justify-between gap-1.5 sm:gap-3">
+          <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-1 min-w-0">
+            {IconComponent && (
+              <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+                isExpanded
+                  ? 'bg-[#F58220] text-white shadow-xs'
+                  : isProminent
+                  ? 'bg-amber-50 text-[#D94A0B] border border-amber-200/60'
+                  : 'bg-[#FFF4E8] text-[#D94A0B]'
+              }`}>
+                <IconComponent className="text-xs sm:text-base" />
+              </div>
+            )}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                <h3 className="text-xs sm:text-base font-extrabold font-display leading-tight sm:leading-snug text-[#0F172A]">
+                  {title}
+                </h3>
+                {onOpenVideo && (
+                  <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
+                )}
+                {isRider && (
+                  <span className="text-[7.5px] sm:text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 tracking-wide shrink-0 inline-flex items-center gap-1 shadow-2xs">
+                    <span className="w-1 h-1 rounded-full bg-[#F58220]" />
+                    Optional Rider
+                  </span>
+                )}
+              </div>
+              {subtitle && (
+                <p className="text-[9px] sm:text-xs font-semibold mt-0.5 leading-tight sm:leading-snug text-slate-500 line-clamp-2 sm:line-clamp-none">
+                  {subtitle}
+                </p>
               )}
-              {isRider && (
-                <span className="text-[7.5px] sm:text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 tracking-wide shrink-0 inline-flex items-center gap-1 shadow-2xs">
-                  <span className="w-1 h-1 rounded-full bg-[#F58220]" />
-                  Optional Rider
-                </span>
-              )}
             </div>
-            {subtitle && (
-              <p className="text-[9px] sm:text-xs font-semibold mt-0.5 leading-tight sm:leading-snug text-slate-500 line-clamp-2 sm:line-clamp-none">
-                {subtitle}
-              </p>
+          </div>
+
+          {/* Plus / Minus Button */}
+          <div className={`w-5 h-5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 mt-0.5 sm:mt-0 ${
+            isExpanded ? 'bg-[#F58220] text-white rotate-180' : 'bg-[#FFF4E8] text-[#D94A0B]'
+          }`}>
+            {isExpanded ? (
+              <FiMinus className="text-[10px] sm:text-sm stroke-[2.5]" />
+            ) : (
+              <FiPlus className="text-[10px] sm:text-sm stroke-[2.5]" />
             )}
           </div>
         </div>
 
-        {/* Plus / Minus Button */}
-        <div className={`w-5 h-5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 mt-0.5 sm:mt-0 ${
-          isExpanded ? 'bg-[#F58220] text-white rotate-180' : 'bg-[#FFF4E8] text-[#D94A0B]'
-        }`}>
-          {isExpanded ? (
-            <FiMinus className="text-[10px] sm:text-sm stroke-[2.5]" />
-          ) : (
-            <FiPlus className="text-[10px] sm:text-sm stroke-[2.5]" />
-          )}
-        </div>
+        {/* Collapsed Plan A / Plan B Mini Badges */}
+        {planComparison && !isExpanded && (
+          <div className="grid grid-cols-2 gap-1.5 pt-1 border-t border-slate-100">
+            <div className="bg-[#FFF4E8] px-2 py-1 rounded-md border border-[#F58220]/20 flex items-center justify-between">
+              <span className="text-[8.5px] sm:text-[9.5px] font-black text-[#D94A0B] uppercase">Plan A</span>
+              <span className="text-[9.5px] sm:text-[11px] font-bold text-slate-800 truncate ml-1">{planComparison.planA}</span>
+            </div>
+            <div className="bg-slate-50 px-2 py-1 rounded-md border border-slate-200 flex items-center justify-between">
+              <span className="text-[8.5px] sm:text-[9.5px] font-black text-slate-600 uppercase">Plan B</span>
+              <span className="text-[9.5px] sm:text-[11px] font-bold text-slate-800 truncate ml-1">{planComparison.planB}</span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Expanded Summary & Contextual Badges */}
@@ -272,9 +288,71 @@ function IciciFeatureAccordionItem({
               </div>
 
               {/* Short explanation / Details */}
-              <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">
-                {summary}
-              </div>
+              {summary && (
+                <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">
+                  {summary}
+                </div>
+              )}
+
+              {/* Plan Comparison Side-by-Side Cards */}
+              {planComparison && (
+                <div className="mt-2.5 p-2 sm:p-3 rounded-lg sm:rounded-xl bg-orange-50/70 border border-[#F58220]/25 space-y-2">
+                  <div className="text-[8.5px] sm:text-[10px] font-black uppercase tracking-wider text-[#D94A0B] flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#F58220]" />
+                    <span>Variant Comparison (Plan A vs Plan B)</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-left">
+                    <div className="bg-white p-2.5 rounded-lg border border-amber-200/90 shadow-2xs">
+                      <div className="text-[9px] sm:text-[10px] font-black text-[#D94A0B] uppercase tracking-wide mb-1 flex items-center justify-between">
+                        <span>Plan A</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#F58220]" />
+                      </div>
+                      <div className="text-[11px] sm:text-xs font-bold text-slate-800 leading-snug break-words">
+                        {planComparison.planA}
+                      </div>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-slate-200 shadow-2xs">
+                      <div className="text-[9px] sm:text-[10px] font-black text-slate-700 uppercase tracking-wide mb-1 flex items-center justify-between">
+                        <span>Plan B</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                      </div>
+                      <div className="text-[11px] sm:text-xs font-bold text-slate-800 leading-snug break-words">
+                        {planComparison.planB}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Structured Table Data if provided */}
+              {tableData && tableData.rows && tableData.rows.length > 0 && (
+                <div className="mt-2.5 overflow-x-auto rounded-lg sm:rounded-xl border border-slate-200 shadow-2xs bg-white">
+                  <table className="w-full text-left text-[10px] sm:text-xs border-collapse">
+                    {tableData.headers && (
+                      <thead className="bg-[#FFF4E8] text-[#D94A0B] font-black uppercase tracking-wider text-[8.5px] sm:text-[10px] border-b border-[#F58220]/20">
+                        <tr>
+                          {tableData.headers.map((hdr, hIdx) => (
+                            <th key={hIdx} className="px-2.5 py-1.5 sm:px-3 sm:py-2">
+                              {hdr}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                    )}
+                    <tbody className="divide-y divide-slate-100 text-slate-700 font-semibold">
+                      {tableData.rows.map((row, rIdx) => (
+                        <tr key={rIdx} className={rIdx % 2 === 1 ? 'bg-slate-50/50' : 'bg-white'}>
+                          {row.map((cell, cIdx) => (
+                            <td key={cIdx} className={`px-2.5 py-1.5 sm:px-3 sm:py-2 ${cIdx === 0 ? 'font-bold text-slate-900' : ''}`}>
+                              {cell}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
 
               {/* Bullet Points List if provided */}
               {points && points.length > 0 && (
@@ -573,9 +651,16 @@ export default function IciciCompleteHealthSection({ plan, company, planId: plan
 
         {/* 2. PLAN NAME HEADING */}
         <div className="text-center shrink-0 mb-3.5 sm:mb-6">
-          <h1 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
-            {planData.planName}
-          </h1>
+          <div className="flex flex-col items-center justify-center gap-1 mb-1">
+            <h1 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+              {planData.planName}
+            </h1>
+            {planData.planType && (
+              <span className="text-[9px] sm:text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#FFF4E8] text-[#D94A0B] border border-[#F58220]/30 shadow-2xs">
+                {planData.planType}
+              </span>
+            )}
+          </div>
           <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#F58220] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
