@@ -32,6 +32,9 @@ import {
 } from 'react-icons/fi';
 import { getIciciPlanData, resolveIciciPlanId } from '../data/iciciLombardPlansData';
 import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
+import BenefitSearchBar from './BenefitSearchBar';
+import { getFilteredAndPrioritizedFeaturesSections, getBenefitSearchResults } from '../utils/benefitSearchHelper';
+import { scrollToBenefitCard } from '../utils/scrollToBenefitCard';
 
 // Default demo video
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -183,13 +186,16 @@ function IciciFeatureAccordionItem({
   return (
     <motion.div
       ref={itemRef}
+      data-benefit-id={id}
       initial={{ opacity: 0, y: 25 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.45, delay: (index % 3) * 0.08, ease: "easeOut" }}
       onClick={() => onToggle(id, itemRef)}
       className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${
-        isExpanded
+        item._isMatched
+          ? 'bg-white border-emerald-500 shadow-md ring-2 ring-emerald-500/25'
+          : isExpanded
           ? 'bg-[#FFF4E8]/90 border-[#F58220]/70 shadow-md ring-1 ring-[#F58220]/25'
           : isProminent
           ? 'bg-white border-amber-300/80 hover:border-[#F58220]/60 shadow-xs ring-1 ring-amber-400/15'
@@ -218,6 +224,11 @@ function IciciFeatureAccordionItem({
                 </h3>
                 {onOpenVideo && (
                   <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
+                )}
+                {item._isMatched && (
+                  <span className="text-[7.5px] sm:text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300/80 tracking-wide shrink-0">
+                    Matched
+                  </span>
                 )}
                 {isRider && (
                   <span className="text-[7.5px] sm:text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 tracking-wide shrink-0 inline-flex items-center gap-1 shadow-2xs">
@@ -435,6 +446,7 @@ export default function IciciCompleteHealthSection({ plan, company, planId: plan
   };
 
   const [expandedFeatureId, setExpandedFeatureId] = useState(null);
+  const [benefitSearchQuery, setBenefitSearchQuery] = useState('');
 
   const { planId: urlPlanId } = useParams();
   const location = useLocation();
@@ -446,6 +458,24 @@ export default function IciciCompleteHealthSection({ plan, company, planId: plan
   const uiConfig = planData?.uiConfig ?? {};
   const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
   const { logo, name } = company;
+
+  // Memoized search and prioritization of benefits within the current plan
+  const {
+    sections: prioritizedFeaturesSections,
+    totalMatches: totalBenefitMatches,
+    hasActiveSearch: hasActiveBenefitSearch
+  } = React.useMemo(() => {
+    return getFilteredAndPrioritizedFeaturesSections(planData?.featuresSections || [], benefitSearchQuery);
+  }, [planData?.featuresSections, benefitSearchQuery]);
+
+  // Flat search results for dropdown
+  const benefitSearchResults = React.useMemo(() => {
+    return getBenefitSearchResults(planData?.featuresSections || [], benefitSearchQuery);
+  }, [planData?.featuresSections, benefitSearchQuery]);
+
+  const handleBenefitResultClick = (itemId) => {
+    scrollToBenefitCard(itemId);
+  };
 
   // Reset all UI state when switching between plans
   useEffect(() => {
@@ -462,6 +492,7 @@ export default function IciciCompleteHealthSection({ plan, company, planId: plan
       marketPosition: false
     });
     setExpandedFeatureId(null);
+    setBenefitSearchQuery('');
   }, [currentPlanId]);
 
   // Lock background body scroll when modal is active
@@ -526,13 +557,23 @@ export default function IciciCompleteHealthSection({ plan, company, planId: plan
             transition={{ duration: 0.4 }}
             className="text-center pt-2"
           >
-            <div className="text-left mb-3 sm:mb-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-3 sm:mb-4">
               <Link
                 to={`/insurance/${company.id}/${currentPlanId}`}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer self-start sm:self-auto"
               >
                 <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {planData.planName}</span><span className="sm:hidden">Back to Plan</span>
               </Link>
+
+              <BenefitSearchBar
+                searchQuery={benefitSearchQuery}
+                onSearchChange={setBenefitSearchQuery}
+                totalMatches={totalBenefitMatches}
+                hasActiveSearch={hasActiveBenefitSearch}
+                primaryColor="#F58220"
+                searchResults={benefitSearchResults}
+                onResultClick={handleBenefitResultClick}
+              />
             </div>
 
             <div className="flex flex-col items-center justify-center">
@@ -555,8 +596,20 @@ export default function IciciCompleteHealthSection({ plan, company, planId: plan
             />
           </motion.div>
 
+          {/* EMPTY SEARCH FEEDBACK IF ZERO MATCHES */}
+          {hasActiveBenefitSearch && totalBenefitMatches === 0 && (
+            <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs text-center space-y-1">
+              <span className="text-xs sm:text-sm font-black text-slate-800 font-display block">
+                No benefits found
+              </span>
+              <p className="text-xs text-slate-500 font-medium">
+                No benefits matching “<span className="font-semibold text-slate-700">{benefitSearchQuery}</span>” in this plan.
+              </p>
+            </div>
+          )}
+
           {/* 4 DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
-          {planData.featuresSections.map((sec, secIdx) => (
+          {prioritizedFeaturesSections.map((sec, secIdx) => (
             <div key={sec.id || secIdx}>
               <motion.div
                 initial={{ opacity: 0, y: 15 }}

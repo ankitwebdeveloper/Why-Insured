@@ -30,6 +30,9 @@ import {
 } from 'react-icons/fi';
 import { getStarHealthPlanData, resolveStarHealthPlanId } from '../data/starHealthPlansData';
 import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
+import BenefitSearchBar from './BenefitSearchBar';
+import { getFilteredAndPrioritizedFeaturesSections, getBenefitSearchResults } from '../utils/benefitSearchHelper';
+import { scrollToBenefitCard } from '../utils/scrollToBenefitCard';
 
 // Default demo video
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -179,13 +182,16 @@ function StarHealthFeatureAccordionItem({
   return (
     <motion.div
       ref={itemRef}
+      data-benefit-id={id}
       initial={{ opacity: 0, y: 25 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.45, delay: (index % 3) * 0.08, ease: "easeOut" }}
       onClick={() => onToggle(id, itemRef)}
       className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${
-        isExpanded
+        item._isMatched
+          ? 'bg-white border-emerald-500 shadow-md ring-2 ring-emerald-500/25'
+          : isExpanded
           ? 'bg-[#F0F4FF]/80 border-[#003087]/60 shadow-md ring-1 ring-[#003087]/20'
           : 'bg-white border-slate-200/80 hover:border-[#003087]/40 shadow-2xs'
       }`}
@@ -207,6 +213,11 @@ function StarHealthFeatureAccordionItem({
               </h3>
               {onOpenVideo && (
                 <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
+              )}
+              {item._isMatched && (
+                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300/80 tracking-wide shrink-0">
+                  Matched
+                </span>
               )}
               {isRider && (
                 <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#003087]/10 text-[#003087] tracking-wide shrink-0">
@@ -334,6 +345,7 @@ export default function StarHealthPlanDetailSection({ plan, company, planId: pla
   };
 
   const [expandedFeatureId, setExpandedFeatureId] = useState(null);
+  const [benefitSearchQuery, setBenefitSearchQuery] = useState('');
 
   const { planId: urlPlanId } = useParams();
   const location = useLocation();
@@ -345,6 +357,24 @@ export default function StarHealthPlanDetailSection({ plan, company, planId: pla
   const uiConfig = planData?.uiConfig ?? {};
   const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
   const { logo, name } = company;
+
+  // Filter & prioritize features sections based on current plan search
+  const {
+    sections: prioritizedFeaturesSections,
+    totalMatches: totalBenefitMatches,
+    hasActiveSearch: hasActiveBenefitSearch
+  } = React.useMemo(() => {
+    return getFilteredAndPrioritizedFeaturesSections(planData?.featuresSections || [], benefitSearchQuery);
+  }, [planData?.featuresSections, benefitSearchQuery]);
+
+  // Flat search results for dropdown
+  const benefitSearchResults = React.useMemo(() => {
+    return getBenefitSearchResults(planData?.featuresSections || [], benefitSearchQuery);
+  }, [planData?.featuresSections, benefitSearchQuery]);
+
+  const handleBenefitResultClick = (itemId) => {
+    scrollToBenefitCard(itemId);
+  };
 
   // Reset all UI state when switching between plans
   useEffect(() => {
@@ -425,13 +455,23 @@ export default function StarHealthPlanDetailSection({ plan, company, planId: pla
             transition={{ duration: 0.4 }}
             className="text-center pt-2"
           >
-            <div className="text-left mb-3 sm:mb-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-3 sm:mb-4">
               <Link
                 to={`/insurance/${company.id}/${currentPlanId}`}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer self-start sm:self-auto"
               >
                 <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {planData.planName}</span><span className="sm:hidden">Back to Plan</span>
               </Link>
+
+              <BenefitSearchBar
+                searchQuery={benefitSearchQuery}
+                onSearchChange={setBenefitSearchQuery}
+                totalMatches={totalBenefitMatches}
+                hasActiveSearch={hasActiveBenefitSearch}
+                primaryColor="#003087"
+                searchResults={benefitSearchResults}
+                onResultClick={handleBenefitResultClick}
+              />
             </div>
 
             <div className="flex flex-col items-center justify-center">
@@ -454,8 +494,20 @@ export default function StarHealthPlanDetailSection({ plan, company, planId: pla
             />
           </motion.div>
 
+          {/* EMPTY SEARCH FEEDBACK IF ZERO MATCHES */}
+          {hasActiveBenefitSearch && totalBenefitMatches === 0 && (
+            <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs text-center space-y-1">
+              <span className="text-xs sm:text-sm font-black text-slate-800 font-display block">
+                No benefits found
+              </span>
+              <p className="text-xs text-slate-500 font-medium">
+                No benefits matching “<span className="font-semibold text-slate-700">{benefitSearchQuery}</span>” in this plan.
+              </p>
+            </div>
+          )}
+
           {/* 4 DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
-          {planData.featuresSections.map((sec, secIdx) => (
+          {prioritizedFeaturesSections.map((sec, secIdx) => (
             <div key={sec.id || secIdx}>
               <motion.div
                 initial={{ opacity: 0, y: 15 }}

@@ -3,6 +3,113 @@
 
 import { isHdfcPlan } from '../data/hdfcPlanRegistry';
 
+// ---------------------------------------------------------------------------
+// BENEFIT_CATEGORIES — drives the filter chips on the ComparisonPage.
+// Each entry maps a chip ID to the section titles and optional feature-title
+// keywords it should include when that chip is active.
+// ---------------------------------------------------------------------------
+export const BENEFIT_CATEGORIES = [
+  {
+    id: 'all',
+    label: 'All Benefits',
+  },
+
+  {
+    id: 'waiting',
+    label: 'Waiting Period',
+    sections: ['Waiting Period'],
+  },
+
+  {
+    id: 'roomrent',
+    label: 'Room Rent',
+    sections: ['Features'],
+    featureKeywords: ['room rent', 'icu'],
+  },
+
+  {
+    id: 'restoration',
+    label: 'Restoration',
+    sections: ['Features'],
+    featureKeywords: ['restoration', 'restore', 'refill', 'recharge', 'reset'],
+  },
+
+  {
+    id: 'ncb',
+    label: 'NCB',
+    sections: ['Features'],
+    featureKeywords: ['no claim bonus', 'ncb'],
+  },
+
+  {
+    id: 'daycare',
+    label: 'Day Care',
+    sections: ['Features'],
+    featureKeywords: ['day care', 'daycare'],
+  },
+
+  {
+    id: 'ambulance',
+    label: 'Ambulance',
+    sections: ['Features', 'Fundamentals'],
+    featureKeywords: ['ambulance'],
+  },
+
+  {
+    id: 'ayush',
+    label: 'AYUSH',
+    sections: ['Features'],
+    featureKeywords: ['ayush'],
+  },
+
+  {
+    id: 'prepost',
+    label: 'Pre/Post Hospitalization',
+    sections: ['Features'],
+    featureKeywords: ['pre & post', 'pre/post', 'pre post'],
+  },
+
+  {
+    id: 'cashless',
+    label: 'Cashless',
+    sections: ['Features', 'Fundamentals'],
+    featureKeywords: ['cashless'],
+  },
+
+  {
+    id: 'healthcheckup',
+    label: 'Health Checkup',
+    sections: ['Features'],
+    featureKeywords: ['health checkup', 'health check'],
+  },
+
+  {
+    id: 'teleconsult',
+    label: 'Tele Consultation',
+    sections: ['Features'],
+    featureKeywords: ['tele consultation', 'tele consult'],
+  },
+
+  {
+    id: 'additional',
+    label: 'Additional Benefits',
+    sections: ['Features'],
+    featureKeywords: [
+      'renewal discount',
+      'daily cash',
+      'infinity cover',
+      'air ambulance',
+      'modern + robotic',
+    ],
+  },
+
+  {
+    id: 'ratios',
+    label: 'Company Ratios',
+    sections: ['Ratio'],
+  },
+];
+
 export const getCompanyRatioValue = (companyId, ratioType) => {
   const ratios = {
     'hdfc-ergo': { complaint: '12.4 per 10k', settlement: '98.6%', incurred: '54%', solvency: '1.90' },
@@ -228,7 +335,7 @@ export const getPlanDetailData = (plan, company) => {
 export const getComparisonSections = (plan1, company1, plan2, company2) => {
   const p1Data = getPlanDetailData(plan1, company1);
   const p2Data = getPlanDetailData(plan2, company2);
-  
+
   return p1Data.map((section, secIdx) => {
     const sec2 = p2Data[secIdx];
     if (section.isGrouped) {

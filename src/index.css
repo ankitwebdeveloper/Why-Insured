@@ -294,3 +294,18 @@ input:focus, select:focus, textarea:focus {
   }
 }
 
+/* ── Benefit card highlight animation (triggered by scrollToBenefitCard) ── */
+@keyframes benefitHighlightPulse {
+  0%   { box-shadow: 0 0 0 0px rgba(59,130,246,0.55), 0 0 0 0 rgba(59,130,246,0.20); }
+  30%  { box-shadow: 0 0 0 4px rgba(59,130,246,0.40), 0 0 16px 4px rgba(59,130,246,0.18); }
+  60%  { box-shadow: 0 0 0 6px rgba(59,130,246,0.22), 0 0 24px 6px rgba(59,130,246,0.10); }
+  100% { box-shadow: 0 0 0 0px rgba(59,130,246,0.0), 0 0 0 0 rgba(59,130,246,0.0); }
+}
+
+.benefit-highlight-active {
+  animation: benefitHighlightPulse 2s ease-out forwards;
+  outline: 2px solid rgba(59,130,246,0.5) !important;
+  outline-offset: 2px;
+  transition: outline 0.2s ease;
+}
+

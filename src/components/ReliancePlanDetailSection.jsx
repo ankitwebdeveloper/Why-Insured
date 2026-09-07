@@ -34,6 +34,9 @@ import {
 } from 'react-icons/fi';
 import { getReliancePlanData, resolveReliancePlanId } from '../data/reliancePlansData';
 import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
+import BenefitSearchBar from './BenefitSearchBar';
+import { getFilteredAndPrioritizedFeaturesSections, getBenefitSearchResults } from '../utils/benefitSearchHelper';
+import { scrollToBenefitCard } from '../utils/scrollToBenefitCard';
 
 // Default demo video URL
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -202,13 +205,16 @@ function RelianceFeatureAccordionItem({
   return (
     <motion.div
       ref={itemRef}
+      data-benefit-id={id}
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.35, delay: (index % 3) * 0.04, ease: "easeOut" }}
       onClick={() => onToggle(id, itemRef)}
       className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${
-        isExpanded
+        item._isMatched
+          ? 'bg-white border-emerald-500 shadow-md ring-2 ring-emerald-500/25'
+          : isExpanded
           ? 'bg-[#F0F5FA]/90 border-[#205398]/60 shadow-md ring-1 ring-[#205398]/20'
           : 'bg-white border-slate-200/80 hover:border-[#205398]/40 shadow-2xs hover:shadow-xs'
       }`}
@@ -236,6 +242,11 @@ function RelianceFeatureAccordionItem({
                   label="View Details"
                   onClick={() => onOpenDetailsModal(detailsModalTitle || title, detailsModalContent || summary)}
                 />
+              )}
+              {item._isMatched && (
+                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300/80 tracking-wide shrink-0">
+                  Matched
+                </span>
               )}
               {isRider && (
                 <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#ED1C24]/10 text-[#ED1C24] border border-[#ED1C24]/20 tracking-wide shrink-0">
@@ -396,6 +407,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
   };
 
   const [expandedFeatureId, setExpandedFeatureId] = useState(null);
+  const [benefitSearchQuery, setBenefitSearchQuery] = useState('');
 
   const { planId: urlPlanId } = useParams();
   const location = useLocation();
@@ -407,6 +419,24 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
   const uiConfig = planData?.uiConfig ?? {};
   const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
   const { logo, name } = company;
+
+  // Filter & prioritize features sections based on current plan search
+  const {
+    sections: prioritizedFeaturesSections,
+    totalMatches: totalBenefitMatches,
+    hasActiveSearch: hasActiveBenefitSearch
+  } = React.useMemo(() => {
+    return getFilteredAndPrioritizedFeaturesSections(planData?.featuresSections || [], benefitSearchQuery);
+  }, [planData?.featuresSections, benefitSearchQuery]);
+
+  // Flat search results for dropdown
+  const benefitSearchResults = React.useMemo(() => {
+    return getBenefitSearchResults(planData?.featuresSections || [], benefitSearchQuery);
+  }, [planData?.featuresSections, benefitSearchQuery]);
+
+  const handleBenefitResultClick = (itemId) => {
+    scrollToBenefitCard(itemId);
+  };
 
   // Reset all UI state on plan switch
   useEffect(() => {
@@ -504,13 +534,23 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
             transition={{ duration: 0.4 }}
             className="text-center pt-2"
           >
-            <div className="text-left mb-3 sm:mb-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-3 sm:mb-4">
               <Link
                 to={`/insurance/${company.id}/${currentPlanId}`}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors cursor-pointer self-start sm:self-auto"
               >
                 <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {planData.planName}</span><span className="sm:hidden">Back to Plan</span>
               </Link>
+
+              <BenefitSearchBar
+                searchQuery={benefitSearchQuery}
+                onSearchChange={setBenefitSearchQuery}
+                totalMatches={totalBenefitMatches}
+                hasActiveSearch={hasActiveBenefitSearch}
+                primaryColor="#205398"
+                searchResults={benefitSearchResults}
+                onResultClick={handleBenefitResultClick}
+              />
             </div>
 
             <div className="flex flex-col items-center justify-center">
@@ -539,8 +579,20 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
             />
           </motion.div>
 
+          {/* EMPTY SEARCH FEEDBACK IF ZERO MATCHES */}
+          {hasActiveBenefitSearch && totalBenefitMatches === 0 && (
+            <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs text-center space-y-1">
+              <span className="text-xs sm:text-sm font-black text-slate-800 font-display block">
+                No benefits found
+              </span>
+              <p className="text-xs text-slate-500 font-medium">
+                No benefits matching “<span className="font-semibold text-slate-700">{benefitSearchQuery}</span>” in this plan.
+              </p>
+            </div>
+          )}
+
           {/* 4 CATEGORY SECTIONS (EXACT 4 TITLES ONLY) */}
-          {planData.featuresSections?.map((sec, secIdx) => (
+          {prioritizedFeaturesSections?.map((sec, secIdx) => (
             <div key={sec.id || secIdx} className="space-y-3 sm:space-y-3.5">
               
               {/* Premium Royal Blue / Red Accent Category Banner */}

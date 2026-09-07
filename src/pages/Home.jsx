@@ -7,13 +7,10 @@ import {
   FiShield,
   FiLayers,
   FiActivity,
-  FiPlay,
-  FiZap,
   FiX
 } from 'react-icons/fi';
 import { companiesData } from '../data/companies';
 import { searchGlobalInsurance } from '../utils/globalSearchHelper';
-import GlobalSearchContentModal from '../components/GlobalSearchContentModal';
 import RealInsuranceSearchResultPanel from '../components/RealInsuranceSearchResultPanel';
 
 export default function Home() {
@@ -29,7 +26,6 @@ export default function Home() {
   });
 
   const [showMobileInsurance, setShowMobileInsurance] = useState(false);
-  const [selectedContentItem, setSelectedContentItem] = useState(null);
 
   // Synchronize state when URL query param changes (e.g. browser Back / Forward navigation)
   useEffect(() => {
@@ -59,8 +55,6 @@ export default function Home() {
   // Close search results ONLY when user explicitly clicks/taps outside search area
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // If modal is currently open or click was inside a modal/dialog overlay, do NOT close
-      if (selectedContentItem) return;
       if (
         event.target.closest &&
         (event.target.closest('[role="dialog"]') || event.target.closest('.fixed') || event.target.closest('.modal'))
@@ -80,7 +74,7 @@ export default function Home() {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
     };
-  }, [selectedContentItem]);
+  }, []);
 
   // Evaluate real database content search across all companies, plans, and features
   const searchResults = useMemo(() => {
@@ -117,19 +111,8 @@ export default function Home() {
     }
   };
 
-  // Curated beginner-friendly suggestions
-  const popularSuggestions = [
-    '2x',
-    '2x benefits',
-    'gloves',
-    'consumables',
-    'room rent',
-    'cashless',
-    'restoration'
-  ];
-
   return (
-    <div className="relative min-h-screen bg-[#F8FAFC] pt-32 pb-44 overflow-visible flex flex-col justify-center">
+    <div className="relative min-h-[calc(100vh-140px)] bg-[#F8FAFC] pt-32 sm:pt-40 md:pt-48 lg:pt-56 pb-16 overflow-visible flex flex-col items-center justify-start">
       
       {/* Subtle Premium Grid Pattern Background */}
       <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:32px_32px] opacity-45 pointer-events-none -z-10" />
@@ -184,7 +167,7 @@ export default function Home() {
               type="text"
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              placeholder="Search anything about insurance…"
+              placeholder="Search company or plan name (e.g. Tata AIG, ReAssure 3.0)..."
               className="w-full h-full bg-transparent text-[#0F172A] text-sm sm:text-base font-semibold placeholder-slate-400 focus:outline-none font-sans"
             />
             {searchQuery && (
@@ -198,40 +181,13 @@ export default function Home() {
             )}
           </div>
 
-          {/* Quick Suggestion Chips under Search Bar */}
-          {!searchQuery && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.6 }}
-              className="flex items-center justify-center flex-wrap gap-1.5 sm:gap-2 mt-3.5 px-2 text-left"
-            >
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1 flex items-center gap-1">
-                <FiZap className="text-emerald-500 text-xs" />
-                <span>Try:</span>
-              </span>
-              {popularSuggestions.map((sug, sIdx) => (
-                <button
-                  key={sIdx}
-                  type="button"
-                  onClick={() => handleSearchChange(sug)}
-                  className="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/90 hover:bg-white text-slate-600 hover:text-emerald-600 border border-slate-200/80 shadow-2xs hover:shadow-xs transition-all cursor-pointer"
-                >
-                  “{sug}”
-                </button>
-              ))}
-            </motion.div>
-          )}
-
           {/* Real Insurance Content Search Results Panel */}
           <AnimatePresence>
             {searchQuery.trim() && (
               <RealInsuranceSearchResultPanel
                 searchQuery={searchQuery}
                 searchResults={searchResults}
-                onSelectFeature={(featureItem) => setSelectedContentItem(featureItem)}
                 onClose={() => handleSearchChange('')}
-                onSelectSuggestion={(sug) => handleSearchChange(sug)}
               />
             )}
           </AnimatePresence>
@@ -328,14 +284,6 @@ export default function Home() {
         </motion.div>
 
       </div>
-
-      {/* Clean Feature Content Modal */}
-      {selectedContentItem && (
-        <GlobalSearchContentModal
-          item={selectedContentItem}
-          onClose={() => setSelectedContentItem(null)}
-        />
-      )}
     </div>
   );
 }
