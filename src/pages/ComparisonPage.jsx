@@ -205,6 +205,38 @@ export default function ComparisonPage() {
 
   const hasValidParams = company1 && company2 && plan1 && plan2;
 
+  const comparisonSections = useMemo(() => {
+    if (!hasValidParams) return [];
+
+    return getComparisonSections(
+      plan1,
+      company1,
+      plan2,
+      company2
+    );
+  }, [hasValidParams, plan1, company1, plan2, company2]);
+
+  const filteredSections = useMemo(() => {
+    const cat = BENEFIT_CATEGORIES.find(
+      c => c.id === activeCategory
+    );
+
+    let sections = filterByCategory(
+      comparisonSections,
+      cat
+    );
+
+    if (showDiffsOnly) {
+      sections = filterDiffsOnly(sections);
+    }
+
+    return sections;
+  }, [
+    comparisonSections,
+    activeCategory,
+    showDiffsOnly
+  ]);
+
   // PDF Export handler
   const handleExportPDF = async () => {
     if (!hasValidParams || isGenerating || exportStatus !== 'idle') return;
@@ -263,22 +295,6 @@ export default function ComparisonPage() {
     );
   }
 
-  // ── Raw sections from existing helper ───────────────────────────────────
-  const comparisonSections = getComparisonSections(plan1, company1, plan2, company2);
-
-  // ── Apply category + diff filter ─────────────────────────────────────────
-  // We call useMemo inside the function body AFTER the early return guard.
-  // This is safe as long as hasValidParams is stable between renders before
-  // it becomes true (the early return ensures we never reach this line without it).
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const filteredSections = useMemo(() => {
-    const cat = BENEFIT_CATEGORIES.find(c => c.id === activeCategory);
-    let sections = filterByCategory(comparisonSections, cat);
-    if (showDiffsOnly) sections = filterDiffsOnly(sections);
-    return sections;
-    // comparisonSections is derived synchronously from the same stable props each render
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeCategory, showDiffsOnly, plan1, plan2, company1, company2]);
 
   // Chip scroll helpers
   const scrollChips = (dir) => {
