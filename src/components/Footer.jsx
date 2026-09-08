@@ -31,6 +31,7 @@ export default function Footer() {
     { name: 'Reliance General Insurance', path: '/insurance/reliance-general' },
     { name: 'Magma General Insurance', path: '/insurance/magma-hdi' },
     { name: 'IndusInd General Insurance', path: '/insurance/indusind-general' },
+    { name: 'ManipalCigna Health Insurance', path: '/insurance/manipal-cigna' },
   ];
 
   const handleOpenModal = (modalType) => {

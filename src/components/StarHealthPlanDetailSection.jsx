@@ -26,13 +26,15 @@ import {
   FiDollarSign,
   FiZap,
   FiUsers,
-  FiActivity
+  FiActivity,
+  FiSliders
 } from 'react-icons/fi';
 import { getStarHealthPlanData, resolveStarHealthPlanId } from '../data/starHealthPlansData';
 import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
 import BenefitSearchBar from './BenefitSearchBar';
 import { getFilteredAndPrioritizedFeaturesSections, getBenefitSearchResults } from '../utils/benefitSearchHelper';
 import { scrollToBenefitCard } from '../utils/scrollToBenefitCard';
+import StarSuperStarVariantSelector from './StarSuperStarVariantSelector';
 
 // Default demo video
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -264,7 +266,7 @@ function StarHealthFeatureAccordionItem({
                     {badge}
                   </span>
                 )}
-                {subtitle && (
+                {subtitle && subtitle !== summary && (
                   <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
                     <FiCheck className="text-[#003087] text-[10px] sm:text-xs shrink-0" /> {subtitle}
                   </span>
@@ -275,6 +277,20 @@ function StarHealthFeatureAccordionItem({
               <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">
                 {summary}
               </div>
+
+              {/* Bullet Points with Checkmarks if points present */}
+              {item.points && item.points.length > 0 && (
+                <div className="space-y-1.5 pt-0.5">
+                  <ul className="space-y-1.5 text-[11px] sm:text-sm font-medium text-slate-600 list-none pl-0">
+                    {item.points.map((pt, pIdx) => (
+                      <li key={pIdx} className="flex items-start gap-2">
+                        <FiCheck className="text-[#003087] text-xs shrink-0 mt-1" />
+                        <span className="leading-relaxed">{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {/* Visual Number Step Progression */}
               {steps && steps.length > 0 && (
@@ -357,6 +373,7 @@ export default function StarHealthPlanDetailSection({ plan, company, planId: pla
   const uiConfig = planData?.uiConfig ?? {};
   const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
   const { logo, name } = company;
+  const isSuperStarVariant = currentPlanId.startsWith('star-super-star-');
 
   // Filter & prioritize features sections based on current plan search
   const {
@@ -437,6 +454,13 @@ export default function StarHealthPlanDetailSection({ plan, company, planId: pla
   };
 
   // =========================================================================
+  // STAR HEALTH SUPER STAR: VARIANT SELECTOR SCREEN (5 VARIANTS)
+  // =========================================================================
+  if (currentPlanId === 'star-super-star') {
+    return <StarSuperStarVariantSelector company={company} />;
+  }
+
+  // =========================================================================
   // DEDICATED FEATURES PAGE (POLICY BENEFITS — 4 CATEGORIES)
   // =========================================================================
   if (isFeaturesPage) {
@@ -483,6 +507,11 @@ export default function StarHealthPlanDetailSection({ plan, company, planId: pla
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
                 {planData.planName} <span className="text-[#003087]">—</span> POLICY BENEFITS
               </h1>
+              {planData.subtitle && (
+                <p className="text-xs sm:text-sm font-semibold text-slate-500 mt-1">
+                  {planData.subtitle}
+                </p>
+              )}
               <div className="w-8 sm:w-12 h-1 bg-[#003087] mx-auto mt-1.5 rounded-full" />
             </div>
 
@@ -565,13 +594,19 @@ export default function StarHealthPlanDetailSection({ plan, company, planId: pla
     <div className="w-full">
       {/* Single Viewport Container */}
       <div className="max-w-3xl mx-auto flex flex-col justify-start sm:justify-center items-stretch sm:min-h-[calc(100vh-220px)] py-1 sm:py-4 space-y-0">
-        {/* Navigation Breadcrumb - Back to Plans */}
+        {/* Navigation Breadcrumb - Back to Plans / Super Star Variants */}
         <div className="shrink-0 text-left mb-3.5 sm:mb-5">
           <Link
-            to={`/insurance/${company.id}`}
+            to={isSuperStarVariant ? `/insurance/${company.id}/star-super-star` : `/insurance/${company.id}`}
             className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
           >
-            <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to Star Health Plans</span><span className="sm:hidden">Back to Plans</span>
+            <FiArrowLeft className="text-sm" />{' '}
+            <span className="hidden sm:inline">
+              {isSuperStarVariant ? 'Back to Super Star Variants' : 'Back to Star Health Plans'}
+            </span>
+            <span className="sm:hidden">
+              {isSuperStarVariant ? 'Back to Variants' : 'Back to Plans'}
+            </span>
           </Link>
         </div>
 
@@ -589,6 +624,11 @@ export default function StarHealthPlanDetailSection({ plan, company, planId: pla
           <h1 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
             {planData.planName}
           </h1>
+          {planData.subtitle && (
+            <p className="text-xs sm:text-sm font-semibold text-slate-500 mt-1">
+              {planData.subtitle}
+            </p>
+          )}
           <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#003087] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
@@ -686,6 +726,26 @@ export default function StarHealthPlanDetailSection({ plan, company, planId: pla
             </div>
           </button>
         </div>
+
+        {/* 6. COMPARE THIS VARIANT CTA (FOR SUPER STAR 5 VARIANTS) */}
+        {isSuperStarVariant && (
+          <div className="flex justify-center w-full mt-2 sm:mt-3">
+            <Link
+              to={`/compare?c1=star-health&p1=${currentPlanId}`}
+              className="w-full sm:max-w-md bg-[#003087] hover:bg-[#002266] text-white rounded-xl sm:rounded-2xl p-2.5 sm:p-4 flex items-center justify-between text-left shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer select-none group"
+            >
+              <div className="flex items-center gap-2 relative z-10 min-w-0 pr-1">
+                <FiSliders className="text-xs sm:text-base text-white shrink-0 group-hover:rotate-12 transition-transform duration-200" />
+                <span className="text-xs sm:text-sm font-black tracking-wide uppercase truncate">
+                  Compare {planData.planName}
+                </span>
+              </div>
+              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/20 flex items-center justify-center text-white shrink-0 group-hover:bg-white group-hover:text-[#003087] transition-all duration-200">
+                <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
+              </div>
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* ========================================================================= */}

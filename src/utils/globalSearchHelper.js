@@ -54,6 +54,11 @@ export const COMPANY_DICTIONARY = [
     id: 'indusind-general',
     name: 'IndusInd General Insurance',
     aliases: ['indusind', 'indusind general', 'indusind general insurance', 'indusind health', 'indusind insurance', 'indusind bank']
+  },
+  {
+    id: 'manipal-cigna',
+    name: 'ManipalCigna',
+    aliases: ['manipal', 'cigna', 'manipal cigna', 'manipalcigna', 'manipal health', 'cigna ttk', 'manipalcigna sarvah', 'manipal cigna sarvah', 'sarvah']
   }
 ];
 
@@ -134,10 +139,17 @@ function matchCompanyScore(comp, queryNorm, queryRaw) {
 function matchPlanScore(plan, comp, queryNorm, queryRaw) {
   const planNameNorm = normalizeString(plan.name);
   const planIdNorm = normalizeString(plan.id);
+  const compNameNorm = normalizeString(plan.companyName || comp.name);
   const combinedNameNorm = normalizeString(`${comp.name} ${plan.name}`);
+  const combinedCustomCompNorm = normalizeString(`${compNameNorm} ${plan.name}`);
 
   // 1. Exact Plan Name Match
-  if (planNameNorm === queryNorm || planIdNorm === queryNorm || combinedNameNorm === queryNorm) {
+  if (
+    planNameNorm === queryNorm ||
+    planIdNorm === queryNorm ||
+    combinedNameNorm === queryNorm ||
+    combinedCustomCompNorm === queryNorm
+  ) {
     return 850;
   }
 
@@ -146,14 +158,20 @@ function matchPlanScore(plan, comp, queryNorm, queryRaw) {
     return 750;
   }
 
-  if (planNameNorm.includes(queryNorm) || combinedNameNorm.includes(queryNorm)) {
+  if (
+    planNameNorm.includes(queryNorm) ||
+    combinedNameNorm.includes(queryNorm) ||
+    combinedCustomCompNorm.includes(queryNorm)
+  ) {
     return 650;
   }
 
-  // Check token containment (all words in query exist in plan name)
+  // Check token containment (all words in query exist in plan name or company name)
   const queryTokens = queryNorm.split(' ').filter(Boolean);
   if (queryTokens.length > 1) {
-    const allTokensInPlan = queryTokens.every(t => planNameNorm.includes(t) || normalizeString(comp.name).includes(t));
+    const allTokensInPlan = queryTokens.every(
+      t => planNameNorm.includes(t) || normalizeString(comp.name).includes(t) || compNameNorm.includes(t)
+    );
     if (allTokensInPlan) {
       return 600;
     }
@@ -216,7 +234,7 @@ export function searchGlobalInsurance(rawQuery) {
           plan: {
             ...plan,
             companyId: comp.id,
-            companyName: comp.name,
+            companyName: plan.companyName || comp.name,
             companyFullName: comp.fullName,
             companyLogo: comp.logo,
             companyTheme: comp.theme,

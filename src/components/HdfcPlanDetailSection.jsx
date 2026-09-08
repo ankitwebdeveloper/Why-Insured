@@ -844,7 +844,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           )}
 
           {/* DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
-          {prioritizedFeaturesSections.map((sec, secIdx) => (
+          {prioritizedFeaturesSections.filter(sec => sec.items && sec.items.length > 0).map((sec, secIdx) => (
             <div key={sec.id || secIdx}>
               <motion.div
                 initial={{ opacity: 0, y: 15 }}

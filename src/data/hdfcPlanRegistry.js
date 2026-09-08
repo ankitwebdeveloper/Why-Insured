@@ -6,12 +6,16 @@
 
 /** Canonical plan IDs — use these everywhere for plan-specific data & UI */
 export const HDFC_CANONICAL_PLAN_IDS = [
-  'hdfc-optima-secure-plus'
+  'hdfc-optima-secure-plus',
+  'hdfc-energy',
+  'hdfc-medisure-super-topup'
 ];
 
 /** Human-readable plan names keyed by canonical ID */
 export const HDFC_PLAN_NAMES = {
-  'hdfc-optima-secure-plus': 'Optima Secure+'
+  'hdfc-optima-secure-plus': 'Optima Secure+',
+  'hdfc-energy': 'HDFC ERGO Energy Plan',
+  'hdfc-medisure-super-topup': 'MediSure Super Top-Up'
 };
 
 /**
@@ -25,11 +29,19 @@ export const HDFC_PLAN_ID_ALIASES = {
   'hdfc-optima-secure': 'hdfc-optima-secure-plus',
   'optima-restore': 'hdfc-optima-secure-plus',
   'hdfc-optima-restore': 'hdfc-optima-secure-plus',
-  'energy': 'hdfc-optima-secure-plus',
-  'hdfc-energy': 'hdfc-optima-secure-plus',
-  'myhealth-medisure': 'hdfc-optima-secure-plus',
-  'myhealth-medisure-super-topup': 'hdfc-optima-secure-plus',
-  'hdfc-myhealth-medisure-super-topup': 'hdfc-optima-secure-plus'
+  'energy': 'hdfc-energy',
+  'hdfc-energy': 'hdfc-energy',
+  'energy-plan': 'hdfc-energy',
+  'hdfc-energy-plan': 'hdfc-energy',
+  'medisure-super-topup': 'hdfc-medisure-super-topup',
+  'medisure-super-top-up': 'hdfc-medisure-super-topup',
+  'hdfc-medisure-super-topup': 'hdfc-medisure-super-topup',
+  'hdfc-medisure-super-top-up': 'hdfc-medisure-super-topup',
+  'medisure': 'hdfc-medisure-super-topup',
+  'hdfc-medisure': 'hdfc-medisure-super-topup',
+  'myhealth-medisure': 'hdfc-medisure-super-topup',
+  'myhealth-medisure-super-topup': 'hdfc-medisure-super-topup',
+  'hdfc-myhealth-medisure-super-topup': 'hdfc-medisure-super-topup'
 };
 
 /**

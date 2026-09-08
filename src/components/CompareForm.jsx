@@ -4,14 +4,43 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronDown, FiAlertCircle } from 'react-icons/fi';
 import { companiesData } from '../data/companies';
 
-export default function CompareForm({ onClose, onSubmenuStateChange }) {
+export default function CompareForm({
+  onClose,
+  onSubmenuStateChange,
+  initialCompany1Id,
+  initialCompany2Id,
+  initialPlan1Id,
+  initialPlan2Id
+}) {
   const navigate = useNavigate();
 
   // Selection states
-  const [company1, setCompany1] = useState(null);
-  const [company2, setCompany2] = useState(null);
-  const [plan1, setPlan1] = useState(null);
-  const [plan2, setPlan2] = useState(null);
+  const [company1, setCompany1] = useState(() => {
+    if (initialCompany1Id) {
+      return companiesData.find(c => c.id === initialCompany1Id || c.slug === initialCompany1Id) || null;
+    }
+    return null;
+  });
+  const [company2, setCompany2] = useState(() => {
+    if (initialCompany2Id) {
+      return companiesData.find(c => c.id === initialCompany2Id || c.slug === initialCompany2Id) || null;
+    }
+    return null;
+  });
+  const [plan1, setPlan1] = useState(() => {
+    if (initialCompany1Id && initialPlan1Id) {
+      const comp = companiesData.find(c => c.id === initialCompany1Id || c.slug === initialCompany1Id);
+      return comp?.plans.find(p => p.id === initialPlan1Id) || null;
+    }
+    return null;
+  });
+  const [plan2, setPlan2] = useState(() => {
+    if (initialCompany2Id && initialPlan2Id) {
+      const comp = companiesData.find(c => c.id === initialCompany2Id || c.slug === initialCompany2Id);
+      return comp?.plans.find(p => p.id === initialPlan2Id) || null;
+    }
+    return null;
+  });
 
   // Dropdown open states
   const [c1Open, setC1Open] = useState(false);
@@ -269,7 +298,7 @@ export default function CompareForm({ onClose, onSubmenuStateChange }) {
                       transition={{ duration: 0.15 }}
                       className="absolute left-0 right-0 mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl z-40 max-h-60 overflow-y-auto py-2"
                     >
-                      {company1.plans.map((plan) => (
+                      {(company1.plans || []).filter(p => !p.hasVariants).map((plan) => (
                         <button
                           key={plan.id}
                           type="button"
@@ -335,7 +364,7 @@ export default function CompareForm({ onClose, onSubmenuStateChange }) {
                       transition={{ duration: 0.15 }}
                       className="absolute left-0 right-0 mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl z-40 max-h-60 overflow-y-auto py-2"
                     >
-                      {company2.plans.map((plan) => (
+                      {(company2.plans || []).filter(p => !p.hasVariants).map((plan) => (
                         <button
                           key={plan.id}
                           type="button"

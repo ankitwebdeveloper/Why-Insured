@@ -23,7 +23,8 @@ export default function CompanyDetail() {
   }
 
   const { theme, name, fullName, logo, description, plans } = company;
-  const isSpecialCompany = company.id === 'hdfc-ergo' || company.slug === 'hdfc-ergo' || company.id === 'tata-aig' || company.slug === 'tata-aig' || company.id === 'icici-lombard' || company.slug === 'icici-lombard' || company.id === 'niva-bupa' || company.slug === 'niva-bupa' || company.id === 'star-health' || company.slug === 'star-health' || company.id === 'care-health' || company.slug === 'care-health' || company.id === 'reliance-general' || company.slug === 'reliance-general' || company.id === 'magma-hdi' || company.slug === 'magma-hdi' || company.id === 'indusind-general' || company.slug === 'indusind-general';
+  const displayedPlans = (plans || []).filter(p => !p.parentPlanId);
+  const isSpecialCompany = company.id === 'hdfc-ergo' || company.slug === 'hdfc-ergo' || company.id === 'tata-aig' || company.slug === 'tata-aig' || company.id === 'icici-lombard' || company.slug === 'icici-lombard' || company.id === 'niva-bupa' || company.slug === 'niva-bupa' || company.id === 'star-health' || company.slug === 'star-health' || company.id === 'care-health' || company.slug === 'care-health' || company.id === 'reliance-general' || company.slug === 'reliance-general' || company.id === 'magma-hdi' || company.slug === 'magma-hdi' || company.id === 'indusind-general' || company.slug === 'indusind-general' || company.id === 'manipal-cigna' || company.slug === 'manipal-cigna';
 
   // Apply custom CSS variables for the theme
   const themeStyles = {
@@ -130,9 +131,9 @@ export default function CompanyDetail() {
             </div>
 
             {/* 3. PLAN GRID / LIST */}
-            {plans && plans.length > 0 ? (
+            {displayedPlans && displayedPlans.length > 0 ? (
               <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
-                {plans.map((plan) => (
+                {displayedPlans.map((plan) => (
                   <Link
                     key={plan.id}
                     to={`/insurance/${company.id}/${plan.id}`}
@@ -146,9 +147,16 @@ export default function CompanyDetail() {
                     />
 
                     {/* Left: Plan name */}
-                    <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[var(--primary)] transition-colors duration-200 font-display leading-tight pr-2">
-                      {plan.name}
-                    </h3>
+                    <div className="flex-1 min-w-0 pr-2">
+                      {plan.companyName && plan.companyName !== company.name && (
+                        <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#0982C6] block font-display mb-0.5 truncate">
+                          {plan.companyName}
+                        </span>
+                      )}
+                      <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[var(--primary)] transition-colors duration-200 font-display leading-tight">
+                        {plan.name}
+                      </h3>
+                    </div>
 
                     {/* Right: Small arrow */}
                     <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-white group-hover:bg-[var(--primary)] transition-all duration-200 shrink-0">
@@ -232,13 +240,13 @@ export default function CompanyDetail() {
                 Available Health Plans
               </h2>
               <p className="text-xs sm:text-sm text-slate-400 font-semibold mt-1">
-                Compare and choose from {plans.length} custom-tailored policies.
+                Compare and choose from {displayedPlans.length} custom-tailored policies.
               </p>
             </div>
 
             {/* Plans Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {plans.map((plan) => (
+              {displayedPlans.map((plan) => (
                 <div 
                   key={plan.id}
                   className="bg-white rounded-2xl border border-slate-100/80 p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300 relative group overflow-hidden"

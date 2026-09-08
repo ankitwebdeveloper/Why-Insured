@@ -81,6 +81,10 @@ export default function Navbar() {
     ? companiesData.find(c => c.id === hoveredCompanyId)
     : null;
 
+  const hoveredCompanyPlans = hoveredCompany?.plans
+    ? hoveredCompany.plans.filter(p => !p.parentPlanId)
+    : [];
+
   // Calculate vertical alignment for the floating side plans dropdown.
   // Strategy:
   //   1. Align the side panel's top edge with the hovered company row's top (relative to the card).
@@ -314,8 +318,8 @@ export default function Navbar() {
                                 className="space-y-1 overflow-y-auto overscroll-contain max-h-[260px] pr-1"
                                 style={{ scrollbarWidth: 'thin' }}
                               >
-                                {hoveredCompany.plans && hoveredCompany.plans.length > 0 ? (
-                                  hoveredCompany.plans.map((plan) => (
+                                {hoveredCompanyPlans && hoveredCompanyPlans.length > 0 ? (
+                                  hoveredCompanyPlans.map((plan) => (
                                     <Link
                                       key={plan.id}
                                       to={`/insurance/${hoveredCompany.id}/${plan.id}`}

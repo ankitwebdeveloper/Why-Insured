@@ -10,12 +10,28 @@
 export const CARE_HEALTH_CANONICAL_PLAN_IDS = [
   'care-supreme',
   'ultimate-care',
-  'ultimate-joy'
+  'ultimate-joy',
+  'care-advantage',
+  'care-freedom'
 ];
 
 export const resolveCarePlanId = (planId) => {
   if (!planId) return 'care-supreme';
   const cleanId = String(planId).toLowerCase().trim();
+  if (
+    cleanId === 'care-freedom' ||
+    cleanId === 'freedom' ||
+    cleanId === 'carefreedom'
+  ) {
+    return 'care-freedom';
+  }
+  if (
+    cleanId === 'care-advantage' ||
+    cleanId === 'advantage' ||
+    cleanId === 'careadvantage'
+  ) {
+    return 'care-advantage';
+  }
   if (
     cleanId === 'care-supreme' ||
     cleanId === 'supreme' ||
@@ -1746,6 +1762,837 @@ export const CARE_HEALTH_PLANS_DATA = {
               '4% of SI per year, maximum ₹3 Lac — waiting period 12 months',
               '5% of SI per year, maximum ₹3 Lac — waiting period 12 months'
             ]
+          }
+        ]
+      }
+    ]
+  },
+
+  // ===========================================================================
+  // PLAN 4: CARE ADVANTAGE
+  // ===========================================================================
+  'care-advantage': {
+    planId: 'care-advantage',
+    planName: 'Care Advantage',
+    fullName: 'Care Health Care Advantage',
+    companyName: 'Care Health',
+    tagline: 'High-Value Health Cover with ₹1 Crore Protection & Zero Sub-Limits',
+    subtitle: 'High-Value Health Cover with ₹1 Crore Protection & Zero Sub-Limits',
+    coverage: '₹25 Lakh - ₹1 Crore',
+    premium: '₹15,800/year',
+
+    uiConfig: {
+      primaryColor: '#003366',
+      accentColor: '#FACC15',
+      lightBg: '#FEFCE8',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    },
+
+    // --- 1. REPORT CARD (INDEPENDENT) ---
+    reportCard: {
+      heading: 'REPORT CARD',
+      subheading: 'Care Health Performance',
+      description: 'Official claim settlement and financial strength metrics.',
+      csr: {
+        title: 'CSR',
+        summaryValue: '98.3%',
+        subtitle: 'Claim Settlement Ratio',
+        explanation: 'CSR represents the percentage of eligible claims settled by Care Health through its wide network of 24,800+ cashless healthcare providers.',
+        singleYear: '98.3%',
+        singleYearLabel: 'Recent Single Year (FY2024-25)',
+        threeYearAvg: '98.2%',
+        threeYearAvgLabel: '3 Year Average (FY2022-25)'
+      },
+      icr: {
+        title: 'ICR',
+        summaryValue: '57%',
+        subtitle: 'Incurred Claim Ratio',
+        explanation: 'ICR shows the proportion of earned premium spent on honoring claims. A healthy ICR of 57% reflects disciplined risk management and reliable claims liquidity.',
+        range: '57% → 61%',
+        rangeLabel: 'Incurred Claim Ratio'
+      },
+      complaintVolume: {
+        title: 'COMPLAINT VOLUME',
+        summaryValue: '15.4',
+        explanation: 'Low grievance volume per 10,000 settled claims with dedicated digital claim settlement desks.',
+        value: '15.4',
+        label: 'Complaints per 10,000 Claims'
+      }
+    },
+
+    // --- 2. COMPANY STRENGTH (INDEPENDENT) ---
+    companyStrength: {
+      heading: 'COMPANY STRENGTH',
+      subheading: 'How reliable/strong is the insurer?',
+      description: 'How reliable/strong is the insurer?',
+      ownership: {
+        title: 'OWNERSHIP / PERCENTAGE',
+        summaryValue: 'Religare 68.4%',
+        explanation: 'Promoted by Religare Enterprises Limited alongside Union Bank of India and marquee institutional investors.',
+        items: [
+          { name: 'Religare Enterprises Limited', value: '68.4%', label: 'Shareholding' },
+          { name: 'Union Bank of India', value: '5.6%', label: 'Shareholding' },
+          { name: 'Corporation Bank & Institutional Investors', value: '26.0%', label: 'Shareholding' }
+        ]
+      },
+      creditRating: {
+        title: 'CREDIT RATING',
+        summaryValue: 'A+',
+        explanation: 'CRISIL A+ / Positive and CARE A+ ratings reflect robust balance sheet, high solvency, and underwriting strength.',
+        items: [
+          { agency: 'CRISIL', rating: 'A+ / Positive' },
+          { agency: 'CARE Ratings', rating: 'CARE A+ / Stable' }
+        ]
+      },
+      capitalStrength: {
+        title: 'CAPITAL STRENGTH',
+        summaryValue: '1.82×',
+        explanation: "Solvency ratio measures the insurer's financial buffer to pay claims under stress conditions, well above the IRDAI mandatory 1.50×.",
+        value: '1.82×',
+        label: 'Solvency Ratio (as of March 2025)'
+      },
+      financialBase: {
+        title: 'FINANCIAL BASE',
+        summaryValue: '₹5,200+ Cr',
+        explanation: 'Strong gross written premium base and investment reserves assuring timely cashless claims payments.',
+        value: '₹5,200+ Cr',
+        label: 'Annual Premium Underwritten'
+      },
+      reinsuranceStrength: {
+        title: 'REINSURANCE STRENGTH',
+        summaryValue: 'Top Global Reinsurers',
+        explanation: 'Reinsurance treaties backed by GIC Re, Swiss Re, and Munich Re for catastrophic exposure coverage.',
+        value: 'AAA / A+ Rated',
+        label: 'Reinsurance Treaty Partners'
+      },
+      marketPosition: {
+        title: 'MARKET POSITION',
+        summaryValue: 'Leading Standalone Health Insurer',
+        explanation: 'One of India’s top pure-play retail standalone health insurers with 24,800+ cashless network hospitals.',
+        value: '24,800+ Network Hospitals',
+        label: 'Cashless Healthcare Network'
+      }
+    },
+
+    // --- 3. LIMITATIONS & WAITING PERIODS ---
+    limitationsWaitingPeriods: {
+      heading: 'LIMITATIONS & WAITING PERIODS',
+      subheading: 'Terms & Waiting Periods',
+      description: 'Interactive policy timelines, specific disease waiting, and permanent exclusions.',
+      items: [
+        {
+          id: 'initial',
+          title: 'Initial Waiting Period (30 Days)',
+          summary: '30 Days initial waiting period applies from inception for illnesses, except accidents.',
+          highlight: 'Accidental hospital admission is covered immediately from Day 1 with zero waiting period.',
+          policyRef: 'Care Advantage Policy Terms (Section 3.1)',
+          durationTag: '30 Days'
+        },
+        {
+          id: 'named-ailments',
+          title: 'Named Ailment Waiting Period (24 Months)',
+          summary: '24 Months continuous coverage required for medical or surgical treatment of named ailments:',
+          diseaseList: [
+            'Cataract & eye surgeries',
+            'Benign Prostatic Hypertrophy (BPH)',
+            'Hernia (all types) & Hydrocele',
+            'Piles, Fistula & Fissure in ano',
+            'Stones in urinary, biliary & renal systems',
+            'Hysterectomy for Menorrhagia / Fibroids',
+            'Joint replacements (non-accidental)',
+            'Osteoarthritis & Osteoporosis',
+            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy',
+            'Benign cysts, nodules, polyps & tumors'
+          ],
+          policyRef: 'Care Advantage Specific Illness Schedule',
+          durationTag: '24 Months'
+        },
+        {
+          id: 'ped-waiting',
+          title: 'Pre-Existing Disease Waiting Period (36 Months)',
+          summary: '36 Months continuous coverage required for pre-existing diseases declared at inception (can be reduced to 24 months with optional rider).',
+          highlight: 'Reduction in PED wait period optional rider can reduce this to 2 years.',
+          policyRef: 'Care Advantage Policy Terms (Section 3.3)',
+          durationTag: '36 Months'
+        },
+        {
+          id: 'permanent-exclusions',
+          title: 'Permanent Exclusions',
+          summary: 'The policy does not cover medical expenses incurred towards hospitalisation or treatment of the following permanent exclusions:',
+          exclusionsList: [
+            'Cosmetic, aesthetic & plastic surgery',
+            'Intentional self-injury & suicide attempt',
+            'Alcohol, drug or substance abuse treatments',
+            'Obesity & weight control procedures',
+            'Investigation & diagnostic-only admissions',
+            'Rest cure, rehabilitation & respite care',
+            'Unproven / experimental treatments',
+            'Participation in hazardous adventure sports',
+            'Expenses arising from breach of law',
+            'War, nuclear or chemical contamination'
+          ],
+          policyRef: 'Standard IRDAI & Care Health Guidelines',
+          durationTag: 'Never Covered'
+        }
+      ]
+    },
+
+    // --- 4. MUST KNOW ---
+    mustKnow: {
+      heading: 'MUST-KNOW DETAILS',
+      subheading: 'Important Care Advantage policy terms that policyholders should keep in mind',
+      buttonLabel: 'MUST KNOW DETAILS',
+      layout: 'details-modal',
+      items: [
+        {
+          id: 'high-sum-insured',
+          icon: '💰',
+          title: 'HIGH SUM INSURED OPTIONS',
+          paragraphs: [
+            'Choice of high-value protection: ₹25 Lacs, ₹50 Lacs, and ₹1 Crore to ensure comprehensive financial security against catastrophic medical events.'
+          ]
+        },
+        {
+          id: 'no-sublimit-room-icu',
+          icon: '🏥',
+          title: 'ZERO ROOM RENT & ICU SUB-LIMITS',
+          paragraphs: [
+            'No Sub-Limit on Room Rent and No Sub-Limit on ICU Charges, giving complete freedom in hospital room selection.'
+          ]
+        },
+        {
+          id: 'auto-recharge',
+          icon: '🔄',
+          title: 'AUTOMATIC RECHARGE ONCE PER YEAR',
+          paragraphs: [
+            'Automatic Recharge available once in a Policy Year to replenish the Sum Insured upon exhaustion for subsequent hospitalizations.'
+          ]
+        },
+        {
+          id: 'smart-select',
+          icon: '🛡️',
+          title: 'SMART SELECT NETWORK',
+          paragraphs: [
+            'Full coverage up to Sum Insured for hospitals under Smart Select Network, with optional premium discount.'
+          ]
+        }
+      ]
+    },
+
+    // --- 5. 4 POLICY BENEFITS CATEGORIES ---
+    featuresSections: [
+      // -----------------------------------------------------------------------
+      // CATEGORY 1: MOST IMPORTANT
+      // -----------------------------------------------------------------------
+      {
+        id: 'most-important',
+        title: 'MOST IMPORTANT',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'adv-inpatient-daycare',
+            title: 'In Patient & Day Care Treatment Expenses',
+            subtitle: 'Up to Sum Insured.',
+            badge: 'UP TO SUM INSURED',
+            iconType: 'activity',
+            summary: 'Up to Sum Insured.'
+          },
+          {
+            id: 'adv-room-rent',
+            title: 'Room Rent',
+            subtitle: 'No Sub-Limit.',
+            badge: 'NO SUB-LIMIT',
+            iconType: 'home',
+            summary: 'No Sub-Limit.'
+          },
+          {
+            id: 'adv-icu-charges',
+            title: 'ICU Charges',
+            subtitle: 'No Sub-Limit.',
+            badge: 'NO SUB-LIMIT',
+            iconType: 'activity',
+            summary: 'No Sub-Limit.'
+          },
+          {
+            id: 'adv-pre-post-hosp',
+            title: 'Pre Hospitalisation / Post Hospitalisation',
+            subtitle: '30 days pre-hospitalisation and 60 days post-hospitalisation.',
+            badge: '30 & 60 DAYS',
+            iconType: 'calendar',
+            summary: '30 days pre-hospitalisation and 60 days post-hospitalisation.'
+          },
+          {
+            id: 'adv-auto-recharge',
+            title: 'Automatic Recharge',
+            subtitle: 'Yes, once in a Policy Year.',
+            badge: 'ONCE A YEAR',
+            iconType: 'refresh',
+            summary: 'Yes, once in a Policy Year.'
+          },
+          {
+            id: 'adv-ambulance-cover',
+            title: 'Ambulance Cover',
+            subtitle: 'Up to Sum Insured.',
+            badge: 'UP TO SUM INSURED',
+            iconType: 'truck',
+            summary: 'Up to Sum Insured.'
+          },
+          {
+            id: 'adv-organ-donor',
+            title: 'Organ Donor Expenses',
+            subtitle: 'Up to Sum Insured.',
+            badge: 'UP TO SUM INSURED',
+            iconType: 'heart',
+            summary: 'Up to Sum Insured.'
+          },
+          {
+            id: 'adv-ncb',
+            title: 'No Claim Bonus (NCB)',
+            subtitle: '10% increase in SI per Policy Year in case of claim-free year; maximum up to 50% of SI.',
+            badge: 'UP TO 50% NCB',
+            iconType: 'trending',
+            summary: '10% increase in SI per Policy Year in case of claim-free year; maximum up to 50% of SI.',
+            steps: [
+              'Year 1: +10%',
+              'Year 2: +20%',
+              'Year 3: +30%',
+              'Year 4: +40%',
+              'Year 5: 50% Max'
+            ]
+          },
+          {
+            id: 'adv-initial-waiting',
+            title: 'Initial Waiting Period',
+            subtitle: '30 Days.',
+            badge: '30 DAYS',
+            iconType: 'clock',
+            summary: '30 Days.'
+          },
+          {
+            id: 'adv-named-ailment-waiting',
+            title: 'Named Ailment Waiting Period',
+            subtitle: '24 Months.',
+            badge: '24 MONTHS',
+            iconType: 'clock',
+            summary: '24 Months.'
+          },
+          {
+            id: 'adv-ped-waiting',
+            title: 'Pre-Existing Disease Waiting Period',
+            subtitle: '36 Months.',
+            badge: '36 MONTHS',
+            iconType: 'clock',
+            summary: '36 Months.'
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 2: VALUE ADDED
+      // -----------------------------------------------------------------------
+      {
+        id: 'value-added',
+        title: 'VALUE ADDED',
+        gridCols: 'grid-cols-1 sm:grid-cols-2',
+        items: [
+          {
+            id: 'adv-health-checkup',
+            title: 'Annual Health Check-up',
+            subtitle: 'Annual.',
+            badge: 'ANNUAL',
+            iconType: 'heart',
+            summary: 'Annual.'
+          },
+          {
+            id: 'adv-smart-select-network',
+            title: 'Smart Select Network',
+            subtitle: 'For hospitals covered under Smart Select Network, coverage up to Sum Insured.',
+            badge: 'UP TO SUM INSURED',
+            iconType: 'shield',
+            summary: 'For hospitals covered under Smart Select Network, coverage up to Sum Insured.'
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 3: ADDITIONAL
+      // -----------------------------------------------------------------------
+      {
+        id: 'additional',
+        title: 'ADDITIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'adv-sum-insured-options',
+            title: 'Sum Insured Options',
+            subtitle: '₹25 Lacs, ₹50 Lacs and ₹1 Crore.',
+            badge: '₹25L - ₹1CR',
+            iconType: 'dollar',
+            summary: '₹25 Lacs, ₹50 Lacs and ₹1 Crore.'
+          },
+          {
+            id: 'adv-policy-term',
+            title: 'Policy Term',
+            subtitle: '1 / 2 / 3 Years.',
+            badge: '1 / 2 / 3 YEARS',
+            iconType: 'calendar',
+            summary: '1 / 2 / 3 Years.'
+          },
+          {
+            id: 'adv-individual-floater',
+            title: 'Individual / Floater',
+            subtitle: 'Available for Individual and Floater coverage.',
+            badge: 'INDIVIDUAL & FLOATER',
+            iconType: 'users',
+            summary: 'Available for Individual and Floater coverage.'
+          },
+          {
+            id: 'adv-entry-age',
+            title: 'Entry Age',
+            subtitle: 'Minimum: Individual 5 years; Floater 91 days with at least 1 insured person aged 18 years or above.',
+            badge: 'MIN ENTRY AGE',
+            iconType: 'users',
+            summary: 'Minimum: Individual 5 years; Floater 91 days with at least 1 insured person aged 18 years or above.'
+          },
+          {
+            id: 'adv-entry-age-max',
+            title: 'Entry Age Maximum',
+            subtitle: 'Lifelong.',
+            badge: 'LIFELONG',
+            iconType: 'clock',
+            summary: 'Lifelong.'
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 4: OPTIONAL
+      // -----------------------------------------------------------------------
+      {
+        id: 'optional',
+        title: 'OPTIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'adv-ncb-super',
+            title: 'No Claims Bonus Super (NCBS)',
+            subtitle: '50% increase in SI per Policy Year in case of claim-free year; maximum up to 100% of SI.',
+            badge: 'UP TO 100% NCBS',
+            isRider: true,
+            iconType: 'trending',
+            summary: '50% increase in SI per Policy Year in case of claim-free year; maximum up to 100% of SI. In case of a claim being paid, 50% decrease in SI per Policy Year; such decrease is only in SI accrued as NCBS.',
+            points: [
+              '50% increase in SI per Policy Year in case of claim-free year; maximum up to 100% of SI.',
+              'In case of a claim being paid, 50% decrease in SI per Policy Year; such decrease is only in SI accrued as NCBS.'
+            ]
+          },
+          {
+            id: 'adv-air-ambulance',
+            title: 'Air Ambulance Cover',
+            subtitle: 'Up to ₹5 Lacs.',
+            badge: 'UP TO ₹5 LACS',
+            isRider: true,
+            iconType: 'truck',
+            summary: 'Up to ₹5 Lacs.'
+          },
+          {
+            id: 'adv-smart-select-other',
+            title: 'Smart Select – Other Hospitals',
+            subtitle: '20% co-payment on all claims for hospitals not part of the Smart Select Network.',
+            badge: '20% CO-PAY',
+            isRider: true,
+            iconType: 'shield',
+            summary: '20% co-payment on all claims for hospitals not part of the Smart Select Network.'
+          },
+          {
+            id: 'adv-reduction-ped',
+            title: 'Reduction in PED Wait Period',
+            subtitle: 'Applicable PED waiting period of 3 years will be reduced to 2 years.',
+            badge: '3 YRS → 2 YRS',
+            isRider: true,
+            iconType: 'clock',
+            summary: 'Applicable PED waiting period of 3 years will be reduced to 2 years.'
+          },
+          {
+            id: 'adv-room-rent-mod',
+            title: 'Room Rent Modification',
+            subtitle: 'Single private room category.',
+            badge: 'SINGLE PRIVATE ROOM',
+            isRider: true,
+            iconType: 'home',
+            summary: 'Single private room category.'
+          }
+        ]
+      }
+    ]
+  },
+
+  // ===========================================================================
+  // PLAN 5: CARE FREEDOM
+  // ===========================================================================
+  'care-freedom': {
+    planId: 'care-freedom',
+    planName: 'Care Freedom',
+    fullName: 'Care Health Care Freedom',
+    companyName: 'Care Health',
+    tagline: 'Healthcare Freedom with Zero Pre-Policy Medical Check-up',
+    subtitle: 'Healthcare Freedom with Zero Pre-Policy Medical Check-up',
+    coverage: '₹3 Lakh - ₹10 Lakh',
+    premium: '₹11,800/year',
+
+    uiConfig: {
+      primaryColor: '#003366',
+      accentColor: '#FACC15',
+      lightBg: '#FEFCE8',
+      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    },
+
+    // --- 1. REPORT CARD (INDEPENDENT) ---
+    reportCard: {
+      heading: 'REPORT CARD',
+      subheading: 'Care Health Performance',
+      description: 'Official claim settlement and financial strength metrics.',
+      csr: {
+        title: 'CSR',
+        summaryValue: '98.3%',
+        subtitle: 'Claim Settlement Ratio',
+        explanation: 'CSR represents the percentage of eligible claims settled by Care Health through its wide network of 24,800+ cashless healthcare providers.',
+        singleYear: '98.3%',
+        singleYearLabel: 'Recent Single Year (FY2024-25)',
+        threeYearAvg: '98.2%',
+        threeYearAvgLabel: '3 Year Average (FY2022-25)'
+      },
+      icr: {
+        title: 'ICR',
+        summaryValue: '57%',
+        subtitle: 'Incurred Claim Ratio',
+        explanation: 'ICR shows the proportion of earned premium spent on honoring claims. A healthy ICR of 57% reflects disciplined risk management and reliable claims liquidity.',
+        range: '57% → 61%',
+        rangeLabel: 'Incurred Claim Ratio'
+      },
+      complaintVolume: {
+        title: 'COMPLAINT VOLUME',
+        summaryValue: '15.4',
+        explanation: 'Low grievance volume per 10,000 settled claims with dedicated digital claim settlement desks.',
+        value: '15.4',
+        label: 'Complaints per 10,000 Claims'
+      }
+    },
+
+    // --- 2. COMPANY STRENGTH (INDEPENDENT) ---
+    companyStrength: {
+      heading: 'COMPANY STRENGTH',
+      subheading: 'How reliable/strong is the insurer?',
+      description: 'How reliable/strong is the insurer?',
+      ownership: {
+        title: 'OWNERSHIP / PERCENTAGE',
+        summaryValue: 'Religare 68.4%',
+        explanation: 'Promoted by Religare Enterprises Limited alongside Union Bank of India and marquee institutional investors.',
+        items: [
+          { name: 'Religare Enterprises Limited', value: '68.4%', label: 'Shareholding' },
+          { name: 'Union Bank of India', value: '5.6%', label: 'Shareholding' },
+          { name: 'Corporation Bank & Institutional Investors', value: '26.0%', label: 'Shareholding' }
+        ]
+      },
+      creditRating: {
+        title: 'CREDIT RATING',
+        summaryValue: 'A+',
+        explanation: 'CRISIL A+ / Positive and CARE A+ ratings reflect robust balance sheet, high solvency, and underwriting strength.',
+        items: [
+          { agency: 'CRISIL', rating: 'A+ / Positive' },
+          { agency: 'CARE Ratings', rating: 'CARE A+ / Stable' }
+        ]
+      },
+      capitalStrength: {
+        title: 'CAPITAL STRENGTH',
+        summaryValue: '1.82×',
+        explanation: "Solvency ratio measures the insurer's financial buffer to pay claims under stress conditions, well above the IRDAI mandatory 1.50×.",
+        value: '1.82×',
+        label: 'Solvency Ratio (as of March 2025)'
+      },
+      financialBase: {
+        title: 'FINANCIAL BASE',
+        summaryValue: '₹5,200+ Cr',
+        explanation: 'Strong gross written premium base and investment reserves assuring timely cashless claims payments.',
+        value: '₹5,200+ Cr',
+        label: 'Annual Premium Underwritten'
+      },
+      reinsuranceStrength: {
+        title: 'REINSURANCE STRENGTH',
+        summaryValue: 'Top Global Reinsurers',
+        explanation: 'Reinsurance treaties backed by GIC Re, Swiss Re, and Munich Re for catastrophic exposure coverage.',
+        value: 'AAA / A+ Rated',
+        label: 'Reinsurance Treaty Partners'
+      },
+      marketPosition: {
+        title: 'MARKET POSITION',
+        summaryValue: 'Leading Standalone Health Insurer',
+        explanation: 'One of India’s top pure-play retail standalone health insurers with 24,800+ cashless network hospitals.',
+        value: '24,800+ Network Hospitals',
+        label: 'Cashless Healthcare Network'
+      }
+    },
+
+    // --- 3. LIMITATIONS & WAITING PERIODS ---
+    limitationsWaitingPeriods: {
+      heading: 'LIMITATIONS & WAITING PERIODS',
+      subheading: 'Terms & Waiting Periods',
+      description: 'Interactive policy timelines, specific disease waiting, and permanent exclusions.',
+      items: [
+        {
+          id: 'initial',
+          title: 'Initial Waiting Period (30 Days)',
+          summary: 'A 30-day initial waiting period applies from policy inception for illnesses, except accidents.',
+          highlight: 'Accidental hospital admission is covered immediately from Day 1 with zero waiting period.',
+          policyRef: 'Care Freedom Policy Terms (Section 3.1)',
+          durationTag: '30 Days'
+        },
+        {
+          id: 'specific',
+          title: 'Specific Disease Waiting Period (24 Months)',
+          summary: '24 Months continuous coverage required for medical or surgical treatment of specified ailments:',
+          diseaseList: [
+            'Cataract & eye surgeries',
+            'Benign Prostatic Hypertrophy (BPH)',
+            'Hernia (all types) & Hydrocele',
+            'Piles, Fistula & Fissure in ano',
+            'Stones in urinary, biliary & renal systems',
+            'Hysterectomy for Menorrhagia / Fibroids',
+            'Joint replacements (non-accidental)',
+            'Osteoarthritis & Osteoporosis',
+            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy',
+            'Benign cysts, nodules, polyps & tumors'
+          ],
+          policyRef: 'Care Freedom Specific Illness Schedule',
+          durationTag: '24 Months'
+        },
+        {
+          id: 'ped-waiting',
+          title: 'Pre-Existing Disease Waiting Period (24 Months)',
+          summary: 'Pre-existing medical conditions like Diabetes and Hypertension covered with 24 months continuous coverage under Care Freedom.',
+          highlight: 'Fast-track coverage for individuals with pre-existing conditions.',
+          policyRef: 'Care Freedom Policy Terms (Section 3.3)',
+          durationTag: '24 Months'
+        },
+        {
+          id: 'permanent-exclusions',
+          title: 'Permanent Exclusions',
+          summary: 'The policy does not cover medical expenses incurred towards hospitalisation or treatment of the following permanent exclusions:',
+          exclusionsList: [
+            'Cosmetic, aesthetic & plastic surgery',
+            'Intentional self-injury & suicide attempt',
+            'Alcohol, drug or substance abuse treatments',
+            'Obesity & weight control procedures',
+            'Investigation & diagnostic-only admissions',
+            'Rest cure, rehabilitation & respite care',
+            'Unproven / experimental treatments',
+            'Participation in hazardous adventure sports',
+            'Expenses arising from breach of law',
+            'War, nuclear or chemical contamination'
+          ],
+          policyRef: 'Standard IRDAI & Care Health Guidelines',
+          durationTag: 'Never Covered'
+        }
+      ]
+    },
+
+    // --- 4. MUST KNOW ---
+    mustKnow: {
+      heading: 'MUST-KNOW DETAILS',
+      subheading: 'Important Care Freedom policy terms that policyholders should keep in mind',
+      buttonLabel: 'MUST KNOW DETAILS',
+      layout: 'details-modal',
+      items: [
+        {
+          id: 'freedom-inpatient',
+          icon: '🏥',
+          title: 'IN-PATIENT CARE (MINIMUM 24 HOURS)',
+          paragraphs: [
+            'Covers treatment expenses if admitted to a hospital for a minimum period of 24 consecutive hours, including room charges, nursing expenses, ICU charges, surgeon and doctor fees.'
+          ]
+        },
+        {
+          id: 'freedom-daycare',
+          icon: '📋',
+          title: '540+ DAY CARE TREATMENTS COVERED',
+          paragraphs: [
+            'Covers medical expenses for specified day care treatments, covering more than 540 treatments, at a hospital or Day Care Centre.'
+          ]
+        },
+        {
+          id: 'freedom-recharge',
+          icon: '🔄',
+          title: '100% RECHARGE OF SUM INSURED',
+          paragraphs: [
+            'Automatic refill/recharge of 100% of the base Sum Insured if the claim amount exhausts the coverage limit, usable for unrelated future claims.'
+          ]
+        },
+        {
+          id: 'freedom-domiciliary',
+          icon: '🏠',
+          title: 'DOMICILIARY HOSPITALISATION',
+          paragraphs: [
+            'Reimburses medical expenses for treatment taken at home if hospitalisation is not possible, provided treatment exceeds 3 consecutive days.'
+          ]
+        }
+      ]
+    },
+
+    // --- 5. 4 POLICY BENEFITS CATEGORIES ---
+    featuresSections: [
+      // -----------------------------------------------------------------------
+      // CATEGORY 1: MOST IMPORTANT
+      // -----------------------------------------------------------------------
+      {
+        id: 'most-important',
+        title: 'MOST IMPORTANT',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'free-inpatient-care',
+            title: 'In-Patient Care',
+            subtitle: 'Covers treatment expenses if admitted for min 24 consecutive hours.',
+            badge: 'IN-PATIENT CARE',
+            iconType: 'activity',
+            summary: "Covers treatment expenses if admitted to a hospital for a minimum period of 24 consecutive hours, including room charges, nursing expenses, ICU charges, surgeon's fee, doctor's fee, anaesthesia, blood, oxygen, and operation theatre charges."
+          },
+          {
+            id: 'free-day-care',
+            title: 'Day Care Treatment',
+            subtitle: 'Covers more than 540 treatments at hospital or Day Care Centre.',
+            badge: '540+ TREATMENTS',
+            iconType: 'clipboard',
+            summary: 'Covers medical expenses for specified day care treatments, covering more than 540 treatments, at a hospital or Day Care Centre.'
+          },
+          {
+            id: 'free-pre-hosp',
+            title: 'Pre-Hospitalisation',
+            subtitle: 'Covers investigative tests, examination, and medication before admission.',
+            badge: 'PRE-HOSPITALISATION',
+            iconType: 'calendar',
+            summary: 'Covers medical expenses incurred before hospitalisation, including investigative tests, examination, and medication.'
+          },
+          {
+            id: 'free-post-hosp',
+            title: 'Post-Hospitalisation',
+            subtitle: 'Follow-up visits, medication, and tests up to 30 days beyond Policy End Date.',
+            badge: 'POST-HOSPITALISATION',
+            iconType: 'calendar',
+            summary: 'Covers medical expenses incurred after hospitalisation, such as follow-up visits, medication, and confirmatory tests, valid up to 30 consecutive days beyond the Policy End Date.'
+          },
+          {
+            id: 'free-ambulance-cover',
+            title: 'Ambulance Cover',
+            subtitle: 'Reimburses expenses incurred on emergency ambulance services.',
+            badge: 'AMBULANCE COVER',
+            iconType: 'truck',
+            summary: 'Reimburses expenses incurred on emergency ambulance services offered by a hospital or any ambulance service provider.'
+          },
+          {
+            id: 'free-domiciliary-hosp',
+            title: 'Domiciliary Hospitalisation',
+            subtitle: 'Home treatment expenses when exceeding 3 consecutive days.',
+            badge: 'DOMICILIARY COVER',
+            iconType: 'home',
+            summary: 'Reimburses medical expenses for treatment taken at home if hospitalisation is not possible, provided the treatment exceeds 3 consecutive days and merits hospitalisation.'
+          },
+          {
+            id: 'free-recharge-si',
+            title: 'Recharge of Sum Insured',
+            subtitle: 'Automatic refill of 100% base SI upon exhaustion.',
+            badge: '100% RECHARGE',
+            iconType: 'refresh',
+            summary: 'Automatic refill/recharge of 100% of the base Sum Insured if the claim amount exhausts the coverage limit, which can be used by other insured members or for unrelated future claims in the same year.'
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 2: VALUE ADDED
+      // -----------------------------------------------------------------------
+      {
+        id: 'value-added',
+        title: 'VALUE ADDED',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'free-annual-checkup',
+            title: 'Annual Health Check-up',
+            subtitle: 'CBC with ESR, Urine Routine, Blood Sugar, Lipid, KFT, and ECG for all adult members.',
+            badge: 'ANNUAL CHECK-UP',
+            iconType: 'heart',
+            summary: 'Annual health check-ups provided for all insured members covered as adults, regardless of claims history. Includes tests like Complete Blood Count with ESR, Urine Routine, Blood Group, Fasting Blood Sugar, Lipid Profile, Kidney Function Test, and ECG.'
+          },
+          {
+            id: 'free-ayush-treatment',
+            title: 'AYUSH Treatment',
+            subtitle: 'Covered up to the Sum Insured.',
+            badge: 'UP TO SUM INSURED',
+            iconType: 'shield',
+            summary: 'Covered up to the Sum Insured.'
+          },
+          {
+            id: 'free-home-care',
+            title: 'Home Care',
+            subtitle: 'Hiring a Qualified Nurse for daily activities up to 7 days/illness, max 45 days/year.',
+            badge: 'QUALIFIED NURSE',
+            iconType: 'home',
+            summary: 'Indemnifies expenses incurred towards hiring a Qualified Nurse for daily activities, up to 7 days per illness/injury and maximum 45 days per policy year after a 1-day deductible.'
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 3: ADDITIONAL
+      // -----------------------------------------------------------------------
+      {
+        id: 'additional',
+        title: 'ADDITIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
+          {
+            id: 'free-consumable-allowance',
+            title: 'Consumable Allowance',
+            subtitle: 'Daily allowance for non-medical expenses: ₹750/day or ₹1,000/day up to 7 days.',
+            badge: 'DAILY ALLOWANCE',
+            iconType: 'dollar',
+            summary: 'Pays a daily allowance for non-medical expenses like consumables, transportation, and attendant costs. Maximum 7 days per hospitalisation, covered after 3 days; ₹750/day or ₹1,000/day depending on the plan.'
+          },
+          {
+            id: 'free-companion-benefit',
+            title: 'Companion Benefit',
+            subtitle: 'Lump-sum payout once in a policy year if hospitalised for more than 10 consecutive days.',
+            badge: 'LUMP-SUM PAYOUT',
+            iconType: 'heart',
+            summary: 'Lump-sum payout once in a policy year if the insured person is hospitalised for more than 10 consecutive days.'
+          },
+          {
+            id: 'free-dialysis-cover',
+            title: 'Dialysis Cover',
+            subtitle: 'Covers dialysis expenses up to a specific amount per sitting, payable up to 24 months.',
+            badge: 'UP TO 24 MONTHS',
+            iconType: 'activity',
+            summary: 'Covers dialysis expenses up to a specific amount per sitting, payable up to 24 months.'
+          }
+        ]
+      },
+
+      // -----------------------------------------------------------------------
+      // CATEGORY 4: OPTIONAL
+      // -----------------------------------------------------------------------
+      {
+        id: 'optional',
+        title: 'OPTIONAL',
+        gridCols: 'grid-cols-1',
+        items: [
+          {
+            id: 'free-health-check-plus',
+            title: 'Health Check+ (Optional Cover)',
+            subtitle: 'Upgrade annual check-up to specialised Diabetes or Cardiac Health Check-up.',
+            badge: 'OPTIONAL UPGRADE',
+            isRider: true,
+            iconType: 'heart',
+            summary: 'Option to upgrade the annual health check-up to a specialised Diabetes Health Check-up or Cardiac Health Check-up.'
           }
         ]
       }

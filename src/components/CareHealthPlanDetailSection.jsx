@@ -266,7 +266,7 @@ function CareFeatureAccordionItem({
                     {badge}
                   </span>
                 )}
-                {subtitle && (
+                {subtitle && subtitle !== summary && (
                   <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
                     <FiCheck className="text-[#E30613] text-[10px] sm:text-xs shrink-0" /> {subtitle}
                   </span>
@@ -561,6 +561,11 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
                 {planData.planName} <span className="text-[#E30613]">—</span> POLICY BENEFITS
               </h1>
+              {planData.subtitle && (
+                <p className="text-xs sm:text-sm font-semibold text-slate-500 mt-1">
+                  {planData.subtitle}
+                </p>
+              )}
               <div className="w-8 sm:w-12 h-1 bg-[#E30613] mx-auto mt-1.5 rounded-full" />
             </div>
 
@@ -667,6 +672,11 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
           <h1 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
             {planData.planName}
           </h1>
+          {planData.subtitle && (
+            <p className="text-xs sm:text-sm font-semibold text-slate-500 mt-1">
+              {planData.subtitle}
+            </p>
+          )}
           <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#003366] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 

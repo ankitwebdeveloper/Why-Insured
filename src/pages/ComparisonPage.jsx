@@ -288,7 +288,12 @@ export default function ComparisonPage() {
                 Select two different health insurance providers and their specific plans below to analyze and compare features, ratios, and waiting periods side-by-side.
               </p>
             </div>
-            <CompareForm />
+            <CompareForm
+              initialCompany1Id={c1}
+              initialCompany2Id={c2}
+              initialPlan1Id={p1}
+              initialPlan2Id={p2}
+            />
           </div>
         </div>
       </div>
