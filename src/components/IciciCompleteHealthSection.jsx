@@ -192,7 +192,7 @@ function IciciFeatureAccordionItem({
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.45, delay: (index % 3) * 0.08, ease: "easeOut" }}
       onClick={() => onToggle(id, itemRef)}
-      className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${
+      className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none ${
         item._isMatched
           ? 'bg-white border-emerald-500 shadow-md ring-2 ring-emerald-500/25'
           : isExpanded
@@ -203,7 +203,7 @@ function IciciFeatureAccordionItem({
       }`}
     >
       {/* Header Row */}
-      <div className="p-2.5 sm:p-4 flex flex-col justify-between h-full gap-2">
+      <div className="p-2.5 sm:p-4 space-y-2">
         <div className="flex items-start sm:items-center justify-between gap-1.5 sm:gap-3">
           <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-1 min-w-0">
             {IconComponent && (
@@ -640,7 +640,7 @@ export default function IciciCompleteHealthSection({ plan, company, planId: plan
                   )}
                 </div>
               </motion.div>
-              <div className={`grid ${sec.gridCols || 'grid-cols-2 lg:grid-cols-3'} gap-2.5 sm:gap-4`}>
+              <div className={`grid ${sec.gridCols || 'grid-cols-2 lg:grid-cols-3'} gap-2.5 sm:gap-4 items-start`}>
                 {sec.items.map((item, itemIdx) => (
                   <IciciFeatureAccordionItem
                     key={item.id}

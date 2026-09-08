@@ -8,6 +8,7 @@ import relianceLogo from '../assets/Reliance General Insurance.png';
 import magmaLogo from '../assets/Magma HDI General Insurance.png';
 import indusindLogo from '../assets/IndusInd General Insurance.png';
 import manipalLogo from '../assets/manipal cigna .png';
+import adityaLogo from '../assets/aditya brila.png';
 import { optimaSecurePlusData } from './optimaSecurePlusData';
 import { hdfcEnergyPlanData } from './hdfcEnergyPlanData';
 import { hdfcMedisureSuperTopUpData } from './hdfcMedisureSuperTopUpData';
@@ -19,6 +20,7 @@ import { getStarHealthPlanData } from './starHealthPlansData';
 import { getNivaBupaPlanData } from './nivaBupaPlansData';
 import { getIciciPlanData } from './iciciLombardPlansData';
 import { getManipalCignaPlanData } from './manipalCignaPlansData';
+import { getAdityaBirlaPlanData } from './adityaBirlaPlansData';
 
 export const companiesData = [
   {
@@ -892,5 +894,64 @@ export const companiesData = [
         planData: getManipalCignaPlanData("sarvah-param")
       }
     ]
+  },
+  {
+    id: "aditya-birla",
+    name: "Aditya Birla",
+    fullName: "Aditya Birla Health Insurance Company Limited",
+    slug: "aditya-birla",
+    category: "Health Insurance",
+    logo: adityaLogo,
+    description: "A leading health insurer combining comprehensive protection with innovative wellness rewards through HealthReturns™ and extensive cashless networks.",
+    theme: {
+      primary: "#D51D25",      // Aditya Birla Red
+      secondary: "#F68529",    // Vibrant Orange
+      accent: "#F5D34F",       // Fresh Gold / Yellow
+      background: "#FFFBF7",   // Warm Soft Light Background
+      text: "#0F172A"
+    },
+    plans: [
+      {
+        id: "one-max",
+        name: "One Max",
+        description: getAdityaBirlaPlanData("one-max").tagline,
+        coverage: getAdityaBirlaPlanData("one-max").coverage,
+        premium: getAdityaBirlaPlanData("one-max").premium,
+        benefits: getAdityaBirlaPlanData("one-max").benefits,
+        details: getAdityaBirlaPlanData("one-max").details,
+        planData: getAdityaBirlaPlanData("one-max")
+      },
+      {
+        id: "activ-one-vytl",
+        name: "Activ One VYTL",
+        description: getAdityaBirlaPlanData("activ-one-vytl").tagline,
+        coverage: getAdityaBirlaPlanData("activ-one-vytl").coverage,
+        premium: getAdityaBirlaPlanData("activ-one-vytl").premium,
+        benefits: getAdityaBirlaPlanData("activ-one-vytl").benefits,
+        details: getAdityaBirlaPlanData("activ-one-vytl").details,
+        planData: getAdityaBirlaPlanData("activ-one-vytl")
+      },
+      {
+        id: "activ-yuva",
+        name: "Activ Yuva",
+        description: getAdityaBirlaPlanData("activ-yuva").tagline,
+        coverage: getAdityaBirlaPlanData("activ-yuva").coverage,
+        premium: getAdityaBirlaPlanData("activ-yuva").premium,
+        benefits: getAdityaBirlaPlanData("activ-yuva").benefits,
+        details: getAdityaBirlaPlanData("activ-yuva").details,
+        planData: getAdityaBirlaPlanData("activ-yuva")
+      },
+      {
+        id: "activ-one-max-plus",
+        name: "Activ One MAX+",
+        description: getAdityaBirlaPlanData("activ-one-max-plus").tagline,
+        coverage: getAdityaBirlaPlanData("activ-one-max-plus").coverage,
+        premium: getAdityaBirlaPlanData("activ-one-max-plus").premium,
+        benefits: getAdityaBirlaPlanData("activ-one-max-plus").benefits,
+        details: getAdityaBirlaPlanData("activ-one-max-plus").details,
+        planData: getAdityaBirlaPlanData("activ-one-max-plus")
+      }
+    ]
   }
 ];
+
