@@ -335,20 +335,15 @@ function HdfcFeatureAccordionItem({
             className="overflow-hidden"
           >
             <div className="px-2.5 pb-2.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2 sm:space-y-2.5">
-              {/* Contextual Badge & Subtitle Checkmark */}
-              <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                {badge && (
+              {/* Contextual Badge */}
+              {badge && (
+                <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
                   <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/20 tracking-wider">
                     <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#E30613]" />
                     {badge}
                   </span>
-                )}
-                {subtitle && (
-                  <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
-                    <FiCheck className="text-[#E30613] text-[10px] sm:text-xs shrink-0" /> {subtitle}
-                  </span>
-                )}
-              </div>
+                </div>
+              )}
 
               {/* Short explanation / Details */}
               {item.points && item.points.length > 0 ? (
@@ -435,6 +430,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
   const [activeLimitationModal, setActiveLimitationModal] = useState(null);
   const [activeOptimaLimitation, setActiveOptimaLimitation] = useState(null);
   const [healthCheckupModal, setHealthCheckupModal] = useState(null);
+  const [productBenefitTableModal, setProductBenefitTableModal] = useState(false);
   const [videoModalState, setVideoModalState] = useState({
     isOpen: false,
     title: '',
@@ -541,7 +537,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
 
   // Lock background body scroll when modal is active
   useEffect(() => {
-    if (activeModal || videoModalState.isOpen || activeLimitationModal || healthCheckupModal) {
+    if (activeModal || videoModalState.isOpen || activeLimitationModal || healthCheckupModal || productBenefitTableModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -549,7 +545,19 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeModal, videoModalState.isOpen, activeLimitationModal, healthCheckupModal]);
+  }, [activeModal, videoModalState.isOpen, activeLimitationModal, healthCheckupModal, productBenefitTableModal]);
+
+  // Close modals on ESC key
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        if (healthCheckupModal) setHealthCheckupModal(null);
+        if (productBenefitTableModal) setProductBenefitTableModal(false);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [healthCheckupModal, productBenefitTableModal]);
 
   if (!planData || !currentPlanId) {
     return (
@@ -883,6 +891,27 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
             </span>
           </div>
 
+          {/* VIEW PRODUCT BENEFIT TABLE BUTTON */}
+          {planData.productBenefitTable && (
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+              className="flex justify-center pt-4 sm:pt-6"
+            >
+              <button
+                type="button"
+                onClick={() => setProductBenefitTableModal(true)}
+                className="inline-flex items-center gap-2 sm:gap-3 px-5 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#E30613] to-[#B80510] text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 cursor-pointer select-none active:scale-[0.97] border border-[#E30613]/50 group"
+              >
+                <FiActivity className="text-sm sm:text-base group-hover:rotate-12 transition-transform duration-200" />
+                <span>{planData.productBenefitTable.buttonLabel || 'View Product Benefit Table'}</span>
+                <FiArrowRight className="text-sm sm:text-base group-hover:translate-x-1 transition-transform duration-200" />
+              </button>
+            </motion.div>
+          )}
+
         </div>
 
         {/* HEALTH CHECK-UP LIMITS MODAL (TABLE OVERLAY) */}
@@ -907,7 +936,9 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
                 onClick={(e) => e.stopPropagation()}
-                className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-md overflow-hidden z-10 p-4 sm:p-6"
+                className={`relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] ${
+                  healthCheckupModal.healthCheckupTable ? 'max-w-2xl' : 'max-w-md'
+                } overflow-hidden z-10 p-4 sm:p-6`}
               >
                 {/* Modal Header */}
                 <div className="flex items-start justify-between gap-3 pb-3.5 border-b border-slate-100">
@@ -919,10 +950,10 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                       </span>
                     </div>
                     <h3 className="text-base sm:text-lg font-black text-[#0F172A] tracking-tight font-display mt-0.5">
-                      Health Check-up Limits
+                      {healthCheckupModal.healthCheckupTable?.title || 'Health Check-up Limits'}
                     </h3>
                     <p className="text-xs text-slate-500 font-medium mt-0.5">
-                      Reimbursement limits applicable per policy year
+                      {healthCheckupModal.healthCheckupTable?.subtitle || 'Reimbursement limits applicable per policy year'}
                     </p>
                   </div>
 
@@ -938,43 +969,82 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 </div>
 
                 {/* HTML Table Container */}
-                <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 shadow-2xs">
-                  <table className="w-full text-left border-collapse text-xs sm:text-sm">
-                    <thead>
-                      <tr className="bg-[#FFF5F5] border-b border-slate-200 text-[#0F172A]">
-                        <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-left text-slate-700">
-                          Base Sum Insured
-                        </th>
-                        <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-right text-slate-700">
-                          Floater
-                        </th>
-                        <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-right text-slate-700">
-                          Individual
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 bg-white">
-                      {(healthCheckupModal.healthCheckupLimits || [
-                        { baseSI: '₹10 Lakh', floater: '₹5,000', individual: '₹2,000' },
-                        { baseSI: '₹15 Lakh', floater: '₹8,000', individual: '₹4,000' },
-                        { baseSI: '₹20–50 Lakh', floater: '₹10,000', individual: '₹5,000' },
-                        { baseSI: '₹100–200 Lakh', floater: '₹15,000', individual: '₹8,000' }
-                      ]).map((row, rIdx) => (
-                        <tr key={rIdx} className="hover:bg-slate-50/75 transition-colors">
-                          <td className="py-2.5 px-3 sm:px-4 font-bold text-slate-800">
-                            {row.baseSI}
-                          </td>
-                          <td className="py-2.5 px-3 sm:px-4 font-semibold text-[#E30613] text-right font-mono">
-                            {row.floater}
-                          </td>
-                          <td className="py-2.5 px-3 sm:px-4 font-semibold text-slate-700 text-right font-mono">
-                            {row.individual}
-                          </td>
+                {healthCheckupModal.healthCheckupTable ? (
+                  <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 shadow-2xs">
+                    <table className="w-full text-left border-collapse text-xs sm:text-sm min-w-[560px]">
+                      <thead>
+                        <tr className="bg-[#FFF5F5] border-b border-slate-200 text-[#0F172A]">
+                          {healthCheckupModal.healthCheckupTable.headers.map((hdr, hIdx) => (
+                            <th
+                              key={hIdx}
+                              className={`py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-slate-700 whitespace-nowrap ${
+                                hIdx === 0 ? 'text-left' : 'text-right'
+                              }`}
+                            >
+                              {hdr}
+                            </th>
+                          ))}
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 bg-white">
+                        {healthCheckupModal.healthCheckupTable.rows.map((row, rIdx) => (
+                          <tr key={rIdx} className="hover:bg-slate-50/75 transition-colors">
+                            {row.map((val, cIdx) => (
+                              <td
+                                key={cIdx}
+                                className={`py-2.5 px-3 sm:px-4 whitespace-nowrap ${
+                                  cIdx === 0
+                                    ? 'font-bold text-slate-800 text-left'
+                                    : 'font-semibold text-slate-700 text-right font-mono'
+                                }`}
+                              >
+                                {val}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 shadow-2xs">
+                    <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                      <thead>
+                        <tr className="bg-[#FFF5F5] border-b border-slate-200 text-[#0F172A]">
+                          <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-left text-slate-700">
+                            Base Sum Insured
+                          </th>
+                          <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-right text-slate-700">
+                            Floater
+                          </th>
+                          <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-right text-slate-700">
+                            Individual
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 bg-white">
+                        {(healthCheckupModal.healthCheckupLimits || [
+                          { baseSI: '₹10 Lakh', floater: '₹5,000', individual: '₹2,000' },
+                          { baseSI: '₹15 Lakh', floater: '₹8,000', individual: '₹4,000' },
+                          { baseSI: '₹20–50 Lakh', floater: '₹10,000', individual: '₹5,000' },
+                          { baseSI: '₹100–200 Lakh', floater: '₹15,000', individual: '₹8,000' }
+                        ]).map((row, rIdx) => (
+                          <tr key={rIdx} className="hover:bg-slate-50/75 transition-colors">
+                            <td className="py-2.5 px-3 sm:px-4 font-bold text-slate-800">
+                              {row.baseSI}
+                            </td>
+                            <td className="py-2.5 px-3 sm:px-4 font-semibold text-[#E30613] text-right font-mono">
+                              {row.floater}
+                            </td>
+                            <td className="py-2.5 px-3 sm:px-4 font-semibold text-slate-700 text-right font-mono">
+                              {row.individual}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
 
                 {/* Footnote */}
                 <div className="mt-3 text-right">
@@ -994,6 +1064,194 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           videoTitle={videoModalState.title}
           videoUrl={videoModalState.url}
         />
+
+        {/* PRODUCT BENEFIT TABLE MODAL */}
+        <AnimatePresence>
+          {productBenefitTableModal && planData.productBenefitTable && (
+            <div
+              className="fixed inset-0 z-[80] flex items-center justify-center p-3 sm:p-6"
+              onClick={() => setProductBenefitTableModal(false)}
+            >
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
+              />
+
+              {/* Modal Content */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-2xl overflow-hidden z-10 max-h-[90dvh] sm:max-h-[88vh] overflow-y-auto"
+              >
+                {/* Modal Header */}
+                <div className="sticky top-0 bg-white z-20 px-4 sm:px-6 pt-4 sm:pt-5 pb-3 border-b border-slate-100">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#E30613]" />
+                        <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-[#E30613]">
+                          {planData.planName}
+                        </span>
+                      </div>
+                      <h3 className="text-base sm:text-lg font-black text-[#0F172A] tracking-tight font-display mt-0.5">
+                        {planData.productBenefitTable.heading || 'Product Benefit Table'}
+                      </h3>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setProductBenefitTableModal(false)}
+                      className="w-8 h-8 rounded-full bg-slate-100 hover:bg-[#E30613] text-slate-500 hover:text-white flex items-center justify-center text-sm transition-colors cursor-pointer shrink-0"
+                      aria-label="Close"
+                    >
+                      <FiX />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Modal Body */}
+                <div className="px-4 sm:px-6 py-4 sm:py-5 space-y-5 sm:space-y-6">
+
+                  {/* Product Benefit Table */}
+                  <div className="overflow-x-auto -mx-1 px-1">
+                    <div className="overflow-hidden rounded-xl border border-slate-200 shadow-2xs min-w-[320px]">
+                      <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                          <tr className="bg-[#FFF5F5] border-b border-slate-200">
+                            <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-left text-slate-700 w-[40%]">
+                              Benefit
+                            </th>
+                            <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-left text-slate-700">
+                              Coverage
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 bg-white">
+                          {planData.productBenefitTable.tableRows.map((row, rIdx) => (
+                            <tr key={rIdx} className="hover:bg-slate-50/75 transition-colors">
+                              <td className="py-2.5 px-3 sm:px-4 font-bold text-slate-800 text-xs sm:text-sm">
+                                {row.label}
+                              </td>
+                              <td className="py-2.5 px-3 sm:px-4 font-semibold text-slate-700 text-xs sm:text-sm">
+                                {row.value}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Detailed Benefits */}
+                  {planData.productBenefitTable.detailedBenefits && planData.productBenefitTable.detailedBenefits.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-slate-500">
+                        Benefit Details
+                      </h4>
+                      <div className="space-y-2.5">
+                        {planData.productBenefitTable.detailedBenefits.map((db, dbIdx) => (
+                          <div
+                            key={dbIdx}
+                            className="p-3 sm:p-4 rounded-xl bg-[#FFF5F5]/60 border border-[#E30613]/15"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#E30613]" />
+                              <span className="text-xs sm:text-sm font-black text-[#0F172A]">
+                                {db.title}
+                              </span>
+                            </div>
+                            <p className="text-xs sm:text-sm font-bold text-[#E30613] mb-0.5">
+                              {db.highlight}
+                            </p>
+                            {db.description && (
+                              <p className="text-[11px] sm:text-xs font-medium text-slate-600 leading-relaxed">
+                                {db.description}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Preventive Health Check-up Table */}
+                  {planData.productBenefitTable.preventiveHealthCheckup && (
+                    <div className="space-y-3">
+                      <h4 className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-slate-500">
+                        {planData.productBenefitTable.preventiveHealthCheckup.title || 'Preventive Health Check-up'}
+                      </h4>
+                      <div className="overflow-x-auto -mx-1 px-1">
+                        <div className="overflow-hidden rounded-xl border border-slate-200 shadow-2xs min-w-[320px]">
+                          <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                              <tr className="bg-[#FFF5F5] border-b border-slate-200">
+                                <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-left text-slate-700">
+                                  Sum Insured
+                                </th>
+                                <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-right text-slate-700">
+                                  Individual (per insured)
+                                </th>
+                                <th className="py-2.5 px-3 sm:px-4 font-black uppercase text-[10px] sm:text-xs tracking-wider text-right text-slate-700">
+                                  Floater (per policy)
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100 bg-white">
+                              {planData.productBenefitTable.preventiveHealthCheckup.rows.map((row, rIdx) => (
+                                <tr key={rIdx} className="hover:bg-slate-50/75 transition-colors">
+                                  <td className="py-2.5 px-3 sm:px-4 font-bold text-slate-800">
+                                    {row.sumInsured}
+                                  </td>
+                                  <td className="py-2.5 px-3 sm:px-4 font-semibold text-slate-700 text-right font-mono">
+                                    {row.individual}
+                                  </td>
+                                  <td className="py-2.5 px-3 sm:px-4 font-semibold text-[#E30613] text-right font-mono">
+                                    {row.floater}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Base Sum Insured Tags */}
+                  {planData.productBenefitTable.baseSumInsured && (
+                    <div className="space-y-2">
+                      <h4 className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-slate-500">
+                        Available Base Sum Insured
+                      </h4>
+                      <div className="flex flex-wrap gap-1.5">
+                        {planData.productBenefitTable.baseSumInsured.map((si, siIdx) => (
+                          <span
+                            key={siIdx}
+                            className="px-2.5 py-1 rounded-lg bg-[#FFF5F5] text-[#E30613] text-[10px] sm:text-xs font-bold border border-[#E30613]/20"
+                          >
+                            {si}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Footnote */}
+                  <div className="text-right pt-2 border-t border-slate-100">
+                    <span className="text-[11px] text-slate-400 font-medium">
+                      *Subject to policy terms & conditions
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     );
   }

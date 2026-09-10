@@ -28,9 +28,8 @@ export default function Footer() {
     { name: 'Niva Bupa', path: '/insurance/niva-bupa' },
     { name: 'Star Health', path: '/insurance/star-health' },
     { name: 'Care Health', path: '/insurance/care-health' },
-    { name: 'Reliance General Insurance', path: '/insurance/reliance-general' },
+    { name: 'IndusInd General Insurance', path: '/insurance/reliance-general' },
     { name: 'Magma General Insurance', path: '/insurance/magma-hdi' },
-    { name: 'IndusInd General Insurance', path: '/insurance/indusind-general' },
     { name: 'ManipalCigna Health Insurance', path: '/insurance/manipal-cigna' },
     { name: 'Aditya Birla Health Insurance', path: '/insurance/aditya-birla' },
   ];

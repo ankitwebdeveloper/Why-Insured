@@ -292,20 +292,13 @@ function AdityaBirlaFeatureAccordionItem({
             className="overflow-hidden"
           >
             <div className="px-2.5 pb-2.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2 sm:space-y-2.5">
-              {/* Contextual Badge & Subtitle Checkmark */}
-              {(badge || subtitle) && (
+              {/* Contextual Badge */}
+              {badge && (
                 <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                  {badge && (
-                    <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#FFF5F5] text-[#D51D25] border border-[#D51D25]/20 tracking-wider">
-                      <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#D51D25]" />
-                      {badge}
-                    </span>
-                  )}
-                  {subtitle && (
-                    <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
-                      <FiCheck className="text-[#D51D25] text-[10px] sm:text-xs shrink-0" /> {subtitle}
-                    </span>
-                  )}
+                  <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#FFF5F5] text-[#D51D25] border border-[#D51D25]/20 tracking-wider">
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#D51D25]" />
+                    {badge}
+                  </span>
                 </div>
               )}
 

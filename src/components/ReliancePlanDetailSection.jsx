@@ -560,7 +560,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                 className="w-28 sm:w-48 h-auto max-h-10 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-4"
               />
               <span className="text-xs font-bold uppercase tracking-widest text-[#205398] block mb-0.5">
-                Reliance General Insurance
+                {name || 'IndusInd General Insurance'}
               </span>
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
                 {planData.planName}
@@ -631,7 +631,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
           {/* FOOTNOTE */}
           <div className="text-right pt-2">
             <span className="text-xs font-bold text-slate-400">
-              *Terms & Conditions Apply as per official Reliance General Insurance Reliance Health Infinity Insurance policy wording.
+              *Terms & Conditions Apply as per official {name || 'IndusInd General Insurance'} {planData.planName} policy wording.
             </span>
           </div>
 
@@ -712,7 +712,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
             to={`/insurance/${company.id}`}
             className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
           >
-            <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to Reliance General Insurance Plans</span><span className="sm:hidden">Back to Plans</span>
+            <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {name || 'IndusInd General Insurance'} Plans</span><span className="sm:hidden">Back to Plans</span>
           </Link>
         </div>
 
@@ -870,7 +870,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                       REPORT CARD
                     </h2>
                     <p className="text-xs text-[#205398] font-semibold mt-0.5">
-                      Reliance General Insurance Performance
+                      {name || 'IndusInd General Insurance'} Performance
                     </p>
                   </div>
 

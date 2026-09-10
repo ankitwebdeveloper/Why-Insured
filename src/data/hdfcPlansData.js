@@ -7,6 +7,7 @@
 
 import { resolveHdfcPlanId, HDFC_CANONICAL_PLAN_IDS } from './hdfcPlanRegistry.js';
 import { optimaSecurePlusData } from './optimaSecurePlusData.js';
+import { optimaSecureData } from './optimaSecureData.js';
 import { hdfcEnergyPlanData } from './hdfcEnergyPlanData.js';
 import { hdfcMedisureSuperTopUpData } from './hdfcMedisureSuperTopUpData.js';
 
@@ -17,12 +18,17 @@ export const HDFC_PLANS_DATA = {
   'hdfc-optima-secure-plus': optimaSecurePlusData,
 
   // ===========================================================================
-  // PLAN 2: HDFC ERGO ENERGY PLAN (CENTRALIZED IN hdfcEnergyPlanData.js)
+  // PLAN 2: OPTIMA SECURE (CENTRALIZED IN optimaSecureData.js)
+  // ===========================================================================
+  'hdfc-optima-secure': optimaSecureData,
+
+  // ===========================================================================
+  // PLAN 3: HDFC ERGO ENERGY PLAN (CENTRALIZED IN hdfcEnergyPlanData.js)
   // ===========================================================================
   'hdfc-energy': hdfcEnergyPlanData,
 
   // ===========================================================================
-  // PLAN 3: MEDISURE SUPER TOP-UP (CENTRALIZED IN hdfcMedisureSuperTopUpData.js)
+  // PLAN 4: MEDISURE SUPER TOP-UP (CENTRALIZED IN hdfcMedisureSuperTopUpData.js)
   // ===========================================================================
   'hdfc-medisure-super-topup': hdfcMedisureSuperTopUpData
 };

@@ -33,9 +33,9 @@ export const RELIANCE_PLANS_DATA = {
   // ===========================================================================
   'reliance-health-infinity': {
     planId: 'reliance-health-infinity',
-    planName: 'Reliance Health Infinity Insurance',
-    fullName: 'Reliance General Insurance - Reliance Health Infinity Insurance',
-    companyName: 'Reliance General Insurance',
+    planName: 'Health Infinity',
+    fullName: 'IndusInd General Insurance - Health Infinity',
+    companyName: 'IndusInd General Insurance',
     subtitle: 'Limitless Health Protection with Unlimited Restoration, 30% More Cover, and Zero Room Sub-Limits',
     tagline: 'Limitless Health Protection with Unlimited Restoration, 30% More Cover, and Zero Room Sub-Limits',
     coverage: '₹5 Lakh - ₹1 Crore',
@@ -53,13 +53,13 @@ export const RELIANCE_PLANS_DATA = {
     // --- 1. REPORT CARD (INDEPENDENT) ---
     reportCard: {
       heading: 'REPORT CARD',
-      subheading: 'Reliance General Insurance Performance',
+      subheading: 'IndusInd General Insurance Performance',
       description: 'Official claim settlement and financial strength metrics.',
       csr: {
         title: 'CSR',
         summaryValue: '98.1%',
         subtitle: 'Claim Settlement Ratio',
-        explanation: 'CSR shows the percentage of eligible claims that Reliance General Insurance settles during the financial year through its extensive network of 9,500+ cashless hospitals.',
+        explanation: 'CSR shows the percentage of eligible claims that IndusInd General Insurance settles during the financial year through its extensive network of 9,500+ cashless hospitals.',
         singleYear: '98.1%',
         singleYearLabel: 'Recent Single Year (FY2024-25)',
         threeYearAvg: '97.9%',
@@ -69,14 +69,14 @@ export const RELIANCE_PLANS_DATA = {
         title: 'ICR',
         summaryValue: '62%',
         subtitle: 'Incurred Claim Ratio',
-        explanation: "ICR indicates the proportion of net earned premium that the insurer pays out for claims. Reliance General Insurance's healthy ICR of 62% ensures strong financial stability and dependable claim settlements.",
+        explanation: "ICR indicates the proportion of net earned premium that the insurer pays out for claims. IndusInd General Insurance's healthy ICR of 62% ensures strong financial stability and dependable claim settlements.",
         range: '60% → 65%',
         rangeLabel: 'Healthy ICR Range'
       },
       complaintVolume: {
         title: 'COMPLAINT VOLUME',
         summaryValue: '14.8',
-        explanation: 'Complaint volume measures customer grievances per 10,000 claims settled. Reliance General maintains prompt digital support and swift grievance resolution.',
+        explanation: 'Complaint volume measures customer grievances per 10,000 claims settled. IndusInd General Insurance maintains prompt digital support and swift grievance resolution.',
         value: '14.8',
         label: 'Complaints per 10,000 Claims'
       }
@@ -90,9 +90,9 @@ export const RELIANCE_PLANS_DATA = {
       ownership: {
         title: 'OWNERSHIP / PERCENTAGE',
         summaryValue: '100%',
-        explanation: 'Reliance General Insurance is one of India’s leading private general insurers, providing comprehensive healthcare coverage and technology-first claims processing nationwide.',
+        explanation: 'IndusInd General Insurance is one of India’s leading private general insurers, providing comprehensive healthcare coverage and technology-first claims processing nationwide.',
         items: [
-          { name: 'Reliance Capital & Institutional Shareholders', value: '100%', label: 'Shareholding' }
+          { name: 'Institutional Shareholders & Parent Group', value: '100%', label: 'Shareholding' }
         ]
       },
       creditRating: {
@@ -107,7 +107,7 @@ export const RELIANCE_PLANS_DATA = {
       capitalStrength: {
         title: 'CAPITAL STRENGTH',
         summaryValue: '1.75×',
-        explanation: 'Solvency ratio of 1.75× indicates Reliance General Insurance maintains strong capital buffers well above the IRDAI mandatory minimum of 1.50×.',
+        explanation: 'Solvency ratio of 1.75× indicates IndusInd General Insurance maintains strong capital buffers well above the IRDAI mandatory minimum of 1.50×.',
         value: '1.75×',
         label: 'Solvency Ratio (as of March 2025)'
       },

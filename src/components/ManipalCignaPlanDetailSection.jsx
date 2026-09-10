@@ -297,20 +297,15 @@ function HdfcStyleFeatureAccordionItem({
             className="overflow-hidden"
           >
             <div className="px-2.5 pb-2.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2 sm:space-y-2.5">
-              {/* Contextual Badge & Subtitle Checkmark */}
-              <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                {badge && (
+              {/* Contextual Badge */}
+              {badge && (
+                <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
                   <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#FFF9F3] text-[#F8971F] border border-[#F8971F]/25 tracking-wider">
                     <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#F8971F]" />
                     {badge}
                   </span>
-                )}
-                {subtitle && (
-                  <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
-                    <FiCheck className="text-[#56B948] text-[10px] sm:text-xs shrink-0" /> {subtitle}
-                  </span>
-                )}
-              </div>
+                </div>
+              )}
 
               {/* Bullet points or Detailed Summary */}
               {points && points.length > 0 ? (

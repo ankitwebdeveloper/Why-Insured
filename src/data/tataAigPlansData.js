@@ -1,12 +1,18 @@
+import { TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA } from './tataAigMedicareSelectVariantsData';
+
 // =============================================================================
 // TATA AIG PLANS INDEPENDENT DATA CONFIGURATION
 // Flagship Plan: Tata AIG MediCare Premier
-// Canonical Plan IDs: medicare-premier, medicare-select, medicare-protect, medicare-plus
+// Canonical Plan IDs: medicare-premier, medicare-select, medicare-select-smart,
+// medicare-select-standard, medicare-select-elite, medicare-reserve
 // =============================================================================
 
 export const TATA_AIG_CANONICAL_PLAN_IDS = [
   'medicare-premier',
   'medicare-select',
+  'medicare-select-smart',
+  'medicare-select-standard',
+  'medicare-select-elite',
   'medicare-reserve'
 ];
 
@@ -19,6 +25,27 @@ export const resolveTataAigPlanId = (planId) => {
     cleanId === 'premier'
   ) {
     return 'medicare-premier';
+  }
+  if (
+    cleanId === 'medicare-select-smart' ||
+    cleanId === 'tata-medicare-select-smart' ||
+    cleanId === 'smart'
+  ) {
+    return 'medicare-select-smart';
+  }
+  if (
+    cleanId === 'medicare-select-elite' ||
+    cleanId === 'tata-medicare-select-elite' ||
+    cleanId === 'elite'
+  ) {
+    return 'medicare-select-elite';
+  }
+  if (
+    cleanId === 'medicare-select-standard' ||
+    cleanId === 'medicare-select-base' ||
+    cleanId === 'tata-medicare-select-standard'
+  ) {
+    return 'medicare-select-standard';
   }
   if (
     cleanId === 'medicare-select' ||
@@ -396,17 +423,13 @@ export const TATA_AIG_PLANS_DATA = {
           {
             id: 'global-cover',
             title: 'Global Cover for Planned Hospitalization',
-            subtitle: 'Up to Sum Insured (View Details)',
+            subtitle: 'Worldwide Planned Treatment',
             badge: 'WORLDWIDE COVERAGE',
             iconType: 'globe',
-            hasDetailsModal: true,
-            detailsModalTitle: 'Special Applicability Condition for Global Cover',
-            detailsModalContent: 'Applicability subject to the special condition for Global Cover for Planned Hospitalization. Covers planned overseas medical treatments outside India for specified life-threatening critical illnesses on applicable higher sum insured tiers with prior insurer approval.',
-            summary: 'Worldwide coverage for planned medical treatment outside India for specified life-threatening illnesses. Applicability subject to the special condition for Global Cover for Planned Hospitalization.',
+            hasGlobalCoverModal: true,
+            summary: 'This benefit allows treatment outside India, subject to policy terms and conditions.',
             points: [
-              'Planned overseas hospitalization covered up to full Sum Insured',
-              'Applicable on eligible sum insured tiers as per policy schedule',
-              'Requires prior approval from insurer as per special terms'
+              'This benefit allows treatment outside India, subject to policy terms and conditions.'
             ]
           },
           {
@@ -1908,7 +1931,8 @@ export const TATA_AIG_PLANS_DATA = {
         ]
       }
     ]
-  }
+  },
+  ...TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA
 };
 
 export const getTataAigPlanData = (planId) => {

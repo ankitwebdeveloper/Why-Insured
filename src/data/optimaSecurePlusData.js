@@ -522,8 +522,20 @@ export const optimaSecurePlusData = {
         {
           id: 's4-2',
           title: 'Optima Wellbeing',
-          subtitle: 'Information abhi mentioned karni hai with limits ke sath',
-          summary: 'Information abhi mentioned karni hai with limits ke sath.',
+          subtitle: 'Unlimited OPD consultations, e-wellness counselling & health discounts',
+          summary: 'Comprehensive wellness rider offering unlimited doctor visits, tele-consultations, fitness and nutrition counselling, and diagnostic and pharmacy discounts on a cashless basis after a 30-day waiting period.',
+          points: [
+            '**Tele-consultation:** Unlimited',
+            '**In-person doctor visits:** Unlimited',
+            '**Psychology e-counselling:** Unlimited',
+            '**Diet & nutrition e-wellness Counselling:** Unlimited',
+            '**Online fitness classes:** Unlimited',
+            '**Diagnostic tests:** Up to 50% discount',
+            '**Pharmacy bills:** Up to 20% discount',
+            '**Free home sample collection:** Unlimited',
+            '**Waiting period:** 30 days',
+            '**Cashless basis:** Available'
+          ],
           isRider: true,
           badge: 'WELLBEING',
           iconType: 'smile',

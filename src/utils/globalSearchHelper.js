@@ -42,18 +42,13 @@ export const COMPANY_DICTIONARY = [
   },
   {
     id: 'reliance-general',
-    name: 'Reliance General Insurance',
-    aliases: ['reliance', 'reliance general', 'reliance general insurance', 'reliance health', 'reliance insurance']
+    name: 'IndusInd General Insurance',
+    aliases: ['indusind', 'indusind general', 'indusind general insurance', 'indusind health', 'indusind insurance', 'reliance', 'reliance general', 'reliance general insurance', 'reliance health', 'reliance insurance']
   },
   {
     id: 'magma-hdi',
     name: 'Magma General Insurance',
     aliases: ['magma', 'magma general', 'magma hdi', 'magma hdi general insurance', 'magma health', 'magma insurance']
-  },
-  {
-    id: 'indusind-general',
-    name: 'IndusInd General Insurance',
-    aliases: ['indusind', 'indusind general', 'indusind general insurance', 'indusind health', 'indusind insurance', 'indusind bank']
   },
   {
     id: 'manipal-cigna',

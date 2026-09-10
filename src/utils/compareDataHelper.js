@@ -275,7 +275,6 @@ export const getActualCashlessHospitals = (company, planData) => {
     'care-health': "22,000+ Hospitals",
     'reliance-general': "9,100+ Hospitals",
     'magma-hdi': "10,500+ Hospitals",
-    'indusind-general': "10,000+ Hospitals",
     'manipal-cigna': "9,000+ Hospitals"
   };
   return networkSizes[company?.id] || "10,000+ Hospitals";
@@ -314,7 +313,6 @@ export const getCompanyRatioValue = (companyId, ratioType, planData = null) => {
     'care-health': { complaint: '19.2 per 10k', settlement: '97.4%', incurred: '51%', solvency: '1.82' },
     'reliance-general': { complaint: '14.8 per 10k', settlement: '98.1%', incurred: '62%', solvency: '1.75' },
     'magma-hdi': { complaint: '16.5 per 10k', settlement: '97.8%', incurred: '59%', solvency: '1.71' },
-    'indusind-general': { complaint: '15.2 per 10k', settlement: '98.0%', incurred: '60%', solvency: '1.74' },
     'manipal-cigna': { complaint: '13.8 per 10k', settlement: '98.2%', incurred: '61%', solvency: '1.76' }
   };
   const data = ratios[companyId] || { complaint: '15.0 per 10k', settlement: '98.0%', incurred: '60%', solvency: '1.70' };

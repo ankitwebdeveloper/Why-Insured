@@ -7,6 +7,7 @@
 /** Canonical plan IDs — use these everywhere for plan-specific data & UI */
 export const HDFC_CANONICAL_PLAN_IDS = [
   'hdfc-optima-secure-plus',
+  'hdfc-optima-secure',
   'hdfc-energy',
   'hdfc-medisure-super-topup'
 ];
@@ -14,6 +15,7 @@ export const HDFC_CANONICAL_PLAN_IDS = [
 /** Human-readable plan names keyed by canonical ID */
 export const HDFC_PLAN_NAMES = {
   'hdfc-optima-secure-plus': 'Optima Secure+',
+  'hdfc-optima-secure': 'Optima Secure',
   'hdfc-energy': 'HDFC ERGO Energy Plan',
   'hdfc-medisure-super-topup': 'MediSure Super Top-Up'
 };
@@ -25,10 +27,10 @@ export const HDFC_PLAN_NAMES = {
 export const HDFC_PLAN_ID_ALIASES = {
   'optima-secure-plus': 'hdfc-optima-secure-plus',
   'hdfc-optima-secure-plus': 'hdfc-optima-secure-plus',
-  'optima-secure': 'hdfc-optima-secure-plus',
-  'hdfc-optima-secure': 'hdfc-optima-secure-plus',
   'optima-restore': 'hdfc-optima-secure-plus',
   'hdfc-optima-restore': 'hdfc-optima-secure-plus',
+  'optima-secure': 'hdfc-optima-secure',
+  'hdfc-optima-secure': 'hdfc-optima-secure',
   'energy': 'hdfc-energy',
   'hdfc-energy': 'hdfc-energy',
   'energy-plan': 'hdfc-energy',

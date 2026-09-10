@@ -36,6 +36,7 @@ import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
 import BenefitSearchBar from './BenefitSearchBar';
 import { getFilteredAndPrioritizedFeaturesSections, getBenefitSearchResults } from '../utils/benefitSearchHelper';
 import { scrollToBenefitCard } from '../utils/scrollToBenefitCard';
+import TataAigMedicareSelectVariantSelector from './TataAigMedicareSelectVariantSelector';
 
 // Default demo video
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -195,6 +196,7 @@ function TataAigFeatureAccordionItem({
   onOpenVideo,
   onOpenDetailsModal,
   onOpenDiagnosticModal,
+  onOpenGlobalCoverModal,
   demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
@@ -261,7 +263,7 @@ function TataAigFeatureAccordionItem({
           </div>
         </div>
 
-        {/* Right Controls: View Details Button (for High End Diagnostics) & Plus/Minus Button */}
+        {/* Right Controls: View Details Button (for High End Diagnostics / Global Cover) & Plus/Minus Button */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           {id === 'high-end-diagnostics' && onOpenDiagnosticModal && (
             <button
@@ -274,6 +276,20 @@ function TataAigFeatureAccordionItem({
               title="View High End Diagnostic details"
             >
               <span>View Details</span>
+            </button>
+          )}
+
+          {id === 'global-cover' && onOpenGlobalCoverModal && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenGlobalCoverModal();
+              }}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/25 hover:bg-[#0038A8] hover:text-white transition-all duration-200 cursor-pointer shadow-2xs group select-none shrink-0"
+              title="View Global Cover Details"
+            >
+              <span>View Global Cover Details</span>
             </button>
           )}
 
@@ -367,6 +383,22 @@ function TataAigFeatureAccordionItem({
                       </React.Fragment>
                     ))}
                   </div>
+                </div>
+              )}
+              {/* Action Button for Global Cover */}
+              {id === 'global-cover' && onOpenGlobalCoverModal && (
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenGlobalCoverModal();
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold bg-[#0038A8] text-white hover:bg-[#002670] transition-all duration-200 cursor-pointer shadow-2xs select-none"
+                  >
+                    <FiInfo className="text-xs" />
+                    <span>View Global Cover Details</span>
+                  </button>
                 </div>
               )}
             </div>
@@ -505,6 +537,225 @@ function HighEndDiagnosticModal({ isOpen, onClose }) {
   );
 }
 
+// Premium Floating Global Cover for Planned Hospitalization Details Modal / Overlay
+function GlobalCoverDetailsModal({ isOpen, onClose }) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
+      />
+
+      {/* Floating Card */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 12 }}
+        transition={{ duration: 0.22, ease: "easeOut" }}
+        className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-xl overflow-y-auto z-10 p-4 sm:p-7 max-h-[90vh] text-left"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close 'X' Button */}
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors cursor-pointer"
+          aria-label="Close modal"
+        >
+          <FiX className="text-sm sm:text-base" />
+        </button>
+
+        {/* Modal Header */}
+        <div className="pr-8 mb-4">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#0038A8] shrink-0" />
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#0038A8]">
+              Tata AIG MediCare Premier
+            </span>
+          </div>
+          <h3 className="text-base sm:text-xl font-extrabold text-slate-900 font-display tracking-tight">
+            Global Cover for Planned Hospitalization
+          </h3>
+          <p className="text-xs text-slate-500 font-medium mt-1">
+            Worldwide medical coverage terms, eligibility & practical scenarios.
+          </p>
+        </div>
+
+        <div className="space-y-4 text-slate-700 text-xs sm:text-sm">
+          {/* 1. KEY HIGHLIGHTS */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-1.5">
+              <span className="text-emerald-600 font-black">✅</span>
+              <h4 className="font-extrabold text-slate-900 font-display text-xs sm:text-sm uppercase tracking-wide">
+                Key Highlights
+              </h4>
+            </div>
+            <div className="p-3 sm:p-3.5 rounded-xl bg-[#F0F4FF] border border-[#0038A8]/20 space-y-1.5">
+              <div className="flex items-start gap-2">
+                <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-sm" />
+                <span className="font-medium text-slate-800">The illness/disease must be diagnosed in India first.</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-sm" />
+                <span className="font-medium text-slate-800">After diagnosis in India, treatment can be taken outside India.</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-sm" />
+                <span className="font-medium text-slate-800">Both In-patient Hospitalization and Day Care Procedures are covered.</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-sm" />
+                <span className="font-medium text-slate-800">Claims are primarily settled on a reimbursement basis.</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. COVERED SCENARIO */}
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-1.5">
+              <span className="text-slate-600 font-black">📌</span>
+              <h4 className="font-extrabold text-slate-900 font-display text-xs sm:text-sm">
+                Example – Covered Scenario
+              </h4>
+            </div>
+            <div className="p-3 sm:p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200/80 space-y-2">
+              <ul className="space-y-1 text-slate-700 text-xs">
+                <li className="flex items-start gap-1.5">
+                  <span className="text-emerald-600 font-bold">•</span>
+                  <span>Cancer is diagnosed in India.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-emerald-600 font-bold">•</span>
+                  <span>Doctor advises treatment in Singapore.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-emerald-600 font-bold">•</span>
+                  <span>The insured undergoes hospitalization in Singapore.</span>
+                </li>
+              </ul>
+              <div className="pt-2 border-t border-emerald-200/60">
+                <span className="font-extrabold text-emerald-900 text-xs sm:text-[13px] block">
+                  Eligible hospitalization expenses may be covered as per policy terms.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. NOT COVERED SCENARIO */}
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-1.5">
+              <span className="text-slate-600 font-black">📌</span>
+              <h4 className="font-extrabold text-slate-900 font-display text-xs sm:text-sm">
+                Example – Not Covered Scenario
+              </h4>
+            </div>
+            <div className="p-3 sm:p-3.5 rounded-xl bg-rose-50/70 border border-rose-200/80 space-y-2">
+              <ul className="space-y-1 text-slate-700 text-xs">
+                <li className="flex items-start gap-1.5">
+                  <span className="text-rose-500 font-bold">•</span>
+                  <span>The insured travels to the USA.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-rose-500 font-bold">•</span>
+                  <span>The illness is diagnosed there for the first time.</span>
+                </li>
+              </ul>
+              <div className="pt-2 border-t border-rose-200/60">
+                <span className="font-extrabold text-rose-900 text-xs sm:text-[13px] block">
+                  Global Cover will not be applicable.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* 4. IMPORTANT POINTS */}
+          <div className="space-y-1.5">
+            <h4 className="font-extrabold text-slate-900 font-display text-xs sm:text-sm uppercase tracking-wider flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#0038A8]" />
+              Important Points
+            </h4>
+            <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+              <ul className="space-y-1.5 text-xs text-slate-700">
+                <li className="flex items-start gap-2">
+                  <span className="text-[#0038A8] font-bold text-sm shrink-0 leading-none mt-0.5">•</span>
+                  <span>Pre and Post Hospitalization expenses incurred abroad are not covered.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#0038A8] font-bold text-sm shrink-0 leading-none mt-0.5">•</span>
+                  <span>Claim payment is made in Indian Rupees.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#0038A8] font-bold text-sm shrink-0 leading-none mt-0.5">•</span>
+                  <span>Foreign medical bills are converted into INR as per the applicable RBI exchange rate.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* 5. DOCUMENTS REQUIRED */}
+          <div className="space-y-1.5">
+            <h4 className="font-extrabold text-slate-900 font-display text-xs sm:text-sm uppercase tracking-wider flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#0038A8]" />
+              Documents Required
+            </h4>
+            <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="p-2 rounded-lg bg-white border border-slate-200 text-center font-bold text-xs text-slate-800">
+                  Proof of diagnosis in India
+                </div>
+                <div className="p-2 rounded-lg bg-white border border-slate-200 text-center font-bold text-xs text-slate-800">
+                  Passport
+                </div>
+                <div className="p-2 rounded-lg bg-white border border-slate-200 text-center font-bold text-xs text-slate-800">
+                  Visa
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 6. CASHLESS FACILITY */}
+          <div className="space-y-1.5">
+            <h4 className="font-extrabold text-slate-900 font-display text-xs sm:text-sm uppercase tracking-wider flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-amber-500" />
+              Cashless Facility
+            </h4>
+            <div className="p-3 sm:p-3.5 rounded-xl bg-amber-50/70 border border-amber-200/80 space-y-1.5 text-xs text-amber-950 font-medium">
+              <div className="flex items-start gap-2">
+                <span className="text-amber-600 font-bold shrink-0">⚠️</span>
+                <span>Reimbursement is available as per policy terms.</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-amber-600 font-bold shrink-0">⚠️</span>
+                <span>
+                  Cashless treatment outside India may be arranged on a case-to-case basis and is subject to Tata AIG's approval. Therefore, cashless treatment cannot be guaranteed in every case.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Modal Footer / Close Action */}
+        <div className="mt-5 pt-3.5 border-t border-slate-100 flex justify-end">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-5 py-2 rounded-xl bg-[#0038A8] text-white text-xs font-bold hover:bg-[#002670] transition-colors shadow-2xs cursor-pointer select-none"
+          >
+            Got It
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function MedicareSelectSection({ plan, company, planId: planIdProp }) {
   const [activeModal, setActiveModal] = useState(null);
   const [activeLimitationId, setActiveLimitationId] = useState(null);
@@ -514,6 +765,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     content: ''
   });
   const [isDiagnosticModalOpen, setIsDiagnosticModalOpen] = useState(false);
+  const [isGlobalCoverModalOpen, setIsGlobalCoverModalOpen] = useState(false);
   const [videoModalState, setVideoModalState] = useState({
     isOpen: false,
     title: '',
@@ -562,6 +814,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
   const uiConfig = planData?.uiConfig ?? {};
   const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
   const { logo, name } = company;
+  const isMedicareSelectVariant = currentPlanId.startsWith('medicare-select-');
 
   // Filter & prioritize features sections based on current plan search
   const {
@@ -587,6 +840,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     setActiveLimitationId(null);
     setDetailsModalState({ isOpen: false, title: '', content: '' });
     setIsDiagnosticModalOpen(false);
+    setIsGlobalCoverModalOpen(false);
     setVideoModalState({ isOpen: false, title: '', url: '' });
     setExpandedReportCard({ csr: false, icr: false, complaint: false });
     setExpandedCompanyStrength({
@@ -602,7 +856,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
 
   // Lock background body scroll when modal is active
   useEffect(() => {
-    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen || isDiagnosticModalOpen) {
+    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen || isDiagnosticModalOpen || isGlobalCoverModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -610,7 +864,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen, isDiagnosticModalOpen]);
+  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen, isDiagnosticModalOpen, isGlobalCoverModalOpen]);
 
   const handleOpenVideo = (title, url) => {
     setVideoModalState({
@@ -658,6 +912,13 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
       }, 150);
     }
   };
+
+  // =========================================================================
+  // TATA AIG MEDICARE SELECT: VARIANT SELECTOR SCREEN (3 VARIANTS)
+  // =========================================================================
+  if (currentPlanId === 'medicare-select') {
+    return <TataAigMedicareSelectVariantSelector company={company} />;
+  }
 
   // =========================================================================
   // DEDICATED FEATURES PAGE (EXACT REFERENCE: 4 COMPACT DARK GREEN CATEGORIES)
@@ -766,6 +1027,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     onOpenVideo={handleOpenVideo}
                     onOpenDetailsModal={handleOpenDetailsModal}
                     onOpenDiagnosticModal={() => setIsDiagnosticModalOpen(true)}
+                    onOpenGlobalCoverModal={() => setIsGlobalCoverModalOpen(true)}
                     demoVideoUrl={demoVideoUrl}
                   />
                 ))}
@@ -849,6 +1111,16 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           )}
         </AnimatePresence>
 
+        {/* FLOATING GLOBAL COVER DETAILS MODAL */}
+        <AnimatePresence>
+          {isGlobalCoverModalOpen && (
+            <GlobalCoverDetailsModal
+              isOpen={isGlobalCoverModalOpen}
+              onClose={() => setIsGlobalCoverModalOpen(false)}
+            />
+          )}
+        </AnimatePresence>
+
       </div>
     );
   }
@@ -861,13 +1133,19 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
       {/* Single Viewport Container */}
       <div className="max-w-3xl mx-auto flex flex-col justify-start sm:justify-center items-stretch sm:min-h-[calc(100vh-220px)] py-1 sm:py-4 space-y-0">
         
-        {/* Navigation Breadcrumb - Back to Plans */}
+        {/* Navigation Breadcrumb - Back to Plans / MediCare Select Variants */}
         <div className="shrink-0 text-left mb-3.5 sm:mb-5">
           <Link
-            to={`/insurance/${company.id}`}
+            to={isMedicareSelectVariant ? `/insurance/${company.id}/medicare-select` : `/insurance/${company.id}`}
             className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
           >
-            <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to Tata AIG Plans</span><span className="sm:hidden">Back to Plans</span>
+            <FiArrowLeft className="text-sm" />{' '}
+            <span className="hidden sm:inline">
+              {isMedicareSelectVariant ? 'Back to MediCare Select Variants' : 'Back to Tata AIG Plans'}
+            </span>
+            <span className="sm:hidden">
+              {isMedicareSelectVariant ? 'Back to Variants' : 'Back to Plans'}
+            </span>
           </Link>
         </div>
 

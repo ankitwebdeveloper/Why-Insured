@@ -24,7 +24,7 @@ export default function CompanyDetail() {
 
   const { theme, name, fullName, logo, description, plans } = company;
   const displayedPlans = (plans || []).filter(p => !p.parentPlanId);
-  const isSpecialCompany = company.id === 'hdfc-ergo' || company.slug === 'hdfc-ergo' || company.id === 'tata-aig' || company.slug === 'tata-aig' || company.id === 'icici-lombard' || company.slug === 'icici-lombard' || company.id === 'niva-bupa' || company.slug === 'niva-bupa' || company.id === 'star-health' || company.slug === 'star-health' || company.id === 'care-health' || company.slug === 'care-health' || company.id === 'reliance-general' || company.slug === 'reliance-general' || company.id === 'magma-hdi' || company.slug === 'magma-hdi' || company.id === 'indusind-general' || company.slug === 'indusind-general' || company.id === 'manipal-cigna' || company.slug === 'manipal-cigna' || company.id === 'aditya-birla' || company.slug === 'aditya-birla';
+  const isSpecialCompany = company.id === 'hdfc-ergo' || company.slug === 'hdfc-ergo' || company.id === 'tata-aig' || company.slug === 'tata-aig' || company.id === 'icici-lombard' || company.slug === 'icici-lombard' || company.id === 'niva-bupa' || company.slug === 'niva-bupa' || company.id === 'star-health' || company.slug === 'star-health' || company.id === 'care-health' || company.slug === 'care-health' || company.id === 'reliance-general' || company.slug === 'reliance-general' || company.id === 'magma-hdi' || company.slug === 'magma-hdi' || company.id === 'manipal-cigna' || company.slug === 'manipal-cigna' || company.id === 'aditya-birla' || company.slug === 'aditya-birla';
 
   // Apply custom CSS variables for the theme
   const themeStyles = {

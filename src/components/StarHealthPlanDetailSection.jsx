@@ -258,20 +258,15 @@ function StarHealthFeatureAccordionItem({
             className="overflow-hidden"
           >
             <div className="px-2.5 pb-2.5 sm:px-4.5 sm:pb-4.5 border-t border-slate-100/80 text-slate-600 space-y-2 sm:space-y-2.5">
-              {/* Contextual Badge & Subtitle Checkmark */}
-              <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                {badge && (
+              {/* Contextual Badge */}
+              {badge && (
+                <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
                   <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#F0F4FF] text-[#003087] border border-[#003087]/20 tracking-wider">
                     <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#003087]" />
                     {badge}
                   </span>
-                )}
-                {subtitle && subtitle !== summary && (
-                  <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-700">
-                    <FiCheck className="text-[#003087] text-[10px] sm:text-xs shrink-0" /> {subtitle}
-                  </span>
-                )}
-              </div>
+                </div>
+              )}
 
               {/* Short explanation / Details */}
               <div className="text-[11px] sm:text-sm font-medium leading-relaxed text-slate-600">

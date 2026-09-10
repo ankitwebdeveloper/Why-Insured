@@ -4,12 +4,12 @@ import starLogo from '../assets/star-health.png';
 import nivaLogo from '../assets/niva-bupa.png';
 import iciciLogo from '../assets/icici-lombard.png';
 import careLogo from '../assets/care-health.png';
-import relianceLogo from '../assets/Reliance General Insurance.png';
+import indusindLogo from '../assets/indusind-general.png';
 import magmaLogo from '../assets/Magma HDI General Insurance.png';
-import indusindLogo from '../assets/IndusInd General Insurance.png';
 import manipalLogo from '../assets/manipal cigna .png';
 import adityaLogo from '../assets/aditya brila.png';
 import { optimaSecurePlusData } from './optimaSecurePlusData';
+import { optimaSecureData } from './optimaSecureData';
 import { hdfcEnergyPlanData } from './hdfcEnergyPlanData';
 import { hdfcMedisureSuperTopUpData } from './hdfcMedisureSuperTopUpData';
 import { getMagmaPlanData } from './magmaPlansData';
@@ -48,6 +48,16 @@ export const companiesData = [
         benefits: optimaSecurePlusData.benefits,
         details: optimaSecurePlusData.details,
         planData: optimaSecurePlusData
+      },
+      {
+        id: optimaSecureData.planId,
+        name: optimaSecureData.planName,
+        description: optimaSecureData.tagline,
+        coverage: optimaSecureData.coverage,
+        premium: optimaSecureData.premium,
+        benefits: optimaSecureData.benefits,
+        details: optimaSecureData.details,
+        planData: optimaSecureData
       },
       {
         id: hdfcEnergyPlanData.planId,
@@ -113,26 +123,115 @@ export const companiesData = [
       {
         id: "medicare-select",
         name: "MediCare Select",
-        description: "Standard essential coverage covering hospitalization and recovery benefits.",
-        coverage: "₹5 Lakh",
-        premium: "₹8,200/year",
+        description: "Standard essential coverage covering hospitalization and recovery benefits across 3 tailored variants: MediCare Select, MediCare Select Smart, and MediCare Select Elite.",
+        coverage: "5 Lakhs – 3 Crore",
+        hasVariants: true,
+        variants: [
+          "medicare-select-standard",
+          "medicare-select-smart",
+          "medicare-select-elite"
+        ],
         benefits: [
-          "In-patient hospitalization covered",
-          "Organ Donor expenses covered",
-          "Ayush treatment covered up to 100%",
-          "Daily cash benefit option"
+          "3 Tailored Variants: MediCare Select, MediCare Select Smart & MediCare Select Elite",
+          "Unlimited Restore Infinity Plus on base sum insured",
+          "Room Category: Single Private Room / Twin Sharing / Any Room based on variant",
+          "Zero Copay & Zero Sub-limit with extensive network hospital access"
         ],
         details: {
           eligibility: "18 to 65 Years",
-          waitingPeriod: "30 Days initial, 48 Months for Pre-existing diseases",
-          roomRent: "Single Private Room covered",
-          hospitalization: "Inpatient expenses covered",
-          prePostHospital: "30 Days Pre & 60 Days Post Hospitalization covered",
-          dayCare: "Day Care procedures covered",
-          noClaimBonus: "10% of sum insured per year (Max 100%)",
-          exclusions: "Intentional self-injury, war, dental surgeries unless accidental"
+          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 48 Months PED",
+          roomRent: "Single Private Room / Twin Sharing / Any Room depending on variant",
+          hospitalization: "Inpatient expenses covered up to Sum Insured",
+          prePostHospital: "60-90 Days Pre & 90-180 Days Post Hospitalization covered",
+          dayCare: "All Day Care procedures covered",
+          noClaimBonus: "Cumulative Bonus / Supercharge Bonus up to 5X",
+          exclusions: "Intentional self-injury, cosmetic surgery, hazardous adventure sports"
         },
-        planData: getTataAigPlanData("medicare-select")
+        planData: getTataAigPlanData("medicare-select-standard")
+      },
+      {
+        id: "medicare-select-standard",
+        name: "MediCare Select",
+        parentPlanId: "medicare-select",
+        variantName: "MediCare Select",
+        description: "Comprehensive coverage across all network hospitals with Single Private Room and Restore Infinity Plus.",
+        coverage: "5 Lakhs – 3 Crore",
+        premium: "₹8,200/year",
+        benefits: [
+          "Available Sum Insured: 5 Lakhs – 3 Crore (Fresh + Port)",
+          "Room Category: Single Private Room with zero rent capping",
+          "Sub-Limit | Co-Pay: No Copay | No Sublimit",
+          "Restore Infinity Plus: Unlimited Restore",
+          "Hospital Type: All Network Hospital (10,000+ Hospitals)",
+          "Super Charge Bonus & Consumables: Available as Rider"
+        ],
+        details: {
+          eligibility: "18 to 65 Years (Children: 91 days to 25 years)",
+          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 48 Months PED",
+          roomRent: "Single Private Room covered with zero capping",
+          hospitalization: "Inpatient hospitalization covered up to Sum Insured",
+          prePostHospital: "90 Days Pre & 90 Days Post Hospitalization covered",
+          dayCare: "All Day Care procedures covered",
+          noClaimBonus: "Cumulative bonus with Super Charge Bonus available as rider",
+          exclusions: "Intentional self-injury, cosmetic surgery, breach of law"
+        },
+        planData: getTataAigPlanData("medicare-select-standard")
+      },
+      {
+        id: "medicare-select-smart",
+        name: "MediCare Select Smart",
+        parentPlanId: "medicare-select",
+        variantName: "MediCare Select Smart",
+        description: "Value-optimized healthcare with Twin Sharing room category across dedicated VPN network hospitals.",
+        coverage: "5 Lakhs – 25 Lakhs",
+        premium: "₹6,800/year",
+        benefits: [
+          "Available Sum Insured: 5 Lakhs – 25 Lakhs (Fresh + Port)",
+          "Room Category: Twin Sharing room covered",
+          "Sub-Limit | Co-Pay: No Copay | No Sublimit",
+          "Restore Infinity Plus: Unlimited Restore",
+          "Hospital Type: VPN Only* (Designated Value Provider Network)",
+          "Super Charge Bonus & Consumables: Available as Rider"
+        ],
+        details: {
+          eligibility: "18 to 65 Years (Children: 91 days to 25 years)",
+          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 48 Months PED",
+          roomRent: "Twin Sharing room covered with zero proportionate deductions",
+          hospitalization: "Inpatient hospitalization covered up to Sum Insured",
+          prePostHospital: "60 Days Pre & 90 Days Post Hospitalization covered",
+          dayCare: "All Day Care procedures covered",
+          noClaimBonus: "Cumulative bonus with Super Charge Bonus available as rider",
+          exclusions: "Intentional self-injury, cosmetic surgery, breach of law"
+        },
+        planData: getTataAigPlanData("medicare-select-smart")
+      },
+      {
+        id: "medicare-select-elite",
+        name: "MediCare Select Elite",
+        parentPlanId: "medicare-select",
+        variantName: "MediCare Select Elite",
+        description: "Elite healthcare coverage with Any Room category, Inbuilt Consumables and Inbuilt 5X Super Charge Bonus.",
+        coverage: "25 Lakhs – 3 Crore",
+        premium: "₹14,500/year",
+        benefits: [
+          "Available Sum Insured: 25 Lakhs – 3 Crore (Only Fresh)",
+          "Room Category: Any Room category with zero restrictions",
+          "Sub-Limit | Co-Pay: No Copay | No Sublimit",
+          "Restore Infinity Plus: Unlimited Restore",
+          "Hospital Type: All Network Hospital (10,000+ Hospitals)",
+          "Super Charge Bonus: Inbuilt up to 5X & Consumables: Inbuilt"
+        ],
+        details: {
+          eligibility: "18 to 65 Years (Children: 91 days to 25 years)",
+          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 48 Months PED",
+          roomRent: "Any Room category covered including suites",
+          hospitalization: "Inpatient hospitalization covered up to Sum Insured",
+          prePostHospital: "90 Days Pre & 180 Days Post Hospitalization covered",
+          dayCare: "All Day Care procedures covered",
+          noClaimBonus: "Super Charge Bonus inbuilt up to 5X",
+          exclusions: "Intentional self-injury, cosmetic surgery, breach of law"
+        },
+        planData: getTataAigPlanData("medicare-select-elite")
       },
       {
         id: "medicare-reserve",
@@ -752,11 +851,11 @@ export const companiesData = [
   },
   {
     id: "reliance-general",
-    name: "Reliance General Insurance",
-    fullName: "Reliance General Insurance Company Limited",
+    name: "IndusInd General Insurance",
+    fullName: "IndusInd General Insurance Company Limited",
     slug: "reliance-general",
     category: "Health Insurance",
-    logo: relianceLogo,
+    logo: indusindLogo,
     description: "One of India's leading private general insurance providers, delivering comprehensive health coverage, instant cashless claims, and digital-first support.",
     theme: {
       primary: "#205398",      // Reliance Royal Blue
@@ -768,7 +867,7 @@ export const companiesData = [
     plans: [
       {
         id: "reliance-health-infinity",
-        name: "Reliance Health Infinity Insurance",
+        name: "Health Infinity",
         description: getReliancePlanData("reliance-health-infinity").tagline,
         coverage: getReliancePlanData("reliance-health-infinity").coverage,
         premium: getReliancePlanData("reliance-health-infinity").premium,
@@ -823,23 +922,6 @@ export const companiesData = [
         planData: getMagmaPlanData("magma-one-health-secure")
       }
     ]
-  },
-  {
-    id: "indusind-general",
-    name: "IndusInd General Insurance",
-    fullName: "IndusInd General Insurance Company Limited",
-    slug: "indusind-general",
-    category: "Health Insurance",
-    logo: indusindLogo,
-    description: "Part of the Hinduja Group & IndusInd ecosystem, delivering customized health policies, rapid claims settlement, and seamless digital service.",
-    theme: {
-      primary: "#800000",      // IndusInd Maroon / Crimson
-      secondary: "#A51C30",    // Deep Crimson
-      accent: "#800000",
-      background: "#FFF5F5",   // Soft Crimson-White
-      text: "#0F172A"
-    },
-    plans: []
   },
   {
     id: "manipal-cigna",
