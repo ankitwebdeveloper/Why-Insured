@@ -90,7 +90,7 @@ const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
         e.stopPropagation();
         onOpenVideo(featureTitle, videoUrl);
       }}
-      className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/25 hover:bg-[#0038A8] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-0.5 sm:ml-1"
+      className="inline-flex items-center gap-1 px-2 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/25 hover:bg-[#0038A8] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group"
       title={`Watch demo video for ${featureTitle}`}
     >
       <FiPlay className="text-[8px] sm:text-[10px] fill-current text-[#0038A8] group-hover:text-white transition-colors" />
@@ -230,11 +230,19 @@ function TataAigFeatureAccordionItem({
               <IconComponent className="text-xs sm:text-base" />
             </div>
           )}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
-              <h3 className="text-xs sm:text-sm font-extrabold font-display leading-tight sm:leading-snug text-[#0F172A]">
-                {title}
-              </h3>
+          <div className="flex-1 min-w-0 space-y-1">
+            <h3 className="text-xs sm:text-sm font-extrabold font-display leading-tight sm:leading-snug text-[#0F172A]">
+              {title}
+            </h3>
+
+            {subtitle && (
+              <p className="text-[10px] sm:text-xs font-semibold leading-tight sm:leading-snug text-slate-500">
+                {subtitle}
+              </p>
+            )}
+
+            {/* Action Buttons & Badges Flex Row */}
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-0.5">
               {onOpenVideo && (
                 <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
               )}
@@ -255,16 +263,11 @@ function TataAigFeatureAccordionItem({
                 </span>
               )}
             </div>
-            {subtitle && (
-              <p className="text-[10px] sm:text-xs font-semibold mt-0.5 leading-tight sm:leading-snug text-slate-500">
-                {subtitle}
-              </p>
-            )}
           </div>
         </div>
 
-        {/* Right Controls: View Details Button (for High End Diagnostics / Global Cover) & Plus/Minus Button */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        {/* Right Controls: View Details Button (for High End Diagnostics) & Plus/Minus Button */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 self-center">
           {id === 'high-end-diagnostics' && onOpenDiagnosticModal && (
             <button
               type="button"
@@ -276,20 +279,6 @@ function TataAigFeatureAccordionItem({
               title="View High End Diagnostic details"
             >
               <span>View Details</span>
-            </button>
-          )}
-
-          {id === 'global-cover' && onOpenGlobalCoverModal && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpenGlobalCoverModal();
-              }}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/25 hover:bg-[#0038A8] hover:text-white transition-all duration-200 cursor-pointer shadow-2xs group select-none shrink-0"
-              title="View Global Cover Details"
-            >
-              <span>View Global Cover Details</span>
             </button>
           )}
 
