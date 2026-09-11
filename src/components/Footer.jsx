@@ -11,6 +11,9 @@ import {
 } from 'react-icons/fi';
 import logoImg from '../assets/logo.png';
 
+export const WHYINSURED_CONTACT_EMAIL = "whyinsured3@gmail.com";
+export const FOOTER_CONTACT_EMAIL = WHYINSURED_CONTACT_EMAIL;
+
 export default function Footer() {
   const [activeModal, setActiveModal] = useState(null); // 'privacy' | 'terms' | 'disclaimer'
 
@@ -152,13 +155,13 @@ export default function Footer() {
                 </p>
 
                 <a
-                  href="mailto:whyinsured3@gmail.com"
+                  href={`mailto:${FOOTER_CONTACT_EMAIL}`}
                   className="group inline-flex items-center gap-2 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 text-slate-200 hover:text-emerald-400 transition-all duration-200 cursor-pointer text-xs font-semibold shadow-xs"
                 >
                   <div className="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
                     <FiMail className="text-xs" />
                   </div>
-                  <span className="truncate">whyinsured3@gmail.com</span>
+                  <span className="truncate">{FOOTER_CONTACT_EMAIL}</span>
                   <FiArrowUpRight className="text-[10px] opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
                 </a>
               </div>
