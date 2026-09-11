@@ -123,6 +123,14 @@ export default function Navbar() {
     }
   };
 
+  const handleLogoClick = () => {
+    setDropdownOpen(false);
+    setHoveredCompanyId(null);
+    setCompareDropdownOpen(false);
+    sessionStorage.removeItem('whyinsured_last_search_query');
+    window.dispatchEvent(new CustomEvent('whyinsured-reset-search'));
+  };
+
   return (
     <nav 
       className={`fixed top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl z-50 font-sans transition-all duration-300 ${
@@ -138,10 +146,7 @@ export default function Navbar() {
           {/* Left Brand Logo */}
           <Link
             to="/"
-            onClick={() => {
-              setDropdownOpen(false);
-              setHoveredCompanyId(null);
-            }}
+            onClick={handleLogoClick}
             className="flex items-center shrink-0 cursor-pointer"
           >
             <Logo className="h-8 sm:h-9" />
@@ -498,7 +503,7 @@ export default function Navbar() {
 
         {/* Mobile Layout */}
         <div className="md:hidden flex items-center justify-between h-10 w-full py-1">
-          <Link to="/" className="flex items-center shrink-0 cursor-pointer">
+          <Link to="/" onClick={handleLogoClick} className="flex items-center shrink-0 cursor-pointer">
             <Logo className="h-7" />
           </Link>
           <Link

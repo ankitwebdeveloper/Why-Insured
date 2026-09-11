@@ -17,40 +17,50 @@ export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchContainerRef = useRef(null);
 
-  // Initialize query from URL search params or sessionStorage
+  // Initialize query from URL search params (always clean unless explicitly in URL)
   const [searchQuery, setSearchQuery] = useState(() => {
-    const urlQ = searchParams.get('q');
-    if (urlQ) return urlQ;
-    const storedQ = sessionStorage.getItem('whyinsured_last_search_query');
-    return storedQ || '';
+    return searchParams.get('q') || '';
   });
 
   const [showMobileInsurance, setShowMobileInsurance] = useState(false);
 
-  // Synchronize state when URL query param changes (e.g. browser Back / Forward navigation)
+  // Synchronize state when URL query param changes (e.g. browser Back / Forward navigation or logo click)
   useEffect(() => {
-    const urlQuery = searchParams.get('q');
-    if (urlQuery !== null && urlQuery !== searchQuery) {
+    const urlQuery = searchParams.get('q') || '';
+    if (urlQuery !== searchQuery) {
       setSearchQuery(urlQuery);
-      if (urlQuery) {
-        sessionStorage.setItem('whyinsured_last_search_query', urlQuery);
-      } else {
-        sessionStorage.removeItem('whyinsured_last_search_query');
-      }
     }
   }, [searchParams]);
 
-  // Update query state, URL parameters, and session storage
+  // Update query state and URL parameters
   const handleSearchChange = (val) => {
     setSearchQuery(val);
     if (val && val.trim()) {
-      sessionStorage.setItem('whyinsured_last_search_query', val);
       setSearchParams({ q: val }, { replace: true });
     } else {
       sessionStorage.removeItem('whyinsured_last_search_query');
       setSearchParams({}, { replace: true });
     }
   };
+
+  // Listen for global search reset event (e.g. when user clicks WHYINSURED logo)
+  useEffect(() => {
+    const handleResetSearch = () => {
+      setSearchQuery('');
+      sessionStorage.removeItem('whyinsured_last_search_query');
+      setSearchParams({}, { replace: true });
+    };
+
+    window.addEventListener('whyinsured-reset-search', handleResetSearch);
+    return () => window.removeEventListener('whyinsured-reset-search', handleResetSearch);
+  }, [setSearchParams]);
+
+  // Clean up any search query storage when leaving the Home page
+  useEffect(() => {
+    return () => {
+      sessionStorage.removeItem('whyinsured_last_search_query');
+    };
+  }, []);
 
   // Close search results ONLY when user explicitly clicks/taps outside search area
   useEffect(() => {

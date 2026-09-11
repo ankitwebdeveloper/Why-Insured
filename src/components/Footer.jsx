@@ -56,7 +56,14 @@ export default function Footer() {
 
             {/* 1. COLUMN 1: WHYINSURED (lg: col-span-4) */}
             <div className="lg:col-span-4 space-y-4 text-left">
-              <Link to="/" className="inline-flex items-center gap-2 group">
+              <Link
+                to="/"
+                onClick={() => {
+                  sessionStorage.removeItem('whyinsured_last_search_query');
+                  window.dispatchEvent(new CustomEvent('whyinsured-reset-search'));
+                }}
+                className="inline-flex items-center gap-2 group"
+              >
                 <div className="bg-white/95 rounded-xl p-2 shadow-xs border border-slate-700/40 inline-flex items-center justify-center">
                   <img
                     src={logoImg}
@@ -94,6 +101,12 @@ export default function Footer() {
                   <li key={idx}>
                     <Link
                       to={link.path}
+                      onClick={() => {
+                        if (link.path === '/') {
+                          sessionStorage.removeItem('whyinsured_last_search_query');
+                          window.dispatchEvent(new CustomEvent('whyinsured-reset-search'));
+                        }
+                      }}
                       className="text-slate-400 hover:text-white hover:translate-x-1 transition-all duration-200 inline-flex items-center gap-1.5 group cursor-pointer"
                     >
                       <span className="text-slate-600 group-hover:text-emerald-400 transition-colors">•</span>
