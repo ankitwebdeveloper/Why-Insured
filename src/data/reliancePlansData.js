@@ -301,7 +301,7 @@ export const RELIANCE_PLANS_DATA = {
       // -----------------------------------------------------------------------
       {
         id: 'value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -391,7 +391,7 @@ export const RELIANCE_PLANS_DATA = {
       // -----------------------------------------------------------------------
       {
         id: 'optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {

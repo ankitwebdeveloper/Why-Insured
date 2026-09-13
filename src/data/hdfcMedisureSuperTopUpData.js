@@ -385,10 +385,10 @@ export const hdfcMedisureSuperTopUpData = {
       ]
     },
 
-    // --- SECTION 2: VALUE ADDED ---
+    // --- SECTION 2: valueAdded ---
     {
       id: 'sec-value-added',
-      title: 'VALUE ADDED',
+      title: 'valueAdded',
       subtitle: 'Policy waiting periods and disease-specific timelines',
       gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
       items: [
@@ -434,10 +434,10 @@ export const hdfcMedisureSuperTopUpData = {
       items: []
     },
 
-    // --- SECTION 4: OPTIONAL (ADD-ONS) ---
+    // --- SECTION 4: optional (ADD-ONS) ---
     {
       id: 'sec-optional',
-      title: 'OPTIONAL',
+      title: 'optional',
       subtitle: 'Optional add-on covers to customize your protection',
       gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
       items: [

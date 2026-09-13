@@ -324,10 +324,10 @@ export const hdfcEnergyPlanData = {
       ]
     },
 
-    // --- SECTION 2: VALUE ADDED ---
+    // --- SECTION 2: valueAdded ---
     {
       id: 'sec-value-added',
-      title: 'VALUE ADDED',
+      title: 'valueAdded',
       subtitle: 'Pre/post hospitalization, restoration and bonus multipliers',
       gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
       items: [
@@ -425,10 +425,10 @@ export const hdfcEnergyPlanData = {
       ]
     },
 
-    // --- SECTION 4: OPTIONAL ---
+    // --- SECTION 4: optional ---
     {
       id: 'sec-optional',
-      title: 'OPTIONAL',
+      title: 'optional',
       subtitle: 'Optional riders, eligibility rules and health check-up tiers',
       gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
       items: [

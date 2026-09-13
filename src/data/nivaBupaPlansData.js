@@ -254,7 +254,7 @@ export const NIVA_BUPA_PLANS_DATA = {
     featuresSections: [
       {
         id: 'sec-1',
-        title: 'MOST IMPORTANT FEATURES',
+        title: 'MOST IMPORTANT',
         gridCols: 'grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -301,7 +301,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'sec-2',
-        title: 'VALUE ADDED FEATURES',
+        title: 'valueAdded',
         gridCols: 'grid-cols-2 sm:grid-cols-2',
         items: [
           {
@@ -351,7 +351,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'sec-3',
-        title: 'ADDITIONAL FEATURES',
+        title: 'ADDITIONAL',
         gridCols: 'grid-cols-2 sm:grid-cols-2',
         items: [
           {
@@ -390,7 +390,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'sec-4',
-        title: 'OPTIONAL RIDERS (ADD-ONS)',
+        title: 'optional',
         gridCols: 'grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -614,7 +614,7 @@ export const NIVA_BUPA_PLANS_DATA = {
     featuresSections: [
       {
         id: 'sec-1',
-        title: 'MOST IMPORTANT FEATURES',
+        title: 'MOST IMPORTANT',
         gridCols: 'grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -661,7 +661,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'sec-2',
-        title: 'VALUE ADDED FEATURES',
+        title: 'valueAdded',
         gridCols: 'grid-cols-2 sm:grid-cols-2',
         items: [
           {
@@ -702,7 +702,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'sec-3',
-        title: 'ADDITIONAL FEATURES',
+        title: 'ADDITIONAL',
         gridCols: 'grid-cols-2 sm:grid-cols-2',
         items: [
           {
@@ -741,7 +741,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'sec-4',
-        title: 'OPTIONAL RIDERS (ADD-ONS)',
+        title: 'optional',
         gridCols: 'grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -956,7 +956,7 @@ export const NIVA_BUPA_PLANS_DATA = {
     featuresSections: [
       {
         id: 'sec-1',
-        title: 'MOST IMPORTANT FEATURES',
+        title: 'MOST IMPORTANT',
         gridCols: 'grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1003,7 +1003,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'sec-2',
-        title: 'VALUE ADDED FEATURES',
+        title: 'valueAdded',
         gridCols: 'grid-cols-2 sm:grid-cols-2',
         items: [
           {
@@ -1043,7 +1043,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'sec-3',
-        title: 'ADDITIONAL FEATURES',
+        title: 'ADDITIONAL',
         gridCols: 'grid-cols-2 sm:grid-cols-2',
         items: [
           {
@@ -1082,7 +1082,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'sec-4',
-        title: 'OPTIONAL RIDERS (ADD-ONS)',
+        title: 'optional',
         gridCols: 'grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1330,7 +1330,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       // -----------------------------------------------------------------------
       {
         id: 'most-important',
-        title: 'MOST IMPORTANT BENEFITS',
+        title: 'MOST IMPORTANT',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1380,7 +1380,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       // -----------------------------------------------------------------------
       {
         id: 'value-added',
-        title: 'VALUE ADDED SERVICES',
+        title: 'valueAdded',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1480,7 +1480,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       // -----------------------------------------------------------------------
       {
         id: 'additional',
-        title: 'ADDITIONAL FEATURES',
+        title: 'ADDITIONAL',
         gridCols: 'grid-cols-1 sm:grid-cols-2',
         items: [
           {
@@ -1765,7 +1765,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1842,7 +1842,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -2172,7 +2172,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -2294,7 +2294,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       },
       {
         id: 'optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -2624,7 +2624,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       // -----------------------------------------------------------------------
       {
         id: 'value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -2686,20 +2686,6 @@ export const NIVA_BUPA_PLANS_DATA = {
               'Unlimited Tele-consultation',
               '24/7 digital tele-consultations with general physicians and specialists',
               'Instant digital prescriptions and medical advice'
-            ]
-          },
-          {
-            id: 'rea-safeguard-plus',
-            title: 'Safeguard+ (Optional Rider)',
-            subtitle: 'Non-Payable Medical Consumables Covered',
-            badge: 'OPTIONAL RIDER',
-            iconType: 'shield',
-            summary: 'Optional rider providing complete coverage for non-payable medical consumable items (gloves, PPE kits, syringes, etc.).',
-            isRider: true,
-            points: [
-              'Safeguard+ (Optional Rider)',
-              'Coverage for non-payable medical items such as gloves, syringes, and PPE kits',
-              'Maximum out-of-pocket savings during hospitalisation'
             ]
           }
         ]
@@ -2773,7 +2759,7 @@ export const NIVA_BUPA_PLANS_DATA = {
       // -----------------------------------------------------------------------
       {
         id: 'optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {

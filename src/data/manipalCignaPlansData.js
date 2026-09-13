@@ -887,7 +887,7 @@ export const MANIPAL_CIGNA_PLANS_DATA = {
       // --- SECTION 2: VALUE ADDED ---
       {
         id: 'sec-value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         subtitle: 'Wellness check-ups, advanced surgeries, and alternative care',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
         items: [
@@ -977,7 +977,7 @@ export const MANIPAL_CIGNA_PLANS_DATA = {
       // --- SECTION 4: OPTIONAL ---
       {
         id: 'sec-optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         subtitle: 'Optional riders and add-on covers',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
         items: []
@@ -1471,7 +1471,7 @@ export const MANIPAL_CIGNA_PLANS_DATA = {
       // --- SECTION 2: VALUE ADDED ---
       {
         id: 'sec-value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         subtitle: 'Wellness rewards, discounts, and tele-consultation benefits',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
         items: [
@@ -1615,26 +1615,7 @@ export const MANIPAL_CIGNA_PLANS_DATA = {
             videoTitle: 'Common Carrier Benefit',
             videoUrl: DEMO_VIDEO_URL
           },
-          {
-            id: 'su-a4',
-            title: 'Temporary Total Disablement (TTD)',
-            subtitle: 'Fixed weekly benefit options from ₹5,000 to ₹1L for maximum 100 weeks.',
-            summary: 'Fixed weekly benefit options from ₹5,000 to ₹1L for maximum 100 weeks.',
-            badge: 'UP TO ₹1L/WEEK',
-            iconType: 'clock',
-            videoTitle: 'Temporary Total Disablement (TTD)',
-            videoUrl: DEMO_VIDEO_URL
-          },
-          {
-            id: 'su-a5',
-            title: 'Air Ambulance',
-            subtitle: 'Up to SI, maximum ₹10L.',
-            summary: 'Up to SI, maximum ₹10L.',
-            badge: 'MAX ₹10L',
-            iconType: 'zap',
-            videoTitle: 'Air Ambulance',
-            videoUrl: DEMO_VIDEO_URL
-          },
+
           {
             id: 'su-a6',
             title: 'Aggregate Deductible',
@@ -1665,16 +1646,7 @@ export const MANIPAL_CIGNA_PLANS_DATA = {
             videoTitle: 'Voluntary Co-payment',
             videoUrl: DEMO_VIDEO_URL
           },
-          {
-            id: 'su-a9',
-            title: 'Extension of Specific Disease Waiting Period',
-            subtitle: 'Optional extension to 36 months.',
-            summary: 'Optional extension to 36 months.',
-            badge: 'OPTIONAL EXTENSION',
-            iconType: 'clock',
-            videoTitle: 'Extension of Specific Disease Waiting Period',
-            videoUrl: DEMO_VIDEO_URL
-          },
+
           {
             id: 'su-a10',
             title: 'Waiting Periods',
@@ -1691,7 +1663,7 @@ export const MANIPAL_CIGNA_PLANS_DATA = {
       // --- SECTION 4: OPTIONAL ---
       {
         id: 'sec-optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         subtitle: 'Customizable riders and elective coverage extensions',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
         items: [
@@ -2292,7 +2264,7 @@ export const MANIPAL_CIGNA_PLANS_DATA = {
       // --- SECTION 2: VALUE ADDED ---
       {
         id: 'sec-value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         subtitle: 'Wellness rewards, premium discounts, and digital health services',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
         items: [
@@ -2502,7 +2474,7 @@ export const MANIPAL_CIGNA_PLANS_DATA = {
       // --- SECTION 4: OPTIONAL ---
       {
         id: 'sec-optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         subtitle: 'Customizable riders, elective covers, and flexible policy modifications',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
         items: [

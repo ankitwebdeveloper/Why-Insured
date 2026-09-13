@@ -317,7 +317,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
     featuresSections: [
       {
         id: 'base-covers',
-        title: 'BASE COVERS',
+        title: 'MOST IMPORTANT',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -470,7 +470,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
       },
       {
         id: 'additional-covers',
-        title: 'ADDITIONAL COVERS',
+        title: 'ADDITIONAL',
         gridCols: 'grid-cols-1 sm:grid-cols-2',
         items: [
           {
@@ -528,7 +528,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
       },
       {
         id: 'optional-covers',
-        title: 'OPTIONAL COVERS',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2',
         items: [
           {
@@ -727,7 +727,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
     featuresSections: [
       {
         id: 'base-covers',
-        title: 'BASE COVERS',
+        title: 'MOST IMPORTANT',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -855,7 +855,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
       },
       {
         id: 'additional-covers',
-        title: 'ADDITIONAL COVERS',
+        title: 'ADDITIONAL',
         gridCols: 'grid-cols-1 sm:grid-cols-2',
         items: [
           {
@@ -911,7 +911,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
       },
       {
         id: 'optional-covers',
-        title: 'OPTIONAL COVERS',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1119,7 +1119,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
     featuresSections: [
       {
         id: 'base-covers',
-        title: 'BASE COVERS',
+        title: 'MOST IMPORTANT',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1247,7 +1247,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
       },
       {
         id: 'additional-covers',
-        title: 'ADDITIONAL COVERS',
+        title: 'ADDITIONAL',
         gridCols: 'grid-cols-1 sm:grid-cols-2',
         items: [
           {
@@ -1303,7 +1303,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
       },
       {
         id: 'optional-covers',
-        title: 'OPTIONAL COVERS',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1516,7 +1516,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
     featuresSections: [
       {
         id: 'base-covers',
-        title: 'BASE COVERS',
+        title: 'MOST IMPORTANT',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1644,7 +1644,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
       },
       {
         id: 'additional-covers',
-        title: 'ADDITIONAL COVERS',
+        title: 'ADDITIONAL',
         gridCols: 'grid-cols-1 sm:grid-cols-2',
         items: [
           {
@@ -1699,7 +1699,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
       },
       {
         id: 'optional-covers',
-        title: 'OPTIONAL COVERS',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1906,7 +1906,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
     featuresSections: [
       {
         id: 'basic-covers',
-        title: 'BASIC COVERS',
+        title: 'MOST IMPORTANT',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -2040,7 +2040,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
       },
       {
         id: 'additional-covers',
-        title: 'ADDITIONAL COVERS',
+        title: 'ADDITIONAL',
         gridCols: 'grid-cols-1 sm:grid-cols-2',
         items: [
           {
@@ -2095,7 +2095,7 @@ export const SUPER_STAR_VARIANTS_DATA = {
       },
       {
         id: 'optional-covers',
-        title: 'OPTIONAL COVERS',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {

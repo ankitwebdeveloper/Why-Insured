@@ -29,14 +29,17 @@ import {
   FiActivity,
   FiGlobe,
   FiAward,
-  FiInfo
+  FiInfo,
+  FiAlertTriangle
 } from 'react-icons/fi';
+import { LuBed, LuBedDouble, LuBedSingle } from 'react-icons/lu';
 import { getTataAigPlanData, resolveTataAigPlanId } from '../data/tataAigPlansData';
 import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
 import BenefitSearchBar from './BenefitSearchBar';
 import { getFilteredAndPrioritizedFeaturesSections, getBenefitSearchResults } from '../utils/benefitSearchHelper';
 import { scrollToBenefitCard } from '../utils/scrollToBenefitCard';
 import TataAigMedicareSelectVariantSelector from './TataAigMedicareSelectVariantSelector';
+import RoomCategoryModal from './RoomCategoryModal';
 
 // Default demo video
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -197,7 +200,8 @@ function TataAigFeatureAccordionItem({
   onOpenDetailsModal,
   onOpenDiagnosticModal,
   onOpenGlobalCoverModal,
-  demoVideoUrl
+  demoVideoUrl,
+  hideExpandedBody = false
 }) {
   const itemRef = React.useRef(null);
   const { id, title, subtitle, summary, badge, points, steps, tierData, hasDetailsModal, detailsModalTitle, detailsModalContent, isRider, iconType } = item;
@@ -295,9 +299,9 @@ function TataAigFeatureAccordionItem({
         </div>
       </div>
 
-      {/* Expanded Summary & Details */}
+      {/* Expanded Summary & Details (Suppressed if hideExpandedBody is true) */}
       <AnimatePresence initial={false}>
-        {isExpanded && (
+        {isExpanded && !hideExpandedBody && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
@@ -374,6 +378,7 @@ function TataAigFeatureAccordionItem({
                   </div>
                 </div>
               )}
+
               {/* Action Button for Global Cover */}
               {id === 'global-cover' && onOpenGlobalCoverModal && (
                 <div className="pt-2">
@@ -755,6 +760,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
   });
   const [isDiagnosticModalOpen, setIsDiagnosticModalOpen] = useState(false);
   const [isGlobalCoverModalOpen, setIsGlobalCoverModalOpen] = useState(false);
+  const [isRoomCategoryModalOpen, setIsRoomCategoryModalOpen] = useState(false);
   const [videoModalState, setVideoModalState] = useState({
     isOpen: false,
     title: '',
@@ -830,6 +836,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     setDetailsModalState({ isOpen: false, title: '', content: '' });
     setIsDiagnosticModalOpen(false);
     setIsGlobalCoverModalOpen(false);
+    setIsRoomCategoryModalOpen(false);
     setVideoModalState({ isOpen: false, title: '', url: '' });
     setExpandedReportCard({ csr: false, icr: false, complaint: false });
     setExpandedCompanyStrength({
@@ -845,7 +852,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
 
   // Lock background body scroll when modal is active
   useEffect(() => {
-    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen || isDiagnosticModalOpen || isGlobalCoverModalOpen) {
+    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen || isDiagnosticModalOpen || isGlobalCoverModalOpen || isRoomCategoryModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -853,7 +860,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen, isDiagnosticModalOpen, isGlobalCoverModalOpen]);
+  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen, isDiagnosticModalOpen, isGlobalCoverModalOpen, isRoomCategoryModalOpen]);
 
   const handleOpenVideo = (title, url) => {
     setVideoModalState({
@@ -1012,7 +1019,13 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     item={item}
                     index={itemIdx}
                     isExpanded={expandedFeatureId === item.id}
-                    onToggle={toggleAccordionItem}
+                    onToggle={(id, ref) => {
+                      if (id === 'select-room-category') {
+                        setIsRoomCategoryModalOpen(true);
+                      } else {
+                        toggleAccordionItem(id, ref);
+                      }
+                    }}
                     onOpenVideo={handleOpenVideo}
                     onOpenDetailsModal={handleOpenDetailsModal}
                     onOpenDiagnosticModal={() => setIsDiagnosticModalOpen(true)}
@@ -1063,24 +1076,29 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                 <button
                   type="button"
                   onClick={handleCloseDetailsModal}
-                  className="absolute top-4 right-4 w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors"
+                  className="absolute top-4 right-4 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors cursor-pointer"
                 >
-                  <FiX className="text-sm" />
+                  <FiX className="text-sm sm:text-base" />
                 </button>
-                <div className="flex items-center gap-2 mb-3 pr-6">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#0038A8]" />
-                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900 font-display">
-                    {detailsModalState.title}
-                  </h3>
+
+                <div className="pr-6 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#0038A8]" />
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 font-display">
+                      {detailsModalState.title}
+                    </h3>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
+                    {detailsModalState.content}
+                  </p>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
-                  {detailsModalState.content}
-                </p>
-                <div className="mt-4 pt-3 border-t border-slate-100 text-right">
+
+                <div className="mt-5 pt-3 border-t border-slate-100 flex justify-end">
                   <button
                     type="button"
                     onClick={handleCloseDetailsModal}
-                    className="px-4 py-1.5 rounded-lg bg-[#0038A8] text-white text-xs font-bold hover:bg-[#002670] transition-colors"
+                    className="px-5 py-2 rounded-xl bg-[#0038A8] text-white text-xs font-bold hover:bg-[#002670] transition-colors shadow-2xs cursor-pointer select-none"
                   >
                     Got It
                   </button>
@@ -1106,6 +1124,20 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             <GlobalCoverDetailsModal
               isOpen={isGlobalCoverModalOpen}
               onClose={() => setIsGlobalCoverModalOpen(false)}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* FLOATING ROOM CATEGORY DETAILS MODAL */}
+        <AnimatePresence>
+          {isRoomCategoryModalOpen && (
+            <RoomCategoryModal
+              isOpen={isRoomCategoryModalOpen}
+              onClose={() => setIsRoomCategoryModalOpen(false)}
+              item={planData?.featuresSections?.flatMap(s => s.items).find(i => i.id === 'select-room-category')}
+              primaryColor={uiConfig.primaryColor || '#0038A8'}
+              onOpenVideo={handleOpenVideo}
+              demoVideoUrl={demoVideoUrl}
             />
           )}
         </AnimatePresence>

@@ -240,12 +240,11 @@ export const ICICI_LOMBARD_PLANS_DATA = {
     // --- 5. POLICY BENEFITS (4 CLEAN CATEGORIES) ---
     featuresSections: [
       // ───────────────────────────────────────────────────────────────────────
-      // CATEGORY 1: MOST IMPORTANT FEATURES (VISUALLY PROMINENT)
+      // CATEGORY 1: MOST IMPORTANT
       // ───────────────────────────────────────────────────────────────────────
       {
         id: 'sec-most-important',
-        title: 'MOST IMPORTANT FEATURES',
-        isProminent: true,
+        title: 'MOST IMPORTANT',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -294,11 +293,11 @@ export const ICICI_LOMBARD_PLANS_DATA = {
       },
 
       // ───────────────────────────────────────────────────────────────────────
-      // CATEGORY 2: ADDITIONAL FEATURES
+      // CATEGORY 2: valueAdded
       // ───────────────────────────────────────────────────────────────────────
       {
-        id: 'sec-additional-features',
-        title: 'ADDITIONAL FEATURES',
+        id: 'sec-value-added',
+        title: 'valueAdded',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -329,6 +328,69 @@ export const ICICI_LOMBARD_PLANS_DATA = {
             badge: '20% TO 100% BONUS',
             iconType: 'trending'
           },
+          {
+            id: 'elevate-disc-credit-score',
+            title: 'Credit Score Based Discount',
+            subtitle: 'Up to 15% in Premium+ Based on Score',
+            summary: 'Get up to a 15% discount in Premium+ based on maintaining a good credit score / financial track record.',
+            points: [
+              'Up to 15% discount based on healthy credit score',
+              'Applies directly to the Premium+ policy tier',
+              'Rewards financially disciplined policyholders'
+            ],
+            badge: 'UP TO 15% OFF',
+            iconType: 'credit'
+          },
+          {
+            id: 'elevate-disc-wellness',
+            title: 'Wellness Discount',
+            subtitle: 'Up to 30% on Renewal by Redeeming Points',
+            summary: 'Earn up to a 30% discount on renewal premium by actively completing wellness activities, step tracking, and health screenings.',
+            points: [
+              'Up to 30% renewal discount earned via health habits',
+              'Includes step tracking, fitness milestones & regular checkups',
+              'Encourages continuous active wellness and lifestyle fitness'
+            ],
+            badge: 'UP TO 30% OFF',
+            iconType: 'heart'
+          },
+          {
+            id: 'elevate-disc-family',
+            title: 'Family Discount',
+            subtitle: 'Up to 10% for 2 or More Family Members',
+            summary: 'Get up to a 10% discount on total premium when covering 2 or more family members under an individual or family floater structure.',
+            points: [
+              'Up to 10% discount covering 2+ family members',
+              'Applicable across both individual and floater policies',
+              'Significant annual savings for multi-member families'
+            ],
+            badge: 'UP TO 10% OFF',
+            iconType: 'users'
+          },
+          {
+            id: 'elevate-disc-tenure',
+            title: 'Tenure Discount',
+            subtitle: 'Up to 10% for Choosing 2 or 3 Year Policies',
+            summary: 'Save up to 10% on policy premium by locking in multi-year healthcare coverage for 2 or 3 years in advance.',
+            points: [
+              'Up to 10% discount for 2 or 3-year upfront policy terms',
+              'Locks in current premium rates against annual inflation',
+              'Eliminates annual renewal paperwork and hassle'
+            ],
+            badge: 'UP TO 10% OFF',
+            iconType: 'calendar'
+          }
+        ]
+      },
+
+      // ───────────────────────────────────────────────────────────────────────
+      // CATEGORY 3: ADDITIONAL
+      // ───────────────────────────────────────────────────────────────────────
+      {
+        id: 'sec-additional',
+        title: 'ADDITIONAL',
+        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+        items: [
           {
             id: 'elevate-road-ambulance',
             title: 'Road Ambulance Cover Available',
@@ -372,11 +434,11 @@ export const ICICI_LOMBARD_PLANS_DATA = {
       },
 
       // ───────────────────────────────────────────────────────────────────────
-      // CATEGORY 3: OPTIONAL RIDERS
+      // CATEGORY 4: optional
       // ───────────────────────────────────────────────────────────────────────
       {
-        id: 'sec-optional-riders',
-        title: 'OPTIONAL RIDERS',
+        id: 'sec-optional',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -518,71 +580,6 @@ export const ICICI_LOMBARD_PLANS_DATA = {
             isRider: true,
             badge: 'OPTIONAL RIDER',
             iconType: 'activity'
-          }
-        ]
-      },
-
-      // ───────────────────────────────────────────────────────────────────────
-      // CATEGORY 4: DISCOUNTS (DEDICATED SUBSECTION WITHIN POLICY BENEFITS)
-      // ───────────────────────────────────────────────────────────────────────
-      {
-        id: 'sec-discounts',
-        title: 'DISCOUNTS',
-        isDiscountSection: true,
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
-        items: [
-          {
-            id: 'elevate-disc-credit-score',
-            title: 'Credit Score Based Discount',
-            subtitle: 'Up to 15% in Premium+ Based on Score',
-            summary: 'Get up to a 15% discount in Premium+ based on maintaining a good credit score / financial track record.',
-            points: [
-              'Up to 15% discount based on healthy credit score',
-              'Applies directly to the Premium+ policy tier',
-              'Rewards financially disciplined policyholders'
-            ],
-            badge: 'UP TO 15% OFF',
-            iconType: 'credit'
-          },
-          {
-            id: 'elevate-disc-wellness',
-            title: 'Wellness Discount',
-            subtitle: 'Up to 30% on Renewal by Redeeming Points',
-            summary: 'Get up to 30% discount on renewal premium by tracking healthy activities, logging steps, and redeeming wellness points in the subsequent year.',
-            points: [
-              'Up to 30% discount on subsequent year renewal premium',
-              'Earn points via daily step tracking and health assessments',
-              'Direct financial rewards for maintaining an active lifestyle'
-            ],
-            badge: 'UP TO 30% OFF',
-            iconType: 'award'
-          },
-          {
-            id: 'elevate-disc-early-renewal',
-            title: 'Early Renewal Discount',
-            subtitle: '2.5% Discount for Renewal >30 Days Early',
-            summary: 'Get a 2.5% discount on policy renewal premium by completing the renewal process 30 days before policy expiry.',
-            points: [
-              '2.5% discount on renewal premium',
-              'Valid for policy renewals initiated 30+ days in advance',
-              'Instant discount applied at time of renewal checkout'
-            ],
-            badge: '2.5% EARLY OFF',
-            iconType: 'clock'
-          },
-          {
-            id: 'elevate-disc-long-tenure',
-            title: 'Long Tenure Discount (2/3/4/5 yrs)',
-            subtitle: 'Up to 10% on 2nd Year & 15% on 3rd-5th Years',
-            summary: 'Multi-year policy discount offering up to 10% discount for the 2nd year and 15% discount on the 3rd, 4th & 5th years’ premium.',
-            steps: ['1-Year: Standard', '2-Year: 10% Off 2nd Yr', '3-Year: 15% Off 3rd Yr', '4-5 Year: 15% Off'],
-            points: [
-              'Up to 10% discount on the 2nd year’s premium',
-              '15% discount on the 3rd, 4th & 5th years’ premium',
-              'Locks in coverage and protects against annual premium hikes'
-            ],
-            badge: 'UP TO 15% TENURE OFF',
-            iconType: 'dollar'
           }
         ]
       }
@@ -1025,7 +1022,7 @@ export const ICICI_LOMBARD_PLANS_DATA = {
       // ───────────────────────────────────────────────────────────────────────
       {
         id: 'value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1244,7 +1241,7 @@ export const ICICI_LOMBARD_PLANS_DATA = {
       // ───────────────────────────────────────────────────────────────────────
       {
         id: 'optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {

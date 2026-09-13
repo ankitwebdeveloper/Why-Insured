@@ -578,7 +578,7 @@ export const ADITYA_BIRLA_PLANS_DATA = {
       // ───────────────────────────────────────────────────────────────────────
       {
         id: 'sec-value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         isProminent: false,
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
@@ -658,18 +658,7 @@ export const ADITYA_BIRLA_PLANS_DATA = {
             badge: '₹10,000 / YEAR',
             iconType: 'shield'
           },
-          {
-            id: 'onemax-ppn-discount',
-            title: 'Preferred Provider Network (PPN) Discount',
-            subtitle: 'Special Premium Saving on Designated Hospital Network',
-            summary: '10% discount applicable under the optional PPN benefit.',
-            points: [
-              '10% discount applicable under the optional PPN benefit',
-              'Avail significant premium discount when choosing quality treatment at top PPN hospital partners'
-            ],
-            badge: '10% DISCOUNT',
-            iconType: 'dollar'
-          }
+
         ]
       },
 
@@ -754,7 +743,7 @@ export const ADITYA_BIRLA_PLANS_DATA = {
       // ───────────────────────────────────────────────────────────────────────
       {
         id: 'sec-optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         isProminent: false,
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
@@ -1364,7 +1353,7 @@ export const ADITYA_BIRLA_PLANS_DATA = {
       // ───────────────────────────────────────────────────────────────────────
       {
         id: 'sec-value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         isProminent: false,
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
         items: [
@@ -1496,7 +1485,7 @@ export const ADITYA_BIRLA_PLANS_DATA = {
       // ───────────────────────────────────────────────────────────────────────
       {
         id: 'sec-optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         isProminent: false,
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
@@ -1998,7 +1987,7 @@ export const ADITYA_BIRLA_PLANS_DATA = {
       // ───────────────────────────────────────────────────────────────────────
       {
         id: 'sec-value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         isProminent: false,
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
@@ -2053,18 +2042,7 @@ export const ADITYA_BIRLA_PLANS_DATA = {
         isProminent: false,
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
-          {
-            id: 'yuva-compassionate-visit',
-            title: 'Compassionate Visit',
-            subtitle: 'Family Travel Allowance During Hospitalization Outside City',
-            summary: 'Up to **INR 50,000** for 2-way travel fare for a family member if hospitalization exceeds **10 days outside the city of residence**.',
-            points: [
-              'Up to **INR 50,000** towards two-way travel fare for an immediate family member',
-              'Applicable if hospitalization exceeds **10 days outside the city of residence**'
-            ],
-            badge: 'UP TO INR 50,000',
-            iconType: 'users'
-          },
+
           {
             id: 'yuva-second-medical-opinion',
             title: 'Second Medical Opinion',
@@ -2121,7 +2099,7 @@ export const ADITYA_BIRLA_PLANS_DATA = {
       // ───────────────────────────────────────────────────────────────────────
       {
         id: 'sec-optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         isProminent: false,
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
@@ -2757,7 +2735,7 @@ export const ADITYA_BIRLA_PLANS_DATA = {
       // ───────────────────────────────────────────────────────────────────────
       {
         id: 'sec-value-added',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         isProminent: false,
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
         items: [
@@ -2794,17 +2772,7 @@ export const ADITYA_BIRLA_PLANS_DATA = {
             badge: 'HEALTHRETURNS',
             iconType: 'dollar'
           },
-          {
-            id: 'maxplus-advanced-checkup-va',
-            title: 'Advanced Health Check-up',
-            subtitle: 'High-End Diagnostic Screening',
-            summary: 'Advanced diagnostic investigations under Health Management Program.',
-            points: [
-              'Comprehensive advanced screening including CTA and PET scans'
-            ],
-            badge: 'ADVANCED SCREENING',
-            iconType: 'check'
-          }
+
         ]
       },
 
@@ -2908,7 +2876,7 @@ export const ADITYA_BIRLA_PLANS_DATA = {
       // ───────────────────────────────────────────────────────────────────────
       {
         id: 'sec-optional',
-        title: 'OPTIONAL',
+        title: 'optional',
         isProminent: false,
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [

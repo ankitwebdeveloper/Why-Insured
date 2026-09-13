@@ -458,10 +458,10 @@ export const optimaSecureData = {
       ]
     },
 
-    // --- SECTION 2: VALUE ADDED ---
+    // --- SECTION 2: valueAdded ---
     {
       id: 'sec-value-added',
-      title: 'VALUE ADDED',
+      title: 'valueAdded',
       gridCols: 'grid-cols-2 lg:grid-cols-3',
       items: [
         {
@@ -555,10 +555,10 @@ export const optimaSecureData = {
       ]
     },
 
-    // --- SECTION 4: OPTIONAL ---
+    // --- SECTION 4: optional ---
     {
       id: 'sec-optional',
-      title: 'OPTIONAL',
+      title: 'optional',
       gridCols: 'grid-cols-2 lg:grid-cols-3',
       items: []
     }

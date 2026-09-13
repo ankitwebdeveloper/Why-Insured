@@ -302,10 +302,10 @@ export const optimaSecurePlusData = {
   // 5. FEATURES SECTIONS / POLICY BENEFITS (MAIN FEATURES, VALUE ADDED, RIDERS)
   // ===========================================================================
   featuresSections: [
-    // --- SECTION 1: MOST IMPORTANT FEATURES ---
+    // --- SECTION 1: MOST IMPORTANT ---
     {
       id: 'sec-1',
-      title: 'MOST IMPORTANT FEATURES',
+      title: 'MOST IMPORTANT',
       subtitle: 'Essential hospitalisation coverage offered under Optima Secure+',
       gridCols: 'grid-cols-2 lg:grid-cols-3',
       items: [
@@ -367,10 +367,10 @@ export const optimaSecurePlusData = {
       ]
     },
 
-    // --- SECTION 2: VALUE ADDED FEATURES ---
+    // --- SECTION 2: valueAdded ---
     {
       id: 'sec-2',
-      title: 'VALUE ADDED FEATURES',
+      title: 'valueAdded',
       subtitle: 'Unique value-added benefits and multipliers',
       gridCols: 'grid-cols-2 lg:grid-cols-3',
       items: [
@@ -444,10 +444,10 @@ export const optimaSecurePlusData = {
       ]
     },
 
-    // --- SECTION 3: ADDITIONAL FEATURES ---
+    // --- SECTION 3: ADDITIONAL ---
     {
       id: 'sec-3',
-      title: 'ADDITIONAL FEATURES',
+      title: 'ADDITIONAL',
       subtitle: 'Daily allowances, ambulance, and specialized treatments',
       gridCols: 'grid-cols-2 lg:grid-cols-3',
       items: [
@@ -501,10 +501,10 @@ export const optimaSecurePlusData = {
       ]
     },
 
-    // --- SECTION 4: OPTIONAL RIDERS (ADD-ONS) ---
+    // --- SECTION 4: optional ---
     {
       id: 'sec-4',
-      title: 'OPTIONAL RIDERS (ADD-ONS)',
+      title: 'optional',
       subtitle: 'Customizable add-ons to enhance your protection',
       gridCols: 'grid-cols-2 lg:grid-cols-3',
       items: [

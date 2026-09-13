@@ -372,7 +372,7 @@ export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
       // 2. VALUE ADDED
       {
         id: 'value-added-features',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -468,7 +468,7 @@ export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
       // 4. OPTIONAL
       {
         id: 'optional-add-ons',
-        title: 'OPTIONAL',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2',
         items: [
           {
@@ -677,12 +677,17 @@ export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
             subtitle: 'Single Private Room',
             badge: 'SINGLE PRIVATE ROOM',
             iconType: 'home',
-            summary: 'Single Private Room covered with zero room rent capping and zero proportionate deductions across network hospitals.',
+            summary: 'You can choose Single Private Room with no room amount limit and no proportionate deductions.',
             points: [
-              'Single Private Room covered with zero daily rent limit',
-              'Zero proportionate deduction on room category',
-              'ICU / ICCU charges covered up to full Sum Insured'
-            ]
+              'You can choose Single Private Room with no room amount limit and no proportionate deductions',
+              'No proportionate deduction applies when you choose a room up to Single Private Room, across network hospitals',
+              'No ICU Limit: You can get ICU room accommodation without any separate monetary limit'
+            ],
+            sharedRoomBenefit: {
+              title: 'Shared Room Option',
+              badge: 'Lower Premium',
+              description: 'Choose a shared room instead of a Single Private Room and get a lower premium.'
+            }
           },
           {
             id: 'select-sublimit-copay',
@@ -742,7 +747,7 @@ export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
       // 2. VALUE ADDED
       {
         id: 'value-added-features',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -838,7 +843,7 @@ export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
       // 4. OPTIONAL
       {
         id: 'optional-add-ons',
-        title: 'OPTIONAL',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2',
         items: [
           {
@@ -1112,7 +1117,7 @@ export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
       // 2. VALUE ADDED
       {
         id: 'value-added-features',
-        title: 'VALUE ADDED',
+        title: 'valueAdded',
         gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
         items: [
           {
@@ -1223,7 +1228,7 @@ export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
       // 4. OPTIONAL
       {
         id: 'optional-add-ons',
-        title: 'OPTIONAL',
+        title: 'optional',
         gridCols: 'grid-cols-1 sm:grid-cols-2',
         items: [
           {

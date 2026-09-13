@@ -8,7 +8,6 @@ import {
   FiArrowRight, 
   FiX, 
   FiCheckCircle, 
-  FiAlertCircle,
   FiFilePlus
 } from 'react-icons/fi';
 import ClaimSolverModal from './ClaimSolverModal';
@@ -40,8 +39,7 @@ export const CLAIM_HELP_PROBLEMS = [
         title: "3. Review standard turnaround times (TAT)",
         desc: "Standard claim processing timelines typically range between 15 to 21 days after full document submission."
       }
-    ],
-    unresolvedTip: "If the turnaround time has passed without a clear reason, you can raise a formal grievance ticket with your insurer."
+    ]
   },
   {
     id: "amount-kam",
@@ -69,8 +67,7 @@ export const CLAIM_HELP_PROBLEMS = [
         title: "3. Request written clarification for unexplained deductions",
         desc: "If a deduction does not match policy clauses, you can request an itemized clarification from the insurer."
       }
-    ],
-    unresolvedTip: "If you notice a calculation error, you can submit a formal review request along with the final hospital bill and settlement summary."
+    ]
   },
   {
     id: "query",
@@ -98,8 +95,7 @@ export const CLAIM_HELP_PROBLEMS = [
         title: "3. Submit within the specified timeline",
         desc: "Most insurers provide 15 to 30 days to answer queries. Upload via the portal and retain acknowledgment receipts."
       }
-    ],
-    unresolvedTip: "A query is not a rejection; submitting complete and accurate documents on time helps processing move forward."
+    ]
   },
   {
     id: "rejected",
@@ -127,8 +123,7 @@ export const CLAIM_HELP_PROBLEMS = [
         title: "3. Submit a formal representation to the Grievance Cell",
         desc: "Submit an appeal to the Insurer's Grievance Redressal Officer (GRO) with supporting medical facts and policy references."
       }
-    ],
-    unresolvedTip: "If the issue remains unresolved after 30 days at the GRO level, policyholders can approach the Insurance Ombudsman for an impartial review."
+    ]
   },
   {
     id: "deduction",
@@ -155,8 +150,7 @@ export const CLAIM_HELP_PROBLEMS = [
         title: "3. Review itemized bill with hospital billing",
         desc: "Check with hospital billing to verify that no duplicate charges were entered on the final invoice."
       }
-    ],
-    unresolvedTip: "In most standard health plans, consumable items are paid out-of-pocket unless you hold a dedicated consumables rider."
+    ]
   },
   {
     id: "submission-confusion",
@@ -183,14 +177,13 @@ export const CLAIM_HELP_PROBLEMS = [
         title: "3. Retain digital backups before submitting",
         desc: "Keep clear digital scans of all pages before courier dispatch or portal upload."
       }
-    ],
-    unresolvedTip: "Complete your checklist and submit documents within the standard post-discharge window (usually 15–30 days)."
+    ]
   }
 ];
 
 export default function ClaimProblemCard() {
   const [selectedProblem, setSelectedProblem] = useState(null);
-  const [showContactModal, setShowContactModal] = useState(false);
+  const [showSolverModal, setShowSolverModal] = useState(false);
 
   const getBorderColor = (color) => {
     switch (color) {
@@ -266,8 +259,8 @@ export default function ClaimProblemCard() {
 
                 </div>
 
-                {/* Interactive Action Buttons */}
-                <div className="mt-6 pt-4 border-t border-slate-100 flex flex-col gap-2">
+                {/* Interactive Action Button */}
+                <div className="mt-6 pt-4 border-t border-slate-100">
                   <button
                     type="button"
                     onClick={() => setSelectedProblem(problem)}
@@ -275,18 +268,6 @@ export default function ClaimProblemCard() {
                   >
                     <span>Understand Solution</span>
                     <FiArrowRight className="text-slate-400 group-hover/btn:text-slate-700 group-hover/btn:translate-x-1 transition-all" />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowContactModal(true);
-                    }}
-                    className="w-full py-2.5 px-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
-                  >
-                    <FiCheckCircle className="text-xs text-emerald-400" />
-                    <span>Hire Your Personal Claim Solver</span>
                   </button>
                 </div>
 
@@ -391,44 +372,21 @@ export default function ClaimProblemCard() {
                 </div>
               </div>
 
-              {/* FLOW STEP 4: Unresolved advice */}
-              <div className="mt-6 bg-slate-900 text-white rounded-2xl p-4 sm:p-5 space-y-3">
-                <div className="flex items-center gap-2 text-emerald-400">
-                  <FiAlertCircle className="text-sm shrink-0" />
-                  <span className="text-[10px] font-black uppercase tracking-wider font-display">
-                    Still Unresolved?
-                  </span>
-                </div>
-                <p className="text-xs text-slate-300 font-medium leading-relaxed">
-                  {selectedProblem.unresolvedTip}
-                </p>
-                <div className="pt-1">
-                  <button
-                    type="button"
-                    onClick={() => setShowContactModal(true)}
-                    className="w-full sm:w-auto px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
-                  >
-                    <FiCheckCircle className="text-xs text-slate-950" />
-                    <span>Hire Your Personal Claim Solver</span>
-                  </button>
-                </div>
-              </div>
-
               {/* Modal Footer Controls */}
               <div className="mt-6 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <button
                   type="button"
-                  onClick={() => setShowContactModal(true)}
+                  onClick={() => setShowSolverModal(true)}
                   className="w-full sm:w-auto px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
                 >
                   <FiCheckCircle className="text-xs text-emerald-400" />
-                  <span>Hire Your Personal Claim Solver</span>
+                  <span>Assign Your Personal Claim Solver</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setSelectedProblem(null)}
-                  className="w-full sm:w-auto px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer text-center"
+                  className="w-full sm:w-auto px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer text-center"
                 >
                   Close
                 </button>
@@ -441,8 +399,8 @@ export default function ClaimProblemCard() {
 
       {/* Reusable Claim Solver Modal */}
       <ClaimSolverModal
-        isOpen={showContactModal}
-        onClose={() => setShowContactModal(false)}
+        isOpen={showSolverModal}
+        onClose={() => setShowSolverModal(false)}
       />
 
     </section>

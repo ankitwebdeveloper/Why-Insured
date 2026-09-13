@@ -8,12 +8,9 @@ import {
   FiChevronLeft,
   FiList, 
   FiArrowRight, 
-  FiX,
-  FiAlertCircle
+  FiX
 } from 'react-icons/fi';
 import ClaimSolverModal from './ClaimSolverModal';
-
-const STORAGE_KEY = "whyinsured_claim_preparation";
 
 export const PREP_STEPS = [
   {
@@ -75,27 +72,19 @@ export const PREP_STEPS = [
 ];
 
 export default function DocumentChecklist() {
-  const [checkedItems, setCheckedItems] = useState(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : {};
-    } catch (e) {
-      return {};
-    }
-  });
-
+  const [checkedItems, setCheckedItems] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showGuidance, setShowGuidance] = useState(false);
   const [showAllItemsModal, setShowAllItemsModal] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [showContactSoonModal, setShowContactSoonModal] = useState(false);
+  const [showSolverModal, setShowSolverModal] = useState(false);
 
-  // Sync to localStorage
+  // Clear any legacy persisted state from previous versions
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(checkedItems));
+      localStorage.removeItem("whyinsured_claim_preparation");
     } catch (e) {}
-  }, [checkedItems]);
+  }, []);
 
   const completedCount = Object.values(checkedItems).filter(Boolean).length;
   const totalCount = PREP_STEPS.length;
@@ -129,11 +118,6 @@ export default function DocumentChecklist() {
     }
   };
 
-  const handleClaimSolverClick = (e) => {
-    if (e) e.stopPropagation();
-    setShowContactSoonModal(true);
-  };
-
   const handleSelectStep = (idx) => {
     setCurrentIndex(idx);
     setShowGuidance(false);
@@ -146,7 +130,7 @@ export default function DocumentChecklist() {
     setShowGuidance(false);
     setShowResetConfirm(false);
     try {
-      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem("whyinsured_claim_preparation");
     } catch (e) {}
   };
 
@@ -368,11 +352,11 @@ export default function DocumentChecklist() {
 
                           <button
                             type="button"
-                            onClick={handleClaimSolverClick}
+                            onClick={() => setShowSolverModal(true)}
                             className="w-full sm:w-auto px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-colors text-center flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
                           >
                             <FiCheckCircle className="text-xs text-emerald-400" />
-                            <span>Hire Your Personal Claim Solver</span>
+                            <span>Assign Your Personal Claim Solver</span>
                           </button>
                         </div>
                       </div>
@@ -555,8 +539,8 @@ export default function DocumentChecklist() {
 
       {/* We’ll Contact You Soon Popup Modal */}
       <ClaimSolverModal
-        isOpen={showContactSoonModal}
-        onClose={() => setShowContactSoonModal(false)}
+        isOpen={showSolverModal}
+        onClose={() => setShowSolverModal(false)}
       />
 
     </section>
