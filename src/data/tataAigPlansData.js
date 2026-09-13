@@ -7,6 +7,39 @@ import { TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA } from './tataAigMedicareSelectV
 // medicare-select-standard, medicare-select-elite, medicare-reserve
 // =============================================================================
 
+export const TATA_AIG_SOURCES = [
+  {
+    title: "Tata AIG – Public Disclosures",
+    name: "Tata AIG – Public Disclosures",
+    url: "https://www.tataaig.com/public-disclosures",
+    type: "website"
+  },
+  {
+    title: "Tata AIG Annual Report – FY 2024-25",
+    name: "Tata AIG Annual Report – FY 2024-25",
+    url: "https://www.tataaig.com/s3/intimation_for_submission_of_annual_report_for_fy_2024_25_3d23ba6d70.pdf",
+    type: "pdf"
+  },
+  {
+    title: "Tata AIG Annual Report – FY 2023-24",
+    name: "Tata AIG Annual Report – FY 2023-24",
+    url: "https://www.tataaig.com/s3/Intimation_for_submission_of_Annual_Report_for_FY_2023_24_a548eca5db.pdf",
+    type: "pdf"
+  },
+  {
+    title: "Tata AIG Annual Report – FY 2022-23",
+    name: "Tata AIG Annual Report – FY 2022-23",
+    url: "https://www.tataaig.com/s3/fy_2022_23_6f327ce89e.pdf",
+    type: "pdf"
+  },
+  {
+    title: "IRDAI – Official Annual Reports",
+    name: "IRDAI – Official Annual Reports",
+    url: "https://irdai.gov.in/annual-reports",
+    type: "website"
+  }
+];
+
 export const TATA_AIG_CANONICAL_PLAN_IDS = [
   'medicare-premier',
   'medicare-select',
@@ -93,29 +126,30 @@ export const TATA_AIG_PLANS_DATA = {
       subheading: 'Tata AIG Performance',
       description: 'Official claim settlement and financial strength metrics.',
       csr: {
-        title: 'CSR',
-        summaryValue: '99.0%',
+        title: 'Claim Settlement Ratio',
+        summaryValue: '89.5%',
         subtitle: 'Claim Settlement Ratio',
-        explanation: 'CSR shows the percentage of eligible claims that Tata AIG settles during the financial year. A 99.0% ratio reflects an outstanding, dependable claim settlement track record.',
-        singleYear: '99.0%',
-        singleYearLabel: 'Recent Single Year (FY2024-25)',
-        threeYearAvg: '98.9%',
-        threeYearAvgLabel: '3 Year Average (FY2022-25)'
+        explanation: 'On average, Tata AIG settled around 89.5% of claims over the last 3 years.',
+        singleYear: '89.5%',
+        singleYearLabel: 'Recent Single Year',
+        threeYearAvg: '89.5%',
+        threeYearAvgLabel: '3 Years Avg Ratio'
       },
       icr: {
-        title: 'ICR',
-        summaryValue: '68%',
+        title: 'Incurred Claim Ratio',
+        summaryValue: '77.50%',
         subtitle: 'Incurred Claim Ratio',
-        explanation: "ICR indicates the proportion of net earned premium that the insurer pays out for claims. Tata AIG's balanced ICR of 68% ensures robust financial sustainability and timely claim settlement.",
-        range: '68% → 72%',
+        explanation: 'For every ₹100 collected in premiums, Tata AIG spends about ₹77.50 on settling claims.',
+        range: '77.50%',
         rangeLabel: 'Incurred Claim Ratio'
       },
       complaintVolume: {
-        title: 'COMPLAINT VOLUME',
-        summaryValue: '14.2',
-        explanation: 'Complaint volume measures customer grievances per 10,000 claims settled. Tata AIG maintains an efficient grievance resolution mechanism and prompt digital support.',
-        value: '14.2',
-        label: 'Complaints per 10,000 Claims'
+        title: 'Complaints/10K',
+        summaryValue: '11.6',
+        subtitle: 'Complaints/10K',
+        explanation: 'Around 11.6 complaints per 10,000 claims settled,    showing a low number of complaints.',
+        value: '11.6',
+        label: 'Complaints/10K — 11.6'
       }
     },
 
@@ -283,7 +317,61 @@ export const TATA_AIG_PLANS_DATA = {
       ]
     },
 
-    // --- 5. 4 COMPACT POLICY BENEFITS CATEGORIES (EXACT DESIGN REFERENCE) ---
+    // --- 5. BEST SUITED FOR (INDEPENDENT) ---
+    bestSuitedFor: {
+      heading: 'BEST SUITED FOR',
+      subheading: 'Who should choose Tata AIG MediCare Premier?',
+      description: 'Ideal customer profiles and comprehensive family healthcare scenarios.',
+      tagline: 'Premium comprehensive coverage designed for families seeking top-tier healthcare security.',
+      profiles: [
+        {
+          title: 'High Coverage & Global Treatment Seekers',
+          icon: '🌍',
+          summary: 'Individuals and families seeking high sum insured (₹50 Lakhs to ₹3 Crore) with worldwide cover for planned medical treatments outside India.',
+          badge: 'Global Cover',
+          highlights: [
+            'Worldwide planned treatment outside India for major illnesses',
+            'High sum insured options from ₹50 Lakh up to ₹3 Crore',
+            'Post-hospitalization recovery coverage up to 200 days'
+          ]
+        },
+        {
+          title: 'Nuclear & Growing Families',
+          icon: '👨‍👩‍👧',
+          summary: 'Families prioritizing luxury healthcare with Single Private Room without room rent caps, comprehensive restore benefit, and newborn coverage.',
+          badge: 'Family Protection',
+          highlights: [
+            'Single Private Room without proportionate deductions',
+            'Enhanced maternity cover up to ₹1,20,000 for girl child',
+            'First-year newborn vaccination cover up to ₹15,000'
+          ]
+        },
+        {
+          title: 'Executives & Health-Conscious Individuals',
+          icon: '💼',
+          summary: 'Professionals seeking enhanced OPD benefits, annual preventive health checkups, wellness reward discounts, and second opinion consultations.',
+          badge: 'Wellness & OPD',
+          highlights: [
+            'Comprehensive annual wellness & health checkups',
+            'Second medical opinion from world-class medical networks',
+            'Cumulative bonus protection and wellness premium discounts'
+          ]
+        },
+        {
+          title: 'Long-Term Comprehensive Shield',
+          icon: '🛡️',
+          summary: 'Those who want maximum claim certainty with no proportionate deductions, 100% consumables coverage, and organ donor protection.',
+          badge: 'Max Assurance',
+          highlights: [
+            'Inbuilt 100% consumables cover for non-medical items',
+            'Full living organ donor hospitalization covered',
+            'Unlimited restoration for subsequent unrelated illnesses'
+          ]
+        }
+      ]
+    },
+
+    // --- 6. 4 COMPACT POLICY BENEFITS CATEGORIES (EXACT DESIGN REFERENCE) ---
     featuresSections: [
       // -----------------------------------------------------------------------
       // CATEGORY 1: MOST IMPORTANT FEATURES
@@ -989,29 +1077,30 @@ export const TATA_AIG_PLANS_DATA = {
       subheading: 'Tata AIG Performance',
       description: 'Official claim settlement and financial strength metrics.',
       csr: {
-        title: 'CSR',
-        summaryValue: '99.0%',
+        title: 'Claim Settlement Ratio',
+        summaryValue: '89.5%',
         subtitle: 'Claim Settlement Ratio',
-        explanation: 'CSR shows the percentage of eligible claims that Tata AIG settles during the financial year. A 99.0% ratio reflects an outstanding, dependable claim settlement track record.',
-        singleYear: '99.0%',
-        singleYearLabel: 'Recent Single Year (FY2024-25)',
-        threeYearAvg: '98.9%',
-        threeYearAvgLabel: '3 Year Average (FY2022-25)'
+        explanation: 'On average, Tata AIG settled around 89.5% of claims over the last 3 years.',
+        singleYear: '89.5%',
+        singleYearLabel: 'Recent Single Year',
+        threeYearAvg: '89.5%',
+        threeYearAvgLabel: '3 Years Avg Ratio'
       },
       icr: {
-        title: 'ICR',
-        summaryValue: '68%',
+        title: 'Incurred Claim Ratio',
+        summaryValue: '77.50%',
         subtitle: 'Incurred Claim Ratio',
-        explanation: "ICR indicates the proportion of net earned premium that the insurer pays out for claims. Tata AIG's balanced ICR of 68% ensures robust financial sustainability and timely claim settlement.",
-        range: '68% → 72%',
+        explanation: 'For every ₹100 collected in premiums, Tata AIG spends about ₹77.50 on settling claims.',
+        range: '77.50%',
         rangeLabel: 'Incurred Claim Ratio'
       },
       complaintVolume: {
-        title: 'COMPLAINT VOLUME',
-        summaryValue: '14.2',
-        explanation: 'Complaint volume measures customer grievances per 10,000 claims settled. Tata AIG maintains an efficient grievance resolution mechanism and prompt digital support.',
-        value: '14.2',
-        label: 'Complaints per 10,000 Claims'
+        title: 'Complaints/10K',
+        summaryValue: '11.6',
+        subtitle: 'Complaints/10K',
+        explanation: 'Around 11.6 complaints per 10,000 claims settled,    showing a low number of complaints.',
+        value: '11.6',
+        label: 'Complaints/10K — 11.6'
       }
     },
 
@@ -1426,29 +1515,30 @@ export const TATA_AIG_PLANS_DATA = {
       subheading: 'Tata AIG Performance',
       description: 'Official claim settlement and financial strength metrics.',
       csr: {
-        title: 'CSR',
-        summaryValue: '99.0%',
+        title: 'Claim Settlement Ratio',
+        summaryValue: '89.5%',
         subtitle: 'Claim Settlement Ratio',
-        explanation: 'CSR shows the percentage of eligible claims that Tata AIG settles during the financial year. A 99.0% ratio reflects an outstanding, dependable claim settlement track record.',
-        singleYear: '99.0%',
-        singleYearLabel: 'Recent Single Year (FY2024-25)',
-        threeYearAvg: '98.9%',
-        threeYearAvgLabel: '3 Year Average (FY2022-25)'
+        explanation: 'On average, Tata AIG settled around 89.5% of claims over the last 3 years.',
+        singleYear: '89.5%',
+        singleYearLabel: 'Recent Single Year',
+        threeYearAvg: '89.5%',
+        threeYearAvgLabel: '3 Years Avg Ratio'
       },
       icr: {
-        title: 'ICR',
-        summaryValue: '68%',
+        title: 'Incurred Claim Ratio',
+        summaryValue: '77.50%',
         subtitle: 'Incurred Claim Ratio',
-        explanation: "ICR indicates the proportion of net earned premium that the insurer pays out for claims. Tata AIG's balanced ICR of 68% ensures robust financial sustainability and timely claim settlement.",
-        range: '68% → 72%',
+        explanation: 'For every ₹100 collected in premiums, Tata AIG spends about ₹77.50 on settling claims.',
+        range: '77.50%',
         rangeLabel: 'Incurred Claim Ratio'
       },
       complaintVolume: {
-        title: 'COMPLAINT VOLUME',
-        summaryValue: '14.2',
-        explanation: 'Complaint volume measures customer grievances per 10,000 claims settled. Tata AIG maintains an efficient grievance resolution mechanism and prompt digital support.',
-        value: '14.2',
-        label: 'Complaints per 10,000 Claims'
+        title: 'Complaints/10K',
+        summaryValue: '11.6',
+        subtitle: 'Complaints/10K',
+        explanation: 'Around 11.6 complaints per 10,000 claims settled,    showing a low number of complaints.',
+        value: '11.6',
+        label: 'Complaints/10K — 11.6'
       }
     },
 
@@ -1614,7 +1704,61 @@ export const TATA_AIG_PLANS_DATA = {
       ]
     },
 
-    // --- 5. 4 POLICY BENEFITS CATEGORIES (EXACTLY 4 MAIN HEADINGS) ---
+    // --- 5. BEST SUITED FOR (INDEPENDENT) ---
+    bestSuitedFor: {
+      heading: 'BEST SUITED FOR',
+      subheading: 'Who should choose Tata AIG MediCare Reserve?',
+      description: 'Ideal customer profiles and high-deductible super top-up coverage scenarios.',
+      tagline: 'High-value financial buffer designed to supercharge your health insurance at minimal premium.',
+      profiles: [
+        {
+          title: 'Corporate Employees with Base Group Cover',
+          icon: '🏢',
+          summary: 'Salaried professionals who have base GMC employer health insurance (₹3L–₹5L) and need a large ₹20L–₹1 Crore cushion for major critical illness.',
+          badge: 'Corporate Top-Up',
+          highlights: [
+            'Deductible matches existing employer base policy',
+            'Super top-up buffer across multiple hospitalizations in a year',
+            'High sum insured protection at a fraction of regular base premium'
+          ]
+        },
+        {
+          title: 'Families Facing Medical Inflation',
+          icon: '📈',
+          summary: 'Families with an existing base health insurance policy who want to expand their safety net against catastrophic hospitalization costs.',
+          badge: 'Inflation Shield',
+          highlights: [
+            'Single Private Room with no proportionate deductions',
+            'Pre & post hospitalization expenses covered for 90 & 90 days',
+            'Annual wellness teleconsultations included'
+          ]
+        },
+        {
+          title: 'Senior Parents & Elder Family Members',
+          icon: '👴',
+          summary: 'Families seeking comprehensive high financial safety nets for senior parents where increasing base sum insured carries very high premiums.',
+          badge: 'Affordable Buffer',
+          highlights: [
+            'High coverage without exorbitant base premiums',
+            'Option to remove deductible after 5 continuous renewal years',
+            'Day care surgeries & modern treatments covered'
+          ]
+        },
+        {
+          title: 'Smart Cost Optimizers',
+          icon: '💡',
+          summary: 'Savvy buyers who choose a deductible matching their out-of-pocket capacity to lock in high ₹50L to ₹1 Crore coverage at ultra-low cost.',
+          badge: 'Smart Savings',
+          highlights: [
+            '0% co-payment on eligible claims above deductible',
+            'Access to 10,000+ cashless network hospitals',
+            'Optional transition cover and consumable protection riders'
+          ]
+        }
+      ]
+    },
+
+    // --- 6. 4 POLICY BENEFITS CATEGORIES (EXACTLY 4 MAIN HEADINGS) ---
     featuresSections: [
       // -----------------------------------------------------------------------
       // CATEGORY 1: MOST IMPORTANT

@@ -170,25 +170,50 @@ export default function RoomCategoryModal({
                       )}
                     </div>
 
-                    <p className="text-xs sm:text-sm font-medium text-slate-600 mt-1 leading-relaxed">
-                      You can choose Single Private Room with no room amount limit and no proportionate deductions.
+                    <p className="text-xs sm:text-sm font-medium text-slate-700 mt-1 leading-relaxed">
+                      <strong className="text-slate-900 font-bold">You can stay in a private room meant for one patient.</strong>
                     </p>
+
+                    <ul className="mt-2.5 space-y-1.5 text-xs sm:text-[13px] text-slate-600 font-medium">
+                      <li className="flex items-start gap-2">
+                        <span className="text-[#0038A8] font-bold text-sm shrink-0 leading-tight mt-0.5">•</span>
+                        <span>
+                          <strong className="text-slate-900 font-bold">Single Private Room</strong> — A private room for one patient.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-[#0038A8] font-bold text-sm shrink-0 leading-tight mt-0.5">•</span>
+                        <span>
+                          <strong className="text-slate-900 font-bold">No Room Rent Limit</strong> — No fixed limit on the room rent.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-[#0038A8] font-bold text-sm shrink-0 leading-tight mt-0.5">•</span>
+                        <span>
+                          <strong className="text-slate-900 font-bold">No Extra Deduction</strong> — No extra amount is cut from your eligible hospital bill because of the room.
+                        </span>
+                      </li>
+                    </ul>
                   </div>
                 </div>
 
-                {/* YOU CAN CHOOSE FROM AREA */}
+                {/* CASHLESS TREATMENT / ROOM PROGRESSION AREA */}
                 <div className="rounded-xl sm:rounded-2xl bg-white border border-slate-200/80 p-3.5 sm:p-4 shadow-2xs space-y-2.5">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-500 font-display">
-                      You can choose from:
+                      Cashless Treatment
                     </span>
                     <span className="text-[9px] sm:text-[10px] font-bold text-[#0038A8] bg-[#F0F4FF] px-2 py-0.5 rounded-md">
                       100% Cashless Eligible
                     </span>
                   </div>
 
+                  <p className="text-[11px] sm:text-xs text-slate-600 font-medium leading-relaxed">
+                    At a network hospital, approved treatment can be paid directly by the insurance company to the hospital.
+                  </p>
+
                   {/* Horizontal Room Categories Progression */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 items-stretch">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 items-stretch pt-0.5">
                     {roomCategories.map((cat, cIdx) => {
                       const CatIcon = cat.icon;
                       return (
@@ -254,7 +279,7 @@ export default function RoomCategoryModal({
                   </div>
                 </div>
 
-                {/* FOCUS 2: MOST IMPORTANT CONDITION STRIP with Continuous Subtle Breathing Glow */}
+                {/* FOCUS 2: NO ROOM DEDUCTION CONDITION STRIP with Continuous Subtle Breathing Glow */}
                 <motion.div
                   initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
                   animate={shouldReduceMotion ? false : {
@@ -298,8 +323,8 @@ export default function RoomCategoryModal({
                     <FiCheck className="text-xs stroke-[3]" />
                   </motion.div>
                   <p className="text-[11px] sm:text-xs font-semibold leading-relaxed text-slate-800">
-                    <strong className="text-[#0038A8] font-bold">Zero Deductions: </strong>
-                    No proportionate deduction applies when you choose a room up to Single Private Room, across network hospitals.
+                    <strong className="text-[#0038A8] font-bold">No Proportionate Deduction: </strong>
+                    If you choose a <strong className="text-[#0038A8] font-bold">Single Private Room or a lower room</strong>, your eligible hospital bill is not reduced because of the room you chose.
                   </p>
                 </motion.div>
 
@@ -333,16 +358,16 @@ export default function RoomCategoryModal({
                     </div>
 
                     <p className="text-[11px] sm:text-xs text-emerald-900/85 font-medium leading-relaxed">
-                      You can get ICU room accommodation without any separate monetary limit, subject to policy terms and conditions.
+                      <strong className="text-emerald-950 font-bold">No fixed limit on ICU room charges</strong>, as per the policy rules.
                     </p>
                   </div>
 
                   <div className="mt-3 pt-2 border-t border-emerald-200/60 flex items-center justify-between text-[10px] font-bold text-emerald-700">
                     <span className="inline-flex items-center gap-1">
-                      <FiShield className="text-xs" /> Covered at 100%
+                      <FiShield className="text-xs" /> 100% Covered
                     </span>
                     <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-emerald-200/60 text-emerald-900 font-extrabold">
-                      No Sub-limits
+                      No Separate ICU Limit
                     </span>
                   </div>
                 </motion.div>
@@ -362,7 +387,7 @@ export default function RoomCategoryModal({
                         </div>
                         <div>
                           <span className="text-[9px] font-extrabold uppercase tracking-wider text-purple-700 block font-display">
-                            Cost Optimization
+                            Save on Premium
                           </span>
                           <h4 className="text-xs sm:text-sm font-black text-purple-950 font-display leading-tight">
                             Shared Room Option
@@ -376,13 +401,13 @@ export default function RoomCategoryModal({
                     </div>
 
                     <p className="text-[11px] sm:text-xs text-purple-900/85 font-medium leading-relaxed">
-                      Choose a shared room instead of a Single Private Room and get a lower premium.
+                      You can choose a <strong className="text-purple-950 font-bold">Shared Room</strong> if you want a lower premium.
                     </p>
                   </div>
 
                   <div className="mt-3 pt-2 border-t border-purple-200/60 flex items-center justify-between text-[10px] font-bold text-purple-700">
-                    <span>Optional Preference</span>
-                    <span className="text-purple-900 font-extrabold">Save on Premium</span>
+                    <span>Shared Room</span>
+                    <span className="text-purple-900 font-extrabold">&rarr; Lower Premium</span>
                   </div>
                 </motion.div>
 
@@ -423,22 +448,22 @@ export default function RoomCategoryModal({
                   <FiAlertTriangle className="text-xs sm:text-sm stroke-[2.5]" />
                 </div>
 
-                <div className="space-y-1 flex-1 min-w-0">
+                <div className="space-y-1.5 flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <h4 className="text-xs sm:text-sm font-black uppercase tracking-wider text-rose-950 font-display">
                       Important
                     </h4>
                     <span className="text-[8px] sm:text-[9px] font-black uppercase px-1.5 py-0.2 rounded bg-rose-200/80 text-rose-900">
-                      Policy Clause
+                      Choosing a Higher Room
                     </span>
                   </div>
 
                   <div className="text-[11px] sm:text-xs text-rose-950 font-medium leading-relaxed space-y-1">
                     <p>
-                      If you choose any room above Single Private Room, such as Deluxe, Super Deluxe or Suite, proportionate deduction will apply.
+                      If you choose a room <strong className="text-rose-950 font-bold">more expensive than a Single Private Room</strong>, such as Deluxe, Super Deluxe or Suite, you may have to pay some extra amount.
                     </p>
-                    <p className="text-rose-900/90 font-semibold">
-                      This means you may have to bear part of the hospital bill even if the treatment is otherwise covered under your cashless policy.
+                    <p className="text-rose-900 font-bold">
+                      In simple words: A more expensive room can increase the amount you pay from your own pocket.
                     </p>
                   </div>
                 </div>
@@ -450,7 +475,7 @@ export default function RoomCategoryModal({
           {/* Modal Footer */}
           <div className="px-4 py-3 sm:px-6 sm:py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
             <span className="text-[10px] sm:text-xs text-slate-500 font-medium">
-              Tata AIG MediCare Select &bull; Standard Policy Terms Apply
+              Tata AIG MediCare Select &bull; Policy Terms & Conditions Apply
             </span>
             <button
               type="button"

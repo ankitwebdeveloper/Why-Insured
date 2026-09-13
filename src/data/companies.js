@@ -15,7 +15,7 @@ import { hdfcMedisureSuperTopUpData } from './hdfcMedisureSuperTopUpData';
 import { getMagmaPlanData } from './magmaPlansData';
 import { getReliancePlanData } from './reliancePlansData';
 import { getCarePlanData } from './careHealthPlansData';
-import { getTataAigPlanData } from './tataAigPlansData';
+import { getTataAigPlanData, TATA_AIG_SOURCES } from './tataAigPlansData';
 import { getStarHealthPlanData } from './starHealthPlansData';
 import { getNivaBupaPlanData } from './nivaBupaPlansData';
 import { getIciciPlanData } from './iciciLombardPlansData';
@@ -96,6 +96,7 @@ export const companiesData = [
       background: "#F0F4FF",   // Soft Royal Blue-White
       text: "#0F172A"
     },
+    sources: TATA_AIG_SOURCES,
     plans: [
       {
         id: "medicare-premier",
@@ -158,11 +159,9 @@ export const companiesData = [
         coverage: "5 Lakhs – 3 Crore",
         premium: "₹8,200/year",
         benefits: [
-          "Available Sum Insured: 5 Lakhs – 3 Crore (Fresh + Port)",
           "Room Category: Single Private Room with zero rent capping",
           "Sub-Limit | Co-Pay: No Copay | No Sublimit",
           "Restore Infinity Plus: Unlimited Restore",
-          "Hospital Type: All Network Hospital (10,000+ Hospitals)",
           "Super Charge Bonus & Consumables: Available as Rider"
         ],
         details: {

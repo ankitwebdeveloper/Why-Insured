@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { FiArrowLeft, FiCheck, FiChevronRight, FiArrowRight } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiArrowLeft, FiCheck, FiChevronRight, FiArrowRight, FiFileText, FiX, FiGlobe, FiExternalLink } from 'react-icons/fi';
 import { companiesData } from '../data/companies';
 
 export default function CompanyDetail() {
   const { companyId } = useParams();
+  const [isSourcesOpen, setIsSourcesOpen] = useState(false);
   
   const company = companiesData.find(
     c => c.slug === companyId || c.id === companyId || (companyId === 'hdfc-life' && (c.id === 'hdfc-ergo' || c.slug === 'hdfc-ergo'))
   );
+
+  // Close sources modal on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsSourcesOpen(false);
+      }
+    };
+    if (isSourcesOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isSourcesOpen]);
 
   if (!company) {
     return (
@@ -22,7 +37,7 @@ export default function CompanyDetail() {
     );
   }
 
-  const { theme, name, fullName, logo, description, plans } = company;
+  const { theme, name, fullName, logo, description, plans, sources } = company;
   const displayedPlans = (plans || []).filter(p => !p.parentPlanId);
   const isSpecialCompany = company.id === 'hdfc-ergo' || company.slug === 'hdfc-ergo' || company.id === 'tata-aig' || company.slug === 'tata-aig' || company.id === 'icici-lombard' || company.slug === 'icici-lombard' || company.id === 'niva-bupa' || company.slug === 'niva-bupa' || company.id === 'star-health' || company.slug === 'star-health' || company.id === 'care-health' || company.slug === 'care-health' || company.id === 'reliance-general' || company.slug === 'reliance-general' || company.id === 'magma-hdi' || company.slug === 'magma-hdi' || company.id === 'manipal-cigna' || company.slug === 'manipal-cigna' || company.id === 'aditya-birla' || company.slug === 'aditya-birla';
 
@@ -119,15 +134,33 @@ export default function CompanyDetail() {
               />
             </div>
 
-            {/* 2. AVAILABLE PLANS HEADING */}
-            <div className="text-center shrink-0 mb-3.5 sm:mb-6">
-              <h2 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
-                Available Plans
-              </h2>
-              <div 
-                className="w-7 sm:w-10 h-0.5 sm:h-1 mx-auto mt-1 sm:mt-1.5 rounded-full"
-                style={{ backgroundColor: theme.primary }}
-              />
+            {/* 2. AVAILABLE PLANS HEADING & SOURCES BUTTON */}
+            <div className="relative shrink-0 mb-3.5 sm:mb-6">
+              {/* Centered Heading */}
+              <div className="text-center">
+                <h2 className="text-sm sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                  Available Plans
+                </h2>
+                <div 
+                  className="w-7 sm:w-10 h-0.5 sm:h-1 mx-auto mt-1 sm:mt-1.5 rounded-full"
+                  style={{ backgroundColor: theme.primary }}
+                />
+              </div>
+
+              {/* Sources Button (Right-aligned on desktop, placed neatly below heading on mobile) */}
+              {sources && sources.length > 0 && (
+                <div className="mt-2.5 sm:mt-0 sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2 flex justify-center sm:justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setIsSourcesOpen(true)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold text-slate-700 hover:text-[#0038A8] bg-white hover:bg-[#F0F4FF] border border-slate-200 hover:border-[#0038A8]/35 shadow-2xs hover:shadow-xs transition-all duration-200 cursor-pointer select-none group"
+                    title="View sources and reference documents"
+                  >
+                    <FiFileText className="text-xs text-[#0038A8] group-hover:scale-110 transition-transform" />
+                    <span>Sources</span>
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* 3. PLAN GRID / LIST */}
@@ -315,6 +348,104 @@ export default function CompanyDetail() {
         )}
 
       </div>
+
+      {/* ========================================================================= */}
+      {/* SOURCES MODAL POPUP                                                       */}
+      {/* ========================================================================= */}
+      <AnimatePresence>
+        {isSourcesOpen && sources && sources.length > 0 && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5">
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsSourcesOpen(false)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
+            />
+
+            {/* Modal Dialog Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-md overflow-hidden z-10 p-5 sm:p-6 max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto text-left"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Top Close Button */}
+              <button
+                type="button"
+                onClick={() => setIsSourcesOpen(false)}
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors cursor-pointer"
+                aria-label="Close sources popup"
+              >
+                <FiX className="text-base sm:text-lg" />
+              </button>
+
+              {/* Header */}
+              <div className="pr-8 mb-4 sm:mb-5">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: theme.primary }} />
+                  <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight font-display">
+                    Sources
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                  Information used for the {company.name || 'Tata AIG'} plans and policy details.
+                </p>
+              </div>
+
+              {/* Vertical Source List */}
+              <div className="space-y-2 sm:space-y-2.5">
+                {sources.map((source, sIdx) => {
+                  const hasUrl = Boolean(source.url && source.url.trim() !== '');
+                  const RowComponent = hasUrl ? 'a' : 'div';
+                  const rowProps = hasUrl ? {
+                    href: source.url,
+                    target: '_blank',
+                    rel: 'noopener noreferrer'
+                  } : {};
+
+                  const isPdf = source.type === 'pdf' || (source.url && source.url.toLowerCase().endsWith('.pdf'));
+
+                  return (
+                    <RowComponent
+                      key={sIdx}
+                      {...rowProps}
+                      className={`w-full p-3 sm:p-3.5 rounded-xl sm:rounded-2xl border border-slate-200/80 bg-white flex items-center justify-between transition-all duration-200 group select-none ${
+                        hasUrl
+                          ? 'hover:bg-slate-50/90 hover:border-[#0038A8]/40 hover:shadow-2xs cursor-pointer'
+                          : 'cursor-default'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 pr-2">
+                        <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl border flex items-center justify-center transition-colors shrink-0 ${
+                          isPdf 
+                            ? 'bg-rose-50/70 border-rose-100 text-rose-600 group-hover:bg-rose-100 group-hover:text-rose-700' 
+                            : 'bg-[#F0F4FF]/70 border-[#0038A8]/15 text-[#0038A8] group-hover:bg-[#0038A8] group-hover:text-white'
+                        }`}>
+                          {isPdf ? <FiFileText className="text-sm" /> : <FiGlobe className="text-sm" />}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <span className="text-xs sm:text-[13px] font-bold text-slate-800 group-hover:text-[#0038A8] transition-colors font-display block truncate">
+                            {source.title || source.name}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] transition-all duration-200 shrink-0">
+                        <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </RowComponent>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -84,10 +84,12 @@ export default function TataAigMedicareSelectVariantSelector({ company }) {
                   {variant.name}
                 </h3>
 
-                <div className="text-xs font-extrabold text-[#0038A8] mt-0.5 mb-2 flex items-center gap-1.5">
-                  <FiShield className="text-xs shrink-0" />
-                  <span>Sum Insured: {variant.coverage}</span>
-                </div>
+                {variant.coverage && variant.id !== 'medicare-select-standard' && (
+                  <div className="text-xs font-extrabold text-[#0038A8] mt-0.5 mb-2 flex items-center gap-1.5">
+                    <FiShield className="text-xs shrink-0" />
+                    <span>Sum Insured: {variant.coverage}</span>
+                  </div>
+                )}
 
                 <p className="text-xs text-slate-600 font-medium leading-relaxed mb-4 min-h-[36px]">
                   {variant.tagline}

@@ -1005,10 +1005,17 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                 className="w-full relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-                <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
-                  {sec.title}
-                </h2>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 relative z-10">
+                  <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
+                    {sec.title}
+                  </h2>
+                  {sec.subtitle && (
+                    <span className="text-[10px] sm:text-xs font-bold text-emerald-200 uppercase tracking-wider pl-4.5 sm:pl-0">
+                      {sec.subtitle}
+                    </span>
+                  )}
+                </div>
               </motion.div>
 
               {/* Compact Grid of Cards */}
@@ -1187,15 +1194,21 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#0038A8] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
-        {/* 3. 2-COLUMN BUTTON GRID */}
+        {/* 3. 6-BUTTON PRIMARY NAVIGATION GRID */}
         <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
           {/* Card 1: REPORT CARD */}
           <button
             type="button"
             onClick={() => setActiveModal('ratio')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#0038A8]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'ratio'
+                ? 'border-[#0038A8] ring-2 ring-[#0038A8]/20'
+                : 'border-slate-200/80 hover:border-[#0038A8]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0038A8]/30 group-hover:bg-[#0038A8] transition-colors duration-200" />
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'ratio' ? 'bg-[#0038A8]' : 'bg-[#0038A8]/30 group-hover:bg-[#0038A8]'
+            }`} />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
               REPORT CARD
             </h3>
@@ -1208,9 +1221,15 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           <button
             type="button"
             onClick={() => setActiveModal('fundamental')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#0038A8]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'fundamental'
+                ? 'border-[#0038A8] ring-2 ring-[#0038A8]/20'
+                : 'border-slate-200/80 hover:border-[#0038A8]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0038A8]/30 group-hover:bg-[#0038A8] transition-colors duration-200" />
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'fundamental' ? 'bg-[#0038A8]' : 'bg-[#0038A8]/30 group-hover:bg-[#0038A8]'
+            }`} />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
               COMPANY STRENGTH
             </h3>
@@ -1233,50 +1252,68 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             </div>
           </Link>
 
-          {/* Card 4: LIMITATIONS & WAITING PERIODS */}
+          {/* Card 4: LIMITATIONS */}
           <button
             type="button"
             onClick={() => {
               setActiveModal('limitations');
               setActiveLimitationId(null);
             }}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#0038A8]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'limitations'
+                ? 'border-[#0038A8] ring-2 ring-[#0038A8]/20'
+                : 'border-slate-200/80 hover:border-[#0038A8]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0038A8]/30 group-hover:bg-[#0038A8] transition-colors duration-200" />
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'limitations' ? 'bg-[#0038A8]' : 'bg-[#0038A8]/30 group-hover:bg-[#0038A8]'
+            }`} />
             <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
-              LIMITATIONS & WAITING PERIODS
+              LIMITATIONS
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
-        </div>
 
-        {/* 5. MUST KNOW DETAILS Button */}
-        <div className="flex justify-center w-full mt-2.5 sm:mt-5">
+          {/* Card 5: MUST KNOW */}
           <button
             type="button"
             onClick={() => setActiveModal('mustKnow')}
-            className="w-full sm:max-w-md bg-white rounded-xl sm:rounded-2xl border border-[#0038A8]/35 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#0038A8] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ring-1 ring-[#0038A8]/10 hover:ring-[#0038A8]/25"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'mustKnow'
+                ? 'border-[#0038A8] ring-2 ring-[#0038A8]/20'
+                : 'border-slate-200/80 hover:border-[#0038A8]/40'
+            }`}
           >
-            {/* Bottom accent indicator bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0038A8] transition-colors duration-200" />
-
-            {/* Subtle ambient soft blue background overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#F0F4FF]/90 via-white to-[#F0F4FF]/90 group-hover:from-[#E6EEFF] group-hover:to-[#E6EEFF] transition-colors duration-200 pointer-events-none" />
-
-            {/* Text label with attention icon */}
-            <div className="flex items-center gap-1.5 sm:gap-2.5 relative z-10 min-w-0 pr-1">
-              <span className="text-[#0038A8] text-xs sm:text-base font-black select-none shrink-0 group-hover:scale-110 transition-transform duration-200">
-                ✦
-              </span>
-              <h3 className="text-xs sm:text-base font-black text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display tracking-wide uppercase leading-tight truncate">
-                {planData.mustKnow?.buttonLabel || 'MUST KNOW DETAILS'}
-              </h3>
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'mustKnow' ? 'bg-[#0038A8]' : 'bg-[#0038A8]/30 group-hover:bg-[#0038A8]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
+              MUST KNOW
+            </h3>
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
+              <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
+          </button>
 
-            {/* Right Arrow Bubble */}
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#F0F4FF] border border-[#0038A8]/25 flex items-center justify-center text-[#0038A8] group-hover:bg-[#0038A8] group-hover:text-white transition-all duration-200 shrink-0 relative z-10">
+          {/* Card 6: PERFECT FOR */}
+          <button
+            type="button"
+            onClick={() => setActiveModal('bestSuitedFor')}
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'bestSuitedFor'
+                ? 'border-[#0038A8] ring-2 ring-[#0038A8]/20'
+                : 'border-slate-200/80 hover:border-[#0038A8]/40'
+            }`}
+          >
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'bestSuitedFor' ? 'bg-[#0038A8]' : 'bg-[#0038A8]/30 group-hover:bg-[#0038A8]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
+              PERFECT FOR
+            </h3>
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -1311,10 +1348,52 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               <button
                 type="button"
                 onClick={() => setActiveModal(null)}
-                className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer"
+                className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer z-20"
               >
                 <FiX className="text-base sm:text-lg" />
               </button>
+
+              {/* Modal Top Tab Navigation Switcher */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 mb-4 border-b border-slate-100 no-scrollbar pr-8">
+                {[
+                  { id: 'ratio', label: 'Report Card' },
+                  { id: 'fundamental', label: 'Company Strength' },
+                  { id: 'features', label: 'Policy Benefits', isLink: true, url: `/insurance/${company.id}/${currentPlanId}/features` },
+                  { id: 'limitations', label: 'Limitations' },
+                  { id: 'mustKnow', label: 'Must Know' },
+                  { id: 'bestSuitedFor', label: 'Perfect For' }
+                ].map((tab) => {
+                  if (tab.isLink) {
+                    return (
+                      <Link
+                        key={tab.id}
+                        to={tab.url}
+                        className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold text-slate-600 hover:text-[#0038A8] hover:bg-[#F0F4FF] border border-transparent whitespace-nowrap transition-colors select-none"
+                      >
+                        {tab.label}
+                      </Link>
+                    );
+                  }
+                  const isActive = activeModal === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveModal(tab.id);
+                        if (tab.id === 'limitations') setActiveLimitationId(null);
+                      }}
+                      className={`px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all cursor-pointer select-none ${
+                        isActive
+                          ? 'bg-[#0038A8] text-white shadow-2xs'
+                          : 'text-slate-600 hover:text-[#0038A8] hover:bg-[#F0F4FF]'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
 
               {/* MODAL 1: REPORT CARD */}
               {activeModal === 'ratio' && (
@@ -1329,7 +1408,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                   </div>
 
                   <div className="space-y-2.5 sm:space-y-3">
-                    {/* Box 1: CSR */}
+                    {/* Box 1: Claim Settlement Ratio */}
                     <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
                       <button
                         type="button"
@@ -1338,7 +1417,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
                           <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
-                            CSR
+                            {planData.reportCard?.csr?.title || 'Claim Settlement Ratio'}
                           </span>
                           {planData.reportCard?.csr?.summaryValue && (
                             <span className="text-xs sm:text-sm font-bold text-amber-600 tracking-tight shrink-0 font-display">
@@ -1361,14 +1440,14 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             className="overflow-hidden"
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <div>
+                              {planData.reportCard.csr.subtitle && planData.reportCard.csr.subtitle !== planData.reportCard.csr.title && (
                                 <span className="text-[11px] sm:text-xs font-semibold text-[#0038A8] tracking-wide block font-display">
-                                  {planData.reportCard.csr.subtitle || 'Claim Settlement Ratio'}
+                                  {planData.reportCard.csr.subtitle}
                                 </span>
-                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
-                                  {planData.reportCard.csr.explanation}
-                                </p>
-                              </div>
+                              )}
+                              <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                {planData.reportCard.csr.explanation}
+                              </p>
 
                               <div className="space-y-2.5 pt-1">
                                 <div>
@@ -1385,15 +1464,15 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                                     {planData.reportCard.csr.threeYearAvg}
                                   </div>
                                   <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                    {planData.reportCard.csr.threeYearAvgLabel || '3 Year Average'}
+                                    {planData.reportCard.csr.threeYearAvgLabel || '3 Years Avg Ratio'}
                                   </div>
                                 </div>
                               </div>
 
                               <WatchVideoButton
-                                title="CSR (Claim Settlement Ratio)"
+                                title={planData.reportCard?.csr?.title || 'Claim Settlement Ratio'}
                                 onOpenVideo={handleOpenVideo}
-                                videoUrl={planData.reportCard.csr.videoUrl || demoVideoUrl}
+                                videoUrl={planData.reportCard?.csr?.videoUrl || demoVideoUrl}
                               />
                             </div>
                           </motion.div>
@@ -1401,7 +1480,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                       </AnimatePresence>
                     </div>
 
-                    {/* Box 2: ICR */}
+                    {/* Box 2: Incurred Claim Ratio */}
                     <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
                       <button
                         type="button"
@@ -1410,7 +1489,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
                           <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
-                            ICR
+                            {planData.reportCard?.icr?.title || 'Incurred Claim Ratio'}
                           </span>
                           {planData.reportCard?.icr?.summaryValue && (
                             <span className="text-xs sm:text-sm font-bold text-slate-700 tracking-tight shrink-0 font-display">
@@ -1433,28 +1512,28 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             className="overflow-hidden"
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <div>
+                              {planData.reportCard.icr.subtitle && planData.reportCard.icr.subtitle !== planData.reportCard.icr.title && (
                                 <span className="text-[11px] sm:text-xs font-semibold text-[#0038A8] tracking-wide block font-display">
-                                  {planData.reportCard.icr.subtitle || 'Incurred Claim Ratio'}
+                                  {planData.reportCard.icr.subtitle}
                                 </span>
-                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
-                                  {planData.reportCard.icr.explanation}
-                                </p>
-                              </div>
+                              )}
+                              <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                {planData.reportCard.icr.explanation}
+                              </p>
 
                               <div className="pt-1">
                                 <div className="text-base sm:text-lg font-bold text-slate-900 tracking-tight font-display">
                                   {planData.reportCard.icr.range}
                                 </div>
                                 <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                  {planData.reportCard.icr.rangeLabel || 'Healthy ICR Range'}
+                                  {planData.reportCard.icr.rangeLabel || 'Incurred Claim Ratio'}
                                 </div>
                               </div>
 
                               <WatchVideoButton
-                                title="ICR (Incurred Claim Ratio)"
+                                title={planData.reportCard?.icr?.title || 'Incurred Claim Ratio'}
                                 onOpenVideo={handleOpenVideo}
-                                videoUrl={planData.reportCard.icr.videoUrl || demoVideoUrl}
+                                videoUrl={planData.reportCard?.icr?.videoUrl || demoVideoUrl}
                               />
                             </div>
                           </motion.div>
@@ -1462,7 +1541,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                       </AnimatePresence>
                     </div>
 
-                    {/* Box 3: COMPLAINT VOLUME */}
+                    {/* Box 3: Complaints/10K */}
                     <div className="rounded-xl sm:rounded-2xl border border-[#0038A8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#0038A8]/70 transition-colors">
                       <button
                         type="button"
@@ -1471,7 +1550,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
                           <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#0038A8] transition-colors font-display shrink-0">
-                            COMPLAINT VOLUME
+                            {planData.reportCard?.complaintVolume?.title || 'Complaints/10K'}
                           </span>
                           {planData.reportCard?.complaintVolume?.summaryValue && (
                             <span className="text-xs sm:text-sm font-bold text-slate-700 tracking-tight shrink-0 font-display">
@@ -1494,6 +1573,11 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                             className="overflow-hidden"
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
+                              {planData.reportCard.complaintVolume.subtitle && planData.reportCard.complaintVolume.subtitle !== planData.reportCard.complaintVolume.title && (
+                                <span className="text-[11px] sm:text-xs font-semibold text-[#0038A8] tracking-wide block font-display">
+                                  {planData.reportCard.complaintVolume.subtitle}
+                                </span>
+                              )}
                               <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
                                 {planData.reportCard.complaintVolume.explanation}
                               </p>
@@ -1508,9 +1592,9 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                               </div>
 
                               <WatchVideoButton
-                                title="Complaint Volume"
+                                title={planData.reportCard?.complaintVolume?.title || 'Complaints/10K'}
                                 onOpenVideo={handleOpenVideo}
-                                videoUrl={planData.reportCard.complaintVolume.videoUrl || demoVideoUrl}
+                                videoUrl={planData.reportCard?.complaintVolume?.videoUrl || demoVideoUrl}
                               />
                             </div>
                           </motion.div>
@@ -1845,6 +1929,68 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                               <li key={pIdx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
                                 <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-xs" />
                                 <span>{pt}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                        {item.paragraphs && (
+                          <div className="space-y-1 pt-1 border-t border-slate-100 text-xs text-slate-600 font-medium">
+                            {item.paragraphs.map((para, pIdx) => (
+                              <p key={pIdx}>{para}</p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* MODAL 5: PERFECT FOR */}
+              {activeModal === 'bestSuitedFor' && (
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                      PERFECT FOR
+                    </h2>
+                    <p className="text-xs text-[#0038A8] font-medium mt-0.5">
+                      {planData.bestSuitedFor?.subheading || 'Who is this plan perfect for?'}
+                    </p>
+                    {planData.bestSuitedFor?.description && (
+                      <p className="text-xs text-slate-500 font-normal mt-0.5">
+                        {planData.bestSuitedFor.description}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-3">
+                    {planData.bestSuitedFor?.profiles?.map((profile, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-[#0038A8]/30 shadow-2xs space-y-2 text-left hover:border-[#0038A8]/60 transition-colors"
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg sm:text-xl shrink-0 select-none">{profile.icon || '👤'}</span>
+                            <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A] font-display">
+                              {profile.title}
+                            </h4>
+                          </div>
+                          {profile.badge && (
+                            <span className="inline-block text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/20 shrink-0 font-display">
+                              {profile.badge}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                          {profile.summary || profile.description}
+                        </p>
+                        {profile.highlights && (
+                          <ul className="space-y-1 pt-1.5 border-t border-slate-100">
+                            {profile.highlights.map((hl, hlIdx) => (
+                              <li key={hlIdx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
+                                <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-xs" />
+                                <span>{hl}</span>
                               </li>
                             ))}
                           </ul>

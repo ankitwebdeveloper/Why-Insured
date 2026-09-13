@@ -306,7 +306,7 @@ export const getCompanyRatioValue = (companyId, ratioType, planData = null) => {
   const ratios = {
     'hdfc-ergo': { complaint: '12.4 per 10k', settlement: '98.6%', incurred: '54%', solvency: '1.90' },
     'hdfc-life': { complaint: '12.4 per 10k', settlement: '98.6%', incurred: '54%', solvency: '1.90' },
-    'tata-aig': { complaint: '14.2 per 10k', settlement: '99.0%', incurred: '68%', solvency: '1.85' },
+    'tata-aig': { complaint: '11.6 per 10k', settlement: '89.5%', incurred: '77.50%', solvency: '1.85' },
     'star-health': { complaint: '18.5 per 10k', settlement: '97.9%', incurred: '63%', solvency: '1.72' },
     'niva-bupa': { complaint: '16.1 per 10k', settlement: '98.2%', incurred: '58%', solvency: '1.65' },
     'icici-lombard': { complaint: '15.3 per 10k', settlement: '98.5%', incurred: '72%', solvency: '1.78' },
