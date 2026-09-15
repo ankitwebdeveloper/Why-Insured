@@ -1,6 +1,6 @@
 import { optimaSecurePlusData } from '../data/optimaSecurePlusData';
 
-const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '');
+const API_BASE = (import.meta.env.VITE_API_URL || 'https://why-insured-backend.vercel.app').replace(/\/+$/, '');
 const API_URL = `${API_BASE}/api/optima-secure-plus`;
 const AUTH_URL = `${API_BASE}/api/admin`;
 
