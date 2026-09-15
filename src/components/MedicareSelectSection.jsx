@@ -1195,12 +1195,12 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
         </div>
 
         {/* 3. 6-BUTTON PRIMARY NAVIGATION GRID */}
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 md:gap-5 w-full">
           {/* Card 1: REPORT CARD */}
           <button
             type="button"
             onClick={() => setActiveModal('ratio')}
-            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+            className={`bg-white rounded-xl sm:rounded-2xl border p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
               activeModal === 'ratio'
                 ? 'border-[#0038A8] ring-2 ring-[#0038A8]/20'
                 : 'border-slate-200/80 hover:border-[#0038A8]/40'
@@ -1209,7 +1209,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
               activeModal === 'ratio' ? 'bg-[#0038A8]' : 'bg-[#0038A8]/30 group-hover:bg-[#0038A8]'
             }`} />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               REPORT CARD
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
@@ -1221,7 +1221,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           <button
             type="button"
             onClick={() => setActiveModal('fundamental')}
-            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+            className={`bg-white rounded-xl sm:rounded-2xl border p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
               activeModal === 'fundamental'
                 ? 'border-[#0038A8] ring-2 ring-[#0038A8]/20'
                 : 'border-slate-200/80 hover:border-[#0038A8]/40'
@@ -1230,7 +1230,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
               activeModal === 'fundamental' ? 'bg-[#0038A8]' : 'bg-[#0038A8]/30 group-hover:bg-[#0038A8]'
             }`} />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               COMPANY STRENGTH
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
@@ -1241,10 +1241,10 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           {/* Card 3: POLICY BENEFITS */}
           <Link
             to={`/insurance/${company.id}/${currentPlanId}/features`}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#0038A8]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#0038A8]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0038A8]/30 group-hover:bg-[#0038A8] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               POLICY BENEFITS
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
@@ -1259,7 +1259,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               setActiveModal('limitations');
               setActiveLimitationId(null);
             }}
-            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+            className={`bg-white rounded-xl sm:rounded-2xl border p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
               activeModal === 'limitations'
                 ? 'border-[#0038A8] ring-2 ring-[#0038A8]/20'
                 : 'border-slate-200/80 hover:border-[#0038A8]/40'
@@ -1268,7 +1268,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
               activeModal === 'limitations' ? 'bg-[#0038A8]' : 'bg-[#0038A8]/30 group-hover:bg-[#0038A8]'
             }`} />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               LIMITATIONS
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
@@ -1276,11 +1276,11 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             </div>
           </button>
 
-          {/* Card 5: MUST KNOW */}
+          {/* Card 5: MUST KNOW DETAILS */}
           <button
             type="button"
             onClick={() => setActiveModal('mustKnow')}
-            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+            className={`bg-white rounded-xl sm:rounded-2xl border p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
               activeModal === 'mustKnow'
                 ? 'border-[#0038A8] ring-2 ring-[#0038A8]/20'
                 : 'border-slate-200/80 hover:border-[#0038A8]/40'
@@ -1289,9 +1289,18 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
               activeModal === 'mustKnow' ? 'bg-[#0038A8]' : 'bg-[#0038A8]/30 group-hover:bg-[#0038A8]'
             }`} />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
-              MUST KNOW
-            </h3>
+            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1">
+              <motion.span
+                animate={{ scale: [1, 1.15, 1], opacity: [0.85, 1, 0.85] }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                className="text-[#0038A8] text-xs sm:text-base font-black select-none shrink-0"
+              >
+                ✦
+              </motion.span>
+              <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight tracking-tight uppercase">
+                MUST KNOW DETAILS
+              </h3>
+            </div>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
@@ -1301,7 +1310,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
           <button
             type="button"
             onClick={() => setActiveModal('bestSuitedFor')}
-            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+            className={`bg-white rounded-xl sm:rounded-2xl border p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
               activeModal === 'bestSuitedFor'
                 ? 'border-[#0038A8] ring-2 ring-[#0038A8]/20'
                 : 'border-slate-200/80 hover:border-[#0038A8]/40'
@@ -1310,7 +1319,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
               activeModal === 'bestSuitedFor' ? 'bg-[#0038A8]' : 'bg-[#0038A8]/30 group-hover:bg-[#0038A8]'
             }`} />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1">
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#0038A8] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               PERFECT FOR
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0038A8] group-hover:bg-[#F0F4FF] group-hover:border-[#0038A8]/20 transition-all duration-200 shrink-0">
@@ -1360,7 +1369,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                   { id: 'fundamental', label: 'Company Strength' },
                   { id: 'features', label: 'Policy Benefits', isLink: true, url: `/insurance/${company.id}/${currentPlanId}/features` },
                   { id: 'limitations', label: 'Limitations' },
-                  { id: 'mustKnow', label: 'Must Know' },
+                  { id: 'mustKnow', label: 'Must Know Details' },
                   { id: 'bestSuitedFor', label: 'Perfect For' }
                 ].map((tab) => {
                   if (tab.isLink) {
