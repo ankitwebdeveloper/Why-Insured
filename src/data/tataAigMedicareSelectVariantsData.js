@@ -1,6 +1,13 @@
 // =============================================================================
-// TATA AIG MEDICARE SELECT — 3 VARIANTS COMPREHENSIVE DATA
-// Variants: MediCare Select, MediCare Select Smart, MediCare Select Elite
+// TATA AIG MEDICARE SELECT — COMPREHENSIVE DATA & VARIANTS
+// Exact Policy Benefit Sequence & Official Content
+// Sections:
+//   1. MOST IMPORTANT (100% Cashless Policy, Room Category, Pre & Post, Day Care)
+//   2. VALUE ADDED (Restore Infinity Plus, No Claim Bonus, AYUSH, Organ Donor, Professional Discount)
+//   3. ADDITIONAL (Domiciliary Treatment, Ambulance Cover, Daily Cash)
+//   4. OPTIONAL ADD-ONS (Consumables, Supercharge Bonus, Infinite Advantage, Preventive Checkup, Advance Cover, Maternity Care, Accidental Death & Riders)
+//   5. PREMIUM SAVER / POLICY OPTIONS (Room Category Select, Valued Provider Network, Aggregate Deductible Discount)
+//   6. LIMITATIONS & WAITING PERIODS (30 Days, 36 Months PED, 24 Months Specified, Permanent Exclusions)
 // =============================================================================
 
 export const TATA_AIG_SHARED_REPORT_CARD = {
@@ -29,7 +36,7 @@ export const TATA_AIG_SHARED_REPORT_CARD = {
     title: 'Complaints/10K',
     summaryValue: '11.6',
     subtitle: 'Complaints/10K',
-    explanation: 'Around 11.6 complaints per 10,000 claims settled,    showing a low number of complaints.',
+    explanation: 'Around 11.6 complaints per 10,000 claims settled, showing a low number of complaints.',
     value: '11.6',
     label: 'Complaints/10K — 11.6'
   }
@@ -116,20 +123,20 @@ export const TATA_AIG_SHARED_BEST_SUITED_FOR = {
       ]
     },
     {
-      title: 'Working Professionals & Middle-Income Families',
+      title: 'Working Professionals & Salaried Employees',
       icon: '👨‍💼',
-      summary: 'Individuals looking for balanced, premium healthcare protection with sum insured from ₹5 Lakhs to ₹3 Crore and 0% mandatory co-payment.',
-      badge: 'Comprehensive',
+      summary: 'Salaried customers who can avail an exclusive 7.5% professional discount on premium with corporate email verification.',
+      badge: '7.5% Discount',
       highlights: [
+        '7.5% direct discount on annual policy premium',
         'Zero mandatory co-payment across network hospitals',
-        'Flexible sum insured options from ₹5L up to ₹3 Crore',
         'Includes pre and post hospitalization expenses'
       ]
     },
     {
       title: 'Cost-Conscious Quality Seekers',
       icon: '🛡️',
-      summary: 'Policyholders wanting Tata AIG brand trust, top-tier solvency, and nationwide cashless hospital access without excessive premiums.',
+      summary: 'Policyholders wanting Tata AIG brand trust, top-tier solvency, and nationwide cashless hospital access with flexible Shared Room / Deductible premium savers.',
       badge: 'High Value',
       highlights: [
         'Backed by Tata Group & AIG global underwriting',
@@ -141,7 +148,7 @@ export const TATA_AIG_SHARED_BEST_SUITED_FOR = {
 };
 
 // =============================================================================
-// METADATA FOR 3 MEDICARE SELECT VARIANTS
+// METADATA FOR MEDICARE SELECT VARIANTS
 // =============================================================================
 export const MEDICARE_SELECT_VARIANTS_META = [
   {
@@ -157,7 +164,7 @@ export const MEDICARE_SELECT_VARIANTS_META = [
       'Room Category: Single Private Room',
       'Restore Infinity Plus: Unlimited Restore',
       'Sub-Limit | Co-Pay: No Copay | No Sublimit',
-      'Super Charge Bonus & Consumables: Available as Rider'
+      'Supercharge Bonus & Consumables: Available as Rider'
     ]
   },
   {
@@ -171,12 +178,10 @@ export const MEDICARE_SELECT_VARIANTS_META = [
     popular: false,
     highlights: [
       'Available Sum Insured: 5 Lakhs – 25 Lakhs',
-      'Product Offerings: Fresh + Port',
       'Hospital Type: VPN Only*',
       'Room Category: Twin Sharing',
       'Restore Infinity Plus: Unlimited Restore',
-      'Sub-Limit | Co-Pay: No Copay | No Sublimit',
-      'Super Charge Bonus & Consumables: Available as Rider'
+      'Sub-Limit | Co-Pay: No Copay | No Sublimit'
     ]
   },
   {
@@ -190,21 +195,705 @@ export const MEDICARE_SELECT_VARIANTS_META = [
     popular: false,
     highlights: [
       'Available Sum Insured: 25 Lakhs – 3 Crore',
-      'Product Offerings: Only Fresh',
-      'Hospital Type: All Network Hospital',
+      'Hospital Type: All Network Hospitals',
       'Room Category: Any Room',
-      'Restore Infinity Plus: Unlimited Restore',
-      'Sub-Limit | Co-Pay: No Copay | No Sublimit',
-      'Super Charge Bonus: Inbuilt up to 5X',
+      'Supercharge Bonus: Inbuilt up to 5X',
       'Consumables: Inbuilt'
     ]
   }
 ];
 
 // =============================================================================
+// CORE BENEFIT SECTIONS FOR TATA AIG MEDICARE SELECT (STANDARD / FLAGSHIP)
+// Exact 4-Section Architecture:
+// 1. MOST IMPORTANT
+// 2. VALUE ADDED
+// 3. ADDITIONAL
+// 4. OPTIONAL ADD-ONS
+// =============================================================================
+export const TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS = [
+  // ---------------------------------------------------------------------------
+  // 1. MOST IMPORTANT
+  // ---------------------------------------------------------------------------
+  {
+    id: 'most-important-features',
+    title: 'MOST IMPORTANT',
+    gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
+    items: [
+      {
+        id: 'select-cashless-policy',
+        title: '100% Cashless Policy',
+        subtitle: 'Cashless Treatment Across Network Hospitals',
+        badge: '100% CASHLESS',
+        iconType: 'credit',
+        summary: 'Get cashless treatment at network hospitals for eligible hospitalisation expenses covered under the policy with zero co-pay and zero sublimits.',
+        points: [
+          'Get cashless treatment at network hospitals for eligible hospitalisation expenses covered under the policy.',
+          "No Co-pay: You don't have to pay a fixed percentage of the eligible hospital bill.",
+          'No Sublimits: There is no separate fixed limit on eligible surgeries or treatments, as per policy terms.'
+        ]
+      },
+      {
+        id: 'select-room-category',
+        title: 'Room Category — MUST READ',
+        subtitle: 'Single Private Room | Shared Room Option',
+        badge: 'SINGLE PRIVATE ROOM',
+        iconType: 'home',
+        summary: 'Single Private Room covered with zero room rent capping. You can also choose a shared room instead of a Single Private Room and get a lower premium.',
+        points: [
+          'Single Private Room — Covered for one patient with no room rent limit and no extra deductions.',
+          'Shared Room Option — Choose a shared room instead of a Single Private Room and get a lower premium.',
+          'No Proportionate Deduction — No deduction on overall hospital bill when staying in eligible room.'
+        ],
+        sharedRoomBenefit: {
+          title: 'Shared Room Option',
+          badge: 'Lower Premium',
+          description: 'Choose a shared room instead of a Single Private Room and get a lower premium.'
+        }
+      },
+      {
+        id: 'select-pre-post',
+        title: 'Pre & Post Hospitalization Expenses',
+        subtitle: 'Up to 90 Days Pre & 90 Days Post',
+        badge: '90 & 90 DAYS',
+        iconType: 'calendar',
+        summary: 'Pre-Hospitalisation is covered up to 90 days before admission and Post-Hospitalisation is covered up to 90 days after discharge for eligible medical expenses.',
+        points: [
+          'Pre-Hospitalisation: Up to 90 days before admission.',
+          'Post-Hospitalisation: Up to 90 days after discharge.',
+          'Covered eligible expenses may include: Doctor consultations, Medicines/pharmacy expenses, Lab tests.',
+          'Important: These may look like OPD expenses, but they are not standalone OPD expenses. If the hospitalization claim is covered, eligible pre and post hospitalization expenses are also covered as per policy terms. If the hospitalization claim is not covered, these expenses will not be covered.'
+        ]
+      },
+      {
+        id: 'select-day-care',
+        title: 'Day Care Procedures',
+        subtitle: 'Treatments Requiring Less Than 24 Hours',
+        badge: 'ALL DAY CARE',
+        iconType: 'activity',
+        summary: 'Covers eligible medical treatments and surgeries that require less than 24 hours of hospitalisation.',
+        points: [
+          'Covers eligible treatments that require less than 24 hours of hospitalisation.',
+          'Examples include eligible surgeries or medical procedures that can be completed in less than 24 hours.',
+          '100% coverage up to Base Sum Insured.'
+        ]
+      }
+    ]
+  },
+
+  // ---------------------------------------------------------------------------
+  // 2. VALUE ADDED
+  // ---------------------------------------------------------------------------
+  {
+    id: 'value-added-benefits',
+    title: 'VALUE ADDED',
+    gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+    items: [
+      {
+        id: 'select-restoration',
+        title: 'Restore Infinity Plus (Restoration)',
+        subtitle: 'Unlimited Restorations in a Policy Year',
+        badge: 'UNLIMITED RESTORE',
+        iconType: 'refresh',
+        summary: 'Unlimited restorations during a policy year, restoring 100% of the Base Sum Insured for subsequent related or unrelated claims.',
+        points: [
+          'Unlimited restorations during a policy year.',
+          'Restores 100% of the Base Sum Insured for subsequent related or unrelated claims within the policy year.',
+          'Available for the next hospitalisation, not the same hospitalisation.',
+          'Example: ₹10 Lakh Base SI → ₹10 Lakh Restored → ₹10 Lakh Restored Again → Unlimited Times.'
+        ],
+        steps: [
+          '₹10 Lakh Base SI',
+          '₹10 Lakh Restored',
+          '₹10 Lakh Restored Again',
+          'Unlimited Times'
+        ]
+      },
+      {
+        id: 'select-ncb-discount',
+        title: 'No Claim Bonus',
+        subtitle: 'Cumulative Bonus or 1% Renewal Discount',
+        badge: 'BONUS OR DISCOUNT',
+        iconType: 'trending',
+        summary: '50% to 100% Cumulative Bonus for every claim-free year, or 1% Discount on Renewal Premium.',
+        points: [
+          'Cumulative Bonus: 50% to 100% for every claim-free year.',
+          'Example: ₹20 Lakh Base SI → ₹30 Lakh → ₹40 Lakh (The bonus increases by 50% of Base SI each claim-free year, up to 100%).',
+          'OR 1% Discount on Renewal Premium for every claim-free year.',
+          'Important: The customer can choose either Cumulative Bonus or Renewal Premium Discount. Cumulative Bonus applies only when Renewal Premium Discount is not availed.'
+        ]
+      },
+      {
+        id: 'select-ayush',
+        title: 'AYUSH Benefit',
+        subtitle: 'In-Patient & Day Care Alternative Treatments',
+        badge: 'AYUSH COVERED',
+        iconType: 'shield',
+        summary: 'Covers eligible AYUSH treatments taken as In-Patient or Day Care up to the Sum Insured, subject to policy terms.',
+        points: [
+          'Covers eligible AYUSH treatments taken as In-Patient or Day Care, including:',
+          '• Ayurveda',
+          '• Yoga & Naturopathy',
+          '• Unani',
+          '• Siddha',
+          '• Homeopathy',
+          'Up to the Sum Insured, subject to policy terms.'
+        ]
+      },
+      {
+        id: 'select-organ-donor',
+        title: 'Organ Donor',
+        subtitle: 'Harvesting Expenses Covered Up to Sum Insured',
+        badge: 'ORGAN DONOR',
+        iconType: 'heart',
+        summary: 'Covers eligible medical expenses of the organ donor for harvesting the donated organ, up to the Sum Insured.',
+        points: [
+          'Covers eligible medical expenses of the organ donor for harvesting the donated organ, up to the Sum Insured.',
+          "Does not reduce the primary insured's base Sum Insured.",
+          'Protects living organ donors during authorized transplant procedures.'
+        ]
+      },
+      {
+        id: 'select-professional-discount',
+        title: 'Professional Discount — 7.5%',
+        subtitle: '7.5% Discount on Premium for Salaried Customers',
+        badge: '7.5% DISCOUNT',
+        iconType: 'award',
+        summary: 'Exclusive 7.5% discount on premium applicable for salaried customers with valid corporate email verification.',
+        points: [
+          'Applicable for salaried customers.',
+          'Important: Valid corporate email ID required.',
+          'Email verification through OTP required.',
+          'Personal email IDs such as Gmail are not eligible.'
+        ]
+      }
+    ]
+  },
+
+  // ---------------------------------------------------------------------------
+  // 3. ADDITIONAL
+  // ---------------------------------------------------------------------------
+  {
+    id: 'additional-benefits',
+    title: 'ADDITIONAL',
+    gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+    items: [
+      {
+        id: 'select-domiciliary',
+        title: 'Domiciliary Treatment',
+        subtitle: 'Treatment at Home Covered',
+        badge: 'HOME TREATMENT',
+        iconType: 'home',
+        summary: 'Treatment at home for more than 3 days is covered when the patient cannot be moved or hospital beds are full, subject to policy terms.',
+        points: [
+          'Treatment at home is covered as per policy terms.',
+          'Important: Eligible treatment taken at home for more than 3 days may be covered when:',
+          '• Patient cannot be shifted to a hospital, OR',
+          '• Hospital bed/room is not available, subject to policy terms.'
+        ]
+      },
+      {
+        id: 'select-ambulance',
+        title: 'Ambulance Cover',
+        subtitle: 'Emergency Road Ambulance within 50 km Radius',
+        badge: 'ROAD AMBULANCE',
+        iconType: 'truck',
+        summary: 'Covers ambulance expenses up to the Sum Insured for transportation within a 50 km radius.',
+        points: [
+          'Covers ambulance expenses up to the Sum Insured for transportation within a 50 km radius.',
+          'Cashless or reimbursement claim facility available.',
+          'Emergency transportation support to the nearest equipped network hospital.'
+        ]
+      },
+      {
+        id: 'select-daily-cash',
+        title: 'Daily Cash',
+        subtitle: 'Fixed Daily Allowance for Shared Accommodation',
+        badge: 'DAILY CASH',
+        iconType: 'dollar',
+        summary: 'Fixed daily cash benefit when choosing shared hospital accommodation: Twin Sharing (₹1,200/day) & Multi-Sharing (₹1,500/day), over and above Base SI.',
+        points: [
+          'Fixed daily cash benefit when choosing shared hospital accommodation:',
+          '• Twin Sharing: ₹1,200 per day',
+          '• Multi-Sharing: ₹1,500 per day',
+          'This is over and above the Base Sum Insured.'
+        ]
+      }
+    ]
+  },
+
+  // ---------------------------------------------------------------------------
+  // 4. OPTIONAL ADD-ONS (Extra Benefits With Extra Premium)
+  // ---------------------------------------------------------------------------
+  {
+    id: 'optional-add-ons',
+    title: 'OPTIONAL ADD-ONS',
+    gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+    items: [
+      {
+        id: 'select-opt-consumables',
+        title: 'Consumables Benefit',
+        subtitle: 'Non-Medical Items & Disposables Covered',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'shield',
+        summary: 'Covers eligible non-medical expenses such as gloves, syringes, cotton, and other consumables to reduce out-of-pocket expenses.',
+        points: [
+          'Covers eligible non-medical expenses such as: Gloves, Syringes, Cotton, Other eligible consumables.',
+          'Helps reduce out-of-pocket expenses, subject to policy terms.'
+        ]
+      },
+      {
+        id: 'select-opt-supercharge',
+        title: 'Supercharge Bonus Rider',
+        subtitle: '100% to 500% Bonus Irrespective of Claims',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'trending',
+        summary: '100% to 500% Bonus added every year irrespective of claims: ₹20L → ₹40L → ₹60L → ₹80L → ₹1Cr → ₹1.20Cr (increases by 100% of Base SI up to 500%).',
+        points: [
+          '100% to 500% Bonus irrespective of claims.',
+          'Example: ₹20 Lakh Base SI → ₹40 Lakh → ₹60 Lakh → ₹80 Lakh → ₹1 Crore → ₹1.20 Crore.',
+          'Bonus increases by 100% of Base SI, up to 500%.'
+        ]
+      },
+      {
+        id: 'select-opt-infinite-advantage',
+        title: 'Infinite Advantage',
+        subtitle: 'One Unlimited Claim in a Lifetime',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'heart',
+        summary: 'One unlimited claim in a lifetime beyond the available Sum Insured. Example: ₹10L Base SI → eligible future claim of ₹70L.',
+        points: [
+          'One unlimited claim in a lifetime.',
+          'Example: ₹10 Lakh Base SI → eligible future claim of ₹70 Lakh. Infinite Advantage can cover the amount beyond the available Sum Insured, subject to policy terms.',
+          'Important: Can be used only once during the lifetime of the policy. Once used, it ceases. Cannot be opted again on renewal.'
+        ]
+      },
+      {
+        id: 'select-opt-preventive-checkup',
+        title: 'Preventive Annual Health Checkup Rider',
+        subtitle: 'Cashless Home Visit with 10 Comprehensive Tests',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'clipboard',
+        summary: 'Available once in a Policy Year on a cashless basis with home visit, covering 10 essential diagnostic screenings.',
+        points: [
+          'Available once in a Policy Year on a cashless basis with home visit.',
+          'Tests:',
+          '• Liver Function Test, Calcium, KFT with Electrolytes, Complete Blood Count (CBC)',
+          '• ESR, HbA1c, Lipid Profile, Phosphorus, Urine Analysis, Fasting Blood Sugar'
+        ]
+      },
+      {
+        id: 'select-opt-advance-cover',
+        title: 'Advanced Cover Rider',
+        subtitle: 'Reduces PED Waiting Period to 30 Days',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'clock',
+        summary: 'Reduces the Pre-Existing Disease waiting period from 36 months to 30 days for Diabetes (Type 2), Hypertension, Hyperlipidemia, and Asthma.',
+        points: [
+          'Reduces the Pre-Existing Disease waiting period from 36 months to 30 days for:',
+          '• Diabetes Mellitus (Type 2)',
+          '• Hypertension',
+          '• Hyperlipidemia',
+          '• Asthma'
+        ]
+      },
+      {
+        id: 'select-opt-maternity-care',
+        title: 'Maternity Care',
+        subtitle: 'Maternity Care — Ask Questions from the RM',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'smile',
+        summary: 'Maternity Care — Ask Questions from the RM for available options and eligibility terms.',
+        points: [
+          'Maternity Care — Ask Questions from the RM.',
+          'Do not invent additional maternity coverage details.'
+        ]
+      },
+      {
+        id: 'select-opt-accidental-death',
+        title: 'Accidental Death Benefit Rider',
+        subtitle: '100% of Sum Insured OR ₹50,00,000 Payout',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'shield',
+        summary: 'If an Insured Person dies due to an accident during the Policy Period: 100% of Sum Insured OR ₹50,00,000 (whichever is lower) will be paid.',
+        points: [
+          'If an Insured Person dies due to an accident during the Policy Period: 100% of Sum Insured OR ₹50,00,000, whichever is lower, will be paid.',
+          'Examples: ₹20 Lakh SI → ₹20 Lakh payout; ₹75 Lakh SI → ₹50 Lakh payout.',
+          'Important: Death must occur within 365 days of the accident and be directly caused by the accident.'
+        ]
+      },
+      {
+        id: 'select-opt-pocket-saver',
+        title: 'Pocket Saver',
+        subtitle: 'Outpatient & Incidental Expense Protection',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'dollar',
+        summary: 'Optional benefit designed to assist with routine out-of-pocket healthcare expenses and minor clinic visits.',
+        points: [
+          'Provides financial assistance for outpatient medical costs',
+          'Helps minimize daily medical expenditures',
+          'Subject to policy schedule and applicable variant limits'
+        ]
+      },
+      {
+        id: 'select-opt-accidental-si',
+        title: 'Additional Sum Insured for Accidental Hospitalization',
+        subtitle: 'Extra Financial Cushion for Accidental Inpatient Care',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'shield',
+        summary: 'Provides an additional buffer of Sum Insured dedicated specifically to accidental hospitalization claims.',
+        points: [
+          'Additional Sum Insured activated exclusively for accidental inpatient admissions',
+          'Preserves base Sum Insured for non-accidental illness claims',
+          'Zero waiting period for accidental hospitalization'
+        ]
+      },
+      {
+        id: 'select-opt-cancer-benefit',
+        title: 'Cancer Benefit',
+        subtitle: 'Dedicated Cancer Care & Oncology Coverage',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'activity',
+        summary: 'Comprehensive financial support and enhanced coverage dedicated to oncology diagnostics, chemotherapy, and radiation.',
+        points: [
+          'Covers chemotherapy, radiotherapy, and targeted oncology treatments',
+          'Specialist consultations and specialized diagnostic investigations',
+          'Financial cushion against prolonged oncology procedures'
+        ]
+      },
+      {
+        id: 'select-opt-domestic-second-opinion',
+        title: 'Domestic Second Opinion',
+        subtitle: 'Consultation with Leading Indian Specialists',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'users',
+        summary: 'Access independent second medical opinions from premier medical specialists and experts across India.',
+        points: [
+          'E-consultations with leading domestic medical specialists',
+          'Covers major critical illnesses, scheduled surgeries, and oncology',
+          'Helps make informed, confident treatment decisions'
+        ]
+      },
+      {
+        id: 'select-opt-early-access',
+        title: 'Early Access',
+        subtitle: 'Priority Claim & Admission Coordination',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'zap',
+        summary: 'Priority processing and dedicated assistance for planned admissions and cashless claim approvals.',
+        points: [
+          'Priority cashless authorization coordination',
+          'Dedicated assistance for planned hospitalizations',
+          'Minimizes waiting times during hospital admission & discharge'
+        ]
+      },
+      {
+        id: 'select-opt-women-suraksha',
+        title: 'Women Suraksha',
+        subtitle: 'Dedicated Female Health & Wellness Cover',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'heart',
+        summary: 'Comprehensive women-specific health coverage including specialized preventive screenings and critical illness protection.',
+        points: [
+          'Tailored for women healthcare needs and critical female illnesses',
+          'Includes specialized preventive screenings and wellness care',
+          'Dedicated care support for female policyholders'
+        ]
+      },
+      {
+        id: 'select-opt-hcmp',
+        title: 'Health Condition Management Program',
+        subtitle: 'Chronic Disease Monitoring & Wellness Coach',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'clipboard',
+        summary: 'Digital chronic disease monitoring and personalized health coaching for lifestyle conditions.',
+        points: [
+          'Personalized health monitoring for lifestyle conditions',
+          'Dedicated dieticians, fitness coaches, and wellness trackers',
+          'Rewards and premium discounts on achieving health milestones'
+        ]
+      },
+      {
+        id: 'select-opt-empower-her',
+        title: 'EmpowerHer',
+        subtitle: 'Holistic Female Health & Fertility Wellness',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'heart',
+        summary: 'Female wellness program covering fertility consultations, hormonal evaluations, and specialized care.',
+        points: [
+          'Dedicated female health screening and fertility counseling',
+          'Comprehensive support for PCOS, endometriosis, and hormonal care',
+          'Empowering women with comprehensive health security'
+        ]
+      },
+      {
+        id: 'select-opt-mental-wellbeing',
+        title: 'Mental Wellbeing',
+        subtitle: 'Psychological Consultations & Therapy Sessions',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'smile',
+        summary: 'Confidential mental health consultations, psychiatric sessions, and wellness therapy support.',
+        points: [
+          'Inpatient and outpatient psychiatric consultations covered',
+          'Confidential e-sessions with certified clinical psychologists',
+          'Comprehensive support for stress, anxiety, and depression management'
+        ]
+      },
+      {
+        id: 'select-opt-air-ambulance',
+        title: 'Emergency Air Ambulance Rider',
+        subtitle: 'Aero-Medical Evacuation Coverage',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'truck',
+        summary: 'Covers emergency air ambulance aircraft transportation for rapid transfer to advanced multi-specialty medical centers.',
+        points: [
+          'Domestic air ambulance evacuation expenses covered',
+          'Immediate aero-medical transit to advanced tertiary facilities',
+          'Lifesaving transportation during critical emergencies'
+        ]
+      },
+      {
+        id: 'select-opt-international-second-opinion',
+        title: 'International Second Opinion',
+        subtitle: 'Global Medical Expert Panel Consultation',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'globe',
+        summary: 'Second opinion from globally renowned international medical centers for diagnosed critical conditions.',
+        points: [
+          'Consultations from world-class international hospitals',
+          'Comprehensive review of medical records and diagnostics',
+          'Access to cutting-edge global clinical perspectives'
+        ]
+      },
+      {
+        id: 'select-opt-premium-saver',
+        title: 'Premium Saver',
+        subtitle: 'Flexible Cost-Optimization Features',
+        badge: 'RIDER',
+        isRider: true,
+        iconType: 'dollar',
+        summary: 'Customizable premium-reduction options designed to optimize your annual health insurance premium.',
+        points: [
+          'Enables policy customization for cost savings',
+          'Pair with deductibles or network options for lower premiums',
+          'Flexible healthcare budget optimization'
+        ]
+      },
+      {
+        id: 'select-saver-twin-sharing',
+        title: 'Room Category Select',
+        subtitle: 'Twin Sharing Room — Lower Premium Option',
+        badge: 'LOWER PREMIUM',
+        isRider: true,
+        iconType: 'home',
+        summary: 'Twin Sharing Room — Lower Premium Option. Choose a shared room instead of a Single Private Room and get a lower premium.',
+        points: [
+          'Twin Sharing Room — Lower Premium Option',
+          'Choose a shared room instead of a Single Private Room and get a lower premium.',
+          'All eligible surgeries, procedures, and ICU care covered up to Sum Insured.'
+        ]
+      },
+      {
+        id: 'select-saver-vpn',
+        title: 'Valued Provider Network',
+        subtitle: 'Pan-India Discounted Network Option',
+        badge: 'VPN DISCOUNT',
+        isRider: true,
+        iconType: 'activity',
+        summary: 'Choose Valued Provider Network if you want a lower premium. Treatment outside the network incurs a 30% co-payment.',
+        points: [
+          'Choose Valued Provider Network if you want a lower premium.',
+          'Important: If treatment is taken outside the Valued Provider — Pan India network, a 30% co-payment applies to the respective claim, subject to policy terms.',
+          'Applicable to: Hospital, Day Care Centre, AYUSH Hospital.',
+          'Example: Inside Valued Provider Network: Eligible Claim ₹1,00,000 → Insurance Company ₹1,00,000 → Co-payment ₹0.',
+          'Outside Valued Provider Network: Eligible Claim ₹1,00,000 → Insurance Company ₹70,000 → You Pay ₹30,000.'
+        ]
+      },
+      {
+        id: 'select-saver-deductible',
+        title: 'Aggregate Deductible Discount',
+        subtitle: 'Available: ₹10K, ₹25K, ₹50K, ₹1 Lakh',
+        badge: 'DEDUCTIBLE DISCOUNT',
+        isRider: true,
+        iconType: 'dollar',
+        summary: 'Higher Deductible → Higher Premium Discount. The selected deductible applies once during a Policy Year.',
+        points: [
+          'Available deductible options: ₹10,000, ₹25,000, ₹50,000, ₹1,00,000.',
+          'Display: Higher Deductible → Higher Premium Discount.',
+          'The selected deductible applies once during a Policy Year. Once the selected deductible amount has been paid through claims, the same deductible does not need to be paid again for eligible claims during that policy year.',
+          'Example: ₹10 Lakh Base SI + ₹1 Lakh Deductible:',
+          '• 1st Claim: ₹60,000 → You Pay ₹60,000',
+          '• 2nd Claim: ₹70,000 → You Pay ₹40,000 + Insurance covers ₹30,000 (Deductible completed: ₹1,00,000)',
+          '• 3rd Claim: ₹2,00,000 → No further ₹1,00,000 deductible → eligible claim covered as per policy terms.',
+          '• Next Policy Year → Deductible starts again.'
+        ],
+        tierData: {
+          title: 'Available Deductible Options',
+          tiers: [
+            { tier: 'Option 1', value: '₹10,000' },
+            { tier: 'Option 2', value: '₹25,000' },
+            { tier: 'Option 3', value: '₹50,000' },
+            { tier: 'Option 4', value: '₹1,00,000' }
+          ]
+        }
+      }
+    ]
+  }
+];
+
+// =============================================================================
+// LIMITATIONS & WAITING PERIODS FOR MEDICARE SELECT
+// =============================================================================
+export const TATA_AIG_MEDICARE_SELECT_LIMITATIONS = {
+  heading: 'LIMITATIONS & WAITING PERIODS',
+  subheading: 'Terms & Waiting Periods',
+  description: 'Interactive policy timelines, specific disease waiting, and permanent exclusions.',
+  items: [
+    {
+      id: 'initial',
+      title: 'Initial Waiting Period — 30 Days',
+      summary: 'Except for accidents. Generally, illness-related claims are not covered during the first 30 days of the policy. Accidental claims are covered as per policy terms.',
+      highlight: 'Accidental hospitalisation is covered from Day 1 with zero waiting period.',
+      policyRef: 'Tata AIG MediCare Select Policy Terms',
+      durationTag: '30 Days'
+    },
+    {
+      id: 'ped',
+      title: 'Pre-Existing Diseases Waiting Period — 36 Months',
+      summary: 'Pre-existing diseases are covered after completion of the 36-month waiting period, subject to policy terms.',
+      highlight: 'Can be reduced to 30 days with the optional Advanced Cover Rider.',
+      policyRef: 'Tata AIG MediCare Select Terms',
+      durationTag: '36 Months'
+    },
+    {
+      id: 'specific',
+      title: 'Specified Disease / Procedure Waiting Period — 24 Months',
+      summary: 'A 24-month waiting period applies to specified diseases and procedures listed under the policy.',
+      diseaseList: [
+        'Cataract & eye surgeries',
+        'Benign Prostatic Hypertrophy (BPH)',
+        'Hernia (all types) & Hydrocele',
+        'Piles, Fistula & Fissure in ano',
+        'Stones in Urinary, Biliary & Renal systems',
+        'Hysterectomy for Menorrhagia / Fibroids',
+        'Joint replacements (non-accidental)',
+        'Osteoarthritis & Osteoporosis',
+        'Sinusitis, DNS, Tonsillectomy & Adenoidectomy',
+        'Benign cysts, nodules, polyps & tumors',
+        'Varicose veins & varicose ulcers',
+        'Spondylosis, Spondylitis & Disc disorders'
+      ],
+      policyRef: 'Tata AIG Specific Illness Schedule',
+      durationTag: '24 Months'
+    },
+    {
+      id: 'permanent',
+      title: 'Permanent Exclusions',
+      summary: 'Any existing disease specifically mentioned as a Permanent Exclusion in the Policy Schedule is not covered.',
+      exclusionsList: [
+        'Cosmetic, aesthetic & plastic surgery',
+        'Intentional self-injury & suicide attempt',
+        'Alcohol, drug or substance abuse treatments',
+        'Obesity & weight control procedures',
+        'Investigation & diagnostic-only admissions',
+        'Rest cure, rehabilitation & respite care',
+        'Unproven / experimental treatments',
+        'Participation in hazardous adventure sports',
+        'War, nuclear or chemical contamination'
+      ],
+      policyRef: 'Standard IRDAI & Tata AIG Guidelines',
+      durationTag: 'Never Covered'
+    }
+  ]
+};
+
+// =============================================================================
+// MUST KNOW DETAILS FOR MEDICARE SELECT
+// =============================================================================
+export const TATA_AIG_MEDICARE_SELECT_MUST_KNOW = {
+  heading: 'MUST-KNOW DETAILS',
+  subheading: 'Important MediCare Select terms that policyholders should keep in mind',
+  buttonLabel: 'MUST KNOW DETAILS',
+  layout: 'details-modal',
+  items: [
+    {
+      id: 'cashless-network',
+      icon: '💳',
+      title: '100% CASHLESS POLICY',
+      summary: 'Cashless treatment at network hospitals for eligible hospitalisation expenses with 0% co-pay and no sub-limits on treatments.'
+    },
+    {
+      id: 'room-rent',
+      icon: '🏥',
+      title: 'SINGLE PRIVATE ROOM & SHARED ROOM OPTION',
+      summary: 'Single Private Room covered with zero room rent capping. You can also choose a Shared Room for lower premium rates.'
+    },
+    {
+      id: 'restore-infinity',
+      icon: '🔄',
+      title: 'RESTORE INFINITY PLUS',
+      summary: 'Unlimited 100% Base Sum Insured restoration for subsequent hospitalizations in a policy year.'
+    },
+    {
+      id: 'pre-post',
+      icon: '📅',
+      title: 'PRE & POST HOSPITALIZATION (90 & 90 DAYS)',
+      summary: 'Covers doctor consultations, pharmacy bills, and lab tests 90 days before admission and 90 days after discharge if hospitalization claim is admissible.'
+    }
+  ]
+};
+
+// Standard MediCare Select Object
+const MEDICARE_SELECT_STANDARD_CONFIG = {
+  planId: 'medicare-select-standard',
+  planName: 'MediCare Select',
+  fullName: 'Tata AIG MediCare Select',
+  companyName: 'Tata AIG',
+  subtitle: 'Single Private Room | No Copay | Unlimited Restore',
+  tagline: 'Standard essential coverage with Single Private Room and Restore Infinity Plus.',
+  coverage: '5 Lakhs – 3 Crore',
+  premium: '₹8,200/year',
+
+  uiConfig: {
+    primaryColor: '#0038A8',
+    accentColor: '#0038A8',
+    lightBg: '#F0F4FF',
+    demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+  },
+
+  reportCard: TATA_AIG_SHARED_REPORT_CARD,
+  companyStrength: TATA_AIG_SHARED_COMPANY_STRENGTH,
+  limitationsWaitingPeriods: TATA_AIG_MEDICARE_SELECT_LIMITATIONS,
+  mustKnow: TATA_AIG_MEDICARE_SELECT_MUST_KNOW,
+  bestSuitedFor: TATA_AIG_SHARED_BEST_SUITED_FOR,
+  featuresSections: TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS
+};
+
+// =============================================================================
 // COMPLETE DATA CONFIGURATION FOR EACH VARIANT
 // =============================================================================
 export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
+  'medicare-select': MEDICARE_SELECT_STANDARD_CONFIG,
+  'medicare-select-standard': MEDICARE_SELECT_STANDARD_CONFIG,
+
   // ---------------------------------------------------------------------------
   // VARIANT 1: MEDICARE SELECT SMART
   // ---------------------------------------------------------------------------
@@ -227,78 +916,7 @@ export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
 
     reportCard: TATA_AIG_SHARED_REPORT_CARD,
     companyStrength: TATA_AIG_SHARED_COMPANY_STRENGTH,
-
-    limitationsWaitingPeriods: {
-      heading: 'LIMITATIONS & WAITING PERIODS',
-      subheading: 'Terms & Waiting Periods',
-      description: 'Interactive policy timelines, specific disease waiting, and permanent exclusions.',
-      items: [
-        {
-          id: 'initial',
-          title: 'Initial Waiting Period (30 Days)',
-          summary: 'A mandatory waiting period of 30 days applies from the policy inception date for any non-accidental illness or hospitalization.',
-          highlight: 'Accidental hospitalization is covered from Day 1 with zero waiting period.',
-          policyRef: 'Tata AIG MediCare Select Smart Policy Terms (Section 3.1)',
-          durationTag: '30 Days'
-        },
-        {
-          id: 'specific',
-          title: '2 Years Waiting Period on Specific Diseases',
-          summary: 'A continuous waiting period of 24 months (2 Years) applies for medical or surgical treatment of specified conditions:',
-          diseaseList: [
-            'Cataract & eye surgeries',
-            'Benign Prostatic Hypertrophy (BPH)',
-            'Hernia (all types) & Hydrocele',
-            'Piles, Fistula & Fissure in ano',
-            'Stones in Urinary, Biliary & Renal systems',
-            'Hysterectomy for Menorrhagia / Fibroids',
-            'Joint replacements (non-accidental)',
-            'Osteoarthritis & Osteoporosis',
-            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy',
-            'Benign cysts, nodules, polyps & tumors',
-            'Varicose veins & varicose ulcers',
-            'Spondylosis, Spondylitis & Disc disorders'
-          ],
-          policyRef: 'Tata AIG Specific Illness Schedule (Section 3.2)',
-          durationTag: '24 Months'
-        },
-        {
-          id: 'ped',
-          title: '48 Months Pre-Existing Disease (PED) Waiting',
-          summary: 'A waiting period of 48 months (4 Years) of continuous coverage applies for pre-existing diseases declared at inception.',
-          highlight: 'Continuous coverage and timely renewal preserve cumulative waiting credits.',
-          policyRef: 'Tata AIG MediCare Select Smart Terms (Section 3.3)',
-          durationTag: '48 Months'
-        },
-        {
-          id: 'vpn-condition',
-          title: 'Hospital Network Special Condition (VPN Only*)',
-          summary: 'Cashless hospitalization is eligible exclusively at designated Value Provider Network (VPN Only*) hospitals.',
-          highlight: '*Subject to Tata AIG Value Provider Network hospital listings.',
-          policyRef: 'VPN Network Hospital Condition',
-          durationTag: 'Network Terms'
-        },
-        {
-          id: 'permanent',
-          title: 'Permanent Exclusions',
-          summary: 'The policy does not cover medical expenses incurred towards treatment of the following permanent exclusions:',
-          exclusionsList: [
-            'Cosmetic, aesthetic & plastic surgery',
-            'Intentional self-injury & suicide attempt',
-            'Alcohol, drug or substance abuse treatments',
-            'Obesity & weight control procedures',
-            'Investigation & diagnostic-only admissions',
-            'Rest cure, rehabilitation & respite care',
-            'Unproven / experimental treatments',
-            'Participation in hazardous adventure sports',
-            'War, nuclear or chemical contamination'
-          ],
-          policyRef: 'Standard IRDAI & Tata AIG Guidelines (Section 4)',
-          durationTag: 'Never Covered'
-        }
-      ]
-    },
-
+    limitationsWaitingPeriods: TATA_AIG_MEDICARE_SELECT_LIMITATIONS,
     mustKnow: {
       heading: 'MUST-KNOW DETAILS',
       subheading: 'Important MediCare Select Smart terms that policyholders should keep in mind',
@@ -331,954 +949,8 @@ export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
         }
       ]
     },
-
-    bestSuitedFor: {
-      heading: 'BEST SUITED FOR',
-      subheading: 'Who should choose MediCare Select Smart?',
-      description: 'Ideal customer profiles and value-focused healthcare scenarios.',
-      profiles: [
-        {
-          title: 'Budget-Conscious Individuals & Young Families',
-          icon: '💰',
-          summary: 'Young professionals and nuclear families seeking reliable Tata AIG health coverage at heavily discounted premiums.',
-          badge: 'Smart Savings',
-          highlights: [
-            'Lower premium structure with Twin Sharing accommodation',
-            'Full restore benefit on basic sum insured',
-            '100% cashless treatment at VPN network hospitals'
-          ]
-        },
-        {
-          title: 'Tier-2 & Tier-3 City Residents',
-          icon: '🏙️',
-          summary: 'Residents in non-metro locations who primarily visit local partner network hospitals and want affordable protection.',
-          badge: 'Regional Network',
-          highlights: [
-            'Optimized for Value Provider Network (VPN) hospital list',
-            'Sum insured range from ₹5 Lakhs to ₹25 Lakhs',
-            'Zero co-payment across eligible network centers'
-          ]
-        },
-        {
-          title: 'First-Time Insurance Buyers',
-          icon: '🌱',
-          summary: 'Individuals starting their healthcare financial planning with essential hospital protection and emergency safety net.',
-          badge: 'Essential Starter',
-          highlights: [
-            'Comprehensive day care surgeries included',
-            'Pre & post hospitalization medical cover',
-            'Automatic recharge with Restore Infinity Plus'
-          ]
-        }
-      ]
-    },
-
-    featuresSections: [
-      // 1. MOST IMPORTANT
-      {
-        id: 'most-important-features',
-        title: 'MOST IMPORTANT',
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 'smart-sum-insured',
-            title: 'AVAILABLE SUM INSURED',
-            subtitle: '5 Lakhs – 25 Lakhs',
-            badge: '5L – 25L',
-            iconType: 'shield',
-            summary: 'Flexible sum insured options ranging from 5 Lakhs up to 25 Lakhs designed for comprehensive essential healthcare protection.',
-            points: [
-              'Available sum insured range: 5 Lakhs – 25 Lakhs',
-              'Comprehensive hospitalization coverage for individual and floater options',
-              'Substantial financial safety net for medical emergencies'
-            ]
-          },
-          {
-            id: 'smart-room-category',
-            title: 'ROOM CATEGORY',
-            subtitle: 'Twin Sharing',
-            badge: 'TWIN SHARING',
-            iconType: 'home',
-            summary: 'Hospital accommodation covered under Twin Sharing room category with zero proportionate deductions within the category.',
-            points: [
-              'Twin Sharing room accommodation covered',
-              'Zero proportionate deduction on twin sharing occupancy',
-              'ICU charges covered up to full Sum Insured'
-            ]
-          },
-          {
-            id: 'smart-sublimit-copay',
-            title: 'SUB-LIMIT | CO-PAY',
-            subtitle: 'No Copay | No Sublimit',
-            badge: 'NO COPAY | NO SUBLIMIT',
-            iconType: 'check',
-            summary: 'Enjoy complete financial protection with 0% mandatory co-payment and no disease-wise capping or sub-limits.',
-            points: [
-              'No Co-pay across all age groups and network hospitals',
-              'No sub-limits on common medical procedures',
-              '100% claim admissible up to eligible Sum Insured'
-            ]
-          },
-          {
-            id: 'smart-restore-infinity',
-            title: 'RESTORE INFINITY PLUS',
-            subtitle: 'Unlimited Restore',
-            badge: 'UNLIMITED RESTORE',
-            iconType: 'refresh',
-            summary: 'Automatically refills 100% of the base Sum Insured unlimited times in a policy year upon exhaustion for subsequent claims.',
-            points: [
-              'Unlimited restoration of basic Sum Insured in a single policy year',
-              'Recharges instantly upon partial or complete exhaustion',
-              'Continuous financial safety net for family members and multiple claims'
-            ]
-          },
-          {
-            id: 'smart-hospital-type',
-            title: 'HOSPITAL TYPE',
-            subtitle: 'VPN Only*',
-            badge: 'VPN ONLY*',
-            iconType: 'activity',
-            summary: '100% cashless hospitalization accessible across designated Value Provider Network (VPN Only*) hospitals nationwide.',
-            points: [
-              'Accessible at designated Value Provider Network (VPN) hospitals',
-              'Seamless cashless admission and claim settlement',
-              '*Applicable as per Tata AIG VPN hospital network directory'
-            ]
-          },
-          {
-            id: 'smart-inpatient',
-            title: 'In-Patient Treatment',
-            subtitle: 'Up to Sum Insured',
-            badge: 'UP TO SUM INSURED',
-            iconType: 'shield',
-            summary: 'Comprehensive coverage for hospitalization expenses including nursing, boarding, doctor visits, ICU, and surgeries.',
-            points: [
-              'Doctor, specialist, and surgeon fees covered',
-              'Prescribed medicines and operational costs included',
-              '100% covered up to base Sum Insured'
-            ]
-          }
-        ]
-      },
-
-      // 2. VALUE ADDED
-      {
-        id: 'value-added-features',
-        title: 'valueAdded',
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 'smart-product-offerings',
-            title: 'PRODUCT OFFERINGS',
-            subtitle: 'Fresh + Port',
-            badge: 'FRESH + PORT',
-            iconType: 'users',
-            summary: 'Available for fresh new policy enrollments as well as seamless porting from other insurers with continuity benefits.',
-            points: [
-              'Available for Fresh policy applications',
-              'Porting allowed from other insurance companies with waiting period credits',
-              'Preserves accumulated continuity benefits upon porting'
-            ]
-          },
-          {
-            id: 'smart-pre-post',
-            title: 'Pre & Post Hospitalization',
-            subtitle: '60 Days Pre & 90 Days Post',
-            badge: '60 & 90 DAYS',
-            iconType: 'calendar',
-            summary: 'Coverage for medical consultations, diagnostic tests, and prescribed medicines 60 days before admission and 90 days after discharge.',
-            points: [
-              '60 Days Pre-Hospitalization medical and diagnostic expenses',
-              '90 Days Post-Hospitalization follow-up consultations and recovery medicines',
-              'Covers diagnostic evaluations and post-discharge therapies'
-            ]
-          },
-          {
-            id: 'smart-day-care',
-            title: 'Day Care Procedures',
-            subtitle: 'All Day Care Procedures Covered',
-            badge: 'ALL DAY CARE',
-            iconType: 'activity',
-            summary: 'Full coverage for modern medical surgeries and treatments requiring less than 24 hours of hospital stay.',
-            points: [
-              'Covers all advanced procedures requiring less than 24 hours admission',
-              'Chemotherapy, dialysis, cataract, and minor surgeries included',
-              '100% coverage up to base Sum Insured'
-            ]
-          }
-        ]
-      },
-
-      // 3. ADDITIONAL
-      {
-        id: 'additional-features',
-        title: 'ADDITIONAL',
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 'smart-ayush-domiciliary',
-            title: 'AYUSH & Domiciliary Treatment',
-            subtitle: 'Alternative & Home Care Covered',
-            badge: 'AYUSH & DOMICILIARY',
-            iconType: 'shield',
-            summary: 'Full coverage for inpatient AYUSH treatments (Ayurveda, Yoga, Unani, Siddha, Homeopathy) and doctor-advised home hospitalization.',
-            points: [
-              'Inpatient AYUSH treatments covered at recognized accredited centers',
-              'Domiciliary (home) hospitalization covered up to Sum Insured',
-              'Doctor certified home medical care included'
-            ]
-          },
-          {
-            id: 'smart-ambulance',
-            title: 'Ambulance Cover',
-            subtitle: 'Emergency Road Ambulance Covered',
-            badge: 'ROAD AMBULANCE',
-            iconType: 'truck',
-            summary: 'Emergency road ambulance expenses covered for prompt transportation to the nearest equipped network hospital.',
-            points: [
-              'Emergency road ambulance transit to nearest hospital',
-              'Cashless or reimbursement claim facility',
-              'Prompt emergency medical transportation support'
-            ]
-          },
-          {
-            id: 'smart-organ-donor',
-            title: 'Organ Donor Expenses',
-            subtitle: 'Inpatient Harvesting Covered',
-            badge: 'ORGAN DONOR',
-            iconType: 'heart',
-            summary: 'In-patient medical expenses incurred by the organ donor for harvesting the organ during an authorized transplant surgery.',
-            points: [
-              'Donor harvesting surgery expenses covered',
-              'Does not reduce the insured primary medical allowance',
-              'Full protection for vital organ transplants'
-            ]
-          }
-        ]
-      },
-
-      // 4. OPTIONAL
-      {
-        id: 'optional-add-ons',
-        title: 'optional',
-        gridCols: 'grid-cols-1 sm:grid-cols-2',
-        items: [
-          {
-            id: 'smart-supercharge-bonus',
-            title: 'SUPER CHARGE BONUS',
-            subtitle: 'Available as Rider',
-            badge: 'AVAILABLE AS RIDER',
-            isRider: true,
-            iconType: 'trending',
-            summary: 'Available as an optional rider to accelerate cumulative bonus growth at renewals, scaling up your protection to combat inflation.',
-            points: [
-              'Available as an optional add-on rider',
-              'Accelerated cumulative bonus growth at each renewal',
-              'Substantially scales up your coverage over time'
-            ]
-          },
-          {
-            id: 'smart-consumables',
-            title: 'CONSUMABLES',
-            subtitle: 'Available as Rider',
-            badge: 'AVAILABLE AS RIDER',
-            isRider: true,
-            iconType: 'shield',
-            summary: 'Available as an optional rider covering non-medical items such as PPE kits, surgical gloves, masks, and syringes with zero out-of-pocket bills.',
-            points: [
-              'Available as an optional add-on rider',
-              'Covers List I non-payable medical consumables',
-              'Zero out-of-pocket expenses for gloves, PPE kits, and cotton at discharge'
-            ]
-          },
-          {
-            id: 'smart-infinite-advantage',
-            title: 'Infinite Advantage Rider',
-            subtitle: 'One Unlimited Claim in Lifetime',
-            badge: 'LIFETIME UNLIMITED',
-            isRider: true,
-            iconType: 'heart',
-            summary: 'Optional rider providing one unlimited claim in a lifetime with zero Sum Insured cap during major catastrophic emergencies.',
-            points: [
-              'One-time unlimited claim amount in a lifetime with no Sum Insured limit',
-              'Safeguards savings against high-cost critical illnesses',
-              'Ultimate financial security for your family'
-            ]
-          },
-          {
-            id: 'smart-preventive-checkup',
-            title: 'Preventive Health Check-up Rider',
-            subtitle: 'Cashless Annual Health Screening',
-            badge: 'HEALTH CHECK-UP',
-            isRider: true,
-            iconType: 'clipboard',
-            summary: 'Annual comprehensive preventive health check-up on a 100% cashless basis across certified diagnostic centers.',
-            points: [
-              '100% cashless annual preventive health check-up screening',
-              'Includes comprehensive diagnostic blood profiles, lipid tests, and organ markers',
-              'Early disease detection and active health monitoring'
-            ]
-          }
-        ]
-      }
-    ]
-  },
-
-  // ---------------------------------------------------------------------------
-  // VARIANT 2: MEDICARE SELECT (FLAGSHIP / STANDARD)
-  // ---------------------------------------------------------------------------
-  'medicare-select-standard': {
-    planId: 'medicare-select-standard',
-    planName: 'MediCare Select',
-    fullName: 'Tata AIG MediCare Select',
-    companyName: 'Tata AIG',
-    subtitle: 'Single Private Room | No Copay | Unlimited Restore',
-    tagline: 'Standard essential coverage with Single Private Room and Restore Infinity Plus.',
-    coverage: '5 Lakhs – 3 Crore',
-    premium: '₹8,200/year',
-
-    uiConfig: {
-      primaryColor: '#0038A8',
-      accentColor: '#0038A8',
-      lightBg: '#F0F4FF',
-      demoVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
-    },
-
-    reportCard: TATA_AIG_SHARED_REPORT_CARD,
-    companyStrength: TATA_AIG_SHARED_COMPANY_STRENGTH,
-
-    limitationsWaitingPeriods: {
-      heading: 'LIMITATIONS & WAITING PERIODS',
-      subheading: 'Terms & Waiting Periods',
-      description: 'Interactive policy timelines, specific disease waiting, and permanent exclusions.',
-      items: [
-        {
-          id: 'initial',
-          title: 'Initial Waiting Period (30 Days)',
-          summary: 'A mandatory waiting period of 30 days applies from the policy inception date for any non-accidental illness or hospitalization.',
-          highlight: 'Accidental hospitalization is covered from Day 1 with zero waiting period.',
-          policyRef: 'Tata AIG MediCare Select Policy Terms (Section 3.1)',
-          durationTag: '30 Days'
-        },
-        {
-          id: 'specific',
-          title: '2 Years Waiting Period on Specific Diseases',
-          summary: 'A continuous waiting period of 24 months (2 Years) applies for medical or surgical treatment of specified conditions:',
-          diseaseList: [
-            'Cataract & eye surgeries',
-            'Benign Prostatic Hypertrophy (BPH)',
-            'Hernia (all types) & Hydrocele',
-            'Piles, Fistula & Fissure in ano',
-            'Stones in Urinary, Biliary & Renal systems',
-            'Hysterectomy for Menorrhagia / Fibroids',
-            'Joint replacements (non-accidental)',
-            'Osteoarthritis & Osteoporosis',
-            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy',
-            'Benign cysts, nodules, polyps & tumors',
-            'Varicose veins & varicose ulcers',
-            'Spondylosis, Spondylitis & Disc disorders'
-          ],
-          policyRef: 'Tata AIG Specific Illness Schedule (Section 3.2)',
-          durationTag: '24 Months'
-        },
-        {
-          id: 'ped',
-          title: '48 Months Pre-Existing Disease (PED) Waiting',
-          summary: 'A waiting period of 48 months (4 Years) of continuous coverage applies for pre-existing diseases declared at inception.',
-          highlight: 'Continuous coverage and timely renewal preserve cumulative waiting credits.',
-          policyRef: 'Tata AIG MediCare Select Terms (Section 3.3)',
-          durationTag: '48 Months'
-        },
-        {
-          id: 'permanent',
-          title: 'Permanent Exclusions',
-          summary: 'The policy does not cover medical expenses incurred towards treatment of the following permanent exclusions:',
-          exclusionsList: [
-            'Cosmetic, aesthetic & plastic surgery',
-            'Intentional self-injury & suicide attempt',
-            'Alcohol, drug or substance abuse treatments',
-            'Obesity & weight control procedures',
-            'Investigation & diagnostic-only admissions',
-            'Rest cure, rehabilitation & respite care',
-            'Unproven / experimental treatments',
-            'Participation in hazardous adventure sports',
-            'War, nuclear or chemical contamination'
-          ],
-          policyRef: 'Standard IRDAI & Tata AIG Guidelines (Section 4)',
-          durationTag: 'Never Covered'
-        }
-      ]
-    },
-
-    mustKnow: {
-      heading: 'MUST-KNOW DETAILS',
-      subheading: 'Important MediCare Select terms that policyholders should keep in mind',
-      buttonLabel: 'MUST KNOW DETAILS',
-      layout: 'details-modal',
-      items: [
-        {
-          id: 'room-rent',
-          icon: '🏥',
-          title: 'SINGLE PRIVATE ROOM COVERED',
-          summary: 'Single Private Room covered with zero room rent capping and zero proportionate deduction.'
-        },
-        {
-          id: 'restore-copay',
-          icon: '🔄',
-          title: 'RESTORE INFINITY PLUS & ZERO CO-PAY',
-          summary: 'Unlimited Restore on base sum insured for subsequent claims with 0% co-payment and no disease sub-limits.'
-        }
-      ]
-    },
-
     bestSuitedFor: TATA_AIG_SHARED_BEST_SUITED_FOR,
-
-    featuresSections: [
-      // -----------------------------------------------------------------------
-      // CATEGORY 1: MOST IMPORTANT FEATURES
-      // -----------------------------------------------------------------------
-      {
-        id: 'most-important-features',
-        title: 'MOST IMPORTANT FEATURES',
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
-        items: [
-          {
-            id: 'select-room-category',
-            title: 'Room Category',
-            subtitle: 'Single Private Room',
-            badge: 'SINGLE PRIVATE ROOM',
-            iconType: 'home',
-            summary: 'You can stay in a private room meant for one patient with no room rent limit and no extra deductions.',
-            points: [
-              'Single Private Room — A private room for one patient.',
-              'No Room Rent Limit — No fixed limit on the room rent.',
-              'No Extra Deduction — No extra amount is cut from your eligible hospital bill because of the room.'
-            ],
-            sharedRoomBenefit: {
-              title: 'Shared Room Option',
-              badge: 'Lower Premium',
-              description: 'You can choose a Shared Room if you want a lower premium.'
-            }
-          },
-          {
-            id: 'select-day-care',
-            title: 'Day Care Procedures',
-            subtitle: 'All Day Care Procedures Covered',
-            badge: 'ALL PROCEDURES COVERED',
-            iconType: 'activity',
-            summary: 'All advanced medical surgeries and day care procedures requiring less than 24 hours of hospital stay are fully covered.',
-            points: [
-              'Covers all modern surgeries requiring less than 24 hours hospitalization',
-              'Chemotherapy, dialysis, radiotherapy, cataract, and minor surgeries included',
-              '100% coverage up to basic Sum Insured'
-            ]
-          },
-          {
-            id: 'select-pre-post',
-            title: 'Pre & Post Hospitalisation',
-            subtitle: '60 Days Pre & 90 Days Post',
-            badge: '60 & 90 DAYS',
-            iconType: 'calendar',
-            summary: 'Medical expenses such as doctor consultations, diagnostic tests, and prescribed medicines covered 60 days before hospital admission and 90 days after discharge.',
-            points: [
-              '60 Days Pre-Hospitalisation medical and diagnostic expenses covered',
-              '90 Days Post-Hospitalisation follow-up consultations and recovery medicines covered',
-              'Full coverage for diagnostic tests, scans, and specialist visits'
-            ]
-          },
-          {
-            id: 'select-cashless-policy',
-            title: '100% Cashless Policy',
-            subtitle: 'Cashless across 10,000+ Network Hospitals',
-            badge: '100% CASHLESS',
-            iconType: 'credit',
-            summary: 'Seamless 100% cashless hospitalization across all Tata AIG network hospitals with zero proportionate deductions on eligible claims.',
-            points: [
-              'Cashless treatment across 10,000+ partner network hospitals nationwide',
-              'Direct settlement between insurance provider and hospital',
-              'Zero proportionate deductions on eligible medical expenses'
-            ]
-          }
-        ]
-      },
-
-      // -----------------------------------------------------------------------
-      // CATEGORY 2: VALUE ADDED BENEFITS
-      // -----------------------------------------------------------------------
-      {
-        id: 'value-added-benefits',
-        title: 'VALUE ADDED BENEFITS',
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 'select-restoration',
-            title: 'Restoration',
-            subtitle: 'Restore Infinity Plus (Unlimited Restore)',
-            badge: 'UNLIMITED RESTORE',
-            iconType: 'refresh',
-            summary: 'Unlimited automatic restoration of 100% Sum Insured upon partial or full exhaustion for subsequent hospitalizations in the policy year.',
-            points: [
-              'Unlimited restoration of basic Sum Insured in a single policy year',
-              'Instant automatic recharge for subsequent related and unrelated claims',
-              'Ensures continuous financial safety for all covered family members'
-            ]
-          },
-          {
-            id: 'select-ncb-discount',
-            title: 'No Claim Bonus or 1% Discount in Renewal Premium',
-            subtitle: 'Cumulative Bonus / 1% Renewal Discount',
-            badge: 'BONUS OR DISCOUNT',
-            iconType: 'trending',
-            summary: 'Earn cumulative bonus for every claim-free year or choose a 1% discount on renewal premium as an incentive for maintaining good health.',
-            points: [
-              'Increase in basic Sum Insured without extra premium for claim-free years',
-              'Option to avail 1% direct discount on policy renewal premium',
-              'Protects and rewards long-term policyholders'
-            ]
-          },
-          {
-            id: 'select-ayush',
-            title: 'AYUSH Benefit',
-            subtitle: 'Alternative AYUSH Hospitalization Covered',
-            badge: 'AYUSH COVERED',
-            iconType: 'shield',
-            summary: 'Inpatient hospitalization expenses incurred under AYUSH treatment systems (Ayurveda, Yoga, Unani, Siddha, and Homeopathy) at recognized accredited medical centers are fully covered.',
-            points: [
-              'Inpatient AYUSH treatments covered up to Sum Insured',
-              'Available at government and NABH/QCI accredited centers',
-              'Holistic traditional wellness and medical treatment coverage'
-            ]
-          },
-          {
-            id: 'select-organ-donor',
-            title: 'Organ Donor',
-            subtitle: 'Inpatient Harvesting Expenses Covered',
-            badge: 'ORGAN DONOR',
-            iconType: 'heart',
-            summary: 'In-patient medical expenses incurred by the organ donor for harvesting the organ during an authorized transplant surgery are fully covered.',
-            points: [
-              'Organ harvesting hospitalization expenses for living donor covered',
-              'Does not reduce the insured primary medical Sum Insured',
-              'Full protection for vital organ transplant operations'
-            ]
-          },
-          {
-            id: 'select-professional-discount',
-            title: 'Professional Discount (7.5% Discount on Premium)',
-            subtitle: '7.5% Special Discount for Qualified Professionals',
-            badge: '7.5% DISCOUNT',
-            iconType: 'award',
-            summary: 'Enjoy an exclusive 7.5% discount on policy premium for qualified professionals such as Doctors, Chartered Accountants, Lawyers, and corporate executives.',
-            points: [
-              '7.5% discount on annual policy premium',
-              'Applicable for certified doctors, CAs, lawyers, engineers, and professionals',
-              'Direct savings at policy purchase and renewal'
-            ]
-          }
-        ]
-      },
-
-      // -----------------------------------------------------------------------
-      // CATEGORY 3: ADDITIONAL BENEFITS
-      // -----------------------------------------------------------------------
-      {
-        id: 'additional-benefits',
-        title: 'ADDITIONAL BENEFITS',
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 'select-domiciliary',
-            title: 'Domiciliary Treatment',
-            subtitle: 'Home Hospitalization Covered',
-            badge: 'HOME HOSPITALIZATION',
-            iconType: 'home',
-            summary: 'Medical treatment administered at home when hospital accommodation is unavailable or the patient cannot be moved due to severe medical conditions.',
-            points: [
-              'Home hospitalization covered up to Sum Insured',
-              'Applicable on medical practitioner advice when hospital beds are full',
-              'Full coverage for prescribed medications, nursing, and medical care'
-            ]
-          },
-          {
-            id: 'select-ambulance',
-            title: 'Ambulance Cover',
-            subtitle: 'Emergency Road Ambulance',
-            badge: 'ROAD AMBULANCE',
-            iconType: 'truck',
-            summary: 'Emergency road ambulance expenses covered for safe transfer to the nearest medical facility during an acute emergency.',
-            points: [
-              'Surface road ambulance transit to nearest hospital covered',
-              'Cashless or reimbursement claim facility',
-              'Rapid emergency transportation assistance'
-            ]
-          },
-          {
-            id: 'select-daily-cash',
-            title: 'Daily Cash',
-            subtitle: '₹1,200 (Twin) / ₹1,500 (Multi) Daily Allowance',
-            badge: 'DAILY CASH ALLOWANCE',
-            iconType: 'dollar',
-            summary: 'Daily cash allowance paid directly to you for incidental expenses when you choose shared hospital accommodation.',
-            points: [
-              'Choosing Twin Sharing — ₹1,200/-',
-              'Choosing Multi Sharing Accommodation — ₹1,500/-'
-            ]
-          }
-        ]
-      },
-
-      // -----------------------------------------------------------------------
-      // CATEGORY 4: OPTIONAL ADD-ONS
-      // -----------------------------------------------------------------------
-      {
-        id: 'optional-add-ons',
-        title: 'OPTIONAL ADD-ONS',
-        subtitle: 'Extra Benefits With Extra Premium',
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 'select-opt-consumables',
-            title: 'Consumables Benefit',
-            subtitle: 'Non-Payable Medical Items & Disposables',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'shield',
-            summary: 'Full coverage for non-medical consumable items such as surgical gloves, PPE kits, masks, syringes, and cotton without out-of-pocket deductions.',
-            points: [
-              '100% coverage for non-payable List I consumable items',
-              'Zero out-of-pocket hospital discharge billing deductions',
-              'Enhanced protection against unforeseen hospital consumable costs'
-            ]
-          },
-          {
-            id: 'select-opt-supercharge',
-            title: 'Supercharge Bonus Rider',
-            subtitle: 'Up to 500% Cumulative Bonus Accelerator',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'trending',
-            summary: 'Accelerates cumulative bonus growth from 100% up to 500%—even if you make a claim during the policy year!',
-            points: [
-              'Cumulative bonus accelerates up to 500% of basic Sum Insured',
-              'Bonus growth continues even when claims are made during the year',
-              'Significant long-term healthcare fund builder'
-            ]
-          },
-          {
-            id: 'select-opt-infinite-advantage',
-            title: 'Infinite Advantage',
-            subtitle: 'One Unlimited Claim in Lifetime',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'heart',
-            summary: 'Provides one unlimited claim in a lifetime with zero Sum Insured capping during major catastrophic medical emergencies.',
-            points: [
-              'One-time unlimited claim amount with zero Sum Insured restriction',
-              'Protects family savings against high-cost critical illnesses',
-              'Ultimate financial safety buffer for lifetime care'
-            ]
-          },
-          {
-            id: 'select-opt-early-access',
-            title: 'Early Access',
-            subtitle: 'Faster Claim & Approval Processing',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'zap',
-            summary: 'Priority access and expedited approvals for cashless admissions and claim processing across top-tier network hospitals.',
-            points: [
-              'Priority cashless authorization process',
-              'Dedicated concierge assistance for planned hospitalizations',
-              'Minimizes waiting times during hospital admission & discharge'
-            ]
-          },
-          {
-            id: 'select-opt-accidental-death',
-            title: 'Accidental Death Benefit Rider',
-            subtitle: 'Lump Sum Payout on Accidental Death',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'shield',
-            summary: '100% lump sum payout of the rider Sum Insured to the nominee in the unfortunate event of accidental demise.',
-            points: [
-              '100% lump sum compensation paid to nominee',
-              'Additional financial protection over and above base health cover',
-              '24x7 worldwide accident coverage'
-            ]
-          },
-          {
-            id: 'select-opt-cancer-benefit',
-            title: 'Cancer Benefit',
-            subtitle: 'Dedicated Cancer Care & Treatment Shield',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'activity',
-            summary: 'Comprehensive financial support and enhanced coverage limits dedicated specifically to early and advanced stage cancer treatments.',
-            points: [
-              'Covers chemotherapy, immunotherapy, targeted therapy, and radiation',
-              'Dedicated cancer diagnostic evaluations and specialist consultations',
-              'Financial cushion against prolonged oncology procedures'
-            ]
-          },
-          {
-            id: 'select-opt-women-suraksha',
-            title: 'Women Suraksha',
-            subtitle: 'Dedicated Health & Wellness Cover for Women',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'heart',
-            summary: 'Comprehensive women-specific health coverage including breast & cervical screening, specialized consultations, and maternity wellness.',
-            points: [
-              'Tailored for women healthcare needs and critical female illnesses',
-              'Includes specialized preventive screenings and wellness care',
-              'Dedicated care support for female policyholders'
-            ]
-          },
-          {
-            id: 'select-opt-air-ambulance',
-            title: 'Emergency AIR Ambulance Rider',
-            subtitle: 'Aero-Medical Evacuation Coverage',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'truck',
-            summary: 'Covers emergency air ambulance aircraft transportation for rapid transfer to advanced multi-specialty medical centers during life-threatening conditions.',
-            points: [
-              'Domestic air ambulance evacuation expenses covered',
-              'Immediate aero-medical transit to advanced tertiary facilities',
-              'Lifesaving transportation during critical emergencies'
-            ]
-          },
-          {
-            id: 'select-opt-hcmp',
-            title: 'Health Condition Management Program',
-            subtitle: 'Chronic Disease Monitoring & Wellness Coach',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'clipboard',
-            summary: 'Dedicated digital health management, chronic condition monitoring (diabetes, hypertension), and personalized health coaching.',
-            points: [
-              'Personalized health monitoring for lifestyle conditions',
-              'Dedicated dieticians, fitness coaches, and wellness trackers',
-              'Rewards and premium discounts on achieving health milestones'
-            ]
-          },
-          {
-            id: 'select-opt-domestic-second-opinion',
-            title: 'Domestic Second Opinion',
-            subtitle: 'Expert Consultation from Leading Indian Specialists',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'users',
-            summary: 'Obtain an independent second medical opinion from top-tier medical experts and super-specialists across premier hospitals in India.',
-            points: [
-              'E-consultations with leading domestic medical specialists',
-              'Covers major critical illnesses, scheduled surgeries, and oncology',
-              'Helps make informed, confident treatment decisions'
-            ]
-          },
-          {
-            id: 'select-opt-international-second-opinion',
-            title: 'International Second Opinion',
-            subtitle: 'Global Medical Expert Panel Consultation',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'globe',
-            summary: 'Second opinion from globally renowned international medical centers and specialists for diagnosed critical illnesses.',
-            points: [
-              'Consultations from world-class international hospitals',
-              'Comprehensive review of medical records and diagnostics',
-              'Access to cutting-edge global clinical perspectives'
-            ]
-          },
-          {
-            id: 'select-opt-accidental-si',
-            title: 'Additional Sum Insured For Accidental Hospitalisation',
-            subtitle: 'Extra Financial Cushion for Accident Hospitalization',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'shield',
-            summary: 'Provides an additional buffer of Sum Insured exclusively dedicated to inpatient hospitalization expenses resulting from accidents.',
-            points: [
-              'Extra Sum Insured activated for accidental medical emergencies',
-              'Preserves base Sum Insured for regular illnesses',
-              'Zero waiting period for accidental hospitalization claims'
-            ]
-          },
-          {
-            id: 'select-opt-pocket-saver',
-            title: 'Pocket Saver (OPD)',
-            subtitle: 'Outpatient Consultation & Diagnostic Wallet',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'dollar',
-            summary: 'Cashless OPD coverage and wallet support for everyday doctor visits, minor diagnostics, and pharmacy expenses.',
-            points: [
-              'Covers outpatient clinic visits and general physician fees',
-              'Reimbursement / cashless discount for prescribed pharmacy bills',
-              'Reduces daily out-of-pocket outpatient healthcare costs'
-            ]
-          },
-          {
-            id: 'select-opt-maternity-care',
-            title: 'Maternity Care',
-            subtitle: 'Delivery & Newborn Medical Protection',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'smile',
-            summary: 'Comprehensive maternity coverage for normal and caesarean deliveries, pre & post-natal expenses, and newborn baby care.',
-            points: [
-              'Covers normal and caesarean delivery hospitalization expenses',
-              'Pre-natal and post-natal care consultations covered',
-              'Newborn baby hospitalization and first-year medical support'
-            ]
-          },
-          {
-            id: 'select-opt-maternity-waiting-reduction',
-            title: 'Reduction of Maternity Care Waiting Period',
-            subtitle: 'Shortened Maternity Waiting Period',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'clock',
-            summary: 'Option to significantly reduce the standard maternity waiting period from 3–4 years to 1–2 years for faster benefit eligibility.',
-            points: [
-              'Reduces waiting timeline for maternity benefit eligibility',
-              'Ideal for newly married couples and planning families',
-              'Early access to comprehensive maternity & newborn coverage'
-            ]
-          },
-          {
-            id: 'select-opt-preventive-checkup',
-            title: 'Preventive Annual Health Checkup Rider',
-            subtitle: '100% Cashless Full-Body Health Check',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'clipboard',
-            summary: 'Annual comprehensive preventive health checkup on a 100% cashless basis across certified diagnostic centers nationwide.',
-            points: [
-              '100% cashless annual preventive health screening',
-              'Comprehensive blood profiles, lipid panel, kidney & liver markers',
-              'Early risk detection and health maintenance'
-            ]
-          },
-          {
-            id: 'select-opt-advance-ped-waiver',
-            title: 'Advance Cover Rider (For PED Waiver)',
-            subtitle: 'Reduction / Waiver of Pre-Existing Disease Waiting',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'clock',
-            summary: 'Reduces or waives the standard pre-existing disease (PED) waiting period from 48 months to as low as 12–24 months.',
-            points: [
-              'Shortens waiting period for declared pre-existing conditions',
-              'Early claim eligibility for hypertension, diabetes, and thyroid',
-              'Faster full-fledged medical protection'
-            ]
-          },
-          {
-            id: 'select-opt-opd-care',
-            title: 'OPD Care',
-            subtitle: 'Comprehensive Outpatient & Specialist Care',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'activity',
-            summary: 'Extensive outpatient cover including specialist consultations, dental & optical care, diagnostic investigations, and physiotherapy.',
-            points: [
-              'Specialist and super-specialist OPD consultations covered',
-              'Prescribed diagnostic tests, scans, and minor procedures',
-              'Cashless OPD network access across partner clinics'
-            ]
-          },
-          {
-            id: 'select-opt-empower-her',
-            title: 'EmpowerHer',
-            subtitle: 'Holistic Female Health, Fertility & Wellness',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'heart',
-            summary: 'Holistic female wellness program covering fertility consultations, hormonal evaluations, mental health, and specialized female surgeries.',
-            points: [
-              'Dedicated female health screening and fertility counseling',
-              'Comprehensive support for PCOS, endometriosis, and thyroid care',
-              'Empowering women with comprehensive health security'
-            ]
-          },
-          {
-            id: 'select-opt-mental-wellbeing',
-            title: 'Mental Wellbeing',
-            subtitle: 'Psychological Consultations & Therapy Sessions',
-            badge: 'RIDER',
-            isRider: true,
-            iconType: 'smile',
-            summary: 'Confidential mental health consultations, psychiatric sessions, psychological counseling, and wellness therapy support.',
-            points: [
-              'Inpatient and outpatient psychiatric consultations covered',
-              'Confidential e-sessions with certified clinical psychologists',
-              'Comprehensive support for stress, anxiety, and depression management'
-            ]
-          }
-        ]
-      },
-
-      // -----------------------------------------------------------------------
-      // CATEGORY 5: PREMIUM SAVER
-      // -----------------------------------------------------------------------
-      {
-        id: 'premium-saver',
-        title: 'PREMIUM SAVER',
-        subtitle: 'Optional Add-ons',
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 'select-saver-deductible',
-            title: 'Aggregate Deductible Option',
-            subtitle: 'Save up to 40% on Policy Premium',
-            badge: 'DEDUCTIBLE SAVER',
-            iconType: 'dollar',
-            summary: 'Choose an annual aggregate deductible to significantly reduce your policy premium while keeping high sum insured intact.',
-            points: [
-              'Available deductible options: ₹10,000, ₹25,000, ₹50,000, ₹1,00,000',
-              'Aggregate deductible applies across all hospitalizations in a policy year',
-              'Ideal for policyholders with existing corporate group health insurance'
-            ],
-            tierData: {
-              title: 'Available Deductible Options',
-              tiers: [
-                { tier: 'Tier 1', value: '₹10,000' },
-                { tier: 'Tier 2', value: '₹25,000' },
-                { tier: 'Tier 3', value: '₹50,000' },
-                { tier: 'Tier 4', value: '₹1,00,000' }
-              ]
-            }
-          },
-          {
-            id: 'select-saver-vpn',
-            title: 'Valued Provider Network',
-            subtitle: 'Discounted Premium for Preferential Network',
-            badge: 'VPN DISCOUNT',
-            iconType: 'activity',
-            summary: 'Opt for treatment exclusively within the Tata AIG Valued Provider Network (VPN) hospitals to unlock discounted premium rates.',
-            points: [
-              'Special premium discount for choosing Valued Provider Network (VPN)',
-              '100% cashless treatment at high-quality partner network hospitals',
-              'Seamless admission and fast claim settlements'
-            ]
-          },
-          {
-            id: 'select-saver-twin-sharing',
-            title: 'Room Category (Twin Sharing)',
-            subtitle: 'Twin Sharing Accommodation for Lower Premium',
-            badge: 'LOWER PREMIUM',
-            iconType: 'home',
-            summary: 'Choose Twin Sharing hospital accommodation instead of Single Private Room to enjoy a substantial reduction in your annual policy premium.',
-            points: [
-              'Opt for Twin Sharing room category for lower premium',
-              'All medical procedures, surgeries, and ICU covered up to Sum Insured',
-              'Smart choice for budget-conscious individuals and families'
-            ]
-          }
-        ]
-      }
-    ]
+    featuresSections: TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS
   },
 
   // ---------------------------------------------------------------------------
@@ -1303,70 +975,7 @@ export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
 
     reportCard: TATA_AIG_SHARED_REPORT_CARD,
     companyStrength: TATA_AIG_SHARED_COMPANY_STRENGTH,
-
-    limitationsWaitingPeriods: {
-      heading: 'LIMITATIONS & WAITING PERIODS',
-      subheading: 'Terms & Waiting Periods',
-      description: 'Interactive policy timelines, specific disease waiting, and permanent exclusions.',
-      items: [
-        {
-          id: 'initial',
-          title: 'Initial Waiting Period (30 Days)',
-          summary: 'A mandatory waiting period of 30 days applies from the policy inception date for any non-accidental illness or hospitalization.',
-          highlight: 'Accidental hospitalization is covered from Day 1 with zero waiting period.',
-          policyRef: 'Tata AIG MediCare Select Elite Policy Terms (Section 3.1)',
-          durationTag: '30 Days'
-        },
-        {
-          id: 'specific',
-          title: '2 Years Waiting Period on Specific Diseases',
-          summary: 'A continuous waiting period of 24 months (2 Years) applies for medical or surgical treatment of specified conditions:',
-          diseaseList: [
-            'Cataract & eye surgeries',
-            'Benign Prostatic Hypertrophy (BPH)',
-            'Hernia (all types) & Hydrocele',
-            'Piles, Fistula & Fissure in ano',
-            'Stones in Urinary, Biliary & Renal systems',
-            'Hysterectomy for Menorrhagia / Fibroids',
-            'Joint replacements (non-accidental)',
-            'Osteoarthritis & Osteoporosis',
-            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy',
-            'Benign cysts, nodules, polyps & tumors',
-            'Varicose veins & varicose ulcers',
-            'Spondylosis, Spondylitis & Disc disorders'
-          ],
-          policyRef: 'Tata AIG Specific Illness Schedule (Section 3.2)',
-          durationTag: '24 Months'
-        },
-        {
-          id: 'ped',
-          title: '48 Months Pre-Existing Disease (PED) Waiting',
-          summary: 'A waiting period of 48 months (4 Years) of continuous coverage applies for pre-existing diseases declared at inception.',
-          highlight: 'Continuous coverage and timely renewal preserve cumulative waiting credits.',
-          policyRef: 'Tata AIG MediCare Select Elite Terms (Section 3.3)',
-          durationTag: '48 Months'
-        },
-        {
-          id: 'permanent',
-          title: 'Permanent Exclusions',
-          summary: 'The policy does not cover medical expenses incurred towards treatment of the following permanent exclusions:',
-          exclusionsList: [
-            'Cosmetic, aesthetic & plastic surgery',
-            'Intentional self-injury & suicide attempt',
-            'Alcohol, drug or substance abuse treatments',
-            'Obesity & weight control procedures',
-            'Investigation & diagnostic-only admissions',
-            'Rest cure, rehabilitation & respite care',
-            'Unproven / experimental treatments',
-            'Participation in hazardous adventure sports',
-            'War, nuclear or chemical contamination'
-          ],
-          policyRef: 'Standard IRDAI & Tata AIG Guidelines (Section 4)',
-          durationTag: 'Never Covered'
-        }
-      ]
-    },
-
+    limitationsWaitingPeriods: TATA_AIG_MEDICARE_SELECT_LIMITATIONS,
     mustKnow: {
       heading: 'MUST-KNOW DETAILS',
       subheading: 'Important MediCare Select Elite terms that policyholders should keep in mind',
@@ -1399,283 +1008,7 @@ export const TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA = {
         }
       ]
     },
-
-    bestSuitedFor: {
-      heading: 'BEST SUITED FOR',
-      subheading: 'Who should choose MediCare Select Elite?',
-      description: 'Ideal customer profiles and luxury healthcare scenarios for Tata AIG MediCare Select Elite.',
-      profiles: [
-        {
-          title: 'Luxury & Premium Healthcare Seekers',
-          icon: '👑',
-          summary: 'Individuals and families who want Any Room category accommodation including executive suites without room rent restrictions.',
-          badge: 'Any Room',
-          highlights: [
-            'Any room category without proportionate deductions',
-            'Zero co-payment and unlimited restoration',
-            'Inbuilt 100% consumables coverage included'
-          ]
-        },
-        {
-          title: 'High-Net-Worth Individuals & Executives',
-          icon: '💼',
-          summary: 'Professionals seeking high sum insured options from ₹25 Lakhs to ₹3 Crore with inbuilt 5X Super Charge cumulative bonus multiplier.',
-          badge: 'High Sum Insured',
-          highlights: [
-            'High sum insured options from ₹25 Lakhs to ₹3 Crore',
-            'Inbuilt 5X Super Charge Bonus protection',
-            'Cashless access across 10,000+ top-tier hospitals nationwide'
-          ]
-        },
-        {
-          title: 'Fresh Health Insurance Applicants',
-          icon: '🌟',
-          summary: 'New buyers seeking flagship tier protection with comprehensive pre & post hospitalization and complete peace of mind.',
-          badge: 'Exclusive Fresh',
-          highlights: [
-            'Tailored premium benefits for new applicants',
-            'Comprehensive day care and modern treatments covered',
-            'Zero out-of-pocket payment for medical non-payables'
-          ]
-        }
-      ]
-    },
-
-    featuresSections: [
-      // 1. MOST IMPORTANT
-      {
-        id: 'most-important-features',
-        title: 'MOST IMPORTANT',
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 'elite-sum-insured',
-            title: 'AVAILABLE SUM INSURED',
-            subtitle: '25 Lakhs – 3 Crore',
-            badge: '25L – 3 CR',
-            iconType: 'shield',
-            summary: 'High-value sum insured options from 25 Lakhs up to 3 Crore designed for elite healthcare protection.',
-            points: [
-              'Available sum insured range: 25 Lakhs – 3 Crore',
-              'High-tier protection designed for comprehensive healthcare',
-              'Substantial coverage to handle complex medical treatments'
-            ]
-          },
-          {
-            id: 'elite-room-category',
-            title: 'ROOM CATEGORY',
-            subtitle: 'Any Room',
-            badge: 'ANY ROOM',
-            iconType: 'home',
-            summary: 'Any Room category covered with zero restrictions, zero capping, and zero proportionate deductions.',
-            points: [
-              'Any Room category covered including private suites and single deluxe rooms',
-              'Zero room rent capping and zero proportionate deduction',
-              'ICU / ICCU charges covered up to full Sum Insured'
-            ]
-          },
-          {
-            id: 'elite-sublimit-copay',
-            title: 'SUB-LIMIT | CO-PAY',
-            subtitle: 'No Copay | No Sublimit',
-            badge: 'NO COPAY | NO SUBLIMIT',
-            iconType: 'check',
-            summary: '0% mandatory co-payment across all network hospitals and zero disease-specific sub-limits.',
-            points: [
-              'No Co-pay across all age groups and network hospitals',
-              'No sub-limits on common or major medical treatments',
-              '100% admissible claim payout up to eligible Sum Insured'
-            ]
-          },
-          {
-            id: 'elite-restore-infinity',
-            title: 'RESTORE INFINITY PLUS',
-            subtitle: 'Unlimited Restore',
-            badge: 'UNLIMITED RESTORE',
-            iconType: 'refresh',
-            summary: 'Unlimited automatic restoration of 100% Sum Insured upon exhaustion for subsequent claims in a policy year.',
-            points: [
-              'Unlimited restoration of basic Sum Insured in the policy year',
-              'Instant automatic recharge upon partial or complete exhaustion',
-              'Continuous financial safety for family members'
-            ]
-          },
-          {
-            id: 'elite-hospital-type',
-            title: 'HOSPITAL TYPE',
-            subtitle: 'All Network Hospital',
-            badge: 'ALL NETWORK HOSPITALS',
-            iconType: 'activity',
-            summary: '100% cashless hospitalization across all 10,000+ Tata AIG network hospitals nationwide.',
-            points: [
-              'Accessible at all 10,000+ Tata AIG network hospitals across India',
-              'Seamless cashless admission and hassle-free settlement',
-              'Wide hospital accessibility in metro and tier-2/3 cities'
-            ]
-          },
-          {
-            id: 'elite-inpatient',
-            title: 'In-Patient Treatment',
-            subtitle: 'Up to Sum Insured',
-            badge: 'UP TO SUM INSURED',
-            iconType: 'shield',
-            summary: 'Full coverage for room rent, ICU, nursing, doctor visits, surgeon fees, and medical procedures.',
-            points: [
-              'Doctor, specialist, and surgeon fees covered',
-              'Prescribed medicines and operational costs included',
-              '100% covered up to base Sum Insured'
-            ]
-          }
-        ]
-      },
-
-      // 2. VALUE ADDED
-      {
-        id: 'value-added-features',
-        title: 'valueAdded',
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 'elite-product-offerings',
-            title: 'PRODUCT OFFERINGS',
-            subtitle: 'Only Fresh',
-            badge: 'ONLY FRESH',
-            iconType: 'users',
-            summary: 'Exclusive premium offering available for fresh new policy enrollments.',
-            points: [
-              'Available exclusively for Fresh policy applications',
-              'Dedicated underwriting and expedited onboarding',
-              'Premium healthcare benefits tailored for new policyholders'
-            ]
-          },
-          {
-            id: 'elite-supercharge-bonus',
-            title: 'SUPER CHARGE BONUS',
-            subtitle: 'Inbuilt up to 5X',
-            badge: 'INBUILT UP TO 5X',
-            isRider: false,
-            iconType: 'trending',
-            summary: 'Inbuilt Super Charge Bonus feature that automatically multiplies your basic coverage up to 5X (500%) at renewals.',
-            points: [
-              'Inbuilt feature included with zero additional rider premium',
-              'Multiplies base Sum Insured up to 5X (500%) over renewal years',
-              'Bonus continues to accumulate even if claims are made'
-            ]
-          },
-          {
-            id: 'elite-consumables',
-            title: 'CONSUMABLES',
-            subtitle: 'Inbuilt',
-            badge: 'INBUILT CONSUMABLES',
-            isRider: false,
-            iconType: 'shield',
-            summary: '100% inbuilt coverage for non-medical consumable hospital items including PPE kits, surgical gloves, masks, and syringes.',
-            points: [
-              'Inbuilt cover with zero out-of-pocket expenses at hospital discharge',
-              'Covers 100% of List I non-payable medical consumables',
-              'Zero deductions on gloves, PPE kits, cotton, and syringes'
-            ]
-          }
-        ]
-      },
-
-      // 3. ADDITIONAL
-      {
-        id: 'additional-features',
-        title: 'ADDITIONAL',
-        gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-        items: [
-          {
-            id: 'elite-pre-post',
-            title: 'Pre & Post Hospitalization',
-            subtitle: '90 Days Pre & 180 Days Post',
-            badge: '90 & 180 DAYS',
-            iconType: 'calendar',
-            summary: 'Extended pre and post hospitalization coverage for 90 days before admission and 180 days post discharge.',
-            points: [
-              '90 Days Pre-Hospitalization diagnostic evaluations and doctor visits',
-              '180 Days Post-Hospitalization recovery care, follow-up tests, and medicines',
-              'Extensive rehabilitation and medical support'
-            ]
-          },
-          {
-            id: 'elite-day-care',
-            title: 'Day Care Procedures',
-            subtitle: 'All Day Care Procedures Covered',
-            badge: 'ALL PROCEDURES',
-            iconType: 'activity',
-            summary: 'Full coverage for advanced medical treatments requiring less than 24 hours of hospital stay.',
-            points: [
-              'Covers all modern surgeries requiring less than 24 hours admission',
-              'Chemotherapy, dialysis, cataract, and minor surgeries included',
-              '100% coverage up to base Sum Insured'
-            ]
-          },
-          {
-            id: 'elite-ayush-domiciliary',
-            title: 'AYUSH & Domiciliary Treatment',
-            subtitle: 'Alternative & Home Care Covered',
-            badge: 'AYUSH & DOMICILIARY',
-            iconType: 'shield',
-            summary: 'Inpatient alternative treatments under Ayurveda, Yoga, Unani, Siddha, Homeopathy, and home hospitalization.',
-            points: [
-              'Inpatient AYUSH treatments covered at recognized accredited centers',
-              'Domiciliary (home) hospitalization covered up to Sum Insured',
-              'Doctor certified home medical care included'
-            ]
-          },
-          {
-            id: 'elite-ambulance',
-            title: 'Ambulance Cover',
-            subtitle: 'Emergency Road Ambulance Covered',
-            badge: 'ROAD AMBULANCE',
-            iconType: 'truck',
-            summary: 'Emergency surface road ambulance expenses covered for timely transfer to the nearest medical facility.',
-            points: [
-              'Emergency road ambulance transit to nearest hospital',
-              'Cashless or reimbursement claim facility',
-              'Prompt emergency medical transportation support'
-            ]
-          }
-        ]
-      },
-
-      // 4. OPTIONAL
-      {
-        id: 'optional-add-ons',
-        title: 'optional',
-        gridCols: 'grid-cols-1 sm:grid-cols-2',
-        items: [
-          {
-            id: 'elite-infinite-advantage',
-            title: 'Infinite Advantage Rider',
-            subtitle: 'One Unlimited Claim in Lifetime',
-            badge: 'LIFETIME UNLIMITED',
-            isRider: true,
-            iconType: 'heart',
-            summary: 'Optional rider providing one unlimited claim in a lifetime with zero Sum Insured cap during major critical illnesses.',
-            points: [
-              'One-time unlimited claim amount in a lifetime with no Sum Insured limit',
-              'Safeguards savings against high-cost critical illnesses',
-              'Ultimate financial security for your family'
-            ]
-          },
-          {
-            id: 'elite-preventive-checkup',
-            title: 'Preventive Health Check-up Rider',
-            subtitle: 'Cashless Annual Health Screening',
-            badge: 'HEALTH CHECK-UP',
-            isRider: true,
-            iconType: 'clipboard',
-            summary: 'Annual comprehensive preventive health check-up on a 100% cashless basis across certified diagnostic centers.',
-            points: [
-              '100% cashless annual preventive health check-up screening',
-              'Includes comprehensive diagnostic blood profiles, lipid tests, and organ markers',
-              'Early disease detection and active health monitoring'
-            ]
-          }
-        ]
-      }
-    ]
+    bestSuitedFor: TATA_AIG_SHARED_BEST_SUITED_FOR,
+    featuresSections: TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS
   }
 };
