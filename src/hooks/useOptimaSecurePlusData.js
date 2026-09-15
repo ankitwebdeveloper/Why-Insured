@@ -30,7 +30,11 @@ export function useOptimaSecurePlusData(includeInactive = false) {
           // Dynamic Limitations & Waiting Periods
           limitationsWaitingPeriods: res.data.limitationsWaitingPeriods || prev.limitationsWaitingPeriods,
           // Dynamic Must Know
-          mustKnow: res.data.mustKnow || prev.mustKnow
+          mustKnow: res.data.mustKnow || prev.mustKnow,
+          // Dynamic Perfect For
+          perfectFor: res.data.perfectFor || prev.perfectFor || optimaSecurePlusData.perfectFor,
+          // Dynamic Best Suited For
+          bestSuitedFor: res.data.bestSuitedFor || prev.bestSuitedFor || optimaSecurePlusData.bestSuitedFor
         }));
         setIsFallback(Boolean(res.isFallback));
       }

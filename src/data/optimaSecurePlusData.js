@@ -29,17 +29,104 @@ export const optimaSecurePlusData = {
   featuresHeadingSuffix: 'POLICY BENEFITS',
   termsFootnote: '*T&C Apply',
 
-  // Main 4-Card Navigation Grid + 5th Button Labels
+  // Main 4/6-Card Navigation Grid Labels
   reportCardButtonLabel: 'REPORT CARD',
   companyStrengthButtonLabel: 'COMPANY STRENGTH',
   policyBenefitsButtonLabel: 'POLICY BENEFITS',
   limitationsButtonLabel: 'LIMITATIONS & WAITING PERIODS',
   mustKnowButtonLabel: 'MUST KNOW DETAILS',
+  perfectForButtonLabel: 'PERFECT FOR',
 
   // --- PLAN-SPECIFIC UI CONFIG ---
   uiConfig: {
     primaryColor: '#E30613',
     demoVideoUrl: DEMO_VIDEO_URL,
+  },
+
+  // ===========================================================================
+  // PERFECT FOR / BEST SUITED FOR (WHO IS OPTIMA SECURE+ DESIGNED FOR?)
+  // ===========================================================================
+  perfectFor: {
+    heading: 'PERFECT FOR',
+    subheading: 'Who is Optima Secure+ designed for?',
+    description: 'Ideal customer profiles and value-focused healthcare scenarios.',
+    items: [
+      {
+        id: 'families',
+        title: 'Families',
+        icon: '👨‍👩‍👧‍👦',
+        iconType: 'users',
+        badge: 'Family Protection',
+        description: 'For families looking for comprehensive health protection and support against major medical expenses.'
+      },
+      {
+        id: 'individuals',
+        title: 'Individuals',
+        icon: '👤',
+        iconType: 'user',
+        badge: 'Individual Cover',
+        description: 'For individuals who want strong health insurance protection for unexpected medical and hospitalization expenses.'
+      },
+      {
+        id: 'comprehensive-health-protection',
+        title: 'Comprehensive Health Protection',
+        icon: '🛡️',
+        iconType: 'shield',
+        badge: 'All-Inclusive',
+        description: 'For people looking for broad health coverage with multiple built-in protection features.'
+      },
+      {
+        id: 'long-term-protection',
+        title: 'Long-Term Protection',
+        icon: '🌱',
+        iconType: 'trending',
+        badge: 'Long-Term Plan',
+        description: 'For people planning reliable health insurance protection for their long-term healthcare needs.'
+      }
+    ]
+  },
+  bestSuitedFor: {
+    heading: 'PERFECT FOR',
+    subheading: 'Who is Optima Secure+ designed for?',
+    description: 'Ideal customer profiles and value-focused healthcare scenarios.',
+    profiles: [
+      {
+        id: 'families',
+        title: 'Families',
+        icon: '👨‍👩‍👧‍👦',
+        iconType: 'users',
+        badge: 'Family Protection',
+        summary: 'For families looking for comprehensive health protection and support against major medical expenses.',
+        description: 'For families looking for comprehensive health protection and support against major medical expenses.'
+      },
+      {
+        id: 'individuals',
+        title: 'Individuals',
+        icon: '👤',
+        iconType: 'user',
+        badge: 'Individual Cover',
+        summary: 'For individuals who want strong health insurance protection for unexpected medical and hospitalization expenses.',
+        description: 'For individuals who want strong health insurance protection for unexpected medical and hospitalization expenses.'
+      },
+      {
+        id: 'comprehensive-health-protection',
+        title: 'Comprehensive Health Protection',
+        icon: '🛡️',
+        iconType: 'shield',
+        badge: 'All-Inclusive',
+        summary: 'For people looking for broad health coverage with multiple built-in protection features.',
+        description: 'For people looking for broad health coverage with multiple built-in protection features.'
+      },
+      {
+        id: 'long-term-protection',
+        title: 'Long-Term Protection',
+        icon: '🌱',
+        iconType: 'trending',
+        badge: 'Long-Term Plan',
+        summary: 'For people planning reliable health insurance protection for their long-term healthcare needs.',
+        description: 'For people planning reliable health insurance protection for their long-term healthcare needs.'
+      }
+    ]
   },
 
   // --- SUMMARY BENEFITS & DETAILS (USED IN COMPANY LISTINGS & COMPARISONS) ---

@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
+import AiChatAssistant from './components/AiChatAssistant';
 
 // Pages
 import Home from './pages/Home';
@@ -130,6 +131,9 @@ function App() {
 
           {/* Public Footer */}
           <Footer />
+
+          {/* Premium Floating AI Assistant */}
+          <AiChatAssistant />
         </motion.div>
       )}
     </AnimatePresence>

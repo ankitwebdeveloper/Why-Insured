@@ -26,6 +26,7 @@ import {
   FiDollarSign,
   FiZap,
   FiUsers,
+  FiUser,
   FiActivity
 } from 'react-icons/fi';
 import { getHdfcPlanData } from '../data/hdfcPlansData';
@@ -60,6 +61,7 @@ const ICON_MAP = {
   dollar: FiDollarSign,
   zap: FiZap,
   users: FiUsers,
+  user: FiUser,
   activity: FiActivity
 };
 
@@ -1263,7 +1265,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
   return (
     <div className="w-full">
       {/* Single Viewport Container - Compact Mobile Packing & Balanced Desktop Layout */}
-      <div className="max-w-3xl mx-auto flex flex-col justify-start sm:justify-center items-stretch sm:min-h-[calc(100vh-220px)] py-1 sm:py-4 space-y-0">
+      <div className="max-w-3xl lg:max-w-4xl mx-auto flex flex-col justify-start sm:justify-center items-stretch sm:min-h-[calc(100vh-220px)] py-1 sm:py-4 space-y-0">
         {/* Navigation Breadcrumb - Back to Plans (Mobile: 14px | Desktop: 20px) */}
         <div className="shrink-0 text-left mb-3.5 sm:mb-5">
           <Link
@@ -1291,15 +1293,22 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#E30613] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
-        {/* 3. 2-COLUMN BUTTON GRID (Unchanged 2x2 layout, 8-12px row gap on Mobile, 20px on Desktop) */}
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
+        {/* 3. 6-CARD NAVIGATION GRID (Matching Tata AIG MediCare Select 2x3 layout) */}
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-4 w-full">
           {/* Card 1: REPORT CARD */}
           <button
+            type="button"
             onClick={() => setActiveModal('ratio')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'ratio'
+                ? 'border-[#E30613] ring-2 ring-[#E30613]/20'
+                : 'border-slate-200/80 hover:border-[#E30613]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'ratio' ? 'bg-[#E30613]' : 'bg-[#E30613]/30 group-hover:bg-[#E30613]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               {planData.reportCardButtonLabel || 'REPORT CARD'}
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
@@ -1309,11 +1318,18 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
 
           {/* Card 2: COMPANY STRENGTH */}
           <button
+            type="button"
             onClick={() => setActiveModal('fundamental')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'fundamental'
+                ? 'border-[#E30613] ring-2 ring-[#E30613]/20'
+                : 'border-slate-200/80 hover:border-[#E30613]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'fundamental' ? 'bg-[#E30613]' : 'bg-[#E30613]/30 group-hover:bg-[#E30613]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               {planData.companyStrengthButtonLabel || 'COMPANY STRENGTH'}
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
@@ -1324,10 +1340,10 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           {/* Card 3: POLICY BENEFITS */}
           <Link
             to={`/insurance/${company.id}/${currentPlanId}/features`}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               {planData.policyBenefitsButtonLabel || (isOptimaSecurePlus ? 'POLICY BENEFITS' : 'FEATURES')}
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
@@ -1343,10 +1359,16 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 setActiveModal('limitations');
                 setActiveOptimaLimitation(null);
               }}
-              className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+              className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+                activeModal === 'limitations'
+                  ? 'border-[#E30613] ring-2 ring-[#E30613]/20'
+                  : 'border-slate-200/80 hover:border-[#E30613]/40'
+              }`}
             >
-              <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
-              <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
+              <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+                activeModal === 'limitations' ? 'bg-[#E30613]' : 'bg-[#E30613]/30 group-hover:bg-[#E30613]'
+              }`} />
+              <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
                 {planData.limitationsButtonLabel || 'LIMITATIONS & WAITING PERIODS'}
               </h3>
               <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
@@ -1356,10 +1378,10 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           ) : (
             <Link
               to={`/insurance/${company.id}/${currentPlanId}/limitations`}
-              className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+              className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
             >
               <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613]/30 group-hover:bg-[#E30613] transition-colors duration-200" />
-              <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1">
+              <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
                 {planData.limitationsButtonLabel || 'LIMITATIONS & WAITING PERIODS'}
               </h3>
               <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
@@ -1367,32 +1389,54 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
               </div>
             </Link>
           )}
-        </div>
 
-        {/* 5. MUST KNOW DETAILS button */}
-        <div className="flex justify-center w-full mt-2.5 sm:mt-5">
+          {/* Card 5: MUST KNOW DETAILS */}
           <button
+            type="button"
             onClick={() => setActiveModal('mustKnow')}
-            className="w-full sm:max-w-md bg-white rounded-xl sm:rounded-2xl border border-[#E30613]/35 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#E30613] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ring-1 ring-[#E30613]/10 hover:ring-[#E30613]/25"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'mustKnow'
+                ? 'border-[#E30613] ring-2 ring-[#E30613]/20'
+                : 'border-slate-200/80 hover:border-[#E30613]/40'
+            }`}
           >
-            {/* Bottom accent indicator bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#E30613] transition-colors duration-200" />
-
-            {/* Subtle ambient soft red background overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#FFF5F5]/90 via-white to-[#FFF5F5]/90 group-hover:from-[#FFF0F0] group-hover:to-[#FFF0F0] transition-colors duration-200 pointer-events-none" />
-
-            {/* Text label with attention icon */}
-            <div className="flex items-center gap-1.5 sm:gap-2.5 relative z-10 min-w-0 pr-1">
-              <span className="text-[#E30613] text-xs sm:text-base font-black select-none shrink-0 group-hover:scale-110 transition-transform duration-200">
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'mustKnow' ? 'bg-[#E30613]' : 'bg-[#E30613]/30 group-hover:bg-[#E30613]'
+            }`} />
+            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1">
+              <motion.span
+                animate={{ scale: [1, 1.15, 1], opacity: [0.85, 1, 0.85] }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                className="text-[#E30613] text-xs sm:text-base font-black select-none shrink-0"
+              >
                 ✦
-              </span>
-              <h3 className="text-xs sm:text-base font-black text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display tracking-wide uppercase leading-tight truncate">
-                {planData.mustKnowButtonLabel || (isOptimaSecurePlusMustKnow ? planData.mustKnow?.buttonLabel : 'MUST KNOW')}
+              </motion.span>
+              <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight tracking-tight uppercase">
+                {planData.mustKnowButtonLabel || (isOptimaSecurePlusMustKnow ? planData.mustKnow?.buttonLabel : 'MUST KNOW DETAILS')}
               </h3>
             </div>
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
+              <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
+            </div>
+          </button>
 
-            {/* Right Arrow Bubble */}
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#FFF5F5] border border-[#E30613]/25 flex items-center justify-center text-[#E30613] group-hover:bg-[#E30613] group-hover:text-white transition-all duration-200 shrink-0 relative z-10">
+          {/* Card 6: PERFECT FOR */}
+          <button
+            type="button"
+            onClick={() => setActiveModal('bestSuitedFor')}
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'bestSuitedFor'
+                ? 'border-[#E30613] ring-2 ring-[#E30613]/20'
+                : 'border-slate-200/80 hover:border-[#E30613]/40'
+            }`}
+          >
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'bestSuitedFor' ? 'bg-[#E30613]' : 'bg-[#E30613]/30 group-hover:bg-[#E30613]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#E30613] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
+              {planData.perfectForButtonLabel || 'PERFECT FOR'}
+            </h3>
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#E30613] group-hover:bg-[#FFF5F5] group-hover:border-[#E30613]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -1426,10 +1470,52 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
               {/* Close Button */}
               <button
                 onClick={() => setActiveModal(null)}
-                className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer"
+                className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer z-20"
               >
                 <FiX className="text-base sm:text-lg" />
               </button>
+
+              {/* Modal Top Tab Navigation Switcher */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 mb-4 border-b border-slate-100 no-scrollbar pr-8">
+                {[
+                  { id: 'ratio', label: 'Report Card' },
+                  { id: 'fundamental', label: 'Company Strength' },
+                  { id: 'features', label: 'Policy Benefits', isLink: true, url: `/insurance/${company.id}/${currentPlanId}/features` },
+                  { id: 'limitations', label: 'Limitations' },
+                  { id: 'mustKnow', label: 'Must Know Details' },
+                  { id: 'bestSuitedFor', label: 'Perfect For' }
+                ].map((tab) => {
+                  if (tab.isLink) {
+                    return (
+                      <Link
+                        key={tab.id}
+                        to={tab.url}
+                        className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold text-slate-600 hover:text-[#E30613] hover:bg-[#FFF5F5] border border-transparent whitespace-nowrap transition-colors select-none"
+                      >
+                        {tab.label}
+                      </Link>
+                    );
+                  }
+                  const isActive = activeModal === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveModal(tab.id);
+                        if (tab.id === 'limitations') setActiveOptimaLimitation(null);
+                      }}
+                      className={`px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all cursor-pointer select-none ${
+                        isActive
+                          ? 'bg-[#E30613] text-white shadow-2xs'
+                          : 'text-slate-600 hover:text-[#E30613] hover:bg-[#FFF5F5]'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
 
               {/* MODAL 1: REPORT CARD */}
               {activeModal === 'ratio' && (
@@ -2059,6 +2145,66 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                         </p>
                       </div>
                     ))}
+                  </div>
+                </div>
+              )}
+
+              {/* MODAL 5: PERFECT FOR */}
+              {(activeModal === 'bestSuitedFor' || activeModal === 'perfectFor') && (
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                      PERFECT FOR
+                    </h2>
+                    <p className="text-xs text-[#E30613] font-medium mt-0.5">
+                      {planData.perfectFor?.subheading || planData.bestSuitedFor?.subheading || 'Who is Optima Secure+ designed for?'}
+                    </p>
+                    {(planData.perfectFor?.description || planData.bestSuitedFor?.description) && (
+                      <p className="text-xs text-slate-500 font-normal mt-0.5">
+                        {planData.perfectFor?.description || planData.bestSuitedFor?.description}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-3">
+                    {(planData.perfectFor?.items || planData.bestSuitedFor?.profiles || []).map((profile, idx) => {
+                      const IconComp = (profile.iconType && ICON_MAP[profile.iconType]) || (idx === 0 ? FiUsers : idx === 1 ? FiUser : idx === 2 ? FiShield : FiTrendingUp);
+                      return (
+                        <div
+                          key={profile.id || idx}
+                          className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-[#E30613]/30 shadow-2xs space-y-2 text-left hover:border-[#E30613]/60 transition-colors"
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg sm:text-xl shrink-0 select-none">
+                                {profile.icon || (profile.iconType && ICON_MAP[profile.iconType] ? <IconComp className="text-lg text-[#E30613]" /> : '👤')}
+                              </span>
+                              <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A] font-display">
+                                {profile.title}
+                              </h4>
+                            </div>
+                            {profile.badge && (
+                              <span className="inline-block text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FFF5F5] text-[#E30613] border border-[#E30613]/20 shrink-0 font-display">
+                                {profile.badge}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                            {profile.description || profile.summary}
+                          </p>
+                          {profile.highlights && (
+                            <ul className="space-y-1 pt-1.5 border-t border-slate-100">
+                              {profile.highlights.map((hl, hlIdx) => (
+                                <li key={hlIdx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
+                                  <FiCheck className="text-[#E30613] mt-0.5 shrink-0 text-xs" />
+                                  <span>{hl}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
