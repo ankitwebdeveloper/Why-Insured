@@ -14,7 +14,12 @@ import iciciLogo from '../assets/icici-lombard.png';
 import careLogo from '../assets/care-health.png';
 import adityaBirlaLogo from '../assets/aditya brila.png';
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || 'https://why-insured-backend.vercel.app').replace(/\/+$/, '');
+const API_BASE_URL = (
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV
+    ? 'http://localhost:5000'
+    : 'https://why-insured-backend.vercel.app')
+).replace(/\/+$/, '');
 
 // Logo Dictionary by Company ID
 const LOGO_MAP = {
@@ -41,6 +46,10 @@ export async function sendUserRequirementToAi(query, conversationHistory = []) {
       text: msg.text
     }));
 
+    if (import.meta.env.DEV) {
+      console.log('[AI Chat] API URL:', `${API_BASE_URL}/api/ai/chat`);
+    }
+
     const response = await fetch(`${API_BASE_URL}/api/ai/chat`, {
       method: 'POST',
       headers: {
@@ -52,41 +61,53 @@ export async function sendUserRequirementToAi(query, conversationHistory = []) {
       })
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
-        // Map logos and enrich recommendation cards
-        const enrichedRecs = (data.recommendations || []).map(rec => ({
-          ...rec,
-          planId: rec.policyId,
-          name: rec.policyName,
-          companyName: rec.company,
-          logo: LOGO_MAP[rec.companyId] || hdfcLogo,
-          highlights: rec.matchedRequirements || []
-        }));
-
-        return {
-          text: data.reply,
-          intent: data.intent,
-          requirements: data.requirements,
-          recommendations: enrichedRecs,
-          suggestions: data.suggestions || [],
-          disclaimer: data.disclaimer
-        };
-      }
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(
+        '[AI Chat] Backend request failed:',
+        response.status,
+        errorText
+      );
+      throw new Error(
+        `AI backend error ${response.status}: ${errorText}`
+      );
     }
-  } catch (netErr) {
-    console.warn('[AI Client] Backend request unavailable, falling back to local engine:', netErr.message);
-  }
 
-  // Graceful client fallback
-  return clientFallbackMatcher(query);
+    const data = await response.json();
+    if (!data.success) {
+      throw new Error(
+        data.error || 'AI backend returned an unsuccessful response'
+      );
+    }
+
+    // Map logos and enrich recommendation cards
+    const enrichedRecs = (data.recommendations || []).map(rec => ({
+      ...rec,
+      planId: rec.policyId,
+      name: rec.policyName,
+      companyName: rec.company,
+      logo: LOGO_MAP[rec.companyId] || hdfcLogo,
+      highlights: rec.matchedRequirements || []
+    }));
+
+    return {
+      text: data.reply,
+      intent: data.intent,
+      requirements: data.requirements,
+      recommendations: enrichedRecs,
+      suggestions: data.suggestions || [],
+      disclaimer: data.disclaimer
+    };
+  } catch (error) {
+    console.error('[AI Chat] Network/API error:', error);
+    throw error;
+  }
 }
 
 /**
  * Client Fallback Matcher (if backend server is not running)
  */
-function clientFallbackMatcher(query) {
+export function clientFallbackMatcher(query) {
   const lower = (query || '').toLowerCase().trim();
 
   // If greeting
