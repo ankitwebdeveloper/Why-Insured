@@ -127,7 +127,7 @@ export default function AiChatAssistant() {
       {/* ========================================================================= */}
       {/* 1. FLOATING AI BUTTON & SPEECH BUBBLE (#00A86B GREEN THEME)               */}
       {/* ========================================================================= */}
-      <div className="fixed right-4 bottom-4 sm:right-6 sm:bottom-6 z-[90] flex flex-col items-end pointer-events-none select-none">
+      <div className="fixed right-4 bottom-[66px] sm:right-6 sm:bottom-[74px] z-[90] flex flex-col items-end pointer-events-none select-none">
         
         {/* Speech Bubble "Chat with WHYINSURED" — visible when chat is closed */}
         <AnimatePresence>

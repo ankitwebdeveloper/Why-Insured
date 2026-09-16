@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
 import AiChatAssistant from './components/AiChatAssistant';
+import UploadPolicyButton from './components/UploadPolicyButton';
 
 // Pages
 import Home from './pages/Home';
@@ -16,6 +17,7 @@ import ComparisonPage from './pages/ComparisonPage';
 import ClaimPage from './pages/ClaimPage';
 import AcademyPage from './pages/AcademyPage';
 import HospitalPage from './pages/HospitalPage';
+import UploadPolicy from './pages/UploadPolicy';
 import AdminOptimaSecurePlus from './pages/AdminOptimaSecurePlus';
 import AdminLogin from './pages/AdminLogin';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
@@ -123,6 +125,7 @@ function App() {
                   <Route path="/claim" element={<ClaimPage />} />
                   <Route path="/hospital" element={<HospitalPage />} />
                   <Route path="/academy" element={<AcademyPage />} />
+                  <Route path="/upload-policy" element={<UploadPolicy />} />
                   <Route path="*" element={<Home />} />
                 </Routes>
               </motion.div>
@@ -134,6 +137,9 @@ function App() {
 
           {/* Premium Floating AI Assistant */}
           <AiChatAssistant />
+
+          {/* Independent Upload Policy Button */}
+          <UploadPolicyButton />
         </motion.div>
       )}
     </AnimatePresence>
