@@ -42,7 +42,8 @@ export async function sendUserRequirementToAi(query, conversationHistory = []) {
   try {
     const formattedHistory = (conversationHistory || []).map(msg => ({
       sender: msg.sender,
-      text: msg.text
+      text: msg.text,
+      recommendations: msg.recommendations || []
     }));
 
     if (import.meta.env.DEV) {
