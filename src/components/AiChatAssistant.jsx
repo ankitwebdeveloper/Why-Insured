@@ -125,52 +125,25 @@ export default function AiChatAssistant() {
   return (
     <>
       {/* ========================================================================= */}
-      {/* 1. FLOATING AI BUTTON & SPEECH BUBBLE (#00A86B GREEN THEME)               */}
+      {/* 1. FLOATING AI BUTTON (RENDERED DIRECTLY INSIDE PARENT FLEX CONTAINER)     */}
       {/* ========================================================================= */}
-      <div className="fixed right-4 bottom-[98px] sm:right-6 sm:bottom-[112px] z-[90] flex flex-col items-end pointer-events-none select-none">
-        
-        {/* Speech Bubble "Chat with WHYINSURED" — visible when chat is closed */}
-        <AnimatePresence>
-          {!isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 8, scale: 0.9 }}
-              transition={{ duration: 0.35, ease: 'easeOut', delay: 0.3 }}
-              className="pointer-events-auto mb-2 mr-1 cursor-pointer group"
-              onClick={handleToggle}
-            >
-              <div className="relative bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white px-3.5 py-1.5 rounded-2xl shadow-xl border border-slate-700/60 flex items-center gap-2 hover:border-[#00A86B]/80 transition-all hover:scale-[1.03]">
-                {/* Subtle pulsing AI Sparkle with #00A86B Accent */}
-                <span className="w-2 h-2 rounded-full bg-[#00A86B] animate-pulse shrink-0 shadow-[0_0_8px_#00A86B]" />
-                <span className="text-xs font-bold tracking-tight text-white flex items-center gap-1">
-                  <span>Chat with WHYINSURED</span>
-                </span>
-                
-                {/* Speech Bubble Downward Arrow Pointer */}
-                <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-[#1E293B] rotate-45 border-r border-b border-slate-700/60" />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+      <motion.button
+        type="button"
+        onClick={handleToggle}
+        aria-label={isOpen ? 'Close AI Assistant' : 'Chat with WHYINSURED'}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="pointer-events-auto group relative flex items-center gap-2.5 bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white pl-1.5 pr-4 py-1.5 sm:py-2 rounded-full shadow-xl border border-slate-700/70 hover:border-[#00A86B]/90 transition-all duration-300 cursor-pointer select-none"
+      >
+        {/* Subtle Ambient Glow Ring */}
+        <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-[#00A86B]/40 to-[#0fa26e]/20 blur-sm opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-        {/* Circular AI Avatar Button with #00A86B Theme */}
-        <motion.button
-          type="button"
-          onClick={handleToggle}
-          aria-label={isOpen ? 'Close AI Assistant' : 'Open AI Assistant'}
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.94 }}
-          className="pointer-events-auto relative w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl p-0.5 bg-gradient-to-tr from-[#00A86B] via-[#0fa26e] to-[#0F172A] focus:outline-hidden transition-all duration-300 cursor-pointer group"
-        >
-          {/* Subtle Ambient Pulsing Glow Ring in #00A86B */}
-          <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-[#00A86B]/60 to-[#0fa26e]/30 blur-md opacity-75 group-hover:opacity-100 transition-opacity animate-pulse pointer-events-none" />
-
-          {/* Button Content Container */}
-          <div className="relative w-full h-full rounded-full overflow-hidden bg-slate-900 border-2 border-white flex items-center justify-center">
+        {/* Circular AI Advisor Avatar */}
+        <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden p-0.5 bg-gradient-to-tr from-[#00A86B] via-[#0fa26e] to-[#0F172A] shrink-0 shadow-md">
+          <div className="w-full h-full rounded-full overflow-hidden bg-slate-900 border border-white/90 flex items-center justify-center">
             {isOpen ? (
               <div className="w-full h-full bg-[#00A86B] text-white flex items-center justify-center">
-                <FiX className="text-2xl transition-transform duration-200 group-hover:rotate-90" />
+                <FiX className="text-sm transition-transform duration-200 group-hover:rotate-90" />
               </div>
             ) : (
               <img
@@ -180,15 +153,23 @@ export default function AiChatAssistant() {
               />
             )}
           </div>
-
-          {/* Online Status Dot Indicator */}
+          
+          {/* Online Status Indicator */}
           {!isOpen && (
-            <span className="absolute bottom-0 right-0 w-4 h-4 bg-[#00A86B] border-2 border-white rounded-full shadow-sm">
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#00A86B] border-2 border-white rounded-full">
               <span className="absolute inset-0 rounded-full bg-[#00A86B] animate-ping opacity-75" />
             </span>
           )}
-        </motion.button>
-      </div>
+        </div>
+
+        {/* Button Text Label */}
+        <div className="relative flex items-center gap-1.5 pr-0.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#00A86B] animate-pulse shrink-0 shadow-[0_0_6px_#00A86B]" />
+          <span className="text-xs sm:text-[13px] font-bold tracking-tight text-white whitespace-nowrap font-sans">
+            {isOpen ? 'Close Chat' : 'Chat with WHYINSURED'}
+          </span>
+        </div>
+      </motion.button>
 
       {/* ========================================================================= */}
       {/* 2. FLOATING AI CHAT PANEL (#00A86B GREEN ACCENTS + CLEAN LIGHT UI)       */}

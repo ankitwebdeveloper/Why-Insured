@@ -6,8 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
-import AiChatAssistant from './components/AiChatAssistant';
-import UploadPolicyButton from './components/UploadPolicyButton';
+import FloatingActions from './components/FloatingActions';
 
 // Pages
 import Home from './pages/Home';
@@ -135,11 +134,8 @@ function App() {
           {/* Public Footer */}
           <Footer />
 
-          {/* Premium Floating AI Assistant */}
-          <AiChatAssistant />
-
-          {/* Independent Upload Policy Button */}
-          <UploadPolicyButton />
+          {/* Unified Floating Actions Container (Chat with WHYINSURED + Upload Your Policy) */}
+          <FloatingActions />
         </motion.div>
       )}
     </AnimatePresence>
