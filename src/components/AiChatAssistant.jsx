@@ -129,7 +129,7 @@ export default function AiChatAssistant() {
       {/* ========================================================================= */}
       <div className="fixed right-4 bottom-4 sm:right-6 sm:bottom-6 z-[90] flex flex-col items-end pointer-events-none select-none">
         
-        {/* Speech Bubble "Chat with AI" — visible when chat is closed */}
+        {/* Speech Bubble "Chat with WHYINSURED" — visible when chat is closed */}
         <AnimatePresence>
           {!isOpen && (
             <motion.div
@@ -144,7 +144,7 @@ export default function AiChatAssistant() {
                 {/* Subtle pulsing AI Sparkle with #00A86B Accent */}
                 <span className="w-2 h-2 rounded-full bg-[#00A86B] animate-pulse shrink-0 shadow-[0_0_8px_#00A86B]" />
                 <span className="text-xs font-bold tracking-tight text-white flex items-center gap-1">
-                  <span>Chat with AI</span>
+                  <span>Chat with WHYINSURED</span>
                 </span>
                 
                 {/* Speech Bubble Downward Arrow Pointer */}
