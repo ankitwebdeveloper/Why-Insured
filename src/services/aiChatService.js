@@ -14,12 +14,7 @@ import iciciLogo from '../assets/icici-lombard.png';
 import careLogo from '../assets/care-health.png';
 import adityaBirlaLogo from '../assets/aditya brila.png';
 
-const API_BASE_URL = (
-  import.meta.env.VITE_API_URL ||
-  (import.meta.env.DEV
-    ? 'http://localhost:5000'
-    : 'https://why-insured-backend.vercel.app')
-).replace(/\/+$/, '');
+const API_BASE_URL = 'http://localhost:5000';
 
 // Logo Dictionary by Company ID
 const LOGO_MAP = {
