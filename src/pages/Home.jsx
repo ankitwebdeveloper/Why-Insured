@@ -122,7 +122,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#F8FAFC] pt-36 sm:pt-44 md:pt-52 lg:pt-60 pb-32 overflow-visible flex flex-col items-center justify-start">
+    <div className="relative min-h-screen bg-[#F8FAFC] pt-28 sm:pt-44 md:pt-52 lg:pt-60 pb-36 sm:pb-32 overflow-visible flex flex-col items-center justify-start">
       
       {/* Subtle Premium Grid Pattern Background */}
       <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:32px_32px] opacity-45 pointer-events-none -z-10" />
