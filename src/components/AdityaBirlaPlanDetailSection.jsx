@@ -574,18 +574,19 @@ export default function AdityaBirlaPlanDetailSection({ plan, company, planId: pl
           {/* 4 DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
           {prioritizedFeaturesSections.map((sec, secIdx) => (
             <div key={sec.id || secIdx}>
+              {/* Global Emerald Green Category Banner (#00A368) */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4 }}
-                className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
+                className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-[#00A368] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-[#00A368]/50"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
 
                 <div className="flex items-center relative z-10">
-                  <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
+                  <h2 className="text-xs sm:text-sm font-black tracking-wider text-white font-display flex items-center gap-2.5">
+                    <span className="w-2 h-2 rounded-full bg-white/80 inline-block shadow-xs shrink-0" />
                     {sec.title}
                   </h2>
                 </div>
@@ -700,10 +701,11 @@ export default function AdityaBirlaPlanDetailSection({ plan, company, planId: pl
           <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#D51D25] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
-        {/* 3. 2-COLUMN BUTTON GRID (4 Main Action Cards) */}
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
+        {/* 3. 2-COLUMN BUTTON GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 md:gap-5 w-full">
           {/* Card 1: REPORT CARD */}
           <button
+            type="button"
             onClick={() => setActiveModal('ratio')}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#D51D25]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
@@ -718,6 +720,7 @@ export default function AdityaBirlaPlanDetailSection({ plan, company, planId: pl
 
           {/* Card 2: COMPANY STRENGTH */}
           <button
+            type="button"
             onClick={() => setActiveModal('fundamental')}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#D51D25]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
@@ -747,7 +750,10 @@ export default function AdityaBirlaPlanDetailSection({ plan, company, planId: pl
           {/* Card 4: LIMITATIONS & WAITING PERIODS */}
           <button
             type="button"
-            onClick={() => setActiveModal('limitations')}
+            onClick={() => {
+              setActiveModal('limitations');
+              setActiveLimitationId(null);
+            }}
             className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#D51D25]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#D51D25]/30 group-hover:bg-[#D51D25] transition-colors duration-200" />
@@ -758,17 +764,14 @@ export default function AdityaBirlaPlanDetailSection({ plan, company, planId: pl
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
-        </div>
 
-        {/* 5. MUST KNOW DETAILS button */}
-        <div className="flex justify-center w-full mt-2.5 sm:mt-5">
+          {/* Card 5: MUST KNOW DETAILS */}
           <button
+            type="button"
             onClick={() => setActiveModal('mustKnow')}
-            className="w-full sm:max-w-md bg-white rounded-xl sm:rounded-2xl border border-[#D51D25]/35 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#D51D25] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ring-1 ring-[#D51D25]/10 hover:ring-[#D51D25]/25"
+            className={`bg-white rounded-xl sm:rounded-2xl border border-[#D51D25]/35 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#D51D25] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ring-1 ring-[#D51D25]/10 hover:ring-[#D51D25]/25 `}
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#D51D25] transition-colors duration-200" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#FFF5F5]/90 via-white to-[#FFF5F5]/90 group-hover:from-[#FFF0F0] group-hover:to-[#FFF0F0] transition-colors duration-200 pointer-events-none" />
-
             <div className="flex items-center gap-1.5 sm:gap-2.5 relative z-10 min-w-0 pr-1">
               <span className="text-[#D51D25] text-xs sm:text-base font-black select-none shrink-0 group-hover:scale-110 transition-transform duration-200">
                 ✦
@@ -777,8 +780,29 @@ export default function AdityaBirlaPlanDetailSection({ plan, company, planId: pl
                 {planData.mustKnowButtonLabel || 'MUST KNOW DETAILS'}
               </h3>
             </div>
-
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#FFF5F5] border border-[#D51D25]/25 flex items-center justify-center text-[#D51D25] group-hover:bg-[#D51D25] group-hover:text-white transition-all duration-200 shrink-0 relative z-10">
+              <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
+            </div>
+          </button>
+
+          {/* Card 6: PERFECT FOR */}
+                    {/* Card 6: PERFECT FOR */}
+          <button
+            type="button"
+            onClick={() => setActiveModal('bestSuitedFor')}
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'bestSuitedFor'
+                ? 'border-[#D51D25] ring-2 ring-[#D51D25]/20'
+                : 'border-slate-200/80 hover:border-[#D51D25]/40'
+            }`}
+          >
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'bestSuitedFor' ? 'bg-[#D51D25]' : 'bg-[#D51D25]/30 group-hover:bg-[#D51D25]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#D51D25] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight uppercase">
+              PERFECT FOR
+            </h3>
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#D51D25] group-hover:bg-[#FFF5F5] group-hover:border-[#D51D25]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -807,7 +831,7 @@ export default function AdityaBirlaPlanDetailSection({ plan, company, planId: pl
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               onClick={(e) => e.stopPropagation()}
-              className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg max-h-[85vh] overflow-y-auto z-10 p-4 sm:p-6 custom-scrollbar"
+              className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg max-h-[85vh] overflow-y-auto z-10 p-4 sm:p-6 custom-scrollbar text-left"
             >
               {/* Close Button */}
               <button
@@ -818,6 +842,48 @@ export default function AdityaBirlaPlanDetailSection({ plan, company, planId: pl
               >
                 <FiX />
               </button>
+
+              {/* Modal Top Horizontal Tab Switcher */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 mb-4 border-b border-slate-100 no-scrollbar pr-8">
+                {[
+                  { id: 'ratio', label: 'Report Card' },
+                  { id: 'fundamental', label: 'Company Strength' },
+                  { id: 'features', label: 'Policy Benefits', isLink: true, url: `/insurance/${company.id}/${currentPlanId}/features` },
+                  { id: 'limitations', label: 'Limitations' },
+                  { id: 'mustKnow', label: 'Must Know Details' },
+                  { id: 'bestSuitedFor', label: 'Perfect For' }
+                ].map((tab) => {
+                  if (tab.isLink) {
+                    return (
+                      <Link
+                        key={tab.id}
+                        to={tab.url}
+                        className="px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all duration-200 border bg-slate-50 text-slate-600 border-slate-200/80 hover:border-[#D51D25] hover:text-[#D51D25] shrink-0"
+                      >
+                        {tab.label} →
+                      </Link>
+                    );
+                  }
+                  const isActive = activeModal === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveModal(tab.id);
+                        if (tab.id === 'limitations') setActiveLimitationId(null);
+                      }}
+                      className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all duration-200 border shrink-0 cursor-pointer ${
+                        isActive
+                          ? 'bg-[#D51D25] text-white border-[#D51D25] shadow-2xs'
+                          : 'bg-slate-50 text-slate-600 border-slate-200/80 hover:border-[#D51D25] hover:text-[#D51D25]'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
 
               {/* ───────────────────────────────────────────────────────────── */}
               {/* 1. REPORT CARD MODAL                                          */}
@@ -1209,6 +1275,67 @@ export default function AdityaBirlaPlanDetailSection({ plan, company, planId: pl
                       </div>
                     ))}
                   </div>
+                </div>
+              )}
+            
+              {/* MODAL 5: PERFECT FOR */}
+              {(activeModal === 'bestSuitedFor' || activeModal === 'perfectFor') && (
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                      PERFECT FOR
+                    </h2>
+                    <p className="text-xs text-[#D51D25] font-medium mt-0.5">
+                      {planData.bestSuitedFor?.subheading || planData.perfectFor?.subheading || 'Who is this plan perfect for?'}
+                    </p>
+                    {(planData.bestSuitedFor?.description || planData.perfectFor?.description) && (
+                      <p className="text-xs text-slate-500 font-normal mt-0.5">
+                        {planData.bestSuitedFor?.description || planData.perfectFor?.description}
+                      </p>
+                    )}
+                  </div>
+
+                  {((planData.bestSuitedFor?.profiles || planData.perfectFor?.items || []).length > 0) ? (
+                    <div className="space-y-3">
+                      {(planData.bestSuitedFor?.profiles || planData.perfectFor?.items || []).map((profile, idx) => (
+                        <div
+                          key={profile.id || idx}
+                          className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-[#D51D25]/30 shadow-2xs space-y-2 text-left hover:border-[#D51D25]/60 transition-colors"
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg sm:text-xl shrink-0 select-none">{profile.icon || '👤'}</span>
+                              <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A] font-display">
+                                {profile.title}
+                              </h4>
+                            </div>
+                            {profile.badge && (
+                              <span className="inline-block text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FFF5F5] text-[#D51D25] border border-[#D51D25]/20 shrink-0 font-display">
+                                {profile.badge}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                            {profile.summary || profile.description}
+                          </p>
+                          {profile.highlights && (
+                            <ul className="space-y-1 pt-1.5 border-t border-slate-100">
+                              {profile.highlights.map((hl, hlIdx) => (
+                                <li key={hlIdx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
+                                  <FiCheck className="text-[#D51D25] mt-0.5 shrink-0 text-xs" />
+                                  <span>{hl}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-slate-500 text-xs sm:text-sm font-medium">
+                      Information not available for this plan.
+                    </div>
+                  )}
                 </div>
               )}
             </motion.div>

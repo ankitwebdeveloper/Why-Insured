@@ -1,3 +1,5 @@
+import { formatPolicyBenefitHeading } from './policyBenefitHeadingHelper';
+
 /**
  * Searches and prioritizes matching benefits to the TOP of each section,
  * while keeping all 4 sections and all items available.
@@ -54,6 +56,7 @@ export function getBenefitSearchResults(featuresSections = [], rawQuery = '') {
   };
 
   (featuresSections || []).forEach((sec) => {
+    const formattedSecTitle = formatPolicyBenefitHeading(sec.title || '');
     (sec.items || []).forEach((item) => {
       const score = calculateScore(item);
       if (score > 0) {
@@ -61,7 +64,7 @@ export function getBenefitSearchResults(featuresSections = [], rawQuery = '') {
           id: item.id,
           title: item.title || '',
           subtitle: item.subtitle || '',
-          sectionTitle: sec.title || '',
+          sectionTitle: formattedSecTitle,
           score
         });
       }
@@ -73,8 +76,12 @@ export function getBenefitSearchResults(featuresSections = [], rawQuery = '') {
 
 export function getFilteredAndPrioritizedFeaturesSections(featuresSections = [], rawQuery = '') {
   if (!rawQuery || typeof rawQuery !== 'string' || !rawQuery.trim()) {
+    const formattedSections = (featuresSections || []).map((sec) => ({
+      ...sec,
+      title: formatPolicyBenefitHeading(sec.title || '')
+    }));
     return {
-      sections: featuresSections || [],
+      sections: formattedSections,
       totalMatches: 0,
       hasActiveSearch: false,
       matchedItemIds: new Set()
@@ -157,6 +164,7 @@ export function getFilteredAndPrioritizedFeaturesSections(featuresSections = [],
 
     return {
       ...sec,
+      title: formatPolicyBenefitHeading(sec.title || ''),
       items: sortedItems
     };
   });

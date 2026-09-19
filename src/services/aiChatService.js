@@ -13,6 +13,9 @@ import nivaLogo from '../assets/niva-bupa.png';
 import iciciLogo from '../assets/icici-lombard.png';
 import careLogo from '../assets/care-health.png';
 import adityaBirlaLogo from '../assets/aditya brila.png';
+import bajajLogo from '../assets/Bajaj.png';
+import sbiLogo from '../assets/SBI.png';
+import ackoLogo from '../assets/acko.png';
 
 const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL ||
@@ -28,7 +31,10 @@ const LOGO_MAP = {
   'niva-bupa': nivaLogo,
   'icici-lombard': iciciLogo,
   'care-health': careLogo,
-  'aditya-birla': adityaBirlaLogo
+  'aditya-birla': adityaBirlaLogo,
+  'bajaj-general': bajajLogo,
+  'sbi-general': sbiLogo,
+  'acko': ackoLogo
 };
 
 /**

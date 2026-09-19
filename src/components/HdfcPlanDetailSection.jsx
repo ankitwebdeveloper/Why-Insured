@@ -856,16 +856,17 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           {/* DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
           {prioritizedFeaturesSections.filter(sec => sec.items && sec.items.length > 0).map((sec, secIdx) => (
             <div key={sec.id || secIdx}>
+              {/* Global Emerald Green Category Banner (#00A368) */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4 }}
-                className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
+                className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-[#00A368] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-[#00A368]/50"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-                <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
+                <h2 className="text-xs sm:text-sm font-black tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
+                  <span className="w-2 h-2 rounded-full bg-white/80 inline-block shadow-xs shrink-0" />
                   {sec.title}
                 </h2>
               </motion.div>
@@ -1293,8 +1294,8 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
           <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#E30613] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
-        {/* 3. 6-CARD NAVIGATION GRID (Matching Tata AIG MediCare Select 2x3 layout) */}
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-4 w-full">
+        {/* 3. 6-CARD NAVIGATION GRID (Matching Tata AIG MediCare Select master layout) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 md:gap-5 w-full">
           {/* Card 1: REPORT CARD */}
           <button
             type="button"
@@ -2149,6 +2150,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                 </div>
               )}
 
+                                                        
               {/* MODAL 5: PERFECT FOR */}
               {(activeModal === 'bestSuitedFor' || activeModal === 'perfectFor') && (
                 <div className="space-y-4 sm:space-y-5">
@@ -2157,28 +2159,25 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                       PERFECT FOR
                     </h2>
                     <p className="text-xs text-[#E30613] font-medium mt-0.5">
-                      {planData.perfectFor?.subheading || planData.bestSuitedFor?.subheading || 'Who is Optima Secure+ designed for?'}
+                      {planData.bestSuitedFor?.subheading || planData.perfectFor?.subheading || 'Who is this plan perfect for?'}
                     </p>
-                    {(planData.perfectFor?.description || planData.bestSuitedFor?.description) && (
+                    {(planData.bestSuitedFor?.description || planData.perfectFor?.description) && (
                       <p className="text-xs text-slate-500 font-normal mt-0.5">
-                        {planData.perfectFor?.description || planData.bestSuitedFor?.description}
+                        {planData.bestSuitedFor?.description || planData.perfectFor?.description}
                       </p>
                     )}
                   </div>
 
-                  <div className="space-y-3">
-                    {(planData.perfectFor?.items || planData.bestSuitedFor?.profiles || []).map((profile, idx) => {
-                      const IconComp = (profile.iconType && ICON_MAP[profile.iconType]) || (idx === 0 ? FiUsers : idx === 1 ? FiUser : idx === 2 ? FiShield : FiTrendingUp);
-                      return (
+                  {((planData.bestSuitedFor?.profiles || planData.perfectFor?.items || []).length > 0) ? (
+                    <div className="space-y-3">
+                      {(planData.bestSuitedFor?.profiles || planData.perfectFor?.items || []).map((profile, idx) => (
                         <div
                           key={profile.id || idx}
                           className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-[#E30613]/30 shadow-2xs space-y-2 text-left hover:border-[#E30613]/60 transition-colors"
                         >
                           <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-2">
-                              <span className="text-lg sm:text-xl shrink-0 select-none">
-                                {profile.icon || (profile.iconType && ICON_MAP[profile.iconType] ? <IconComp className="text-lg text-[#E30613]" /> : '👤')}
-                              </span>
+                              <span className="text-lg sm:text-xl shrink-0 select-none">{profile.icon || '👤'}</span>
                               <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A] font-display">
                                 {profile.title}
                               </h4>
@@ -2190,7 +2189,7 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                             )}
                           </div>
                           <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                            {profile.description || profile.summary}
+                            {profile.summary || profile.description}
                           </p>
                           {profile.highlights && (
                             <ul className="space-y-1 pt-1.5 border-t border-slate-100">
@@ -2203,9 +2202,13 @@ export default function HdfcPlanDetailSection({ plan, company, planId: planIdPro
                             </ul>
                           )}
                         </div>
-                      );
-                    })}
-                  </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-slate-500 text-xs sm:text-sm font-medium">
+                      Information not available for this plan.
+                    </div>
+                  )}
                 </div>
               )}
             </motion.div>

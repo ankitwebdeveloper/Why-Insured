@@ -1,4 +1,5 @@
 import * as jsPDFModule from 'jspdf';
+import { formatPolicyBenefitHeading } from './policyBenefitHeadingHelper';
 const jsPDF = jsPDFModule.jsPDF || jsPDFModule.default || jsPDFModule;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -482,7 +483,7 @@ const drawFeatureRow = (
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 9. WEBSITE/LAPTOP DESIGN SECTION HEADING (MATCHING WEBSITE GRADIENT BANNER)
+// 9. WEBSITE/LAPTOP DESIGN SECTION HEADING (MATCHING WEBSITE #00A368 BANNER)
 // ─────────────────────────────────────────────────────────────────────────────
 const drawSectionHeader = (
   doc,
@@ -494,29 +495,25 @@ const drawSectionHeader = (
   const sectionY = y;
   const sectionH = TOKENS.sectionH; // 8.8 mm
 
-  // Match Website: Rich Deep Forest Green Banner (#14532D -> #052E16)
-  doc.setFillColor(20, 83, 45); // Deep Forest Green #14532D
-  doc.setDrawColor(5, 46, 22);  // #052E16 Border
+  // Match Website: Emerald Green Banner (#00A368) RGB (0, 163, 104)
+  doc.setFillColor(0, 163, 104); // #00A368
+  doc.setDrawColor(0, 130, 83);
   doc.setLineWidth(0.35);
   doc.roundedRect(MARGIN, sectionY, CONTENT_W, sectionH, 1.8, 1.8, 'FD');
 
-  // Website Glowing Emerald Accent Dot Indicator (#34D399)
+  // Website Indicator Dot
   const dotCenterX = MARGIN + 6.0;
   const dotCenterY = sectionY + (sectionH / 2);
 
-  // Outer Soft Emerald Glow
-  doc.setFillColor(52, 211, 153); // Emerald-400
-  doc.circle(dotCenterX, dotCenterY, 1.4, 'F');
+  // Outer Soft Glow
+  doc.setFillColor(255, 255, 255);
+  doc.circle(dotCenterX, dotCenterY, 1.1, 'F');
 
-  // Inner Bright Emerald Core
-  doc.setFillColor(167, 243, 208); // Emerald-200
-  doc.circle(dotCenterX, dotCenterY, 0.6, 'F');
-
-  // Website Typography: White, Bold, Uppercase, Extra Tracking
+  // Website Typography: White, Bold, Extra Tracking
   const titleX = MARGIN + 10.5;
   setFont(doc, 'bold', TOKENS.sectionTitleSize);
   doc.setTextColor(255, 255, 255); // Pure White #FFFFFF
-  doc.text(cleanText(title).toUpperCase(), titleX, sectionY + (sectionH * 0.68));
+  doc.text(cleanText(formatPolicyBenefitHeading(title)), titleX, sectionY + (sectionH * 0.68));
 
   return sectionY + sectionH + 3.6;
 };

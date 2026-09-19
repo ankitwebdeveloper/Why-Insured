@@ -54,6 +54,26 @@ export const COMPANY_DICTIONARY = [
     id: 'manipal-cigna',
     name: 'ManipalCigna',
     aliases: ['manipal', 'cigna', 'manipal cigna', 'manipalcigna', 'manipal health', 'cigna ttk', 'manipalcigna sarvah', 'manipal cigna sarvah', 'sarvah']
+  },
+  {
+    id: 'aditya-birla',
+    name: 'Aditya Birla',
+    aliases: ['aditya birla', 'aditya', 'birla', 'activ one', 'activ yuva', 'one max']
+  },
+  {
+    id: 'bajaj-general',
+    name: 'Bajaj General Insurance',
+    aliases: ['bajaj', 'bajaj general', 'bajaj allianz', 'bajaj general insurance', 'bajaj insurance', 'bajaj health']
+  },
+  {
+    id: 'sbi-general',
+    name: 'SBI General Insurance',
+    aliases: ['sbi', 'sbi general', 'sbi general insurance', 'sbi health', 'sbi insurance', 'state bank of india']
+  },
+  {
+    id: 'acko',
+    name: 'ACKO',
+    aliases: ['acko', 'acko general', 'acko general insurance', 'acko health', 'acko insurance']
   }
 ];
 

@@ -8,6 +8,9 @@ import indusindLogo from '../assets/indusind-general.png';
 import magmaLogo from '../assets/Magma HDI General Insurance.png';
 import manipalLogo from '../assets/manipal cigna .png';
 import adityaLogo from '../assets/aditya brila.png';
+import bajajLogo from '../assets/Bajaj.png';
+import sbiLogo from '../assets/SBI.png';
+import ackoLogo from '../assets/acko.png';
 import { optimaSecurePlusData } from './optimaSecurePlusData';
 import { optimaSecureData } from './optimaSecureData';
 import { hdfcEnergyPlanData } from './hdfcEnergyPlanData';
@@ -21,6 +24,9 @@ import { getNivaBupaPlanData } from './nivaBupaPlansData';
 import { getIciciPlanData } from './iciciLombardPlansData';
 import { getManipalCignaPlanData } from './manipalCignaPlansData';
 import { getAdityaBirlaPlanData } from './adityaBirlaPlansData';
+import { getBajajPlanData, BAJAJ_SOURCES } from './bajajPlansData';
+import { getSbiPlanData, SBI_SOURCES } from './sbiPlansData';
+import { getAckoPlanData, ACKO_SOURCES } from './ackoPlansData';
 
 export const companiesData = [
   {
@@ -1033,6 +1039,134 @@ export const companiesData = [
         planData: getAdityaBirlaPlanData("activ-one-max-plus")
       }
     ]
+  },
+  {
+    id: "bajaj-general",
+    name: "Bajaj General Insurance",
+    fullName: "Bajaj Allianz General Insurance Company Limited",
+    slug: "bajaj-general",
+    category: "Health Insurance",
+    logo: bajajLogo,
+    description: "One of India's leading general insurance providers, delivering comprehensive healthcare protection, swift cashless claim settlements, and wide hospital network coverage.",
+    theme: {
+      primary: "#004DA8",      // Bajaj Blue
+      secondary: "#003781",    // Bajaj Deeper Blue
+      accent: "#004DA8",
+      background: "#F0F6FF",   // Soft Blue-White
+      text: "#0F172A"
+    },
+    sources: BAJAJ_SOURCES,
+    plans: [
+      {
+        id: "health-guard",
+        name: "Health Guard",
+        description: getBajajPlanData("health-guard").tagline,
+        coverage: getBajajPlanData("health-guard").coverage,
+        premium: getBajajPlanData("health-guard").premium,
+        benefits: getBajajPlanData("health-guard").benefits,
+        details: getBajajPlanData("health-guard").details,
+        planData: getBajajPlanData("health-guard")
+      }
+    ]
+  },
+  {
+    id: "sbi-general",
+    name: "SBI General Insurance",
+    fullName: "SBI General Insurance Company Limited",
+    slug: "sbi-general",
+    category: "Health Insurance",
+    logo: sbiLogo,
+    description: "Backed by the trust of SBI, offering affordable health insurance plans, extensive cashless hospital access, and reliable claim support across India.",
+    theme: {
+      primary: "#00B5EF",      // SBI Sky Blue
+      secondary: "#292075",    // Dark Navy / Persian Indigo
+      accent: "#660066",       // Purple / Magenta
+      background: "#F0FAFF",   // Soft Light Blue
+      text: "#0F172A"
+    },
+    sources: SBI_SOURCES,
+    plans: [
+      {
+        id: "super-health-insurance",
+        name: "Super Health Insurance",
+        description: getSbiPlanData("super-health-insurance").tagline,
+        coverage: getSbiPlanData("super-health-insurance").coverage,
+        premium: getSbiPlanData("super-health-insurance").premium,
+        benefits: getSbiPlanData("super-health-insurance").benefits,
+        details: getSbiPlanData("super-health-insurance").details,
+        planData: getSbiPlanData("super-health-insurance")
+      },
+      {
+        id: "arogya-supreme",
+        name: "Arogya Supreme",
+        description: getSbiPlanData("arogya-supreme").tagline,
+        coverage: getSbiPlanData("arogya-supreme").coverage,
+        premium: getSbiPlanData("arogya-supreme").premium,
+        benefits: getSbiPlanData("arogya-supreme").benefits,
+        details: getSbiPlanData("arogya-supreme").details,
+        planData: getSbiPlanData("arogya-supreme")
+      },
+      {
+        id: "health-alpha",
+        name: "Health Alpha",
+        description: getSbiPlanData("health-alpha").tagline,
+        coverage: getSbiPlanData("health-alpha").coverage,
+        premium: getSbiPlanData("health-alpha").premium,
+        benefits: getSbiPlanData("health-alpha").benefits,
+        details: getSbiPlanData("health-alpha").details,
+        planData: getSbiPlanData("health-alpha")
+      }
+    ]
+  },
+  {
+    id: "acko",
+    name: "ACKO",
+    fullName: "ACKO General Insurance Limited",
+    slug: "acko",
+    category: "Health Insurance",
+    logo: ackoLogo,
+    description: "A digital-first direct insurer known for zero-commission health plans, seamless 100% cashless claims, and transparent healthcare coverage.",
+    theme: {
+      primary: "#511C53",      // ACKO Purple
+      secondary: "#00A99D",    // ACKO Cyan / Turquoise
+      accent: "#E35275",       // ACKO Pink / Magenta
+      background: "#FAF5FA",   // Soft ACKO Background
+      text: "#0F172A"
+    },
+    sources: ACKO_SOURCES,
+    plans: [
+      {
+        id: "platinum-super-top-up",
+        name: "Platinum Super Top Up",
+        description: getAckoPlanData("platinum-super-top-up").tagline,
+        coverage: getAckoPlanData("platinum-super-top-up").coverage,
+        premium: getAckoPlanData("platinum-super-top-up").premium,
+        benefits: getAckoPlanData("platinum-super-top-up").benefits,
+        details: getAckoPlanData("platinum-super-top-up").details,
+        planData: getAckoPlanData("platinum-super-top-up")
+      },
+      {
+        id: "platinum-lite",
+        name: "Platinum Lite",
+        description: getAckoPlanData("platinum-lite").tagline,
+        coverage: getAckoPlanData("platinum-lite").coverage,
+        premium: getAckoPlanData("platinum-lite").premium,
+        benefits: getAckoPlanData("platinum-lite").benefits,
+        details: getAckoPlanData("platinum-lite").details,
+        planData: getAckoPlanData("platinum-lite")
+      },
+      {
+        id: "platinum",
+        name: "Platinum",
+        description: getAckoPlanData("platinum").tagline,
+        coverage: getAckoPlanData("platinum").coverage,
+        premium: getAckoPlanData("platinum").premium,
+        benefits: getAckoPlanData("platinum").benefits,
+        details: getAckoPlanData("platinum").details,
+        planData: getAckoPlanData("platinum")
+      }
+    ]
   }
 ];
+
 

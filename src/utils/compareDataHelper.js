@@ -11,6 +11,9 @@ import { getIciciPlanData } from '../data/iciciLombardPlansData';
 import { getCarePlanData } from '../data/careHealthPlansData';
 import { getReliancePlanData } from '../data/reliancePlansData';
 import { getMagmaPlanData } from '../data/magmaPlansData';
+import { getBajajPlanData } from '../data/bajajPlansData';
+import { getSbiPlanData } from '../data/sbiPlansData';
+import { getAckoPlanData } from '../data/ackoPlansData';
 
 // ---------------------------------------------------------------------------
 // BENEFIT_CATEGORIES — drives the filter chips on the ComparisonPage.
@@ -158,6 +161,15 @@ export const getActualPlanData = (plan, company) => {
     if (companyId === 'magma-hdi') {
       return getMagmaPlanData(planId);
     }
+    if (companyId === 'bajaj-general') {
+      return getBajajPlanData(planId);
+    }
+    if (companyId === 'sbi-general') {
+      return getSbiPlanData(planId);
+    }
+    if (companyId === 'acko') {
+      return getAckoPlanData(planId);
+    }
   } catch {
     return null;
   }
@@ -275,7 +287,8 @@ export const getActualCashlessHospitals = (company, planData) => {
     'care-health': "22,000+ Hospitals",
     'reliance-general': "9,100+ Hospitals",
     'magma-hdi': "10,500+ Hospitals",
-    'manipal-cigna': "9,000+ Hospitals"
+    'manipal-cigna': "9,000+ Hospitals",
+    'bajaj-general': "10,000+ Hospitals"
   };
   return networkSizes[company?.id] || "10,000+ Hospitals";
 };

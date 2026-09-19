@@ -32,13 +32,13 @@ import {
   FiInfo,
   FiAlertTriangle
 } from 'react-icons/fi';
-import { getReliancePlanData, resolveReliancePlanId } from '../data/reliancePlansData';
+import { getBajajPlanData, resolveBajajPlanId } from '../data/bajajPlansData';
 import PolicyBenefitsPdfActions from './PolicyBenefitsPdfActions';
 import BenefitSearchBar from './BenefitSearchBar';
 import { getFilteredAndPrioritizedFeaturesSections, getBenefitSearchResults } from '../utils/benefitSearchHelper';
 import { scrollToBenefitCard } from '../utils/scrollToBenefitCard';
 
-// Default demo video URL
+// Default demo video
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
 
 // Icon Dictionary Mapping by Icon Type
@@ -61,8 +61,7 @@ const ICON_MAP = {
   users: FiUsers,
   activity: FiActivity,
   globe: FiGlobe,
-  award: FiAward,
-  'alert-triangle': FiAlertTriangle
+  award: FiAward
 };
 
 // Helper to format YouTube or Direct MP4 URLs
@@ -82,7 +81,7 @@ const getVideoEmbedUrl = (url) => {
   return { type: 'iframe', url };
 };
 
-// Compact Feature-Wise Inline Video Button Component (Reliance Royal Blue Theme)
+// Compact Feature-Wise Inline Video Button Component (Bajaj Blue Theme)
 const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
   return (
     <button
@@ -91,16 +90,16 @@ const VideoButton = ({ featureTitle, onOpenVideo, videoUrl }) => {
         e.stopPropagation();
         onOpenVideo(featureTitle, videoUrl);
       }}
-      className="inline-flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#F0F5FA] text-[#205398] border border-[#205398]/25 hover:bg-[#205398] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group align-middle ml-0.5 sm:ml-1"
+      className="inline-flex items-center gap-1 px-2 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[11px] font-bold bg-[#F0F6FF] text-[#004DA8] border border-[#004DA8]/25 hover:bg-[#004DA8] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group"
       title={`Watch demo video for ${featureTitle}`}
     >
-      <FiPlay className="text-[8px] sm:text-[10px] fill-current text-[#205398] group-hover:text-white transition-colors" />
+      <FiPlay className="text-[8px] sm:text-[10px] fill-current text-[#004DA8] group-hover:text-white transition-colors" />
       <span>Video</span>
     </button>
   );
 };
 
-// Compact "View Details" Pill Button (Reliance Royal Blue Theme)
+// Compact "View Details" Pill Button (Bajaj Blue Theme)
 const ViewDetailsPill = ({ onClick, label = "View Details" }) => (
   <button
     type="button"
@@ -108,14 +107,14 @@ const ViewDetailsPill = ({ onClick, label = "View Details" }) => (
       e.stopPropagation();
       onClick();
     }}
-    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-[#F0F5FA] text-[#205398] border border-[#205398]/30 hover:bg-[#205398] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group"
+    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-[#F0F6FF] text-[#004DA8] border border-[#004DA8]/30 hover:bg-[#004DA8] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group"
   >
-    <FiInfo className="text-[9px] text-[#205398] group-hover:text-white" />
+    <FiInfo className="text-[9px] text-[#004DA8] group-hover:text-white" />
     <span>{label}</span>
   </button>
 );
 
-// Premium "WATCH VIDEO" button (Reliance Royal Blue Theme)
+// Premium "WATCH VIDEO" button (Bajaj Blue Theme)
 const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '', align = 'center' }) => (
   <div className={`pt-1.5 border-t border-slate-100/80 ${align === 'center' ? 'flex justify-center' : ''} ${className}`}>
     <button
@@ -124,15 +123,15 @@ const WatchVideoButton = ({ title, onOpenVideo, videoUrl, className = '', align 
         e.stopPropagation();
         onOpenVideo(title, videoUrl);
       }}
-      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#205398] border border-[#205398]/25 hover:bg-[#205398] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-white text-[#004DA8] border border-[#004DA8]/25 hover:bg-[#004DA8] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
     >
-      <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#205398] group-hover:text-white transition-colors" />
+      <FiPlay className="text-[9px] sm:text-[10px] fill-current text-[#004DA8] group-hover:text-white transition-colors" />
       <span>WATCH VIDEO</span>
     </button>
   </div>
 );
 
-// Premium In-Page Video Lightbox Modal
+// Premium In-Page Video Lightbox Modal (Bajaj Blue Theme)
 const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
   if (!isOpen || !videoUrl) return null;
 
@@ -151,13 +150,13 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
         {/* Modal Header */}
         <div className="flex items-center justify-between p-3 sm:p-4 bg-slate-950 border-b border-slate-800 text-white">
           <div className="flex items-center gap-2 font-bold text-xs sm:text-sm">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#205398]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#004DA8]" />
             <span className="truncate">{videoTitle} — Feature Demo</span>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#205398] text-slate-300 hover:text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-[#004DA8] text-slate-300 hover:text-white flex items-center justify-center text-sm transition-colors cursor-pointer"
             aria-label="Close video"
           >
             <FiX />
@@ -188,8 +187,8 @@ const FeatureVideoModal = ({ isOpen, onClose, videoTitle, videoUrl }) => {
   );
 };
 
-// Sub-component for Reliance Features Accordion Items (Tested Reference Pattern)
-function RelianceFeatureAccordionItem({
+// Sub-component for Bajaj Features Accordion Items
+function BajajFeatureAccordionItem({
   item,
   isExpanded,
   onToggle,
@@ -199,7 +198,7 @@ function RelianceFeatureAccordionItem({
   demoVideoUrl
 }) {
   const itemRef = React.useRef(null);
-  const { id, title, subtitle, summary, badge, points, steps, tierData, hasDetailsModal, detailsModalTitle, detailsModalContent, isRider, iconType } = item;
+  const { id, title, subtitle, summary, badge, points, hasDetailsModal, detailsModalTitle, detailsModalContent, isRider, iconType } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
 
   return (
@@ -215,8 +214,8 @@ function RelianceFeatureAccordionItem({
         item._isMatched
           ? 'bg-white border-emerald-500 shadow-md ring-2 ring-emerald-500/25'
           : isExpanded
-          ? 'bg-[#F0F5FA]/90 border-[#205398]/60 shadow-md ring-1 ring-[#205398]/20'
-          : 'bg-white border-slate-200/80 hover:border-[#205398]/40 shadow-2xs hover:shadow-xs'
+          ? 'bg-[#F0F6FF]/90 border-[#004DA8]/60 shadow-md ring-1 ring-[#004DA8]/20'
+          : 'bg-white border-slate-200/80 hover:border-[#004DA8]/40 shadow-2xs hover:shadow-xs'
       }`}
     >
       {/* Header Row */}
@@ -224,18 +223,36 @@ function RelianceFeatureAccordionItem({
         <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
           {IconComponent && (
             <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-              isExpanded ? 'bg-[#205398] text-white shadow-xs' : 'bg-[#F0F5FA] text-[#205398]'
+              isExpanded ? 'bg-[#004DA8] text-white shadow-xs' : 'bg-[#F0F6FF] text-[#004DA8]'
             }`}>
               <IconComponent className="text-xs sm:text-base" />
             </div>
           )}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
-              <h3 className="text-xs sm:text-sm font-extrabold font-display leading-tight sm:leading-snug text-[#0F172A]">
-                {title}
-              </h3>
+          <div className="flex-1 min-w-0 space-y-1">
+            <h3 className="text-xs sm:text-sm font-extrabold font-display leading-tight sm:leading-snug text-[#0F172A]">
+              {title}
+            </h3>
+
+            {subtitle && (
+              <p className="text-[10px] sm:text-xs font-semibold leading-tight sm:leading-snug text-slate-500">
+                {subtitle}
+              </p>
+            )}
+
+            {/* Action Buttons & Badges Flex Row */}
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-0.5">
               {onOpenVideo && (
                 <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
+              )}
+              {badge && (
+                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#004DA8]/10 text-[#004DA8] tracking-wide shrink-0">
+                  {badge}
+                </span>
+              )}
+              {item._isMatched && (
+                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300/80 tracking-wide shrink-0">
+                  Matched
+                </span>
               )}
               {hasDetailsModal && onOpenDetailsModal && (
                 <ViewDetailsPill
@@ -243,40 +260,28 @@ function RelianceFeatureAccordionItem({
                   onClick={() => onOpenDetailsModal(detailsModalTitle || title, detailsModalContent || summary)}
                 />
               )}
-              {item._isMatched && (
-                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300/80 tracking-wide shrink-0">
-                  Matched
-                </span>
-              )}
               {isRider && (
-                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#ED1C24]/10 text-[#ED1C24] border border-[#ED1C24]/20 tracking-wide shrink-0">
-                  Optional / Add-on
+                <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#004DA8]/10 text-[#004DA8] tracking-wide shrink-0">
+                  Rider
                 </span>
               )}
             </div>
-            {subtitle && (
-              <p className="text-[10px] sm:text-xs font-semibold mt-0.5 leading-tight sm:leading-snug text-slate-500">
-                {subtitle}
-              </p>
-            )}
           </div>
         </div>
 
-        {/* Right Controls: Plus/Minus Button */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 ${
-            isExpanded ? 'bg-[#205398] text-white rotate-180' : 'bg-[#F0F5FA] text-[#205398]'
-          }`}>
-            {isExpanded ? (
-              <FiMinus className="text-[10px] sm:text-xs stroke-[2.5]" />
-            ) : (
-              <FiPlus className="text-[10px] sm:text-xs stroke-[2.5]" />
-            )}
-          </div>
+        {/* Plus / Minus Button */}
+        <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 self-center ${
+          isExpanded ? 'bg-[#004DA8] text-white rotate-180' : 'bg-[#F0F6FF] text-[#004DA8]'
+        }`}>
+          {isExpanded ? (
+            <FiMinus className="text-[10px] sm:text-xs stroke-[2.5]" />
+          ) : (
+            <FiPlus className="text-[10px] sm:text-xs stroke-[2.5]" />
+          )}
         </div>
       </div>
 
-      {/* Expanded Summary & Details */}
+      {/* Expanded Accordion Body Content */}
       <AnimatePresence initial={false}>
         {isExpanded && (
           <motion.div
@@ -290,8 +295,8 @@ function RelianceFeatureAccordionItem({
               {/* Contextual Badge */}
               <div className="pt-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
                 {badge && (
-                  <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#F0F5FA] text-[#205398] border border-[#205398]/20 tracking-wider">
-                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#205398]" />
+                  <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-[#F0F6FF] text-[#004DA8] border border-[#004DA8]/20 tracking-wider">
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#004DA8]" />
                     {badge}
                   </span>
                 )}
@@ -310,8 +315,8 @@ function RelianceFeatureAccordionItem({
                   </div>
                   <ul className="space-y-1">
                     {points.map((pt, pIdx) => (
-                      <li key={pIdx} className="flex items-start gap-1.5 text-[10px] sm:text-xs text-slate-700 font-medium">
-                        <FiCheck className="text-[#205398] mt-0.5 shrink-0 text-xs" />
+                      <li key={pIdx} className="flex items-start gap-1.5 text-[10px] sm:text-xs text-slate-600 font-medium">
+                        <FiCheck className="text-[#004DA8] mt-0.5 shrink-0 text-xs" />
                         <span>{pt}</span>
                       </li>
                     ))}
@@ -319,41 +324,13 @@ function RelianceFeatureAccordionItem({
                 </div>
               )}
 
-              {/* Compact Tier Breakdown Mini-Table if present */}
-              {tierData && tierData.tiers && (
-                <div className="mt-2 p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-white border border-slate-200/80">
-                  <div className="text-[8px] sm:text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
-                    {tierData.title || 'Coverage Tiers'}
-                  </div>
-                  <div className="divide-y divide-slate-100 text-[10px] sm:text-xs">
-                    {tierData.tiers.map((tItem, tIdx) => (
-                      <div key={tIdx} className="py-1 flex items-center justify-between">
-                        <span className="font-semibold text-slate-700">{tItem.tier}</span>
-                        <span className="font-bold text-[#205398]">{tItem.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Visual Steps if present */}
-              {steps && steps.length > 0 && (
-                <div className="mt-2 p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200/60">
-                  <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
-                    {steps.map((step, sIdx) => (
-                      <React.Fragment key={sIdx}>
-                        <div className="px-2 py-0.5 rounded-md bg-white border border-slate-200 shadow-2xs text-[9px] sm:text-[11px] font-black text-[#0F172A]">
-                          {step}
-                        </div>
-                        {sIdx < steps.length - 1 && (
-                          <span className="text-[9px] sm:text-xs font-extrabold text-[#205398] px-0.5">
-                            →
-                          </span>
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                </div>
+              {onOpenVideo && (
+                <WatchVideoButton
+                  title={title}
+                  onOpenVideo={onOpenVideo}
+                  videoUrl={demoVideoUrl}
+                  className="pt-2"
+                />
               )}
             </div>
           </motion.div>
@@ -363,33 +340,16 @@ function RelianceFeatureAccordionItem({
   );
 }
 
-export default function ReliancePlanDetailSection({ plan, company, planId: planIdProp }) {
-  const [activeModal, setActiveModal] = useState(null);
+// =============================================================================
+// MAIN COMPONENT: BajajPlanDetailSection
+// =============================================================================
+export default function BajajPlanDetailSection({ plan, company, planId: planIdProp }) {
+  const [activeModal, setActiveModal] = useState(null); // 'ratio' | 'fundamental' | 'limitations' | 'mustKnow' | 'bestSuitedFor'
   const [activeLimitationId, setActiveLimitationId] = useState(null);
-  const [detailsModalState, setDetailsModalState] = useState({
-    isOpen: false,
-    title: '',
-    content: ''
-  });
-  const [videoModalState, setVideoModalState] = useState({
-    isOpen: false,
-    title: '',
-    url: ''
-  });
-
-  const [expandedReportCard, setExpandedReportCard] = useState({
-    csr: false,
-    icr: false,
-    complaint: false
-  });
-
-  const toggleReportCard = (key) => {
-    setExpandedReportCard(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
-  };
-
+  const [expandedFeatureId, setExpandedFeatureId] = useState(null);
+  const [videoModalState, setVideoModalState] = useState({ isOpen: false, title: '', url: '' });
+  const [detailsModalState, setDetailsModalState] = useState({ isOpen: false, title: '', content: '' });
+  const [expandedReportCard, setExpandedReportCard] = useState({ csr: false, icr: false, complaint: false });
   const [expandedCompanyStrength, setExpandedCompanyStrength] = useState({
     ownership: false,
     creditRating: false,
@@ -398,24 +358,15 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
     reinsurance: false,
     marketPosition: false
   });
-
-  const toggleCompanyStrength = (key) => {
-    setExpandedCompanyStrength(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
-  };
-
-  const [expandedFeatureId, setExpandedFeatureId] = useState(null);
   const [benefitSearchQuery, setBenefitSearchQuery] = useState('');
 
   const { planId: urlPlanId } = useParams();
   const location = useLocation();
   const isFeaturesPage = location.pathname.endsWith('/features');
 
-  // Resolve to canonical Reliance plan ID — Reliance Health Infinity Insurance
-  const currentPlanId = resolveReliancePlanId(planIdProp || plan?.id || urlPlanId);
-  const planData = getReliancePlanData(currentPlanId);
+  // Resolve to canonical Bajaj plan ID — Health Guard
+  const currentPlanId = resolveBajajPlanId(planIdProp || plan?.id || urlPlanId);
+  const planData = getBajajPlanData(currentPlanId);
   const uiConfig = planData?.uiConfig ?? {};
   const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
   const { logo, name } = company;
@@ -438,7 +389,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
     scrollToBenefitCard(itemId);
   };
 
-  // Reset all UI state on plan switch
+  // Reset UI state on plan switch
   useEffect(() => {
     setActiveModal(null);
     setActiveLimitationId(null);
@@ -515,16 +466,24 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
     }
   };
 
+  const toggleReportCard = (key) => {
+    setExpandedReportCard(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const toggleCompanyStrength = (key) => {
+    setExpandedCompanyStrength(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
   // =========================================================================
-  // DEDICATED FEATURES PAGE (EXACT 4 CATEGORIES - RELIANCE BLUE & RED THEME)
+  // DEDICATED FEATURES PAGE (POLICY BENEFITS WITH EXACT 4 HEADINGS)
   // =========================================================================
   if (isFeaturesPage) {
     return (
-      <div className="w-full pb-20 bg-white min-h-screen overflow-x-hidden relative font-sans">
-        {/* Subtle Ambient Royal Blue Glow */}
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none bg-[#205398]" />
+      <div className="w-full pb-20 bg-[#F0F6FF] min-h-screen overflow-x-hidden relative font-sans">
+        {/* Subtle Ambient Blue Glow */}
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px] opacity-10 pointer-events-none bg-[#004DA8]" />
 
-        {/* Page Container — Matching Reference Spacing & Density */}
+        {/* Page Container */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-2 sm:pt-4 space-y-8 sm:space-y-10 relative z-10">
 
           {/* HEADER */}
@@ -537,7 +496,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-3 sm:mb-4">
               <Link
                 to={`/insurance/${company.id}/${currentPlanId}`}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors cursor-pointer self-start sm:self-auto"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer self-start sm:self-auto"
               >
                 <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {planData.planName}</span><span className="sm:hidden">Back to Plan</span>
               </Link>
@@ -547,7 +506,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                 onSearchChange={setBenefitSearchQuery}
                 totalMatches={totalBenefitMatches}
                 hasActiveSearch={hasActiveBenefitSearch}
-                primaryColor="#205398"
+                primaryColor="#004DA8"
                 searchResults={benefitSearchResults}
                 onResultClick={handleBenefitResultClick}
               />
@@ -557,18 +516,18 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
               <img
                 src={logo}
                 alt={name}
-                className="w-28 sm:w-48 h-auto max-h-10 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-4"
+                className="w-24 sm:w-44 h-auto max-h-9 sm:max-h-16 object-contain select-none mb-3.5 sm:mb-4"
               />
-              <span className="text-xs font-bold uppercase tracking-widest text-[#205398] block mb-0.5">
-                {name || 'IndusInd General Insurance'}
+              <span className="text-xs font-bold uppercase tracking-widest text-[#004DA8] block mb-0.5">
+                Bajaj General Insurance
               </span>
               <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
                 {planData.planName}
               </h1>
-              <span className="text-xs sm:text-sm font-extrabold text-[#ED1C24] uppercase tracking-wider block mt-1">
+              <span className="text-xs sm:text-sm font-extrabold text-[#004DA8] uppercase tracking-wider block mt-1">
                 POLICY BENEFITS
               </span>
-              <div className="w-8 sm:w-12 h-1 bg-[#205398] mx-auto mt-2 rounded-full" />
+              <div className="w-8 sm:w-12 h-1 bg-[#004DA8] mx-auto mt-2 rounded-full" />
             </div>
 
             {/* DOWNLOAD & SHARE PDF ACTION BUTTONS */}
@@ -591,7 +550,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
             </div>
           )}
 
-          {/* 4 CATEGORY SECTIONS (EXACT 4 TITLES ONLY) */}
+          {/* 4 CATEGORY SECTIONS (EXACT 4 HEADINGS: MOST IMPORTANT, valueAdded, ADDITIONAL, optional) */}
           {prioritizedFeaturesSections?.map((sec, secIdx) => (
             <div key={sec.id || secIdx} className="space-y-3 sm:space-y-3.5">
               
@@ -604,40 +563,44 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                 className="w-full relative overflow-hidden rounded-xl sm:rounded-2xl bg-[#00A368] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-[#00A368]/50"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-                <h2 className="text-xs sm:text-sm font-black tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                  <span className="w-2 h-2 rounded-full bg-white/80 inline-block shadow-xs shrink-0" />
-                  {sec.title}
-                </h2>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 relative z-10">
+                  <h2 className="text-xs sm:text-sm font-black tracking-wider text-white font-display flex items-center gap-2.5">
+                    <span className="w-2 h-2 rounded-full bg-white/80 inline-block shadow-xs shrink-0" />
+                    {sec.title}
+                  </h2>
+                </div>
               </motion.div>
 
-              {/* Compact Grid of Benefit Cards */}
-              <div className={`grid ${sec.gridCols || 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'} gap-2.5 sm:gap-4`}>
-                {sec.items.map((item, itemIdx) => (
-                  <RelianceFeatureAccordionItem
-                    key={item.id}
-                    item={item}
-                    index={itemIdx}
-                    isExpanded={expandedFeatureId === item.id}
-                    onToggle={toggleAccordionItem}
-                    onOpenVideo={handleOpenVideo}
-                    onOpenDetailsModal={handleOpenDetailsModal}
-                    demoVideoUrl={demoVideoUrl}
-                  />
-                ))}
-              </div>
+              {/* Grid of Cards or Empty Placeholder for optional */}
+              {sec.items && sec.items.length > 0 ? (
+                <div className={`grid ${sec.gridCols || 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'} gap-2.5 sm:gap-4`}>
+                  {sec.items.map((item, itemIdx) => (
+                    <BajajFeatureAccordionItem
+                      key={item.id}
+                      item={item}
+                      index={itemIdx}
+                      isExpanded={expandedFeatureId === item.id}
+                      onToggle={(id, ref) => toggleAccordionItem(id, ref)}
+                      onOpenVideo={handleOpenVideo}
+                      onOpenDetailsModal={handleOpenDetailsModal}
+                      demoVideoUrl={demoVideoUrl}
+                    />
+                  ))}
+                </div>
+              ) : null}
             </div>
           ))}
 
           {/* FOOTNOTE */}
           <div className="text-right pt-2">
             <span className="text-xs font-bold text-slate-400">
-              *Terms & Conditions Apply as per official {name || 'IndusInd General Insurance'} {planData.planName} policy wording.
+              *Terms & Conditions Apply as per official {planData.fullName || planData.planName || 'Bajaj General Insurance'} policy wording.
             </span>
           </div>
 
         </div>
 
-        {/* IN-PAGE VIDEO LIGHTBOX MODAL */}
+        {/* IN-PAGE VIDEO MODAL */}
         <FeatureVideoModal
           isOpen={videoModalState.isOpen}
           onClose={handleCloseVideo}
@@ -645,7 +608,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
           videoUrl={videoModalState.url}
         />
 
-        {/* COMPACT DETAILS MODAL */}
+        {/* DETAILS MODAL */}
         <AnimatePresence>
           {detailsModalState.isOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
@@ -654,40 +617,30 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={handleCloseDetailsModal}
-                className="absolute inset-0 bg-black/60 backdrop-blur-xs cursor-pointer"
+                className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
-                className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-md overflow-hidden z-10 p-5 sm:p-6 text-left"
+                className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-lg overflow-hidden z-10 p-5 sm:p-7 max-h-[85vh] overflow-y-auto text-left"
                 onClick={(e) => e.stopPropagation()}
               >
-                <button
-                  type="button"
-                  onClick={handleCloseDetailsModal}
-                  className="absolute top-4 right-4 w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
-                >
-                  <FiX className="text-sm" />
-                </button>
-                <div className="flex items-center gap-2 mb-3 pr-6">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#205398]" />
-                  <h3 className="text-sm sm:text-base font-extrabold text-[#0F172A] font-display">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900 font-display">
                     {detailsModalState.title}
                   </h3>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
-                  {detailsModalState.content}
-                </p>
-                <div className="mt-4 pt-3 border-t border-slate-100 text-right">
                   <button
                     type="button"
                     onClick={handleCloseDetailsModal}
-                    className="px-4 py-1.5 rounded-lg bg-[#205398] text-white text-xs font-bold hover:bg-[#1A437C] transition-colors cursor-pointer"
+                    className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer"
                   >
-                    Got It
+                    <FiX className="text-base" />
                   </button>
+                </div>
+                <div className="pt-3 text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
+                  {detailsModalState.content}
                 </div>
               </motion.div>
             </div>
@@ -699,7 +652,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
   }
 
   // =========================================================================
-  // MAIN RELIANCE PLAN OVERVIEW PAGE (SINGLE VIEWPORT HUB)
+  // MAIN PLAN OVERVIEW PAGE (SINGLE VIEWPORT HUB - EXACT 1:1 STRUCTURE WITH TATA AIG)
   // =========================================================================
   return (
     <div className="w-full font-sans">
@@ -710,42 +663,54 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
         <div className="shrink-0 text-left mb-3.5 sm:mb-5">
           <Link
             to={`/insurance/${company.id}`}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
           >
-            <FiArrowLeft className="text-sm" /> <span className="hidden sm:inline">Back to {name || 'IndusInd General Insurance'} Plans</span><span className="sm:hidden">Back to Plans</span>
+            <FiArrowLeft className="text-sm" />{' '}
+            <span className="hidden sm:inline">
+              Back to Bajaj General Insurance Plans
+            </span>
+            <span className="sm:hidden">
+              Back to Plans
+            </span>
           </Link>
         </div>
 
-        {/* 1. RELIANCE LOGO */}
+        {/* 1. BAJAJ GENERAL INSURANCE LOGO */}
         <div className="flex flex-col items-center justify-center shrink-0 mb-2.5 sm:mb-4">
           <img
             src={logo}
             alt={name}
-            className="w-28 sm:w-52 h-auto max-h-10 sm:max-h-20 object-contain select-none"
+            className="w-24 sm:w-48 h-auto max-h-9 sm:max-h-20 object-contain select-none"
           />
         </div>
 
         {/* 2. PLAN NAME HEADING */}
         <div className="text-center shrink-0 mb-3.5 sm:mb-6">
-          <h1 className="text-base sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
+          <h1 className="text-base sm:text-2xl font-black text-slate-900 tracking-tight font-display">
             {planData.planName}
           </h1>
-          <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#205398] mx-auto mt-1 sm:mt-1.5 rounded-full" />
+          <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#004DA8] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
-        {/* 3. 2-COLUMN BUTTON GRID */}
+        {/* 3. 6-BUTTON PRIMARY NAVIGATION GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 md:gap-5 w-full">
           {/* Card 1: REPORT CARD */}
           <button
             type="button"
             onClick={() => setActiveModal('ratio')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#205398]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'ratio'
+                ? 'border-[#004DA8] ring-2 ring-[#004DA8]/20'
+                : 'border-slate-200/80 hover:border-[#004DA8]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#205398]/30 group-hover:bg-[#205398] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#205398] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'ratio' ? 'bg-[#004DA8]' : 'bg-[#004DA8]/30 group-hover:bg-[#004DA8]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#004DA8] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               REPORT CARD
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#205398] group-hover:bg-[#F0F5FA] group-hover:border-[#205398]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#004DA8] group-hover:bg-[#F0F6FF] group-hover:border-[#004DA8]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -754,13 +719,19 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
           <button
             type="button"
             onClick={() => setActiveModal('fundamental')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#205398]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'fundamental'
+                ? 'border-[#004DA8] ring-2 ring-[#004DA8]/20'
+                : 'border-slate-200/80 hover:border-[#004DA8]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#205398]/30 group-hover:bg-[#205398] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#205398] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'fundamental' ? 'bg-[#004DA8]' : 'bg-[#004DA8]/30 group-hover:bg-[#004DA8]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#004DA8] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               COMPANY STRENGTH
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#205398] group-hover:bg-[#F0F5FA] group-hover:border-[#205398]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#004DA8] group-hover:bg-[#F0F4FF] group-hover:border-[#004DA8]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -768,31 +739,37 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
           {/* Card 3: POLICY BENEFITS */}
           <Link
             to={`/insurance/${company.id}/${currentPlanId}/features`}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#205398]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#004DA8]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#205398]/30 group-hover:bg-[#205398] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#205398] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#004DA8]/30 group-hover:bg-[#004DA8] transition-colors duration-200" />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#004DA8] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               POLICY BENEFITS
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#205398] group-hover:bg-[#F0F5FA] group-hover:border-[#205398]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#004DA8] group-hover:bg-[#F0F4FF] group-hover:border-[#004DA8]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </Link>
 
-          {/* Card 4: LIMITATIONS & WAITING PERIODS */}
+          {/* Card 4: LIMITATIONS */}
           <button
             type="button"
             onClick={() => {
               setActiveModal('limitations');
               setActiveLimitationId(null);
             }}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#205398]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'limitations'
+                ? 'border-[#004DA8] ring-2 ring-[#004DA8]/20'
+                : 'border-slate-200/80 hover:border-[#004DA8]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#205398]/30 group-hover:bg-[#205398] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#205398] transition-colors duration-200 font-display leading-tight pr-1">
-              LIMITATIONS & WAITING PERIODS
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'limitations' ? 'bg-[#004DA8]' : 'bg-[#004DA8]/30 group-hover:bg-[#004DA8]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#004DA8] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
+              LIMITATIONS
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#205398] group-hover:bg-[#F0F5FA] group-hover:border-[#205398]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#004DA8] group-hover:bg-[#F0F4FF] group-hover:border-[#004DA8]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -801,48 +778,58 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
           <button
             type="button"
             onClick={() => setActiveModal('mustKnow')}
-            className={`bg-white rounded-xl sm:rounded-2xl border border-[#205398]/35 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#205398] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ring-1 ring-[#205398]/10 hover:ring-[#205398]/25 `}
+            className={`bg-white rounded-xl sm:rounded-2xl border p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'mustKnow'
+                ? 'border-[#004DA8] ring-2 ring-[#004DA8]/20'
+                : 'border-slate-200/80 hover:border-[#004DA8]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#205398] transition-colors duration-200" />
-            <div className="flex items-center gap-1.5 sm:gap-2.5 relative z-10 min-w-0 pr-1">
-              <span className="text-[#ED1C24] text-xs sm:text-base font-black select-none shrink-0 group-hover:scale-110 transition-transform duration-200">
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'mustKnow' ? 'bg-[#004DA8]' : 'bg-[#004DA8]/30 group-hover:bg-[#004DA8]'
+            }`} />
+            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1">
+              <motion.span
+                animate={{ scale: [1, 1.15, 1], opacity: [0.85, 1, 0.85] }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                className="text-[#004DA8] text-xs sm:text-base font-black select-none shrink-0"
+              >
                 ✦
-              </span>
-              <h3 className="text-xs sm:text-base font-black text-[#0F172A] group-hover:text-[#205398] transition-colors duration-200 font-display tracking-wide uppercase leading-tight truncate">
-                {planData.mustKnow?.buttonLabel || 'MUST KNOW DETAILS'}
+              </motion.span>
+              <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#004DA8] transition-colors duration-200 font-display leading-tight tracking-tight uppercase">
+                MUST KNOW DETAILS
               </h3>
             </div>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#F0F5FA] border border-[#205398]/25 flex items-center justify-center text-[#205398] group-hover:bg-[#205398] group-hover:text-white transition-all duration-200 shrink-0 relative z-10">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#004DA8] group-hover:bg-[#F0F4FF] group-hover:border-[#004DA8]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
 
           {/* Card 6: PERFECT FOR */}
-                    {/* Card 6: PERFECT FOR */}
           <button
             type="button"
             onClick={() => setActiveModal('bestSuitedFor')}
-            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+            className={`bg-white rounded-xl sm:rounded-2xl border p-3 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
               activeModal === 'bestSuitedFor'
-                ? 'border-[#205398] ring-2 ring-[#205398]/20'
-                : 'border-slate-200/80 hover:border-[#205398]/40'
+                ? 'border-[#004DA8] ring-2 ring-[#004DA8]/20'
+                : 'border-slate-200/80 hover:border-[#004DA8]/40'
             }`}
           >
             <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
-              activeModal === 'bestSuitedFor' ? 'bg-[#205398]' : 'bg-[#205398]/30 group-hover:bg-[#205398]'
+              activeModal === 'bestSuitedFor' ? 'bg-[#004DA8]' : 'bg-[#004DA8]/30 group-hover:bg-[#004DA8]'
             }`} />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#205398] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight uppercase">
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#004DA8] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               PERFECT FOR
             </h3>
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#205398] group-hover:bg-[#F0F4FF] group-hover:border-[#205398]/20 transition-all duration-200 shrink-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#004DA8] group-hover:bg-[#F0F4FF] group-hover:border-[#004DA8]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
+
         </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* SAME-PAGE MODAL OVERLAYS (RELIANCE BLUE & RED THEME) */}
+      {/* SAME-PAGE MODAL OVERLAYS */}
       {/* ========================================================================= */}
       <AnimatePresence>
         {activeModal && (
@@ -853,7 +840,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveModal(null)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-xs cursor-pointer"
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
             />
 
             {/* Modal Box */}
@@ -869,12 +856,12 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
               <button
                 type="button"
                 onClick={() => setActiveModal(null)}
-                className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer"
+                className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer z-20"
               >
                 <FiX className="text-base sm:text-lg" />
               </button>
 
-              {/* Modal Top Horizontal Tab Switcher */}
+              {/* Modal Top Tab Navigation Switcher */}
               <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 mb-4 border-b border-slate-100 no-scrollbar pr-8">
                 {[
                   { id: 'ratio', label: 'Report Card' },
@@ -889,9 +876,9 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                       <Link
                         key={tab.id}
                         to={tab.url}
-                        className="px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all duration-200 border bg-slate-50 text-slate-600 border-slate-200/80 hover:border-[#205398] hover:text-[#205398] shrink-0"
+                        className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold text-slate-600 hover:text-[#004DA8] hover:bg-[#F0F6FF] border border-transparent whitespace-nowrap transition-colors select-none"
                       >
-                        {tab.label} →
+                        {tab.label}
                       </Link>
                     );
                   }
@@ -904,10 +891,10 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                         setActiveModal(tab.id);
                         if (tab.id === 'limitations') setActiveLimitationId(null);
                       }}
-                      className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all duration-200 border shrink-0 cursor-pointer ${
+                      className={`px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all cursor-pointer select-none ${
                         isActive
-                          ? 'bg-[#205398] text-white border-[#205398] shadow-2xs'
-                          : 'bg-slate-50 text-slate-600 border-slate-200/80 hover:border-[#205398] hover:text-[#205398]'
+                          ? 'bg-[#004DA8] text-white shadow-2xs'
+                          : 'text-slate-600 hover:text-[#004DA8] hover:bg-[#F0F6FF]'
                       }`}
                     >
                       {tab.label}
@@ -920,25 +907,25 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
               {activeModal === 'ratio' && (
                 <div className="space-y-4 sm:space-y-5">
                   <div className="pr-8">
-                    <h2 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
                       REPORT CARD
                     </h2>
-                    <p className="text-xs text-[#205398] font-semibold mt-0.5">
-                      {name || 'IndusInd General Insurance'} Performance
+                    <p className="text-xs text-[#004DA8] font-medium mt-0.5">
+                      Bajaj General Insurance Performance
                     </p>
                   </div>
 
                   <div className="space-y-2.5 sm:space-y-3">
-                    {/* Box 1: CSR */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
+                    {/* CSR */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#004DA8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#004DA8]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleReportCard('csr')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
-                            CSR
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#004DA8] transition-colors font-display shrink-0">
+                            {planData.reportCard?.csr?.title || 'Claim Settlement Ratio'}
                           </span>
                           {planData.reportCard?.csr?.summaryValue && (
                             <span className="text-xs sm:text-sm font-bold text-amber-600 tracking-tight shrink-0 font-display">
@@ -946,8 +933,8 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                             </span>
                           )}
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.csr ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F6FF] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.csr ? 'rotate-180 text-[#004DA8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -961,65 +948,44 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                             className="overflow-hidden"
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <div>
-                                <span className="text-[11px] sm:text-xs font-semibold text-[#205398] tracking-wide block font-display">
-                                  {planData.reportCard.csr.subtitle || 'Claim Settlement Ratio'}
-                                </span>
-                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
-                                  {planData.reportCard.csr.explanation}
-                                </p>
-                              </div>
-
-                              <div className="space-y-2.5 pt-1">
-                                <div>
-                                  <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
-                                    {planData.reportCard.csr.singleYear}
-                                  </div>
-                                  <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                    {planData.reportCard.csr.singleYearLabel || 'Recent Single Year'}
-                                  </div>
+                              <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                {planData.reportCard.csr.explanation}
+                              </p>
+                              <div className="grid grid-cols-2 gap-2 pt-1">
+                                <div className="p-2 rounded-lg bg-white border border-slate-100">
+                                  <span className="text-[10px] text-slate-400 block font-semibold">{planData.reportCard.csr.singleYearLabel}</span>
+                                  <span className="text-xs font-bold text-slate-900">{planData.reportCard.csr.singleYear}</span>
                                 </div>
-
-                                <div className="pt-2 border-t border-slate-100">
-                                  <div className="text-base sm:text-lg font-bold text-amber-600 tracking-tight font-display">
-                                    {planData.reportCard.csr.threeYearAvg}
-                                  </div>
-                                  <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                    {planData.reportCard.csr.threeYearAvgLabel || '3 Year Average'}
-                                  </div>
+                                <div className="p-2 rounded-lg bg-white border border-slate-100">
+                                  <span className="text-[10px] text-slate-400 block font-semibold">{planData.reportCard.csr.threeYearAvgLabel}</span>
+                                  <span className="text-xs font-bold text-[#004DA8]">{planData.reportCard.csr.threeYearAvg}</span>
                                 </div>
                               </div>
-
-                              <WatchVideoButton
-                                title="CSR (Claim Settlement Ratio)"
-                                onOpenVideo={handleOpenVideo}
-                                videoUrl={planData.reportCard.csr.videoUrl || demoVideoUrl}
-                              />
                             </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
 
-                    {/* Box 2: ICR */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
+                    {/* ICR */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#004DA8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#004DA8]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleReportCard('icr')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
-                            ICR
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#004DA8] transition-colors font-display shrink-0">
+                            {planData.reportCard?.icr?.title || 'Incurred Claim Ratio'}
                           </span>
                           {planData.reportCard?.icr?.summaryValue && (
-                            <span className="text-xs sm:text-sm font-bold text-slate-700 tracking-tight shrink-0 font-display">
+                            <span className="text-xs sm:text-sm font-bold text-emerald-600 tracking-tight shrink-0 font-display">
                               {planData.reportCard.icr.summaryValue}
                             </span>
                           )}
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.icr ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F6FF] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.icr ? 'rotate-180 text-[#004DA8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1033,45 +999,29 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                             className="overflow-hidden"
                           >
                             <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <div>
-                                <span className="text-[11px] sm:text-xs font-semibold text-[#205398] tracking-wide block font-display">
-                                  {planData.reportCard.icr.subtitle || 'Incurred Claim Ratio'}
-                                </span>
-                                <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
-                                  {planData.reportCard.icr.explanation}
-                                </p>
+                              <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
+                                {planData.reportCard.icr.explanation}
+                              </p>
+                              <div className="p-2 rounded-lg bg-white border border-slate-100">
+                                <span className="text-[10px] text-slate-400 block font-semibold">{planData.reportCard.icr.rangeLabel}</span>
+                                <span className="text-xs font-bold text-emerald-600">{planData.reportCard.icr.range}</span>
                               </div>
-
-                              <div className="pt-1">
-                                <div className="text-base sm:text-lg font-bold text-slate-900 tracking-tight font-display">
-                                  {planData.reportCard.icr.range}
-                                </div>
-                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                  {planData.reportCard.icr.rangeLabel || 'Healthy ICR Range'}
-                                </div>
-                              </div>
-
-                              <WatchVideoButton
-                                title="ICR (Incurred Claim Ratio)"
-                                onOpenVideo={handleOpenVideo}
-                                videoUrl={planData.reportCard.icr.videoUrl || demoVideoUrl}
-                              />
                             </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
 
-                    {/* Box 3: COMPLAINT VOLUME */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
+                    {/* Complaint Volume */}
+                    <div className="rounded-xl sm:rounded-2xl border border-[#004DA8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#004DA8]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleReportCard('complaint')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
-                            COMPLAINT VOLUME
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#004DA8] transition-colors font-display shrink-0">
+                            {planData.reportCard?.complaintVolume?.title || 'Complaints/10K'}
                           </span>
                           {planData.reportCard?.complaintVolume?.summaryValue && (
                             <span className="text-xs sm:text-sm font-bold text-slate-700 tracking-tight shrink-0 font-display">
@@ -1079,8 +1029,8 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                             </span>
                           )}
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.complaint ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F6FF] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedReportCard.complaint ? 'rotate-180 text-[#004DA8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1097,21 +1047,10 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                               <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
                                 {planData.reportCard.complaintVolume.explanation}
                               </p>
-
-                              <div className="pt-1">
-                                <div className="text-base sm:text-lg font-bold text-slate-900 tracking-tight font-display">
-                                  {planData.reportCard.complaintVolume.value}
-                                </div>
-                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                  {planData.reportCard.complaintVolume.label}
-                                </div>
+                              <div className="p-2 rounded-lg bg-white border border-slate-100">
+                                <span className="text-base sm:text-lg font-bold text-slate-900">{planData.reportCard.complaintVolume.value}</span>
+                                <span className="text-[10px] text-slate-400 block font-semibold mt-0.5">{planData.reportCard.complaintVolume.label}</span>
                               </div>
-
-                              <WatchVideoButton
-                                title="Complaint Volume"
-                                onOpenVideo={handleOpenVideo}
-                                videoUrl={planData.reportCard.complaintVolume.videoUrl || demoVideoUrl}
-                              />
                             </div>
                           </motion.div>
                         )}
@@ -1125,32 +1064,32 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
               {activeModal === 'fundamental' && (
                 <div className="space-y-4 sm:space-y-5">
                   <div className="pr-8">
-                    <h2 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
                       COMPANY STRENGTH
                     </h2>
-                    <p className="text-xs text-[#205398] font-semibold mt-0.5">
+                    <p className="text-xs text-[#004DA8] font-medium mt-0.5">
                       How reliable/strong is the insurer?
                     </p>
                   </div>
 
                   <div className="space-y-2.5 sm:space-y-3">
                     {/* OWNERSHIP */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
+                    <div className="rounded-xl sm:rounded-2xl border border-[#004DA8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#004DA8]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleCompanyStrength('ownership')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#004DA8] transition-colors font-display shrink-0">
                             OWNERSHIP / PERCENTAGE
                           </span>
                           <span className="text-xs sm:text-sm font-bold text-slate-700 font-display">
                             {planData.companyStrength?.ownership?.summaryValue}
                           </span>
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.ownership ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F6FF] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.ownership ? 'rotate-180 text-[#004DA8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1171,7 +1110,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                                 {planData.companyStrength.ownership.items?.map((item, idx) => (
                                   <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-white border border-slate-100 text-xs">
                                     <span className="font-semibold text-slate-800">{item.name}</span>
-                                    <span className="font-bold text-[#205398]">{item.value}</span>
+                                    <span className="font-bold text-[#004DA8]">{item.value}</span>
                                   </div>
                                 ))}
                               </div>
@@ -1182,22 +1121,22 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                     </div>
 
                     {/* CREDIT RATING */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
+                    <div className="rounded-xl sm:rounded-2xl border border-[#004DA8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#004DA8]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleCompanyStrength('creditRating')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#004DA8] transition-colors font-display shrink-0">
                             CREDIT RATING
                           </span>
                           <span className="text-xs sm:text-sm font-bold text-amber-600 font-display">
                             {planData.companyStrength?.creditRating?.summaryValue}
                           </span>
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.creditRating ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F6FF] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.creditRating ? 'rotate-180 text-[#004DA8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1229,22 +1168,22 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                     </div>
 
                     {/* CAPITAL STRENGTH */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
+                    <div className="rounded-xl sm:rounded-2xl border border-[#004DA8]/35 bg-white overflow-hidden shadow-2xs hover:border-[#004DA8]/70 transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleCompanyStrength('capitalStrength')}
                         className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                       >
                         <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
+                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#004DA8] transition-colors font-display shrink-0">
                             CAPITAL STRENGTH (SOLVENCY)
                           </span>
                           <span className="text-xs sm:text-sm font-bold text-slate-700 font-display">
                             {planData.companyStrength?.capitalStrength?.summaryValue}
                           </span>
                         </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.capitalStrength ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F6FF] transition-all duration-300 shrink-0">
+                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.capitalStrength ? 'rotate-180 text-[#004DA8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                         </div>
                       </button>
 
@@ -1261,60 +1200,9 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                               <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
                                 {planData.companyStrength.capitalStrength.explanation}
                               </p>
-                              <div className="pt-1">
-                                <div className="text-base sm:text-lg font-bold text-slate-900 tracking-tight font-display">
-                                  {planData.companyStrength.capitalStrength.value}
-                                </div>
-                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                  {planData.companyStrength.capitalStrength.label}
-                                </div>
-                              </div>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-
-                    {/* FINANCIAL BASE */}
-                    <div className="rounded-xl sm:rounded-2xl border border-[#205398]/35 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/70 transition-colors">
-                      <button
-                        type="button"
-                        onClick={() => toggleCompanyStrength('financialBase')}
-                        className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
-                      >
-                        <div className="flex items-center justify-between flex-1 min-w-0 pr-2 sm:pr-3 gap-2">
-                          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-slate-900 group-hover:text-[#205398] transition-colors font-display shrink-0">
-                            FINANCIAL BASE (AUM)
-                          </span>
-                          <span className="text-xs sm:text-sm font-bold text-slate-700 font-display">
-                            {planData.companyStrength?.financialBase?.summaryValue}
-                          </span>
-                        </div>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
-                          <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${expandedCompanyStrength.financialBase ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
-                        </div>
-                      </button>
-
-                      <AnimatePresence initial={false}>
-                        {expandedCompanyStrength.financialBase && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.25, ease: "easeOut" }}
-                            className="overflow-hidden"
-                          >
-                            <div className="p-3.5 sm:p-4 border-t border-slate-100 bg-slate-50/30 space-y-3">
-                              <p className="text-[11px] sm:text-xs text-slate-500 font-normal leading-relaxed">
-                                {planData.companyStrength.financialBase.explanation}
-                              </p>
-                              <div className="pt-1">
-                                <div className="text-base sm:text-lg font-bold text-slate-900 tracking-tight font-display">
-                                  {planData.companyStrength.financialBase.value}
-                                </div>
-                                <div className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-0.5">
-                                  {planData.companyStrength.financialBase.label}
-                                </div>
+                              <div className="p-2 rounded-lg bg-white border border-slate-100">
+                                <span className="text-base sm:text-lg font-bold text-slate-900">{planData.companyStrength.capitalStrength.value}</span>
+                                <span className="text-[10px] text-slate-400 block font-semibold mt-0.5">{planData.companyStrength.capitalStrength.label}</span>
                               </div>
                             </div>
                           </motion.div>
@@ -1329,10 +1217,10 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
               {activeModal === 'limitations' && (
                 <div className="space-y-4 sm:space-y-5">
                   <div className="pr-8">
-                    <h2 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
                       LIMITATIONS & WAITING PERIODS
                     </h2>
-                    <p className="text-xs text-[#205398] font-semibold mt-0.5">
+                    <p className="text-xs text-[#004DA8] font-medium mt-0.5">
                       Terms, Waiting Periods & Exclusions
                     </p>
                   </div>
@@ -1343,7 +1231,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                       return (
                         <div
                           key={item.id}
-                          className="rounded-xl sm:rounded-2xl border border-[#205398]/30 bg-white overflow-hidden shadow-2xs hover:border-[#205398]/60 transition-colors"
+                          className="rounded-xl sm:rounded-2xl border border-[#004DA8]/30 bg-white overflow-hidden shadow-2xs hover:border-[#004DA8]/60 transition-colors"
                         >
                           <button
                             type="button"
@@ -1351,17 +1239,17 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                             className="w-full p-3.5 sm:p-4 bg-white hover:bg-slate-50/50 flex items-center justify-between text-left transition-colors cursor-pointer select-none group gap-2"
                           >
                             <div className="flex-1 min-w-0 pr-2">
-                              <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-[#205398] transition-colors leading-tight">
+                              <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-[#004DA8] transition-colors leading-tight">
                                 {item.title}
                               </h4>
                               {item.durationTag && (
-                                <span className="inline-block mt-1 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-[#F0F5FA] text-[#205398] border border-[#205398]/20">
+                                <span className="inline-block mt-1 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-[#F0F6FF] text-[#004DA8] border border-[#004DA8]/20">
                                   {item.durationTag}
                                 </span>
                               )}
                             </div>
-                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F5FA] transition-all duration-300 shrink-0">
-                              <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${isExpanded ? 'rotate-180 text-[#205398]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-[#F0F6FF] transition-all duration-300 shrink-0">
+                              <FiChevronDown className={`text-xs sm:text-sm transition-transform duration-300 transform ${isExpanded ? 'rotate-180 text-[#004DA8]' : 'text-slate-400 group-hover:text-slate-600'}`} />
                             </div>
                           </button>
 
@@ -1385,7 +1273,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                                     <ul className="space-y-1 pt-1 grid grid-cols-1 sm:grid-cols-2 gap-1">
                                       {item.diseaseList.map((d, dIdx) => (
                                         <li key={dIdx} className="flex items-center gap-1.5 text-slate-700 font-medium">
-                                          <span className="w-1.5 h-1.5 rounded-full bg-[#205398] shrink-0" />
+                                          <span className="w-1.5 h-1.5 rounded-full bg-[#004DA8] shrink-0" />
                                           <span className="truncate">{d}</span>
                                         </li>
                                       ))}
@@ -1395,7 +1283,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                                     <ul className="space-y-1 pt-1">
                                       {item.exclusionsList.map((ex, exIdx) => (
                                         <li key={exIdx} className="flex items-start gap-1.5 text-slate-600 font-medium">
-                                          <span className="text-[#ED1C24] font-bold shrink-0">✕</span>
+                                          <span className="text-rose-500 font-bold shrink-0">✕</span>
                                           <span>{ex}</span>
                                         </li>
                                       ))}
@@ -1416,10 +1304,10 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
               {activeModal === 'mustKnow' && (
                 <div className="space-y-4 sm:space-y-5">
                   <div className="pr-8">
-                    <h2 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight font-display">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
                       MUST KNOW DETAILS
                     </h2>
-                    <p className="text-xs text-[#205398] font-semibold mt-0.5">
+                    <p className="text-xs text-[#004DA8] font-medium mt-0.5">
                       Key product takeaways
                     </p>
                   </div>
@@ -1428,7 +1316,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                     {planData.mustKnow?.items?.map((item) => (
                       <div
                         key={item.id}
-                        className="p-4 rounded-2xl bg-white border border-[#205398]/30 shadow-2xs space-y-2 text-left"
+                        className="p-4 rounded-2xl bg-white border border-[#004DA8]/30 shadow-2xs space-y-2 text-left"
                       >
                         <div className="flex items-center gap-2">
                           <span className="text-xl">{item.icon}</span>
@@ -1439,23 +1327,13 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                         <p className="text-xs text-slate-600 font-medium leading-relaxed">
                           {item.summary}
                         </p>
-                        {item.points && (
-                          <ul className="space-y-1 pt-1 border-t border-slate-100">
-                            {item.points.map((pt, pIdx) => (
-                              <li key={pIdx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
-                                <FiCheck className="text-[#205398] mt-0.5 shrink-0 text-xs" />
-                                <span>{pt}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
                       </div>
                     ))}
                   </div>
                 </div>
               )}
 
-            
+                                                        
               {/* MODAL 5: PERFECT FOR */}
               {(activeModal === 'bestSuitedFor' || activeModal === 'perfectFor') && (
                 <div className="space-y-4 sm:space-y-5">
@@ -1463,7 +1341,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                     <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
                       PERFECT FOR
                     </h2>
-                    <p className="text-xs text-[#205398] font-medium mt-0.5">
+                    <p className="text-xs text-[#004DA8] font-medium mt-0.5">
                       {planData.bestSuitedFor?.subheading || planData.perfectFor?.subheading || 'Who is this plan perfect for?'}
                     </p>
                     {(planData.bestSuitedFor?.description || planData.perfectFor?.description) && (
@@ -1478,7 +1356,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                       {(planData.bestSuitedFor?.profiles || planData.perfectFor?.items || []).map((profile, idx) => (
                         <div
                           key={profile.id || idx}
-                          className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-[#205398]/30 shadow-2xs space-y-2 text-left hover:border-[#205398]/60 transition-colors"
+                          className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-[#004DA8]/30 shadow-2xs space-y-2 text-left hover:border-[#004DA8]/60 transition-colors"
                         >
                           <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-2">
@@ -1488,7 +1366,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                               </h4>
                             </div>
                             {profile.badge && (
-                              <span className="inline-block text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#F0F4FF] text-[#205398] border border-[#205398]/20 shrink-0 font-display">
+                              <span className="inline-block text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#F0F4FF] text-[#004DA8] border border-[#004DA8]/20 shrink-0 font-display">
                                 {profile.badge}
                               </span>
                             )}
@@ -1500,7 +1378,7 @@ export default function ReliancePlanDetailSection({ plan, company, planId: planI
                             <ul className="space-y-1 pt-1.5 border-t border-slate-100">
                               {profile.highlights.map((hl, hlIdx) => (
                                 <li key={hlIdx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
-                                  <FiCheck className="text-[#205398] mt-0.5 shrink-0 text-xs" />
+                                  <FiCheck className="text-[#004DA8] mt-0.5 shrink-0 text-xs" />
                                   <span>{hl}</span>
                                 </li>
                               ))}

@@ -15,6 +15,9 @@ import MagmaPlanDetailSection from '../components/MagmaPlanDetailSection';
 import ReliancePlanDetailSection from '../components/ReliancePlanDetailSection';
 import ManipalCignaPlanDetailSection from '../components/ManipalCignaPlanDetailSection';
 import AdityaBirlaPlanDetailSection from '../components/AdityaBirlaPlanDetailSection';
+import BajajPlanDetailSection from '../components/BajajPlanDetailSection';
+import SbiPlanDetailSection from '../components/SbiPlanDetailSection';
+import AckoPlanDetailSection from '../components/AckoPlanDetailSection';
 
 export default function PlanDetail() {
   const { companyId, planId } = useParams();
@@ -36,7 +39,10 @@ export default function PlanDetail() {
     (company?.id === 'reliance-general' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
     (company?.id === 'magma-hdi' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
     (company?.id === 'manipal-cigna' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
-    (company?.id === 'aditya-birla' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null);
+    (company?.id === 'aditya-birla' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
+    (company?.id === 'bajaj-general' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
+    (company?.id === 'sbi-general' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null) ||
+    (company?.id === 'acko' ? (company?.plans.find(p => p.id === planId) || company?.plans[0]) : null);
 
   const hdfcCanonicalPlanId = isHdfcErgo ? resolveHdfcPlanId(planId) : null;
 
@@ -54,7 +60,7 @@ export default function PlanDetail() {
 
   const { theme, name, logo } = company;
 
-  const isSpecialCompanyWithOwnComponent = company.id === 'hdfc-life' || company.id === 'hdfc-ergo' || company.id === 'tata-aig' || company.id === 'icici-lombard' || company.id === 'niva-bupa' || company.id === 'star-health' || company.id === 'care-health' || company.id === 'reliance-general' || company.id === 'magma-hdi' || company.id === 'manipal-cigna' || company.id === 'aditya-birla';
+  const isSpecialCompanyWithOwnComponent = company.id === 'hdfc-life' || company.id === 'hdfc-ergo' || company.id === 'tata-aig' || company.id === 'icici-lombard' || company.id === 'niva-bupa' || company.id === 'star-health' || company.id === 'care-health' || company.id === 'reliance-general' || company.id === 'magma-hdi' || company.id === 'manipal-cigna' || company.id === 'aditya-birla' || company.id === 'bajaj-general' || company.id === 'sbi-general' || company.id === 'acko';
   
   const rawDetailSections = isSpecialCompanyWithOwnComponent ? [] : getPlanDetailData(plan, company);
   const detailSections = company.id === 'tata-aig'
@@ -117,7 +123,7 @@ export default function PlanDetail() {
     '--text': theme.text,
   };
 
-  const isSpecialCompany = company.id === 'hdfc-life' || company.id === 'hdfc-ergo' || company.id === 'tata-aig' || company.id === 'icici-lombard' || company.id === 'niva-bupa' || company.id === 'star-health' || company.id === 'care-health' || company.id === 'reliance-general' || company.id === 'magma-hdi' || company.id === 'manipal-cigna' || company.id === 'aditya-birla';
+  const isSpecialCompany = company.id === 'hdfc-life' || company.id === 'hdfc-ergo' || company.id === 'tata-aig' || company.id === 'icici-lombard' || company.id === 'niva-bupa' || company.id === 'star-health' || company.id === 'care-health' || company.id === 'reliance-general' || company.id === 'magma-hdi' || company.id === 'manipal-cigna' || company.id === 'aditya-birla' || company.id === 'bajaj-general' || company.id === 'sbi-general';
 
   return (
     <div style={{ ...themeStyles, backgroundColor: 'var(--bg)' }} className={`min-h-screen font-sans ${isSpecialCompany ? 'pt-[88px] sm:pt-24 pb-2 sm:pb-20' : 'pt-24 pb-20'} relative transition-colors duration-300`}>
@@ -156,6 +162,12 @@ export default function PlanDetail() {
           <ManipalCignaPlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
         ) : company.id === 'aditya-birla' ? (
           <AdityaBirlaPlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
+        ) : company.id === 'bajaj-general' ? (
+          <BajajPlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
+        ) : company.id === 'sbi-general' ? (
+          <SbiPlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
+        ) : company.id === 'acko' ? (
+          <AckoPlanDetailSection key={plan.id} plan={plan} company={company} planId={plan.id} />
         ) : (
               <>
                 {/* Plan Header Card */}

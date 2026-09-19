@@ -35,6 +35,9 @@ export default function Footer() {
     { name: 'Magma General Insurance', path: '/insurance/magma-hdi' },
     { name: 'ManipalCigna Health Insurance', path: '/insurance/manipal-cigna' },
     { name: 'Aditya Birla Health Insurance', path: '/insurance/aditya-birla' },
+    { name: 'Bajaj General Insurance', path: '/insurance/bajaj-general' },
+    { name: 'SBI General Insurance', path: '/insurance/sbi-general' },
+    { name: 'ACKO', path: '/insurance/acko' },
   ];
 
   const handleOpenModal = (modalType) => {

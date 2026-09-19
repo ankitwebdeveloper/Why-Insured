@@ -587,16 +587,17 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
           {/* DYNAMIC PLAN-SPECIFIC FEATURES SECTIONS */}
           {prioritizedFeaturesSections.map((sec, secIdx) => (
             <div key={sec.id || secIdx}>
+              {/* Global Emerald Green Category Banner (#00A368) */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4 }}
-                className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#14532D] via-[#052E16] to-[#14532D] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-emerald-900/50"
+                className="w-full mb-3.5 sm:mb-4 relative overflow-hidden rounded-xl sm:rounded-2xl bg-[#00A368] px-4 py-2.5 sm:px-5 sm:py-3 shadow-sm border border-[#00A368]/50"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 pointer-events-none" />
-                <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
+                <h2 className="text-xs sm:text-sm font-black tracking-wider text-white font-display flex items-center gap-2.5 relative z-10">
+                  <span className="w-2 h-2 rounded-full bg-white/80 inline-block shadow-xs shrink-0" />
                   {sec.title}
                 </h2>
               </motion.div>
@@ -675,16 +676,22 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
           <div className="w-7 sm:w-10 h-0.5 sm:h-1 bg-[#003366] mx-auto mt-1 sm:mt-1.5 rounded-full" />
         </div>
 
-        {/* 3. 2-COLUMN BUTTON GRID (SAME APPROVED HDFC STRUCTURE) */}
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-5 w-full">
+        {/* 3. 6-CARD NAVIGATION GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 md:gap-5 w-full">
           {/* Card 1: REPORT CARD */}
           <button
             type="button"
             onClick={() => setActiveModal('ratio')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#003366]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'ratio'
+                ? 'border-[#003366] ring-2 ring-[#003366]/20'
+                : 'border-slate-200/80 hover:border-[#003366]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#003366]/30 group-hover:bg-[#003366] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#003366] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'ratio' ? 'bg-[#003366]' : 'bg-[#003366]/30 group-hover:bg-[#003366]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#003366] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               REPORT CARD
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#003366] group-hover:bg-[#F0F8FF] group-hover:border-[#003366]/20 transition-all duration-200 shrink-0">
@@ -696,10 +703,16 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
           <button
             type="button"
             onClick={() => setActiveModal('fundamental')}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#003366]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'fundamental'
+                ? 'border-[#003366] ring-2 ring-[#003366]/20'
+                : 'border-slate-200/80 hover:border-[#003366]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#003366]/30 group-hover:bg-[#003366] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#003366] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'fundamental' ? 'bg-[#003366]' : 'bg-[#003366]/30 group-hover:bg-[#003366]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#003366] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               COMPANY STRENGTH
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#003366] group-hover:bg-[#F0F8FF] group-hover:border-[#003366]/20 transition-all duration-200 shrink-0">
@@ -710,10 +723,10 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
           {/* Card 3: POLICY BENEFITS */}
           <Link
             to={`/insurance/${company.id}/${currentPlanId}/features`}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#003366]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#003366]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
           >
             <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#003366]/30 group-hover:bg-[#003366] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#003366] transition-colors duration-200 font-display leading-tight pr-1">
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#003366] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               POLICY BENEFITS
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#003366] group-hover:bg-[#F0F8FF] group-hover:border-[#003366]/20 transition-all duration-200 shrink-0">
@@ -721,50 +734,78 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
             </div>
           </Link>
 
-          {/* Card 4: LIMITATIONS & WAITING PERIODS (SAME PAGE MODAL — NO NEXT PAGE) */}
+          {/* Card 4: LIMITATIONS & WAITING PERIODS */}
           <button
             type="button"
             onClick={() => {
               setActiveModal('limitations');
               setActiveLimitationId(null);
             }}
-            className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#003366]/40 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'limitations'
+                ? 'border-[#003366] ring-2 ring-[#003366]/20'
+                : 'border-slate-200/80 hover:border-[#003366]/40'
+            }`}
           >
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#003366]/30 group-hover:bg-[#003366] transition-colors duration-200" />
-            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#003366] transition-colors duration-200 font-display leading-tight pr-1">
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'limitations' ? 'bg-[#003366]' : 'bg-[#003366]/30 group-hover:bg-[#003366]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#003366] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight">
               LIMITATIONS & WAITING PERIODS
             </h3>
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#003366] group-hover:bg-[#F0F8FF] group-hover:border-[#003366]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
-        </div>
 
-        {/* 5. MUST KNOW DETAILS button */}
-        <div className="flex justify-center w-full mt-2.5 sm:mt-5">
+          {/* Card 5: MUST KNOW DETAILS */}
           <button
             type="button"
             onClick={() => setActiveModal('mustKnow')}
-            className="w-full sm:max-w-md bg-white rounded-xl sm:rounded-2xl border border-[#003366]/35 p-2.5 sm:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:border-[#003366] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ring-1 ring-[#003366]/10 hover:ring-[#003366]/25"
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'mustKnow'
+                ? 'border-[#003366] ring-2 ring-[#003366]/20'
+                : 'border-slate-200/80 hover:border-[#003366]/40'
+            }`}
           >
-            {/* Bottom accent indicator bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#003366] transition-colors duration-200" />
-
-            {/* Subtle ambient soft blue background overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#F0F8FF]/90 via-white to-[#F0F8FF]/90 group-hover:from-[#E6F0FA] group-hover:to-[#E6F0FA] transition-colors duration-200 pointer-events-none" />
-
-            {/* Text label with attention icon */}
-            <div className="flex items-center gap-1.5 sm:gap-2.5 relative z-10 min-w-0 pr-1">
-              <span className="text-[#003366] text-xs sm:text-base font-black select-none shrink-0 group-hover:scale-110 transition-transform duration-200">
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'mustKnow' ? 'bg-[#003366]' : 'bg-[#003366]/30 group-hover:bg-[#003366]'
+            }`} />
+            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1">
+              <motion.span
+                animate={{ scale: [1, 1.15, 1], opacity: [0.85, 1, 0.85] }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                className="text-[#003366] text-xs sm:text-base font-black select-none shrink-0"
+              >
                 ✦
-              </span>
-              <h3 className="text-xs sm:text-base font-black text-[#0F172A] group-hover:text-[#003366] transition-colors duration-200 font-display tracking-wide uppercase leading-tight truncate">
-                {planData.mustKnow?.buttonLabel || 'MUST KNOW DETAILS'}
+              </motion.span>
+              <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#003366] transition-colors duration-200 font-display leading-tight tracking-tight uppercase">
+                MUST KNOW DETAILS
               </h3>
             </div>
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#003366] group-hover:bg-[#F0F8FF] group-hover:border-[#003366]/20 transition-all duration-200 shrink-0">
+              <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
+            </div>
+          </button>
 
-            {/* Right Arrow Bubble */}
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#F0F8FF] border border-[#003366]/25 flex items-center justify-center text-[#003366] group-hover:bg-[#003366] group-hover:text-white transition-all duration-200 shrink-0 relative z-10">
+          {/* Card 6: PERFECT FOR */}
+                    {/* Card 6: PERFECT FOR */}
+          <button
+            type="button"
+            onClick={() => setActiveModal('bestSuitedFor')}
+            className={`bg-white rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 md:p-5 flex items-center justify-between text-left shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group relative overflow-hidden active:scale-[0.98] select-none ${
+              activeModal === 'bestSuitedFor'
+                ? 'border-[#003366] ring-2 ring-[#003366]/20'
+                : 'border-slate-200/80 hover:border-[#003366]/40'
+            }`}
+          >
+            <div className={`absolute bottom-0 left-0 right-0 h-[2.5px] transition-colors duration-200 ${
+              activeModal === 'bestSuitedFor' ? 'bg-[#003366]' : 'bg-[#003366]/30 group-hover:bg-[#003366]'
+            }`} />
+            <h3 className="text-xs sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#003366] transition-colors duration-200 font-display leading-tight pr-1 tracking-tight uppercase">
+              PERFECT FOR
+            </h3>
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#003366] group-hover:bg-[#F0F8FF] group-hover:border-[#003366]/20 transition-all duration-200 shrink-0">
               <FiArrowRight className="text-xs sm:text-sm group-hover:translate-x-0.5 transition-transform duration-200" />
             </div>
           </button>
@@ -772,7 +813,7 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
       </div>
 
       {/* ========================================================================= */}
-      {/* SAME-PAGE MODAL OVERLAYS (REPORT CARD, COMPANY STRENGTH, LIMITATIONS, MUST KNOW) */}
+      {/* SAME-PAGE MODAL OVERLAYS */}
       {/* ========================================================================= */}
       <AnimatePresence>
         {activeModal && (
@@ -799,10 +840,52 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
               <button
                 type="button"
                 onClick={() => setActiveModal(null)}
-                className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer"
+                className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-[#0F172A] hover:bg-slate-200 transition-colors cursor-pointer z-20"
               >
                 <FiX className="text-base sm:text-lg" />
               </button>
+
+              {/* Modal Top Tab Navigation Switcher */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 mb-4 border-b border-slate-100 no-scrollbar pr-8">
+                {[
+                  { id: 'ratio', label: 'Report Card' },
+                  { id: 'fundamental', label: 'Company Strength' },
+                  { id: 'features', label: 'Policy Benefits', isLink: true, url: `/insurance/${company.id}/${currentPlanId}/features` },
+                  { id: 'limitations', label: 'Limitations' },
+                  { id: 'mustKnow', label: 'Must Know Details' },
+                  { id: 'bestSuitedFor', label: 'Perfect For' }
+                ].map((tab) => {
+                  if (tab.isLink) {
+                    return (
+                      <Link
+                        key={tab.id}
+                        to={tab.url}
+                        className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold text-slate-600 hover:text-[#003366] hover:bg-[#F0F8FF] border border-transparent whitespace-nowrap transition-colors select-none"
+                      >
+                        {tab.label}
+                      </Link>
+                    );
+                  }
+                  const isActive = activeModal === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveModal(tab.id);
+                        if (tab.id === 'limitations') setActiveLimitationId(null);
+                      }}
+                      className={`px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all cursor-pointer select-none ${
+                        isActive
+                          ? 'bg-[#003366] text-white shadow-2xs'
+                          : 'text-slate-600 hover:text-[#003366] hover:bg-[#F0F8FF]'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
 
               {/* MODAL 1: REPORT CARD */}
               {activeModal === 'ratio' && (
@@ -1551,6 +1634,67 @@ export default function CareHealthPlanDetailSection({ plan, company, planId: pla
                       </div>
                     ))}
                   </div>
+                </div>
+              )}
+            
+              {/* MODAL 5: PERFECT FOR */}
+              {(activeModal === 'bestSuitedFor' || activeModal === 'perfectFor') && (
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="pr-8">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-display">
+                      PERFECT FOR
+                    </h2>
+                    <p className="text-xs text-[#003366] font-medium mt-0.5">
+                      {planData.bestSuitedFor?.subheading || planData.perfectFor?.subheading || 'Who is this plan perfect for?'}
+                    </p>
+                    {(planData.bestSuitedFor?.description || planData.perfectFor?.description) && (
+                      <p className="text-xs text-slate-500 font-normal mt-0.5">
+                        {planData.bestSuitedFor?.description || planData.perfectFor?.description}
+                      </p>
+                    )}
+                  </div>
+
+                  {((planData.bestSuitedFor?.profiles || planData.perfectFor?.items || []).length > 0) ? (
+                    <div className="space-y-3">
+                      {(planData.bestSuitedFor?.profiles || planData.perfectFor?.items || []).map((profile, idx) => (
+                        <div
+                          key={profile.id || idx}
+                          className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-[#003366]/30 shadow-2xs space-y-2 text-left hover:border-[#003366]/60 transition-colors"
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg sm:text-xl shrink-0 select-none">{profile.icon || '👤'}</span>
+                              <h4 className="text-xs sm:text-sm font-extrabold text-[#0F172A] font-display">
+                                {profile.title}
+                              </h4>
+                            </div>
+                            {profile.badge && (
+                              <span className="inline-block text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#F0F8FF] text-[#003366] border border-[#003366]/20 shrink-0 font-display">
+                                {profile.badge}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                            {profile.summary || profile.description}
+                          </p>
+                          {profile.highlights && (
+                            <ul className="space-y-1 pt-1.5 border-t border-slate-100">
+                              {profile.highlights.map((hl, hlIdx) => (
+                                <li key={hlIdx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
+                                  <FiCheck className="text-[#003366] mt-0.5 shrink-0 text-xs" />
+                                  <span>{hl}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-slate-500 text-xs sm:text-sm font-medium">
+                      Information not available for this plan.
+                    </div>
+                  )}
                 </div>
               )}
             </motion.div>
