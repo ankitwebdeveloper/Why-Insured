@@ -30,7 +30,8 @@ import {
   FiGlobe,
   FiAward,
   FiInfo,
-  FiAlertTriangle
+  FiAlertTriangle,
+  FiFileText
 } from 'react-icons/fi';
 import { LuBed, LuBedDouble, LuBedSingle } from 'react-icons/lu';
 import { getTataAigPlanData, resolveTataAigPlanId } from '../data/tataAigPlansData';
@@ -40,6 +41,7 @@ import { getFilteredAndPrioritizedFeaturesSections, getBenefitSearchResults } fr
 import { scrollToBenefitCard } from '../utils/scrollToBenefitCard';
 import TataAigMedicareSelectVariantSelector from './TataAigMedicareSelectVariantSelector';
 import RoomCategoryModal from './RoomCategoryModal';
+import MedicareSelectDocumentsModal from './MedicareSelectDocumentsModal';
 
 // Default demo video
 const DEFAULT_DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -206,6 +208,7 @@ function TataAigFeatureAccordionItem({
   const itemRef = React.useRef(null);
   const { id, title, subtitle, summary, badge, points, steps, tierData, hasDetailsModal, detailsModalTitle, detailsModalContent, isRider, iconType } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
+  const hasContent = !hideExpandedBody && Boolean(summary || (points && points.length > 0) || (steps && steps.length > 0) || tierData);
 
   return (
     <motion.div
@@ -219,7 +222,7 @@ function TataAigFeatureAccordionItem({
       className={`transition-all duration-200 cursor-pointer rounded-xl sm:rounded-2xl border overflow-hidden select-none flex flex-col justify-between ${
         item._isMatched
           ? 'bg-white border-emerald-500 shadow-md ring-2 ring-emerald-500/25'
-          : isExpanded
+          : isExpanded && hasContent
           ? 'bg-[#F0F4FF]/80 border-[#0038A8]/60 shadow-md ring-1 ring-[#0038A8]/20'
           : 'bg-white border-slate-200/80 hover:border-[#0038A8]/40 shadow-2xs hover:shadow-xs'
       }`}
@@ -229,7 +232,7 @@ function TataAigFeatureAccordionItem({
         <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
           {IconComponent && (
             <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-              isExpanded ? 'bg-[#0038A8] text-white shadow-xs' : 'bg-[#F0F4FF] text-[#0038A8]'
+              isExpanded && hasContent ? 'bg-[#0038A8] text-white shadow-xs' : 'bg-[#F0F4FF] text-[#0038A8]'
             }`}>
               <IconComponent className="text-xs sm:text-base" />
             </div>
@@ -287,21 +290,23 @@ function TataAigFeatureAccordionItem({
           )}
 
           {/* Plus / Minus Button */}
-          <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 ${
-            isExpanded ? 'bg-[#0038A8] text-white rotate-180' : 'bg-[#F0F4FF] text-[#0038A8]'
-          }`}>
-            {isExpanded ? (
-              <FiMinus className="text-[10px] sm:text-xs stroke-[2.5]" />
-            ) : (
-              <FiPlus className="text-[10px] sm:text-xs stroke-[2.5]" />
-            )}
-          </div>
+          {hasContent && (
+            <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 ${
+              isExpanded ? 'bg-[#0038A8] text-white rotate-180' : 'bg-[#F0F4FF] text-[#0038A8]'
+            }`}>
+              {isExpanded ? (
+                <FiMinus className="text-[10px] sm:text-xs stroke-[2.5]" />
+              ) : (
+                <FiPlus className="text-[10px] sm:text-xs stroke-[2.5]" />
+              )}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Expanded Summary & Details (Suppressed if hideExpandedBody is true) */}
+      {/* Expanded Summary & Details (Suppressed if hideExpandedBody is true or hasContent is false) */}
       <AnimatePresence initial={false}>
-        {isExpanded && !hideExpandedBody && (
+        {isExpanded && hasContent && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
@@ -321,23 +326,31 @@ function TataAigFeatureAccordionItem({
               </div>
 
               {/* Short explanation / Details */}
-              <div className="text-[11px] sm:text-xs font-medium leading-relaxed text-slate-600">
-                {summary}
-              </div>
+              {summary && (
+                <div className="text-[11px] sm:text-xs font-medium leading-relaxed text-slate-600">
+                  {summary}
+                </div>
+              )}
 
-              {/* Key Highlights */}
+              {/* Points */}
               {points && points.length > 0 && (
                 <div className="mt-2 p-2.5 rounded-xl bg-slate-50/80 border border-slate-200/60 space-y-1.5">
-                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    Coverage Highlights
-                  </div>
                   <ul className="space-y-1">
-                    {points.map((pt, pIdx) => (
-                      <li key={pIdx} className="flex items-start gap-1.5 text-[10px] sm:text-xs text-slate-600 font-medium">
-                        <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-xs" />
-                        <span>{pt}</span>
-                      </li>
-                    ))}
+                    {points.map((pt, pIdx) => {
+                      if (pt === 'OR' || pt === 'or' || pt.trim() === 'OR') {
+                        return (
+                          <li key={pIdx} className="py-1 font-black text-xs text-[#0038A8] tracking-wider uppercase">
+                            OR
+                          </li>
+                        );
+                      }
+                      return (
+                        <li key={pIdx} className="flex items-start gap-1.5 text-[10px] sm:text-xs text-slate-600 font-medium">
+                          <FiCheck className="text-[#0038A8] mt-0.5 shrink-0 text-xs stroke-[2.5]" />
+                          <span>{pt}</span>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               )}
@@ -761,6 +774,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
   const [isDiagnosticModalOpen, setIsDiagnosticModalOpen] = useState(false);
   const [isGlobalCoverModalOpen, setIsGlobalCoverModalOpen] = useState(false);
   const [isRoomCategoryModalOpen, setIsRoomCategoryModalOpen] = useState(false);
+  const [isDocumentsModalOpen, setIsDocumentsModalOpen] = useState(false);
   const [videoModalState, setVideoModalState] = useState({
     isOpen: false,
     title: '',
@@ -810,6 +824,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
   const demoVideoUrl = uiConfig.demoVideoUrl ?? DEFAULT_DEMO_VIDEO_URL;
   const { logo, name } = company;
   const isMedicareSelectVariant = currentPlanId.startsWith('medicare-select-');
+  const isMedicareSelectPlan = currentPlanId === 'medicare-select' || currentPlanId.startsWith('medicare-select');
 
   // Filter & prioritize features sections based on current plan search
   const {
@@ -837,6 +852,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     setIsDiagnosticModalOpen(false);
     setIsGlobalCoverModalOpen(false);
     setIsRoomCategoryModalOpen(false);
+    setIsDocumentsModalOpen(false);
     setVideoModalState({ isOpen: false, title: '', url: '' });
     setExpandedReportCard({ csr: false, icr: false, complaint: false });
     setExpandedCompanyStrength({
@@ -852,7 +868,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
 
   // Lock background body scroll when modal is active
   useEffect(() => {
-    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen || isDiagnosticModalOpen || isGlobalCoverModalOpen || isRoomCategoryModalOpen) {
+    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen || isDiagnosticModalOpen || isGlobalCoverModalOpen || isRoomCategoryModalOpen || isDocumentsModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -860,7 +876,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen, isDiagnosticModalOpen, isGlobalCoverModalOpen, isRoomCategoryModalOpen]);
+  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen, isDiagnosticModalOpen, isGlobalCoverModalOpen, isRoomCategoryModalOpen, isDocumentsModalOpen]);
 
   const handleOpenVideo = (title, url) => {
     setVideoModalState({
@@ -972,12 +988,31 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               <div className="w-8 sm:w-12 h-1 bg-[#0038A8] mx-auto mt-2 rounded-full" />
             </div>
 
-            {/* DOWNLOAD & SHARE PDF ACTION BUTTONS */}
-            <PolicyBenefitsPdfActions
-              company={company}
-              plan={planData}
-              featuresSections={planData.featuresSections}
-            />
+            {/* DOCUMENTS / PDF ACTION BUTTON */}
+            {isMedicareSelectPlan ? (
+              <div className="w-full flex flex-col items-center my-3 sm:my-4 select-none relative z-20">
+                <div className="flex items-center justify-center w-full max-w-sm px-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsDocumentsModalOpen(true)}
+                    style={{ '--btn-primary': '#0038A8' }}
+                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:py-3 rounded-xl bg-white text-slate-800 border border-slate-300/80 hover:border-[#0038A8] hover:text-[#0038A8] hover:bg-slate-50/80 active:scale-[0.98] shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer text-[11px] sm:text-xs font-black uppercase tracking-wider font-display group"
+                    title="View official MediCare Select documents"
+                  >
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-100 group-hover:bg-[#F0F4FF] flex items-center justify-center text-slate-500 group-hover:text-[#0038A8] transition-colors shrink-0">
+                      <FiFileText className="text-[11px] sm:text-xs stroke-[2.5]" />
+                    </div>
+                    <span className="truncate">Documents</span>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <PolicyBenefitsPdfActions
+                company={company}
+                plan={planData}
+                featuresSections={planData.featuresSections}
+              />
+            )}
           </motion.div>
 
           {/* EMPTY SEARCH FEEDBACK IF ZERO MATCHES */}
@@ -1010,7 +1045,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-xs shrink-0" />
                     {sec.title}
                   </h2>
-                  {sec.subtitle && (
+                  {sec.subtitle && !isMedicareSelectPlan && (
                     <span className="text-[10px] sm:text-xs font-bold text-emerald-200 uppercase tracking-wider pl-4.5 sm:pl-0">
                       {sec.subtitle}
                     </span>
@@ -1148,6 +1183,13 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
             />
           )}
         </AnimatePresence>
+
+        {/* MEDICARE SELECT DOCUMENTS MODAL */}
+        <MedicareSelectDocumentsModal
+          isOpen={isDocumentsModalOpen}
+          onClose={() => setIsDocumentsModalOpen(false)}
+          primaryColor="#0038A8"
+        />
 
       </div>
     );
