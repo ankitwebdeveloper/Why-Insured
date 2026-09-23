@@ -42,8 +42,10 @@ export function getBenefitSearchResults(featuresSections = [], rawQuery = '') {
     const tierText = item.tierData && Array.isArray(item.tierData.tiers)
       ? item.tierData.tiers.map(t => `${t.tier || ''} ${t.value || ''}`).join(' ').toLowerCase()
       : '';
+    const tablesText = (item.tables ? item.tables.flatMap(t => [...(t.columns || []), ...(t.rows ? t.rows.flat() : []), ...(t.details || [])]).join(' ') : '') +
+      (item.tableData ? [...(item.tableData.columns || []), ...(item.tableData.rows ? item.tableData.rows.flat() : []), item.tableNote || ''].join(' ') : '');
     const stepsText = Array.isArray(item.steps) ? item.steps.join(' ').toLowerCase() : '';
-    const allText = `${title} ${badge} ${subtitle} ${summary} ${description} ${coverage} ${pointsText} ${detailsText} ${limitsText} ${tierText} ${stepsText}`;
+    const allText = `${title} ${badge} ${subtitle} ${summary} ${description} ${coverage} ${pointsText} ${detailsText} ${limitsText} ${tierText} ${tablesText.toLowerCase()} ${stepsText}`;
 
     if (title === query) score += 1000;
     else if (title.startsWith(query)) score += 800;
@@ -113,9 +115,11 @@ export function getFilteredAndPrioritizedFeaturesSections(featuresSections = [],
     const tierText = item.tierData && Array.isArray(item.tierData.tiers)
       ? item.tierData.tiers.map(t => `${t.tier || ''} ${t.value || ''}`).join(' ').toLowerCase()
       : '';
+    const tablesText = (item.tables ? item.tables.flatMap(t => [...(t.columns || []), ...(t.rows ? t.rows.flat() : []), ...(t.details || [])]).join(' ') : '') +
+      (item.tableData ? [...(item.tableData.columns || []), ...(item.tableData.rows ? item.tableData.rows.flat() : []), item.tableNote || ''].join(' ') : '');
     const stepsText = Array.isArray(item.steps) ? item.steps.join(' ').toLowerCase() : '';
 
-    const allText = `${title} ${badge} ${subtitle} ${summary} ${description} ${coverage} ${pointsText} ${detailsText} ${limitsText} ${tierText} ${stepsText}`;
+    const allText = `${title} ${badge} ${subtitle} ${summary} ${description} ${coverage} ${pointsText} ${detailsText} ${limitsText} ${tierText} ${tablesText.toLowerCase()} ${stepsText}`;
 
     // 1. Exact title match
     if (title === query) {

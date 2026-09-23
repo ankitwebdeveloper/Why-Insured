@@ -357,6 +357,186 @@ export const TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS = [
           'Multi-Sharing Accommodation: ₹1,500 per day',
           'Over & Above the Base Sum Insured'
         ]
+      },
+      {
+        id: 'select-additional-si-accidental',
+        title: 'Additional Sum Insured for Accidental Hospitalization',
+        iconType: 'shield',
+        badge: 'ACCIDENTAL SI',
+        summary: 'Provides additional hospitalization cover up to the Base Sum Insured, over and above the Base Sum Insured, exclusively for accidental hospitalization.',
+        points: [
+          'Up to Base Sum Insured, over and above Base Sum Insured.',
+          'Separately available for each insured person under Individual and Family Floater policies.',
+          'Example: ₹10 Lakh Base Sum Insured → Additional ₹10 Lakh cover for accidental hospitalization (Total potential eligible hospitalization cover up to ₹20 Lakh).',
+          'Important Note: This is an additional hospitalization expense cover to reimburse eligible accidental medical expenses, NOT a ₹10 Lakh lump-sum payout.'
+        ]
+      },
+      {
+        id: 'select-cancer-benefit',
+        title: 'Cancer Benefit',
+        iconType: 'activity',
+        badge: 'CANCER BENEFIT',
+        summary: 'Provides a benefit up to the selected Sum Insured as a separate individual limit over and above the Base Sum Insured upon the first incidence of cancer.',
+        points: [
+          'Up to selected Sum Insured, provided as a separate individual limit over and above the Base Sum Insured.',
+          'Initial Waiting Period: 30 days.',
+          'Applicable on first incidence of cancer.',
+          'Survival Period: 30 days from the date of first diagnosis.',
+          'Eligibility: 18 years onwards (not applicable to dependent children).',
+          'Example: If opted with ₹10 Lakh Cancer Benefit, upon first confirmed diagnosis and completion of the 30-day survival period, ₹10 Lakh is paid over and above the Base Sum Insured.'
+        ]
+      },
+      {
+        id: 'select-domestic-second-opinion',
+        title: 'Domestic Second Opinion',
+        iconType: 'users',
+        badge: 'SECOND OPINION',
+        summary: '',
+        points: []
+      },
+      {
+        id: 'select-pre-policy-checkup',
+        title: 'Pre-Policy Medical Check-up',
+        iconType: 'clipboard',
+        badge: 'CHECK-UP',
+        summary: 'Pre-policy medical check-up requirements based on gender, age, and selected Sum Insured.',
+        points: [
+          'Medical reports are valid for 90 days from the date of Pre-Policy Check-up.'
+        ],
+        tableData: {
+          title: 'Pre-Policy Medical Check-up',
+          columns: ['Gender', 'Age', 'Sum Insured', 'Pre-Policy Check-up Tests'],
+          rows: [
+            ['Male', 'Above 45 years', '₹50 Lacs and above', 'PSA Test, CEA Test'],
+            ['Female', 'Above 45 years', '₹50 Lacs and above', 'CA-125 Test, CEA Test']
+          ]
+        },
+        tableNote: 'Medical reports are valid for 90 days from the date of Pre-Policy Check-up.'
+      },
+      {
+        id: 'select-early-access',
+        title: 'Early Access',
+        subtitle: "Use Your Next 3 Years' Coverage in a Single Year",
+        iconType: 'zap',
+        badge: 'MULTI-YEAR ACCESS',
+        summary: "Allows policyholders to use their next 3 years' coverage in a single year for multi-year policies.",
+        points: [
+          "Concept: Use Your Next 3 Years' Coverage in a Single Year.",
+          'Example: ₹20 Lakh Sum Insured × 3 Years (Total available coverage: ₹60 Lakh):',
+          'Year 1: If a large hospitalization claim of ₹35 Lakh arises, ₹20 Lakh is utilized from Year 1 coverage and ₹15 Lakh is accessed early from Year 2 coverage.',
+          'Year 2: Remaining coverage available for Year 2 is ₹5 Lakh.',
+          'Year 3: Full ₹20 Lakh coverage remains available.',
+          'Remaining coverage balances continue for subsequent years as per multi-year policy terms.'
+        ]
+      },
+      {
+        id: 'select-she-care-plus',
+        title: 'She Care+',
+        iconType: 'heart',
+        badge: 'WOMEN HEALTH',
+        summary: "Specialist consultations for women covering gynaecologists, dermatologists, and counselling for PMS, Menarche, Menopause, and Infertility.",
+        points: [
+          'Consultations accessible through Tata AIG network providers.',
+          'Number of eligible consultations depends on the selected Sum Insured tier.'
+        ],
+        tableData: {
+          title: 'She Care+',
+          columns: ['Sum Insured', 'No. of Consultations'],
+          rows: [
+            ['Less than ₹20 Lacs', 'Up to 10'],
+            ['₹20 Lacs – ₹50 Lacs', 'Up to 15'],
+            ['More than ₹50 Lacs', 'Up to 20']
+          ]
+        }
+      },
+      {
+        id: 'select-polycystic-ovarian-cover',
+        title: 'Polycystic Ovarian Cover',
+        iconType: 'activity',
+        badge: 'WOMEN HEALTH',
+        summary: "In-person consultations, diagnostic tests, and medical treatment for Polycystic Ovarian Disease / Syndrome (PCOD/PCOS).",
+        points: [
+          'Diagnostic tests include: USG, TFT, Prolactin, HbA1c, FSH.',
+          'Separate financial sub-limits for diagnostic tests and medical treatment as per Sum Insured tier.'
+        ],
+        tableData: {
+          title: 'Polycystic Ovarian Cover',
+          columns: ['Sum Insured', 'Consultation & Listed Diagnostic Tests', 'Treatment for Polycystic Ovarian Disease/Syndrome'],
+          rows: [
+            ['Less than ₹20 Lacs', 'Up to ₹2,500', 'Up to ₹5,000'],
+            ['₹20 Lacs – ₹50 Lacs', 'Up to ₹3,000', 'Up to ₹8,000'],
+            ['More than ₹50 Lacs', 'Up to ₹3,500', 'Up to ₹10,000']
+          ]
+        }
+      },
+      {
+        id: 'select-women-screening-vaccination',
+        title: 'Women+ Screening & Vaccination Cover',
+        iconType: 'shield',
+        badge: 'WOMEN HEALTH',
+        summary: "Preventive cancer screening and cervical cancer vaccination for women.",
+        points: [
+          'Breast cancer screening: Mammography',
+          'Ovarian cancer screening: Ultrasound, CA-125',
+          'Cervical cancer screening: Pap smear',
+          'Cervical cancer vaccination'
+        ],
+        tableData: {
+          title: 'Women+ Screening & Vaccination Cover',
+          columns: ['Sum Insured', 'Cancer Screening', 'Cervical Cancer Vaccination Cost'],
+          rows: [
+            ['Less than ₹20 Lacs', 'Annually', 'Up to ₹5,000'],
+            ['₹20 Lacs – ₹50 Lacs', 'Annually', 'Up to ₹5,000'],
+            ['More than ₹50 Lacs', 'Bi-annually', 'Up to ₹5,000']
+          ]
+        }
+      },
+      {
+        id: 'select-health-condition-management-program',
+        title: 'Health Condition Management Program',
+        iconType: 'clipboard',
+        badge: 'WELLNESS PROGRAM',
+        summary: 'Personalized wellness and disease management support to actively manage chronic conditions and improve long-term health.',
+        points: [
+          'Proactive management support for chronic conditions (Diabetes, Hypertension, Hyperlipidemia, Asthma).',
+          'Lifestyle coaching, customized diet plans, nutrition advice, and wellness guidance.',
+          'Periodic health tracking, medication reminders, and wellness support to prevent illness progression.'
+        ]
+      },
+      {
+        id: 'select-mental-wellbeing',
+        title: 'Mental Wellbeing',
+        subtitle: 'Holistic Psychological & Behavioral Healthcare',
+        iconType: 'smile',
+        badge: 'MENTAL HEALTH',
+        summary: 'Comprehensive mental health and wellbeing support covering counseling, therapy, and rehabilitation.',
+        points: [
+          '1. Mental Health Screening',
+          '2. Psychological Therapy and Procedures: Up to 10 sessions',
+          '3. Diet Consultation: Up to 4 diet consultations',
+          '4. Vocational Rehabilitation: Up to 30 days vocational rehabilitation',
+          '5. Stress Management: Unlimited stress management',
+          '6. Addiction Cessation Program: Unlimited addiction cessation'
+        ]
+      },
+      {
+        id: 'select-emergency-air-ambulance-rider',
+        title: 'Emergency Air Ambulance Rider',
+        iconType: 'truck',
+        badge: 'AIR AMBULANCE',
+        summary: '',
+        points: []
+      },
+      {
+        id: 'select-international-second-opinion',
+        title: 'International Second Opinion',
+        iconType: 'globe',
+        badge: 'GLOBAL OPINION',
+        summary: 'Avail an international second medical opinion from leading global specialists for listed illnesses.',
+        points: [
+          'Covers listed illnesses: Cancer, Kidney Failure, Myocardial Infarction, Angina, Coronary bypass surgery, Stroke/Cerebral hemorrhage, Organ failure requiring transplant, Heart Valve replacement, Brain tumors, End stage lung disease, End stage liver failure, Bone marrow transplant, Permanent paralysis of limbs, Motor neuron disease, Parkinson\'s disease.',
+          'Available once for each listed illness, per insured person, per policy year.'
+        ]
       }
     ]
   },
@@ -430,9 +610,29 @@ export const TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS = [
       {
         id: 'select-maternity-care',
         title: 'Maternity Care',
-        iconType: 'smile',
-        summary: '(Ask Questions from the RM) Reduction of Maternity Care Waiting Period',
-        points: []
+        iconType: 'heart',
+        badge: 'OPTIONAL ADD-ON',
+        isRider: true,
+        summary: 'Provides maternity cover up to 10% of the Sum Insured, maximum up to ₹1,00,000 per Policy Year, over and above the Base Sum Insured.',
+        points: [
+          'Covers up to 10% of Sum Insured, maximum ₹1,00,000 per Policy Year, over and above the Base Sum Insured.',
+          'Covers eligible maternity expenses.',
+          'Covers delivery complications.',
+          'Covers first-year newborn vaccinations.',
+          'Important Note: Total claim payout under Maternity Care is capped at a maximum limit of ₹1,00,000 per policy year.'
+        ]
+      },
+      {
+        id: 'select-reduction-maternity-waiting-period',
+        title: 'Reduction of Maternity Care Waiting Period',
+        iconType: 'clock',
+        badge: 'OPTIONAL ADD-ON',
+        isRider: true,
+        summary: 'Reduces the standard maternity waiting period from 24 months to 12 months.',
+        points: [
+          'Reduces standard maternity care waiting period: 24 months → 12 months.',
+          'Important Note: Can only be opted when Maternity Care add-on is opted.'
+        ]
       },
       {
         id: 'select-accidental-death-benefit-rider',
@@ -444,94 +644,6 @@ export const TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS = [
           'Example: 20 Lakh Sum Insured → ₹20 Lakh payout | 75 Lakh Sum Insured → 50 Lakh payout',
           'Important Note: The death must happen within 365 days of the accident and must be directly caused by the accident.'
         ]
-      },
-      {
-        id: 'select-pocket-saver',
-        title: 'Pocket saver',
-        iconType: 'dollar',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
-      },
-      {
-        id: 'select-additional-si-accidental',
-        title: 'Additional Sum Insured for Accidental Hospitalization',
-        iconType: 'shield',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
-      },
-      {
-        id: 'select-cancer-benefit',
-        title: 'Cancer benefit',
-        iconType: 'activity',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
-      },
-      {
-        id: 'select-domestic-second-opinion',
-        title: 'Domestic second opinion',
-        iconType: 'users',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
-      },
-      {
-        id: 'select-early-access',
-        title: 'Early Access',
-        iconType: 'zap',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
-      },
-      {
-        id: 'select-women-suraksha',
-        title: 'Women Suraksha',
-        iconType: 'heart',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
-      },
-      {
-        id: 'select-health-condition-management-program',
-        title: 'Health condition management program',
-        iconType: 'clipboard',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
-      },
-      {
-        id: 'select-empowerher',
-        title: 'EmpowerHer',
-        iconType: 'heart',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
-      },
-      {
-        id: 'select-mental-wellbeing',
-        title: 'Mental Wellbeing',
-        iconType: 'smile',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
-      },
-      {
-        id: 'select-emergency-air-ambulance-rider',
-        title: 'Emergency Air Ambulance rider',
-        iconType: 'truck',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
-      },
-      {
-        id: 'select-international-second-opinion',
-        title: 'International second opinion',
-        iconType: 'globe',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
       }
     ]
   },

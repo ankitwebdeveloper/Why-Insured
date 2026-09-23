@@ -202,13 +202,15 @@ function TataAigFeatureAccordionItem({
   onOpenDetailsModal,
   onOpenDiagnosticModal,
   onOpenGlobalCoverModal,
+  onOpenTableModal,
   demoVideoUrl,
   hideExpandedBody = false
 }) {
   const itemRef = React.useRef(null);
-  const { id, title, subtitle, summary, badge, points, steps, tierData, hasDetailsModal, detailsModalTitle, detailsModalContent, isRider, iconType } = item;
+  const { id, title, subtitle, summary, badge, points, steps, tierData, hasDetailsModal, detailsModalTitle, detailsModalContent, isRider, iconType, tableData, tables, tableNote } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
-  const hasContent = !hideExpandedBody && Boolean(summary || (points && points.length > 0) || (steps && steps.length > 0) || tierData);
+  const hasTable = Boolean(tables || tableData);
+  const hasContent = !hideExpandedBody && Boolean(summary || (points && points.length > 0) || (steps && steps.length > 0) || tierData || hasTable);
 
   return (
     <motion.div
@@ -268,6 +270,25 @@ function TataAigFeatureAccordionItem({
                 <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#0038A8]/10 text-[#0038A8] tracking-wide shrink-0">
                   Rider
                 </span>
+              )}
+              {hasTable && onOpenTableModal && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenTableModal({
+                      title,
+                      subtitle,
+                      tables: tables || (tableData ? [tableData] : []),
+                      note: tableNote
+                    });
+                  }}
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/30 hover:bg-[#0038A8] hover:text-white transition-all cursor-pointer select-none shrink-0 shadow-2xs group"
+                  title={`View table for ${title}`}
+                >
+                  <FiFileText className="text-[9px] text-[#0038A8] group-hover:text-white" />
+                  <span>View Table</span>
+                </button>
               )}
             </div>
           </div>
@@ -405,6 +426,29 @@ function TataAigFeatureAccordionItem({
                   >
                     <FiInfo className="text-xs" />
                     <span>View Global Cover Details</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Action Button for View Table */}
+              {hasTable && onOpenTableModal && (
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenTableModal({
+                        title,
+                        subtitle,
+                        tables: tables || (tableData ? [tableData] : []),
+                        note: tableNote
+                      });
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#F0F4FF] text-[#0038A8] border border-[#0038A8]/25 hover:bg-[#0038A8] hover:text-white transition-all cursor-pointer shadow-2xs group select-none"
+                    title={`View table for ${title}`}
+                  >
+                    <FiFileText className="text-xs text-[#0038A8] group-hover:text-white transition-colors" />
+                    <span>View Table</span>
                   </button>
                 </div>
               )}
@@ -763,6 +807,161 @@ function GlobalCoverDetailsModal({ isOpen, onClose }) {
   );
 }
 
+// Premium Floating Table Details Modal (View Table System)
+function FeatureTableModal({ isOpen, onClose, modalData }) {
+  if (!isOpen || !modalData) return null;
+
+  const { title, subtitle, note } = modalData;
+  const tables = (modalData.tables && modalData.tables.length > 0)
+    ? modalData.tables
+    : (modalData.tableData ? [modalData.tableData] : []);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
+      />
+
+      {/* Floating Card */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 12 }}
+        transition={{ duration: 0.22, ease: "easeOut" }}
+        className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl w-[calc(100%-20px)] max-w-2xl overflow-hidden z-10 max-h-[90vh] flex flex-col text-left"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="p-4 sm:p-6 pb-3 sm:pb-4 border-b border-slate-100 relative pr-12">
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors cursor-pointer"
+            aria-label="Close modal"
+          >
+            <FiX className="text-sm sm:text-base" />
+          </button>
+
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#0038A8] shrink-0" />
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#0038A8]">
+              Tata AIG MediCare Select
+            </span>
+          </div>
+          <h3 className="text-base sm:text-xl font-extrabold text-slate-900 font-display tracking-tight">
+            {title}
+          </h3>
+          {subtitle && (
+            <p className="text-xs sm:text-sm font-medium text-slate-500 mt-0.5">
+              {subtitle}
+            </p>
+          )}
+        </div>
+
+        {/* Scrollable Content Body */}
+        <div className="p-4 sm:p-6 overflow-y-auto space-y-6">
+          {tables.map((table, tIdx) => (
+            <div key={tIdx} className="space-y-2.5">
+              {table.title && table.title !== title && (
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#0038A8]" />
+                  <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 font-display">
+                    {table.title}
+                  </h4>
+                </div>
+              )}
+              {table.subtitle && (
+                <p className="text-[11px] sm:text-xs text-slate-500 -mt-1">
+                  {table.subtitle}
+                </p>
+              )}
+
+              {/* Table Container */}
+              <div className="rounded-xl border border-slate-200 overflow-x-auto shadow-2xs">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-[#0038A8] text-white">
+                      {table.columns.map((col, cIdx) => (
+                        <th
+                          key={cIdx}
+                          className="px-3.5 py-2.5 font-bold uppercase tracking-wider text-[10px] sm:text-[11px] whitespace-nowrap"
+                        >
+                          {col}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 bg-white">
+                    {table.rows.map((row, rIdx) => (
+                      <tr
+                        key={rIdx}
+                        className={rIdx % 2 === 0 ? 'bg-white' : 'bg-slate-50/70'}
+                      >
+                        {row.map((cell, cIdx) => (
+                          <td
+                            key={cIdx}
+                            className={`px-3.5 py-2.5 text-[11px] sm:text-xs text-slate-700 ${
+                              cIdx === 0 ? 'font-semibold text-slate-900' : 'font-medium'
+                            }`}
+                          >
+                            {cell}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {table.details && table.details.length > 0 && (
+                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 space-y-1">
+                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                    Screening & Vaccination Details
+                  </div>
+                  <ul className="space-y-1">
+                    {table.details.map((dItem, dIdx) => (
+                      <li key={dIdx} className="flex items-start gap-1.5 text-[11px] sm:text-xs text-slate-600 font-medium">
+                        <span className="text-[#0038A8] font-bold">•</span>
+                        <span>{dItem}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {note && (
+            <div className="p-3 rounded-xl bg-[#F0F4FF] border border-[#0038A8]/20">
+              <p className="text-[11px] sm:text-xs text-slate-700 font-medium leading-relaxed">
+                <span className="font-bold text-[#0038A8]">Important Note: </span>
+                {note}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="p-3 sm:p-4 border-t border-slate-100 bg-slate-50/60 flex justify-end">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-5 py-2 rounded-xl bg-[#0038A8] text-white text-xs font-bold hover:bg-[#002670] transition-colors shadow-2xs cursor-pointer select-none"
+          >
+            Close Table
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function MedicareSelectSection({ plan, company, planId: planIdProp }) {
   const [activeModal, setActiveModal] = useState(null);
   const [activeLimitationId, setActiveLimitationId] = useState(null);
@@ -770,6 +969,10 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     isOpen: false,
     title: '',
     content: ''
+  });
+  const [tableModalState, setTableModalState] = useState({
+    isOpen: false,
+    data: null
   });
   const [isDiagnosticModalOpen, setIsDiagnosticModalOpen] = useState(false);
   const [isGlobalCoverModalOpen, setIsGlobalCoverModalOpen] = useState(false);
@@ -780,6 +983,20 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     title: '',
     url: ''
   });
+
+  const handleOpenTableModal = (modalData) => {
+    setTableModalState({
+      isOpen: true,
+      data: modalData
+    });
+  };
+
+  const handleCloseTableModal = () => {
+    setTableModalState({
+      isOpen: false,
+      data: null
+    });
+  };
 
   const [expandedReportCard, setExpandedReportCard] = useState({
     csr: false,
@@ -928,7 +1145,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
   // =========================================================================
   // TATA AIG MEDICARE SELECT: VARIANT SELECTOR SCREEN (3 VARIANTS)
   // =========================================================================
-  if (currentPlanId === 'medicare-select') {
+  if (currentPlanId === 'medicare-select' && !isFeaturesPage) {
     return <TataAigMedicareSelectVariantSelector company={company} />;
   }
 
@@ -1072,6 +1289,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     onOpenDetailsModal={handleOpenDetailsModal}
                     onOpenDiagnosticModal={() => setIsDiagnosticModalOpen(true)}
                     onOpenGlobalCoverModal={() => setIsGlobalCoverModalOpen(true)}
+                    onOpenTableModal={handleOpenTableModal}
                     demoVideoUrl={demoVideoUrl}
                   />
                 ))}
@@ -1180,6 +1398,17 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               primaryColor={uiConfig.primaryColor || '#0038A8'}
               onOpenVideo={handleOpenVideo}
               demoVideoUrl={demoVideoUrl}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* FLOATING FEATURE TABLE DETAILS MODAL (VIEW TABLE SYSTEM) */}
+        <AnimatePresence>
+          {tableModalState.isOpen && (
+            <FeatureTableModal
+              isOpen={tableModalState.isOpen}
+              onClose={handleCloseTableModal}
+              modalData={tableModalState.data}
             />
           )}
         </AnimatePresence>
