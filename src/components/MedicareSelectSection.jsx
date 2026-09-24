@@ -41,7 +41,6 @@ import { getFilteredAndPrioritizedFeaturesSections, getBenefitSearchResults } fr
 import { scrollToBenefitCard } from '../utils/scrollToBenefitCard';
 import TataAigMedicareSelectVariantSelector from './TataAigMedicareSelectVariantSelector';
 import RoomCategoryModal from './RoomCategoryModal';
-import CashlessPolicyModal from './CashlessPolicyModal';
 import MedicareSelectDocumentsModal from './MedicareSelectDocumentsModal';
 
 // Default demo video
@@ -205,15 +204,13 @@ function TataAigFeatureAccordionItem({
   onOpenGlobalCoverModal,
   onOpenTableModal,
   demoVideoUrl,
-  hideExpandedBody = false,
-  isMedicareSelectPlan = false
+  hideExpandedBody = false
 }) {
   const itemRef = React.useRef(null);
   const { id, title, subtitle, summary, badge, points, steps, tierData, hasDetailsModal, detailsModalTitle, detailsModalContent, isRider, iconType, tableData, tables, tableNote } = item;
   const IconComponent = (iconType && ICON_MAP[iconType]) || FiCheckSquare;
   const hasTable = Boolean(tables || tableData);
-  const isSpecialModalCard = isMedicareSelectPlan || id === 'select-room-category' || id === 'select-cashless-policy';
-  const hasContent = !hideExpandedBody && !item.hideExpandedBody && !isSpecialModalCard && Boolean(summary || (points && points.length > 0) || (steps && steps.length > 0) || tierData || hasTable);
+  const hasContent = !hideExpandedBody && Boolean(summary || (points && points.length > 0) || (steps && steps.length > 0) || tierData || hasTable);
 
   return (
     <motion.div
@@ -255,8 +252,8 @@ function TataAigFeatureAccordionItem({
 
             {/* Action Buttons & Badges Flex Row */}
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-0.5">
-              {onOpenVideo && (item.videoUrl || (!isMedicareSelectPlan && demoVideoUrl)) && (
-                <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={item.videoUrl || demoVideoUrl} />
+              {onOpenVideo && (
+                <VideoButton featureTitle={title} onOpenVideo={onOpenVideo} videoUrl={demoVideoUrl} />
               )}
               {item._isMatched && (
                 <span className="text-[7px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300/80 tracking-wide shrink-0">
@@ -980,8 +977,6 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
   const [isDiagnosticModalOpen, setIsDiagnosticModalOpen] = useState(false);
   const [isGlobalCoverModalOpen, setIsGlobalCoverModalOpen] = useState(false);
   const [isRoomCategoryModalOpen, setIsRoomCategoryModalOpen] = useState(false);
-  const [isCashlessModalOpen, setIsCashlessModalOpen] = useState(false);
-  const [activeBenefitModalItem, setActiveBenefitModalItem] = useState(null);
   const [isDocumentsModalOpen, setIsDocumentsModalOpen] = useState(false);
   const [videoModalState, setVideoModalState] = useState({
     isOpen: false,
@@ -1074,8 +1069,6 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     setIsDiagnosticModalOpen(false);
     setIsGlobalCoverModalOpen(false);
     setIsRoomCategoryModalOpen(false);
-    setIsCashlessModalOpen(false);
-    setActiveBenefitModalItem(null);
     setIsDocumentsModalOpen(false);
     setVideoModalState({ isOpen: false, title: '', url: '' });
     setExpandedReportCard({ csr: false, icr: false, complaint: false });
@@ -1092,7 +1085,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
 
   // Lock background body scroll when modal is active
   useEffect(() => {
-    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen || isDiagnosticModalOpen || isGlobalCoverModalOpen || isRoomCategoryModalOpen || isCashlessModalOpen || activeBenefitModalItem || isDocumentsModalOpen) {
+    if (activeModal || videoModalState.isOpen || detailsModalState.isOpen || isDiagnosticModalOpen || isGlobalCoverModalOpen || isRoomCategoryModalOpen || isDocumentsModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -1100,7 +1093,7 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen, isDiagnosticModalOpen, isGlobalCoverModalOpen, isRoomCategoryModalOpen, isCashlessModalOpen, activeBenefitModalItem, isDocumentsModalOpen]);
+  }, [activeModal, videoModalState.isOpen, detailsModalState.isOpen, isDiagnosticModalOpen, isGlobalCoverModalOpen, isRoomCategoryModalOpen, isDocumentsModalOpen]);
 
   const handleOpenVideo = (title, url) => {
     setVideoModalState({
@@ -1285,14 +1278,9 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
                     item={item}
                     index={itemIdx}
                     isExpanded={expandedFeatureId === item.id}
-                    isMedicareSelectPlan={isMedicareSelectPlan}
                     onToggle={(id, ref) => {
                       if (id === 'select-room-category') {
                         setIsRoomCategoryModalOpen(true);
-                      } else if (isMedicareSelectPlan) {
-                        setActiveBenefitModalItem(item);
-                      } else if (id === 'select-cashless-policy') {
-                        setIsCashlessModalOpen(true);
                       } else {
                         toggleAccordionItem(id, ref);
                       }
@@ -1407,23 +1395,6 @@ export default function MedicareSelectSection({ plan, company, planId: planIdPro
               isOpen={isRoomCategoryModalOpen}
               onClose={() => setIsRoomCategoryModalOpen(false)}
               item={planData?.featuresSections?.flatMap(s => s.items).find(i => i.id === 'select-room-category')}
-              primaryColor={uiConfig.primaryColor || '#0038A8'}
-              onOpenVideo={handleOpenVideo}
-              demoVideoUrl={demoVideoUrl}
-            />
-          )}
-        </AnimatePresence>
-
-        {/* FLOATING BENEFIT DETAIL MODAL (FOR ALL MEDICARE SELECT POLICY BENEFITS, WITH 100% CASHLESS AS PRIMARY DESIGN REFERENCE) */}
-        <AnimatePresence>
-          {(activeBenefitModalItem || isCashlessModalOpen) && (
-            <CashlessPolicyModal
-              isOpen={Boolean(activeBenefitModalItem || isCashlessModalOpen)}
-              onClose={() => {
-                setActiveBenefitModalItem(null);
-                setIsCashlessModalOpen(false);
-              }}
-              item={activeBenefitModalItem || planData?.featuresSections?.flatMap(s => s.items).find(i => i.id === 'select-cashless-policy')}
               primaryColor={uiConfig.primaryColor || '#0038A8'}
               onOpenVideo={handleOpenVideo}
               demoVideoUrl={demoVideoUrl}
