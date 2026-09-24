@@ -8,18 +8,42 @@ import {
   FiRotateCcw,
   FiArrowRight,
   FiCheck,
-  FiShield
+  FiShield,
+  FiSearch
 } from 'react-icons/fi';
 import aiAvatarImg from '../assets/ai_advisor_avatar.jpg';
 import { sendUserRequirementToAi, clientFallbackMatcher } from '../services/aiChatService';
 
-export default function AiChatAssistant() {
+// Global event dispatchers to control AI Chat from anywhere
+export const openAiChat = () => {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('whyinsured-open-chat'));
+  }
+};
+
+export const closeAiChat = () => {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('whyinsured-close-chat'));
+  }
+};
+
+export const toggleAiChat = () => {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('whyinsured-toggle-chat'));
+  }
+};
+
+export default function AiChatAssistant({
+  inline = false,
+  initialQuery = '',
+  onBackToSearch = null
+} = {}) {
   const location = useLocation();
   const planMatch = location.pathname.match(/\/insurance\/[^/]+\/([^/]+)/);
   const currentPlan = planMatch ? planMatch[1] : null;
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [hasOpenedBefore, setHasOpenedBefore] = useState(false);
+  const [isOpen, setIsOpen] = useState(inline ? true : false);
+  const [hasOpenedBefore, setHasOpenedBefore] = useState(inline ? true : false);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState([
@@ -32,12 +56,24 @@ export default function AiChatAssistant() {
     }
   ]);
 
+  const messagesContainerRef = useRef(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const initialSentRef = useRef(false);
 
-  // Auto-scroll to bottom of chat
+  // Auto-send initial requirement query when activated from search bar
+  useEffect(() => {
+    if (inline && initialQuery && !initialSentRef.current) {
+      initialSentRef.current = true;
+      handleSendMessage(initialQuery);
+    }
+  }, [inline, initialQuery]);
+
+  // Auto-scroll inside chat messages container without scrolling the browser window/viewport
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
   };
 
   // Scroll and restore focus whenever chat state updates
@@ -45,11 +81,41 @@ export default function AiChatAssistant() {
     if (isOpen) {
       scrollToBottom();
       const timer = setTimeout(() => {
-        inputRef.current?.focus();
+        inputRef.current?.focus({ preventScroll: true });
       }, 100);
       return () => clearTimeout(timer);
     }
   }, [isOpen, messages.length, isTyping]);
+
+  // Listen for global open/close/toggle events from search bar or other components
+  useEffect(() => {
+    const handleOpenChat = () => {
+      setIsOpen(true);
+      setHasOpenedBefore(true);
+    };
+
+    const handleCloseChat = () => {
+      setIsOpen(false);
+    };
+
+    const handleToggleChat = () => {
+      setIsOpen(prev => {
+        const next = !prev;
+        if (next) setHasOpenedBefore(true);
+        return next;
+      });
+    };
+
+    window.addEventListener('whyinsured-open-chat', handleOpenChat);
+    window.addEventListener('whyinsured-close-chat', handleCloseChat);
+    window.addEventListener('whyinsured-toggle-chat', handleToggleChat);
+
+    return () => {
+      window.removeEventListener('whyinsured-open-chat', handleOpenChat);
+      window.removeEventListener('whyinsured-close-chat', handleCloseChat);
+      window.removeEventListener('whyinsured-toggle-chat', handleToggleChat);
+    };
+  }, []);
 
   const handleToggle = () => {
     setIsOpen(prev => {
@@ -76,7 +142,7 @@ export default function AiChatAssistant() {
       }
     ]);
     setTimeout(() => {
-      inputRef.current?.focus();
+      inputRef.current?.focus({ preventScroll: true });
     }, 50);
   };
 
@@ -128,7 +194,7 @@ export default function AiChatAssistant() {
     } finally {
       setIsTyping(false);
       setTimeout(() => {
-        inputRef.current?.focus();
+        inputRef.current?.focus({ preventScroll: true });
       }, 100);
     }
   };
@@ -146,11 +212,15 @@ export default function AiChatAssistant() {
       {isOpen && (
         <motion.div
           key="whyinsured-chat-panel"
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          initial={{ opacity: 0, y: inline ? 10 : 30, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 25, scale: 0.95 }}
+          exit={{ opacity: 0, y: inline ? 10 : 25, scale: 0.98 }}
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed z-[99] right-3 sm:right-6 bottom-20 sm:bottom-24 w-[calc(100vw-24px)] sm:w-[410px] h-[580px] max-h-[82vh] bg-[#F8FAFC] rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col font-sans pointer-events-auto select-auto"
+          className={
+            inline
+              ? "w-full h-[540px] max-h-[75vh] bg-[#F8FAFC] rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200/90 overflow-hidden flex flex-col font-sans relative z-30"
+              : "fixed z-[99] right-3 sm:right-6 bottom-20 sm:bottom-24 w-[calc(100vw-24px)] sm:w-[410px] h-[580px] max-h-[82vh] bg-[#F8FAFC] rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col font-sans pointer-events-auto select-auto"
+          }
         >
           {/* Top Soft Green Ambient Glow */}
           <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl opacity-15 pointer-events-none bg-[#00A86B]" />
@@ -158,7 +228,7 @@ export default function AiChatAssistant() {
           {/* =================================================================== */}
           {/* CHAT HEADER (#00A86B Accents + WHYINSURED Clean Style)             */}
           {/* =================================================================== */}
-          <div className="relative bg-white/95 backdrop-blur-md px-4 py-3.5 border-b border-slate-200/80 z-10 shrink-0 shadow-xs pointer-events-auto">
+          <div className="relative bg-white/95 backdrop-blur-md px-4 sm:px-6 py-3.5 border-b border-slate-200/80 z-10 shrink-0 shadow-xs pointer-events-auto">
             <div className="flex items-center justify-between gap-3">
               {/* AI Avatar & Title */}
               <div className="flex items-center gap-2.5 min-w-0">
@@ -173,21 +243,21 @@ export default function AiChatAssistant() {
 
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <h3 className="text-sm font-black text-[#0F172A] tracking-tight font-display leading-tight">
-                      AI Assistant
+                    <h3 className="text-sm sm:text-base font-black text-[#0F172A] tracking-tight font-display leading-tight">
+                      WHYINSURED Advisor
                     </h3>
                     <span className="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-[#ECFDF5] text-[#00A86B] border border-[#00A86B]/25">
-                      WHYINSURED
+                      AI Assistant
                     </span>
                   </div>
-                  <p className="text-[11px] font-medium text-slate-500 truncate leading-tight mt-0.5">
-                    Find the right health insurance for your needs
+                  <p className="text-[11px] sm:text-xs font-medium text-slate-500 truncate leading-tight mt-0.5">
+                    Personalized health insurance recommendations & guidance
                   </p>
                 </div>
               </div>
 
-              {/* Header Actions: Reset & Close */}
-              <div className="flex items-center gap-1 shrink-0">
+              {/* Header Actions: Reset & (Back to Search or Close) */}
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={handleResetChat}
@@ -197,15 +267,28 @@ export default function AiChatAssistant() {
                 >
                   <FiRotateCcw className="text-xs pointer-events-none" />
                 </button>
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-[#00A86B] text-slate-500 hover:text-white flex items-center justify-center text-base transition-colors cursor-pointer"
-                  title="Close Chat"
-                  aria-label="Close Chat"
-                >
-                  <FiX className="pointer-events-none" />
-                </button>
+                {inline && onBackToSearch ? (
+                  <button
+                    type="button"
+                    onClick={onBackToSearch}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 text-xs font-bold transition-all cursor-pointer shadow-2xs hover:shadow-xs"
+                    title="Back to search plans"
+                    aria-label="Back to Website Search"
+                  >
+                    <FiSearch className="text-xs text-emerald-600" />
+                    <span>Back to Search</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleClose}
+                    className="w-8 h-8 rounded-full bg-slate-100 hover:bg-[#00A86B] text-slate-500 hover:text-white flex items-center justify-center text-base transition-colors cursor-pointer"
+                    title="Close Chat"
+                    aria-label="Close Chat"
+                  >
+                    <FiX className="pointer-events-none" />
+                  </button>
+                )}
               </div>
             </div>
 
@@ -216,7 +299,7 @@ export default function AiChatAssistant() {
           {/* =================================================================== */}
           {/* CHAT MESSAGES CONTAINER                                            */}
           {/* =================================================================== */}
-          <div className="flex-1 overflow-y-auto p-3.5 space-y-3.5 text-xs relative z-10 scrollbar-thin pointer-events-auto select-text">
+          <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-3.5 space-y-3.5 text-xs relative z-10 scrollbar-thin pointer-events-auto select-text">
             {messages.map((msg) => (
               <div
                 key={msg.id}
@@ -371,7 +454,7 @@ export default function AiChatAssistant() {
           {/* =================================================================== */}
           <div
             className="p-3 bg-white border-t border-slate-200/80 shrink-0 relative z-10 pointer-events-auto"
-            onClick={() => inputRef.current?.focus()}
+            onClick={() => inputRef.current?.focus({ preventScroll: true })}
           >
             <form
               onSubmit={(e) => {
@@ -417,54 +500,64 @@ export default function AiChatAssistant() {
     </AnimatePresence>
   );
 
+  // If rendered inline (inside the homepage search bar container)
+  if (inline) {
+    return modalContent;
+  }
+
+  const isHomePage = location.pathname === '/';
+
   return (
     <>
       {/* ========================================================================= */}
-      {/* 1. FLOATING AI BUTTON (RENDERED DIRECTLY INSIDE PARENT FLEX CONTAINER)     */}
+      {/* 1. FLOATING AI BUTTON (Only shown on non-home pages; on homepage it is     */}
+      {/*    integrated inside the search bar)                                      */}
       {/* ========================================================================= */}
-      <motion.button
-        type="button"
-        onClick={handleToggle}
-        aria-label={isOpen ? 'Close AI Assistant' : 'Chat with WHYINSURED'}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className="pointer-events-auto group relative flex items-center gap-2.5 bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white pl-1.5 pr-4 py-1.5 sm:py-2 rounded-full shadow-xl border border-slate-700/70 hover:border-[#00A86B]/90 transition-all duration-300 cursor-pointer select-none"
-      >
-        {/* Subtle Ambient Glow Ring */}
-        <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-[#00A86B]/40 to-[#0fa26e]/20 blur-sm opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none" />
+      {!isHomePage && (
+        <motion.button
+          type="button"
+          onClick={handleToggle}
+          aria-label={isOpen ? 'Close AI Assistant' : 'Chat with WHYINSURED'}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="pointer-events-auto group relative flex items-center gap-2.5 bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white pl-1.5 pr-4 py-1.5 sm:py-2 rounded-full shadow-xl border border-slate-700/70 hover:border-[#00A86B]/90 transition-all duration-300 cursor-pointer select-none"
+        >
+          {/* Subtle Ambient Glow Ring */}
+          <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-[#00A86B]/40 to-[#0fa26e]/20 blur-sm opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-        {/* Circular AI Advisor Avatar */}
-        <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden p-0.5 bg-gradient-to-tr from-[#00A86B] via-[#0fa26e] to-[#0F172A] shrink-0 shadow-md">
-          <div className="w-full h-full rounded-full overflow-hidden bg-slate-900 border border-white/90 flex items-center justify-center">
-            {isOpen ? (
-              <div className="w-full h-full bg-[#00A86B] text-white flex items-center justify-center">
-                <FiX className="text-sm transition-transform duration-200 group-hover:rotate-90" />
-              </div>
-            ) : (
-              <img
-                src={aiAvatarImg}
-                alt="WHYINSURED AI Health Advisor"
-                className="w-full h-full object-cover object-center"
-              />
+          {/* Circular AI Advisor Avatar */}
+          <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden p-0.5 bg-gradient-to-tr from-[#00A86B] via-[#0fa26e] to-[#0F172A] shrink-0 shadow-md">
+            <div className="w-full h-full rounded-full overflow-hidden bg-slate-900 border border-white/90 flex items-center justify-center">
+              {isOpen ? (
+                <div className="w-full h-full bg-[#00A86B] text-white flex items-center justify-center">
+                  <FiX className="text-sm transition-transform duration-200 group-hover:rotate-90" />
+                </div>
+              ) : (
+                <img
+                  src={aiAvatarImg}
+                  alt="WHYINSURED AI Health Advisor"
+                  className="w-full h-full object-cover object-center"
+                />
+              )}
+            </div>
+            
+            {/* Online Status Indicator */}
+            {!isOpen && (
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#00A86B] border-2 border-white rounded-full">
+                <span className="absolute inset-0 rounded-full bg-[#00A86B] animate-ping opacity-75" />
+              </span>
             )}
           </div>
-          
-          {/* Online Status Indicator */}
-          {!isOpen && (
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#00A86B] border-2 border-white rounded-full">
-              <span className="absolute inset-0 rounded-full bg-[#00A86B] animate-ping opacity-75" />
-            </span>
-          )}
-        </div>
 
-        {/* Button Text Label */}
-        <div className="relative flex items-center gap-1.5 pr-0.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00A86B] animate-pulse shrink-0 shadow-[0_0_6px_#00A86B]" />
-          <span className="text-xs sm:text-[13px] font-bold tracking-tight text-white whitespace-nowrap font-sans">
-            {isOpen ? 'Close Chat' : 'Chat with WHYINSURED'}
-          </span>
-        </div>
-      </motion.button>
+          {/* Button Text Label */}
+          <div className="relative flex items-center gap-1.5 pr-0.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00A86B] animate-pulse shrink-0 shadow-[0_0_6px_#00A86B]" />
+            <span className="text-xs sm:text-[13px] font-bold tracking-tight text-white whitespace-nowrap font-sans">
+              {isOpen ? 'Close Chat' : 'Chat with WHYINSURED'}
+            </span>
+          </div>
+        </motion.button>
+      )}
 
       {/* ========================================================================= */}
       {/* 2. FLOATING AI CHAT PANEL PORTAL (ATTACHED TO BODY WITH FULL INTERACTIVITY) */}
