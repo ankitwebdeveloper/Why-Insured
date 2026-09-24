@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiSend,
@@ -14,6 +14,10 @@ import aiAvatarImg from '../assets/ai_advisor_avatar.jpg';
 import { sendUserRequirementToAi, clientFallbackMatcher } from '../services/aiChatService';
 
 export default function AiChatAssistant() {
+  const location = useLocation();
+  const planMatch = location.pathname.match(/\/insurance\/[^/]+\/([^/]+)/);
+  const currentPlan = planMatch ? planMatch[1] : null;
+
   const [isOpen, setIsOpen] = useState(false);
   const [hasOpenedBefore, setHasOpenedBefore] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -95,7 +99,7 @@ export default function AiChatAssistant() {
 
     try {
       // Fetch AI response from backend
-      const response = await sendUserRequirementToAi(query, messages);
+      const response = await sendUserRequirementToAi(query, messages, currentPlan);
 
       const aiResponse = {
         id: `ai-${Date.now()}`,
@@ -110,7 +114,7 @@ export default function AiChatAssistant() {
       setMessages(prev => [...prev, aiResponse]);
     } catch (error) {
       console.warn('[AI Chat] Backend query failed, using grounded fallback matcher:', error);
-      const fallback = clientFallbackMatcher(query);
+      const fallback = clientFallbackMatcher(query, currentPlan);
       const aiResponse = {
         id: `ai-fb-${Date.now()}`,
         sender: 'ai',

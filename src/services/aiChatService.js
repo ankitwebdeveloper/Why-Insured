@@ -44,7 +44,7 @@ const LOGO_MAP = {
  * @param {Array} conversationHistory - Past conversation messages
  * @returns {Promise<Object>} Formatted AI response with recommendations
  */
-export async function sendUserRequirementToAi(query, conversationHistory = []) {
+export async function sendUserRequirementToAi(query, conversationHistory = [], currentPlan = null) {
   try {
     const formattedHistory = (conversationHistory || []).map(msg => ({
       sender: msg.sender,
@@ -63,7 +63,8 @@ export async function sendUserRequirementToAi(query, conversationHistory = []) {
       },
       body: JSON.stringify({
         message: query,
-        conversation: formattedHistory
+        conversation: formattedHistory,
+        currentPlan: currentPlan
       })
     });
 
@@ -113,8 +114,39 @@ export async function sendUserRequirementToAi(query, conversationHistory = []) {
 /**
  * Client Fallback Matcher (if backend server is not running)
  */
-export function clientFallbackMatcher(query) {
+export function clientFallbackMatcher(query, currentPlan = null) {
   const lower = (query || '').toLowerCase().trim();
+
+  // MediCare Select Plan Data (Pre & Post Hospitalization)
+  if (lower.includes('medicare') || (currentPlan && String(currentPlan).toLowerCase().includes('medicare'))) {
+    if (lower.includes('pre') || lower.includes('post') || lower.includes('hospital')) {
+      return {
+        text: "**Tata AIG MediCare Select** policy mein Pre & Post Hospitalization expenses ka coverage is tarah hai:\n\n• **Pre-Hospitalisation:** Hospital admission se **90 din (90 days)** pehle tak ke eligible medical expenses covered hain.\n• **Post-Hospitalisation:** Hospital discharge ke **90 din (90 days)** baad tak ke eligible medical expenses covered hain.\n\n📌 **Important Note (Website Policy Terms):**\nCovered when the in-patient hospitalisation claim is admissible and approved under the policy terms.",
+        intent: 'WEBSITE_KNOWLEDGE',
+        requirements: {},
+        recommendations: [],
+        disclaimer: 'These recommendations are based on verified policy information available on WHYINSURED. Please review the policy wording before making a decision.'
+      };
+    }
+    if (lower.includes('room rent') || lower.includes('room') || lower.includes('kamra')) {
+      return {
+        text: "**Tata AIG MediCare Select** mein Room Category coverage is tarah hai:\n\n• **Standard Variant:** Single Private Room covered with zero capping (no daily rent sub-limit, no proportionate deduction).\n• **Smart Variant:** Twin Sharing room covered across Value Provider Network (VPN) hospitals.\n• **Elite Variant:** Any Room Category covered with zero capping.\n• **ICU Charges:** Zero capping / no limit on ICU charges.",
+        intent: 'WEBSITE_KNOWLEDGE',
+        requirements: {},
+        recommendations: [],
+        disclaimer: 'These recommendations are based on verified policy information available on WHYINSURED. Please review the policy wording before making a decision.'
+      };
+    }
+    if (lower.includes('restoration') || lower.includes('restore') || lower.includes('kitni baar')) {
+      return {
+        text: "**Tata AIG MediCare Select** mein **Restore Infinity Plus** is tarah kaam karta hai:\n\n• **Kitni baar restore hota hai:** Unlimited restorations during a policy year.\n• **Kitna amount milta hai:** 100% of Base Sum Insured.\n• **Illness Type:** Restores for both related and unrelated illnesses.\n• **Important Rule:** Restore Infinity Plus is available for your subsequent hospitalisation, not the same continuous hospitalisation.",
+        intent: 'WEBSITE_KNOWLEDGE',
+        requirements: {},
+        recommendations: [],
+        disclaimer: 'These recommendations are based on verified policy information available on WHYINSURED. Please review the policy wording before making a decision.'
+      };
+    }
+  }
 
   // If greeting
   if (/^(hi|hii|hello|hey|namaste)\b/i.test(lower)) {
