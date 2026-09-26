@@ -234,7 +234,7 @@ export default function Home() {
                   value={searchQuery}
                   onChange={(e) => handleSearchChange(e.target.value)}
                   onKeyDown={handleSearchKeyDown}
-                  placeholder="Search plans, companies, benefits (e.g. Tata AIG, Optima Secure, Room Rent)..."
+                  placeholder="Search benefits or ask a question..."
                   className="flex-1 min-w-0 h-full bg-transparent text-[#0F172A] text-xs sm:text-base font-semibold placeholder-slate-400 focus:outline-none font-sans"
                 />
 

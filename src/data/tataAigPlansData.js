@@ -1,6 +1,8 @@
 import {
   TATA_AIG_MEDICARE_SELECT_VARIANTS_DATA,
-  TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS
+  TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS,
+  TATA_AIG_MEDICARE_SELECT_LIMITATIONS,
+  TATA_AIG_MEDICARE_SELECT_MUST_KNOW
 } from './tataAigMedicareSelectVariantsData';
 
 // =============================================================================
@@ -1161,112 +1163,10 @@ export const TATA_AIG_PLANS_DATA = {
     },
 
     // --- 3. LIMITATIONS & WAITING PERIODS ---
-    limitationsWaitingPeriods: {
-      heading: 'LIMITATIONS & WAITING PERIODS',
-      subheading: 'Terms & Waiting Periods',
-      description: 'Interactive policy timelines, specific disease waiting, and permanent exclusions.',
-      items: [
-        {
-          id: 'initial',
-          title: 'Initial Waiting Period (30 Days)',
-          summary: 'A mandatory waiting period of 30 days applies from the policy inception date for any non-accidental illness or hospitalization.',
-          highlight: 'Accidental hospitalization is covered from Day 1 with zero waiting period.',
-          policyRef: 'Tata AIG MediCare Select Policy Terms (Section 3.1)',
-          durationTag: '30 Days'
-        },
-        {
-          id: 'specific',
-          title: '2 Years Waiting Period on Specific Diseases',
-          summary: 'A continuous waiting period of 24 months (2 Years) applies for medical or surgical treatment of specified conditions:',
-          diseaseList: [
-            'Cataract & eye surgeries',
-            'Benign Prostatic Hypertrophy (BPH)',
-            'Hernia (all types) & Hydrocele',
-            'Piles, Fistula & Fissure in ano',
-            'Stones in Urinary, Biliary & Renal systems',
-            'Hysterectomy for Menorrhagia / Fibroids',
-            'Joint replacements (non-accidental)',
-            'Osteoarthritis & Osteoporosis',
-            'Sinusitis, DNS, Tonsillectomy & Adenoidectomy',
-            'Benign cysts, nodules, polyps & tumors',
-            'Varicose veins & varicose ulcers',
-            'Spondylosis, Spondylitis & Disc disorders'
-          ],
-          policyRef: 'Tata AIG MediCare Select Specific Illness Schedule (Section 3.2)',
-          durationTag: '24 Months'
-        },
-        {
-          id: 'ped',
-          title: '48 Months Pre-Existing Disease (PED) Waiting',
-          summary: 'A waiting period of 48 months (4 Years) of continuous coverage applies for pre-existing diseases declared at inception.',
-          highlight: 'Continuous coverage and timely renewal preserve cumulative waiting credits.',
-          policyRef: 'Tata AIG MediCare Select Policy Terms (Section 3.3)',
-          durationTag: '48 Months'
-        },
-        {
-          id: 'permanent',
-          title: 'Permanent Exclusions',
-          summary: 'The policy does not cover medical expenses incurred towards treatment of the following permanent exclusions:',
-          exclusionsList: [
-            'Cosmetic, aesthetic & plastic surgery',
-            'Intentional self-injury & suicide attempt',
-            'Alcohol, drug or substance abuse treatments',
-            'Obesity & weight control procedures',
-            'Investigation & diagnostic-only admissions',
-            'Rest cure, rehabilitation & respite care',
-            'Unproven / experimental treatments',
-            'Participation in hazardous adventure sports',
-            'Expenses arising from breach of law',
-            'War, nuclear or chemical contamination'
-          ],
-          policyRef: 'Standard IRDAI & Tata AIG Guidelines (Section 4)',
-          durationTag: 'Never Covered'
-        }
-      ]
-    },
+    limitationsWaitingPeriods: TATA_AIG_MEDICARE_SELECT_LIMITATIONS,
 
     // --- 4. MUST KNOW (INDEPENDENT) ---
-    mustKnow: {
-      heading: 'MUST-KNOW DETAILS',
-      subheading: 'Important MediCare Select terms that policyholders should keep in mind',
-      buttonLabel: 'MUST KNOW DETAILS',
-      layout: 'details-modal',
-      items: [
-        {
-          id: 'room-rent',
-          icon: '🏥',
-          title: 'SINGLE PRIVATE ROOM COVERED',
-          paragraphs: [
-            'Single Private Room is covered with zero capping and zero proportionate deductions.',
-            'No daily sub-limit on room rent charges across network hospitals.'
-          ]
-        },
-        {
-          id: 'pre-post',
-          icon: '📅',
-          title: '30 DAYS PRE & 60 DAYS POST HOSPITALIZATION',
-          paragraphs: [
-            'Medical expenses incurred 30 days prior to admission and 60 days post discharge are fully covered.'
-          ]
-        },
-        {
-          id: 'no-claim-bonus',
-          icon: '📈',
-          title: '10% CUMULATIVE BONUS UP TO 100%',
-          paragraphs: [
-            'Increases basic Sum Insured by 10% for each claim-free year up to a maximum 100% bonus without extra premium.'
-          ]
-        },
-        {
-          id: 'ayush-cover',
-          icon: '🌿',
-          title: '100% INPATIENT AYUSH COVERED',
-          paragraphs: [
-            'Inpatient alternative treatments under Ayurveda, Yoga, Unani, Siddha, and Homeopathy at recognized government centers covered up to 100%.'
-          ]
-        }
-      ]
-    },
+    mustKnow: TATA_AIG_MEDICARE_SELECT_MUST_KNOW,
 
     featuresSections: TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS
   },

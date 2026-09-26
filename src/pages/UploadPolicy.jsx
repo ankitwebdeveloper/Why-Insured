@@ -40,6 +40,46 @@ export default function UploadPolicy() {
   // Checklist step progression (1 to 4)
   const [analysisStep, setAnalysisStep] = useState(0);
 
+  // Analysis subphase: 'steps' (the 4 checklist steps) | 'finalizing' (continuous processing state)
+  const [analysisPhase, setAnalysisPhase] = useState('steps');
+  const [rotatingStatusIndex, setRotatingStatusIndex] = useState(0);
+
+  const activeRequestIdRef = useRef(0);
+  const analysisTimersRef = useRef([]);
+
+  const ROTATING_STATUS_MESSAGES = [
+    'Analyzing your policy...',
+    'Reviewing coverage details...',
+    'Checking benefits and exclusions...',
+    'Preparing your policy summary...',
+    'Finalizing your policy analysis...'
+  ];
+
+  const clearAllAnalysisTimers = () => {
+    analysisTimersRef.current.forEach((timer) => clearTimeout(timer));
+    analysisTimersRef.current = [];
+  };
+
+  // Clean up all timers on unmount
+  useEffect(() => {
+    return () => {
+      clearAllAnalysisTimers();
+    };
+  }, []);
+
+  // Cycle rotating status messages smoothly during finalizing phase
+  useEffect(() => {
+    let intervalId = null;
+    if (stage === 'analyzing' && analysisPhase === 'finalizing') {
+      intervalId = setInterval(() => {
+        setRotatingStatusIndex((prev) => (prev + 1) % ROTATING_STATUS_MESSAGES.length);
+      }, 2600);
+    }
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [stage, analysisPhase]);
+
   // Backend response data & session
   const [backendDownloadUrl, setBackendDownloadUrl] = useState(null);
   const [fileId, setFileId] = useState(null);
@@ -66,9 +106,14 @@ export default function UploadPolicy() {
   const processFile = (file) => {
     if (!file) return;
     if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+      clearAllAnalysisTimers();
+      activeRequestIdRef.current++;
       setErrorMsg('');
       setSelectedFile(file);
       setStage('selected');
+      setAnalysisPhase('steps');
+      setAnalysisStep(0);
+      setRotatingStatusIndex(0);
       setBackendDownloadUrl(null);
       setFileId(null);
       setIdentifiedProduct(null);
@@ -113,10 +158,14 @@ export default function UploadPolicy() {
   };
 
   const handleReset = () => {
+    clearAllAnalysisTimers();
+    activeRequestIdRef.current++;
     setSelectedFile(null);
     setErrorMsg('');
     setStage('upload');
+    setAnalysisPhase('steps');
     setAnalysisStep(0);
+    setRotatingStatusIndex(0);
     setBackendDownloadUrl(null);
     setFileId(null);
     setIdentifiedProduct(null);
@@ -125,21 +174,83 @@ export default function UploadPolicy() {
     setQaInput('');
   };
 
-  // Start analysis: call backend POST /api/policy/analyze
+  // Start analysis: coordinated lifecycle between 4 visual steps & real /api/policy/analyze response
   const handleStartAnalysis = async () => {
     if (!selectedFile) return;
 
-    setStage('analyzing');
-    setAnalysisStep(1);
+    clearAllAnalysisTimers();
+    const currentRequestId = ++activeRequestIdRef.current;
+
     setErrorMsg('');
+    setStage('analyzing');
+    setAnalysisPhase('steps');
+    setAnalysisStep(1);
+    setRotatingStatusIndex(0);
 
     const formData = new FormData();
     formData.append('file', selectedFile);
 
-    const stepTimer1 = setTimeout(() => setAnalysisStep(2), 1200);
-    const stepTimer2 = setTimeout(() => setAnalysisStep(3), 2600);
-    const stepTimer3 = setTimeout(() => setAnalysisStep(4), 4000);
+    let apiResult = null;
+    let isVisualStepsComplete = false;
 
+    // Helper to finish with success once visual steps and backend API have both resolved
+    const handleSuccess = (resultData) => {
+      if (currentRequestId !== activeRequestIdRef.current) return;
+      clearAllAnalysisTimers();
+      setBackendDownloadUrl(resultData.file?.url || null);
+      setFileId(resultData.file?.id || null);
+      setIdentifiedProduct(resultData.identifiedProduct || null);
+      setAnalysisData(resultData.analysis || null);
+      setStage('ready');
+    };
+
+    // Helper to finish with error
+    const handleError = (message) => {
+      if (currentRequestId !== activeRequestIdRef.current) return;
+      clearAllAnalysisTimers();
+      setErrorMsg(message || "We couldn't analyze this policy. Please try uploading a clearer PDF.");
+      setStage('selected');
+      setAnalysisPhase('steps');
+    };
+
+    // 1. Sequential progression through the 4 visual processing steps
+    // Step 1: 0ms -> 1200ms
+    // Step 2: 1200ms -> 2500ms
+    // Step 3: 2500ms -> 3800ms
+    // Step 4: 3800ms -> 5000ms
+    const t1 = setTimeout(() => {
+      if (currentRequestId === activeRequestIdRef.current) setAnalysisStep(2);
+    }, 1200);
+
+    const t2 = setTimeout(() => {
+      if (currentRequestId === activeRequestIdRef.current) setAnalysisStep(3);
+    }, 2500);
+
+    const t3 = setTimeout(() => {
+      if (currentRequestId === activeRequestIdRef.current) setAnalysisStep(4);
+    }, 3800);
+
+    // Completion of the 4 steps at 5000ms
+    const tCompleteSteps = setTimeout(() => {
+      if (currentRequestId !== activeRequestIdRef.current) return;
+      isVisualStepsComplete = true;
+
+      if (apiResult) {
+        // API has already responded while steps were running
+        if (apiResult.success) {
+          handleSuccess(apiResult.data);
+        } else {
+          handleError(apiResult.message);
+        }
+      } else {
+        // Backend API is still processing! Transition directly into dedicated finalizing state
+        setAnalysisPhase('finalizing');
+      }
+    }, 5000);
+
+    analysisTimersRef.current = [t1, t2, t3, tCompleteSteps];
+
+    // 2. Trigger the real /api/policy/analyze request
     try {
       const response = await fetch(`${API_BASE_URL}/api/policy/analyze`, {
         method: 'POST',
@@ -148,29 +259,25 @@ export default function UploadPolicy() {
 
       const data = await response.json();
 
-      if (response.ok && data.success && data.file?.url) {
-        setBackendDownloadUrl(data.file.url);
-        setFileId(data.file.id);
-        setIdentifiedProduct(data.identifiedProduct || null);
-        setAnalysisData(data.analysis || null);
+      if (currentRequestId !== activeRequestIdRef.current) return;
 
-        setTimeout(() => {
-          setAnalysisStep(4);
-          setStage('ready');
-        }, 4500);
+      if (response.ok && data.success && data.file?.url) {
+        apiResult = { success: true, data };
+        // If the 4 visual steps already finished (in finalizing phase or at step 4), transition to ready immediately
+        if (isVisualStepsComplete) {
+          handleSuccess(data);
+        }
       } else {
-        clearTimeout(stepTimer1);
-        clearTimeout(stepTimer2);
-        clearTimeout(stepTimer3);
-        setErrorMsg(data.message || "We couldn't analyze this policy. Please try uploading a clearer PDF.");
-        setStage('selected');
+        apiResult = {
+          success: false,
+          message: data.message || "We couldn't analyze this policy. Please try uploading a clearer PDF."
+        };
+        handleError(apiResult.message);
       }
     } catch (err) {
-      console.warn('[UploadPolicy] Backend request fallback:', err.message);
-      setTimeout(() => {
-        setAnalysisStep(4);
-        setStage('ready');
-      }, 4500);
+      console.warn('[UploadPolicy] Backend request error:', err.message);
+      if (currentRequestId !== activeRequestIdRef.current) return;
+      handleError("Unable to analyze this policy document right now. Please check your connection or try again with a valid policy PDF.");
     }
   };
 
@@ -510,80 +617,148 @@ export default function UploadPolicy() {
                 </motion.div>
               )}
 
-              {/* STAGE 3: ANALYSIS LOADING STATE */}
+              {/* STAGE 3: ANALYSIS PROCESSING STATE */}
               {stage === 'analyzing' && (
-                <motion.div
-                  key="stage-analyzing"
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.25 }}
-                  className="py-4 text-center max-w-md mx-auto"
-                >
-                  <div className="relative w-16 h-16 rounded-full bg-slate-900 border-2 border-[#00A86B] flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(0,168,107,0.3)]">
-                    <FiShield className="text-2xl text-[#00A86B] animate-pulse" />
-                  </div>
+                <AnimatePresence mode="wait">
+                  {analysisPhase === 'steps' ? (
+                    <motion.div
+                      key="stage-analyzing-steps"
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.2 } }}
+                      transition={{ duration: 0.25 }}
+                      className="py-4 text-center max-w-md mx-auto"
+                    >
+                      <div className="relative w-16 h-16 rounded-full bg-slate-900 border-2 border-[#00A86B] flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(0,168,107,0.3)]">
+                        <FiShield className="text-2xl text-[#00A86B] animate-pulse" />
+                      </div>
 
-                  <h3 className="text-xl font-black text-[#0F172A] tracking-tight font-display mb-1">
-                    Analyzing & Identifying Policy
-                  </h3>
+                      <h3 className="text-xl font-black text-[#0F172A] tracking-tight font-display mb-1">
+                        Analyzing & Identifying Policy
+                      </h3>
 
-                  <p className="text-xs sm:text-sm text-slate-500 font-medium mb-6">
-                    Reading policy clauses and matching product terms against official wordings.
-                  </p>
+                      <p className="text-xs sm:text-sm text-slate-500 font-medium mb-6">
+                        Reading policy clauses and matching product terms against official wordings.
+                      </p>
 
-                  <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-4 text-left space-y-3 shadow-xs">
-                    <div className="flex items-center gap-3 text-xs sm:text-sm font-bold transition-colors">
-                      {analysisStep >= 1 ? (
-                        <FiCheck className="text-[#00A86B] text-base shrink-0 stroke-[3]" />
-                      ) : (
-                        <span className="w-4 h-4 rounded-full border-2 border-slate-300 shrink-0" />
-                      )}
-                      <span className={analysisStep >= 1 ? 'text-[#0F172A]' : 'text-slate-400'}>
-                        Reading your uploaded policy text
-                      </span>
-                    </div>
+                      <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-4 text-left space-y-3 shadow-xs">
+                        <div className="flex items-center gap-3 text-xs sm:text-sm font-bold transition-colors">
+                          {analysisStep >= 1 ? (
+                            <FiCheck className="text-[#00A86B] text-base shrink-0 stroke-[3]" />
+                          ) : (
+                            <span className="w-4 h-4 rounded-full border-2 border-slate-300 shrink-0" />
+                          )}
+                          <span className={analysisStep >= 1 ? 'text-[#0F172A]' : 'text-slate-400'}>
+                            Reading your uploaded policy text
+                          </span>
+                        </div>
 
-                    <div className="flex items-center gap-3 text-xs sm:text-sm font-bold transition-colors">
-                      {analysisStep >= 2 ? (
-                        <FiCheck className="text-[#00A86B] text-base shrink-0 stroke-[3]" />
-                      ) : analysisStep === 1 ? (
-                        <span className="w-4 h-4 rounded-full border-2 border-[#00A86B] border-t-transparent animate-spin shrink-0" />
-                      ) : (
-                        <span className="w-4 h-4 rounded-full border-2 border-slate-300 shrink-0" />
-                      )}
-                      <span className={analysisStep >= 2 ? 'text-[#0F172A]' : analysisStep === 1 ? 'text-[#00A86B]' : 'text-slate-400'}>
-                        Identifying exact product, insurer & UIN
-                      </span>
-                    </div>
+                        <div className="flex items-center gap-3 text-xs sm:text-sm font-bold transition-colors">
+                          {analysisStep >= 2 ? (
+                            <FiCheck className="text-[#00A86B] text-base shrink-0 stroke-[3]" />
+                          ) : analysisStep === 1 ? (
+                            <span className="w-4 h-4 rounded-full border-2 border-[#00A86B] border-t-transparent animate-spin shrink-0" />
+                          ) : (
+                            <span className="w-4 h-4 rounded-full border-2 border-slate-300 shrink-0" />
+                          )}
+                          <span className={analysisStep >= 2 ? 'text-[#0F172A]' : analysisStep === 1 ? 'text-[#00A86B]' : 'text-slate-400'}>
+                            Identifying exact product, insurer & UIN
+                          </span>
+                        </div>
 
-                    <div className="flex items-center gap-3 text-xs sm:text-sm font-bold transition-colors">
-                      {analysisStep >= 3 ? (
-                        <FiCheck className="text-[#00A86B] text-base shrink-0 stroke-[3]" />
-                      ) : analysisStep === 2 ? (
-                        <span className="w-4 h-4 rounded-full border-2 border-[#00A86B] border-t-transparent animate-spin shrink-0" />
-                      ) : (
-                        <span className="w-4 h-4 rounded-full border-2 border-slate-300 shrink-0" />
-                      )}
-                      <span className={analysisStep >= 3 ? 'text-[#0F172A]' : analysisStep === 2 ? 'text-[#00A86B]' : 'text-slate-400'}>
-                        Checking coverage, waiting periods & limits
-                      </span>
-                    </div>
+                        <div className="flex items-center gap-3 text-xs sm:text-sm font-bold transition-colors">
+                          {analysisStep >= 3 ? (
+                            <FiCheck className="text-[#00A86B] text-base shrink-0 stroke-[3]" />
+                          ) : analysisStep === 2 ? (
+                            <span className="w-4 h-4 rounded-full border-2 border-[#00A86B] border-t-transparent animate-spin shrink-0" />
+                          ) : (
+                            <span className="w-4 h-4 rounded-full border-2 border-slate-300 shrink-0" />
+                          )}
+                          <span className={analysisStep >= 3 ? 'text-[#0F172A]' : analysisStep === 2 ? 'text-[#00A86B]' : 'text-slate-400'}>
+                            Checking coverage, waiting periods & limits
+                          </span>
+                        </div>
 
-                    <div className="flex items-center gap-3 text-xs sm:text-sm font-bold transition-colors">
-                      {analysisStep >= 4 ? (
-                        <FiCheck className="text-[#00A86B] text-base shrink-0 stroke-[3]" />
-                      ) : analysisStep === 3 ? (
-                        <span className="w-4 h-4 rounded-full border-2 border-[#00A86B] border-t-transparent animate-spin shrink-0" />
-                      ) : (
-                        <span className="w-4 h-4 rounded-full border-2 border-slate-300 shrink-0" />
-                      )}
-                      <span className={analysisStep >= 4 ? 'text-[#0F172A]' : analysisStep === 3 ? 'text-[#00A86B]' : 'text-slate-400'}>
-                        Preparing verified easy-language report
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
+                        <div className="flex items-center gap-3 text-xs sm:text-sm font-bold transition-colors">
+                          {analysisStep >= 4 ? (
+                            <FiCheck className="text-[#00A86B] text-base shrink-0 stroke-[3]" />
+                          ) : analysisStep === 3 ? (
+                            <span className="w-4 h-4 rounded-full border-2 border-[#00A86B] border-t-transparent animate-spin shrink-0" />
+                          ) : (
+                            <span className="w-4 h-4 rounded-full border-2 border-slate-300 shrink-0" />
+                          )}
+                          <span className={analysisStep >= 4 ? 'text-[#0F172A]' : analysisStep === 3 ? 'text-[#00A86B]' : 'text-slate-400'}>
+                            Preparing verified easy-language report
+                          </span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ) : (
+                    /* DEDICATED FINAL PROCESSING STATE */
+                    <motion.div
+                      key="stage-analyzing-finalizing"
+                      initial={{ opacity: 0, scale: 0.97 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.96 }}
+                      transition={{ duration: 0.25 }}
+                      className="py-4 text-center max-w-md mx-auto"
+                    >
+                      {/* Subtle animated shield with glowing halo and spinning ring */}
+                      <div className="relative w-16 h-16 rounded-full bg-slate-900 border-2 border-[#00A86B] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_rgba(0,168,107,0.35)]">
+                        <span className="absolute -inset-1 rounded-full border-2 border-[#00A86B]/30 border-t-[#00A86B] animate-spin" />
+                        <FiShield className="text-2xl text-[#00A86B] animate-pulse" />
+                      </div>
+
+                      <h3 className="text-xl font-black text-[#0F172A] tracking-tight font-display mb-1.5">
+                        Analyzing Your Policy
+                      </h3>
+
+                      <p className="text-xs sm:text-sm text-slate-500 font-medium mb-6 max-w-sm mx-auto leading-relaxed">
+                        We're reviewing your policy document and preparing the important details for you.
+                      </p>
+
+                      <div className="bg-slate-50/90 border border-slate-200/80 rounded-2xl p-5 text-center shadow-xs">
+                        {/* Indeterminate shimmer loader line */}
+                        <div className="w-full bg-slate-200/80 h-1.5 rounded-full overflow-hidden mb-4 relative">
+                          <motion.div
+                            className="h-full bg-gradient-to-r from-[#00A86B]/20 via-[#00A86B] to-[#00A86B]/20 w-1/2 rounded-full absolute"
+                            animate={{
+                              x: ['-100%', '200%']
+                            }}
+                            transition={{
+                              repeat: Infinity,
+                              duration: 1.8,
+                              ease: "easeInOut"
+                            }}
+                          />
+                        </div>
+
+                        {/* Rotating animated status message */}
+                        <div className="min-h-[28px] flex items-center justify-center">
+                          <AnimatePresence mode="wait">
+                            <motion.div
+                              key={rotatingStatusIndex}
+                              initial={{ opacity: 0, y: 6 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -6 }}
+                              transition={{ duration: 0.25 }}
+                              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0F172A]"
+                            >
+                              <span className="w-2 h-2 rounded-full bg-[#00A86B] animate-ping shrink-0" />
+                              <span>{ROTATING_STATUS_MESSAGES[rotatingStatusIndex]}</span>
+                            </motion.div>
+                          </AnimatePresence>
+                        </div>
+
+                        {/* Reassuring verification badge */}
+                        <div className="mt-3 pt-3 border-t border-slate-200/60 flex items-center justify-center gap-1.5 text-[11px] font-semibold text-slate-500">
+                          <FiCheck className="text-[#00A86B] text-xs stroke-[3]" />
+                          <span>Document verified • Synthesizing policy report</span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               )}
 
               {/* STAGE 4: READY & SUMMARY STATE */}

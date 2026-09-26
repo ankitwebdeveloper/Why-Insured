@@ -146,10 +146,10 @@ export const companiesData = [
         ],
         details: {
           eligibility: "18 to 65 Years",
-          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 48 Months PED",
+          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 36 Months PED",
           roomRent: "Single Private Room / Twin Sharing / Any Room depending on variant",
           hospitalization: "Inpatient expenses covered up to Sum Insured",
-          prePostHospital: "60-90 Days Pre & 90-180 Days Post Hospitalization covered",
+          prePostHospital: "90 Days Pre & 90 Days Post Hospitalization covered",
           dayCare: "All Day Care procedures covered",
           noClaimBonus: "Cumulative Bonus / Supercharge Bonus up to 5X",
           exclusions: "Intentional self-injury, cosmetic surgery, hazardous adventure sports"
@@ -172,7 +172,7 @@ export const companiesData = [
         ],
         details: {
           eligibility: "18 to 65 Years (Children: 91 days to 25 years)",
-          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 48 Months PED",
+          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 36 Months PED",
           roomRent: "Single Private Room covered with zero capping",
           hospitalization: "Inpatient hospitalization covered up to Sum Insured",
           prePostHospital: "90 Days Pre & 90 Days Post Hospitalization covered",
@@ -200,10 +200,10 @@ export const companiesData = [
         ],
         details: {
           eligibility: "18 to 65 Years (Children: 91 days to 25 years)",
-          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 48 Months PED",
+          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 36 Months PED",
           roomRent: "Twin Sharing room covered with zero proportionate deductions",
           hospitalization: "Inpatient hospitalization covered up to Sum Insured",
-          prePostHospital: "60 Days Pre & 90 Days Post Hospitalization covered",
+          prePostHospital: "90 Days Pre & 90 Days Post Hospitalization covered",
           dayCare: "All Day Care procedures covered",
           noClaimBonus: "Cumulative bonus with Super Charge Bonus available as rider",
           exclusions: "Intentional self-injury, cosmetic surgery, breach of law"
@@ -228,10 +228,10 @@ export const companiesData = [
         ],
         details: {
           eligibility: "18 to 65 Years (Children: 91 days to 25 years)",
-          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 48 Months PED",
+          waitingPeriod: "30 Days initial, 24 Months Specified Diseases, 36 Months PED",
           roomRent: "Any Room category covered including suites",
           hospitalization: "Inpatient hospitalization covered up to Sum Insured",
-          prePostHospital: "90 Days Pre & 180 Days Post Hospitalization covered",
+          prePostHospital: "90 Days Pre & 90 Days Post Hospitalization covered",
           dayCare: "All Day Care procedures covered",
           noClaimBonus: "Super Charge Bonus inbuilt up to 5X",
           exclusions: "Intentional self-injury, cosmetic surgery, breach of law"

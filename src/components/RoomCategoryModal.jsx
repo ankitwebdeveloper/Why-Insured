@@ -171,7 +171,7 @@ export default function RoomCategoryModal({
                     </div>
 
                     <p className="text-xs sm:text-sm font-medium text-slate-700 mt-1 leading-relaxed">
-                      <strong className="text-slate-900 font-bold">You can stay in a private room meant for one patient.</strong>
+                      <strong className="text-slate-900 font-bold">Features specific room choices as outlined in the policy terms.</strong>
                     </p>
 
                     <ul className="mt-2.5 space-y-1.5 text-xs sm:text-[13px] text-slate-600 font-medium">

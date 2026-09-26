@@ -225,39 +225,31 @@ export const TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS = [
         id: 'select-cashless-policy',
         title: '100% Cashless Policy',
         iconType: 'credit',
-        summary: 'Get cashless treatment at network hospitals, for eligible hospitalisation expenses covered under the policy.',
-        points: [
-          "No Co-pay: You don't have to pay a fixed percentage of the eligible hospital bill.",
-          'No Sublimits: There is no separate fixed limit on eligible surgeries or treatments, as per the policy terms.'
-        ]
+        summary: 'Enjoy cashless treatments at network hospitals for eligible hospitalization expenses. It features No Co-pay (no fixed percentage of the bill to pay) and No Sublimits (no separate fixed limits on specific surgeries or treatments).',
+        points: []
       },
       {
         id: 'select-room-category',
-        title: 'Room Category (Must Read)',
+        title: 'Room Category',
         iconType: 'home',
-        summary: '',
+        subtitle: 'Features specific room choices as outlined in the policy terms.',
+        summary: 'Features specific room choices as outlined in the policy terms.',
         points: [],
         hideExpandedBody: true
       },
       {
         id: 'select-pre-post',
-        title: 'Pre & Post Hospitalization expenses',
+        title: 'Pre & Post Hospitalization Expenses',
         iconType: 'calendar',
-        summary: 'Covers eligible medical expenses such as doctor consultations, medicines/pharmacy expenses, lab tests, etc.',
-        points: [
-          'Pre-Hospitalisation: Up to 90 days before admission',
-          'Post-Hospitalisation: Up to 90 days after discharge',
-          'Important Note: These may look like OPD expenses, such as consultations, medicines and tests. However, they are not standalone OPD expenses. If the hospitalisation claim is covered, eligible Pre & Post Hospitalisation expenses will also be covered. If the hospitalisation claim is not covered, these expenses will not be covered'
-        ]
+        summary: 'Covers eligible medical costs like consultations, pharmacy, and lab tests up to 90 days before admission and up to 90 days after discharge (only applicable if the hospitalization claim is covered).',
+        points: []
       },
       {
         id: 'select-day-care',
         title: 'Day Care Procedures',
         iconType: 'activity',
-        summary: 'Covers eligible treatments that require less than 24 hours of hospitalisation.',
-        points: [
-          'Example: Some surgeries or medical procedures can be completed in less than 24 hours and may still be covered under Day Care Treatment.'
-        ]
+        summary: 'Covers eligible treatments and surgeries that require less than 24 hours of hospitalization.',
+        points: []
       }
     ]
   },
@@ -272,52 +264,38 @@ export const TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS = [
     items: [
       {
         id: 'select-restore-infinity-plus',
-        title: 'Restore Infinity Plus (Restoration)',
+        title: 'Restore Infinity Plus',
         iconType: 'refresh',
-        summary: '',
-        points: [
-          'Unlimited restorations during a policy year.',
-          'Restores 100% of the Base Sum Insured for subsequent related or unrelated claims within the policy year.',
-          'Example: ₹10 Lakh Base SI → 10 Lakh Restored → 10 Lakh Restored Again → Unlimited Times',
-          'Important Note: Restore Infinity Plus is available for your next hospitalisation, not the same hospitalisation.'
-        ]
+        summary: 'Provides unlimited 100% restorations of the Base Sum Insured for subsequent related or unrelated claims within the same policy year for future hospitalizations.',
+        points: []
       },
       {
         id: 'select-no-claim-bonus',
         title: 'No Claim Bonus',
         iconType: 'trending',
-        summary: '',
-        points: [
-          'Cumulative Bonus: 50% to 100% for every claim-free year.',
-          'Example: ₹20 Lakh Base SI → ₹30 Lakh → ₹40 Lakh (Bonus increases by 50% of Base SI each claim-free year, up to 100%.)',
-          'OR',
-          '1% Discount on Renewal Premium for every claim-free year.',
-          'Important Note: You can choose either Cumulative Bonus or Renewal Premium Discount. Cumulative Bonus applies only when the Renewal Premium Discount is not availed.'
-        ]
+        summary: 'Choose between a Cumulative Bonus (50% to 100% increase in Base Sum Insured for every claim-free year) OR a 1% Renewal Premium Discount per claim-free year.',
+        points: []
       },
       {
         id: 'select-ayush-benefit',
         title: 'AYUSH Benefit',
         iconType: 'shield',
-        summary: 'Covers eligible AYUSH treatments taken as In-Patient or Day Care, such as Ayurveda, Yoga & Naturopathy, Unani, Siddha and Homeopathy, up to the Sum Insured.',
+        summary: 'Covers eligible Ayurveda, Yoga & Naturopathy, Unani, Siddha, and Homeopathy treatments taken as In-Patient or Day Care up to the Sum Insured.',
         points: []
       },
       {
         id: 'select-organ-donor',
         title: 'Organ Donor',
         iconType: 'heart',
-        summary: 'Covers eligible medical expenses of the organ donor for harvesting the donated organ, up to the Sum Insured.',
+        summary: 'Covers medical expenses for the organ donor to harvest the donated organ up to the Sum Insured.',
         points: []
       },
       {
         id: 'select-professional-discount',
-        title: 'Professional Discount (7.5%)',
+        title: 'Professional Discount',
         iconType: 'award',
-        summary: '',
-        points: [
-          'This discount is applicable for salaried customers.',
-          'Important Note: To avail the 7.5% discount, a valid corporate email ID is required. The email ID needs to be verified through OTP. Personal email IDs such as Gmail are not eligible for this discount.'
-        ]
+        summary: 'Salaried customers can receive a 7.5% discount by verifying a valid corporate email ID via OTP (personal emails like Gmail are ineligible).',
+        points: []
       }
     ]
   },
@@ -334,209 +312,22 @@ export const TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS = [
         id: 'select-domiciliary-treatment',
         title: 'Domiciliary Treatment',
         iconType: 'home',
-        summary: 'Treatment at home is covered as per policy terms.',
-        points: [
-          'Important Note: Domiciliary Treatment covers eligible treatment taken at home for more than 3 days. This benefit may be available when the patient cannot be shifted to a hospital or when a hospital bed/room is not available, as per policy terms.'
-        ]
+        summary: 'Covers eligible home treatments lasting more than 3 days when a patient cannot be shifted to a hospital or beds are unavailable.',
+        points: []
       },
       {
         id: 'select-ambulance-cover',
         title: 'Ambulance Cover',
         iconType: 'truck',
-        summary: 'Covers ambulance expenses up to the Sum Insured for transportation within a 50 km radius.',
+        summary: 'Reimburses ambulance transportation expenses within a 50 km radius up to the Sum Insured.',
         points: []
       },
       {
         id: 'select-daily-cash',
         title: 'Daily Cash',
         iconType: 'dollar',
-        summary: '',
-        points: [
-          'Get a fixed daily cash benefit when choosing shared hospital accommodation:',
-          'Twin Sharing Accommodation: ₹1,200 per day',
-          'Multi-Sharing Accommodation: ₹1,500 per day',
-          'Over & Above the Base Sum Insured'
-        ]
-      },
-      {
-        id: 'select-additional-si-accidental',
-        title: 'Additional Sum Insured for Accidental Hospitalization',
-        iconType: 'shield',
-        badge: 'ACCIDENTAL SI',
-        summary: 'Provides additional hospitalization cover up to the Base Sum Insured, over and above the Base Sum Insured, exclusively for accidental hospitalization.',
-        points: [
-          'Up to Base Sum Insured, over and above Base Sum Insured.',
-          'Separately available for each insured person under Individual and Family Floater policies.',
-          'Example: ₹10 Lakh Base Sum Insured → Additional ₹10 Lakh cover for accidental hospitalization (Total potential eligible hospitalization cover up to ₹20 Lakh).',
-          'Important Note: This is an additional hospitalization expense cover to reimburse eligible accidental medical expenses, NOT a ₹10 Lakh lump-sum payout.'
-        ]
-      },
-      {
-        id: 'select-cancer-benefit',
-        title: 'Cancer Benefit',
-        iconType: 'activity',
-        badge: 'CANCER BENEFIT',
-        summary: 'Provides a benefit up to the selected Sum Insured as a separate individual limit over and above the Base Sum Insured upon the first incidence of cancer.',
-        points: [
-          'Up to selected Sum Insured, provided as a separate individual limit over and above the Base Sum Insured.',
-          'Initial Waiting Period: 30 days.',
-          'Applicable on first incidence of cancer.',
-          'Survival Period: 30 days from the date of first diagnosis.',
-          'Eligibility: 18 years onwards (not applicable to dependent children).',
-          'Example: If opted with ₹10 Lakh Cancer Benefit, upon first confirmed diagnosis and completion of the 30-day survival period, ₹10 Lakh is paid over and above the Base Sum Insured.'
-        ]
-      },
-      {
-        id: 'select-domestic-second-opinion',
-        title: 'Domestic Second Opinion',
-        iconType: 'users',
-        badge: 'SECOND OPINION',
-        summary: '',
+        summary: 'Provides a fixed daily cash benefit for shared hospital accommodations (₹1,200/day for Twin Sharing and ₹1,500/day for Multi-Sharing) over and above the Base Sum Insured.',
         points: []
-      },
-      {
-        id: 'select-pre-policy-checkup',
-        title: 'Pre-Policy Medical Check-up',
-        iconType: 'clipboard',
-        badge: 'CHECK-UP',
-        summary: 'Pre-policy medical check-up requirements based on gender, age, and selected Sum Insured.',
-        points: [
-          'Medical reports are valid for 90 days from the date of Pre-Policy Check-up.'
-        ],
-        tableData: {
-          title: 'Pre-Policy Medical Check-up',
-          columns: ['Gender', 'Age', 'Sum Insured', 'Pre-Policy Check-up Tests'],
-          rows: [
-            ['Male', 'Above 45 years', '₹50 Lacs and above', 'PSA Test, CEA Test'],
-            ['Female', 'Above 45 years', '₹50 Lacs and above', 'CA-125 Test, CEA Test']
-          ]
-        },
-        tableNote: 'Medical reports are valid for 90 days from the date of Pre-Policy Check-up.'
-      },
-      {
-        id: 'select-early-access',
-        title: 'Early Access',
-        subtitle: "Use Your Next 3 Years' Coverage in a Single Year",
-        iconType: 'zap',
-        badge: 'MULTI-YEAR ACCESS',
-        summary: "Allows policyholders to use their next 3 years' coverage in a single year for multi-year policies.",
-        points: [
-          "Concept: Use Your Next 3 Years' Coverage in a Single Year.",
-          'Example: ₹20 Lakh Sum Insured × 3 Years (Total available coverage: ₹60 Lakh):',
-          'Year 1: If a large hospitalization claim of ₹35 Lakh arises, ₹20 Lakh is utilized from Year 1 coverage and ₹15 Lakh is accessed early from Year 2 coverage.',
-          'Year 2: Remaining coverage available for Year 2 is ₹5 Lakh.',
-          'Year 3: Full ₹20 Lakh coverage remains available.',
-          'Remaining coverage balances continue for subsequent years as per multi-year policy terms.'
-        ]
-      },
-      {
-        id: 'select-she-care-plus',
-        title: 'She Care+',
-        iconType: 'heart',
-        badge: 'WOMEN HEALTH',
-        summary: "Specialist consultations for women covering gynaecologists, dermatologists, and counselling for PMS, Menarche, Menopause, and Infertility.",
-        points: [
-          'Consultations accessible through Tata AIG network providers.',
-          'Number of eligible consultations depends on the selected Sum Insured tier.'
-        ],
-        tableData: {
-          title: 'She Care+',
-          columns: ['Sum Insured', 'No. of Consultations'],
-          rows: [
-            ['Less than ₹20 Lacs', 'Up to 10'],
-            ['₹20 Lacs – ₹50 Lacs', 'Up to 15'],
-            ['More than ₹50 Lacs', 'Up to 20']
-          ]
-        }
-      },
-      {
-        id: 'select-polycystic-ovarian-cover',
-        title: 'Polycystic Ovarian Cover',
-        iconType: 'activity',
-        badge: 'WOMEN HEALTH',
-        summary: "In-person consultations, diagnostic tests, and medical treatment for Polycystic Ovarian Disease / Syndrome (PCOD/PCOS).",
-        points: [
-          'Diagnostic tests include: USG, TFT, Prolactin, HbA1c, FSH.',
-          'Separate financial sub-limits for diagnostic tests and medical treatment as per Sum Insured tier.'
-        ],
-        tableData: {
-          title: 'Polycystic Ovarian Cover',
-          columns: ['Sum Insured', 'Consultation & Listed Diagnostic Tests', 'Treatment for Polycystic Ovarian Disease/Syndrome'],
-          rows: [
-            ['Less than ₹20 Lacs', 'Up to ₹2,500', 'Up to ₹5,000'],
-            ['₹20 Lacs – ₹50 Lacs', 'Up to ₹3,000', 'Up to ₹8,000'],
-            ['More than ₹50 Lacs', 'Up to ₹3,500', 'Up to ₹10,000']
-          ]
-        }
-      },
-      {
-        id: 'select-women-screening-vaccination',
-        title: 'Women+ Screening & Vaccination Cover',
-        iconType: 'shield',
-        badge: 'WOMEN HEALTH',
-        summary: "Preventive cancer screening and cervical cancer vaccination for women.",
-        points: [
-          'Breast cancer screening: Mammography',
-          'Ovarian cancer screening: Ultrasound, CA-125',
-          'Cervical cancer screening: Pap smear',
-          'Cervical cancer vaccination'
-        ],
-        tableData: {
-          title: 'Women+ Screening & Vaccination Cover',
-          columns: ['Sum Insured', 'Cancer Screening', 'Cervical Cancer Vaccination Cost'],
-          rows: [
-            ['Less than ₹20 Lacs', 'Annually', 'Up to ₹5,000'],
-            ['₹20 Lacs – ₹50 Lacs', 'Annually', 'Up to ₹5,000'],
-            ['More than ₹50 Lacs', 'Bi-annually', 'Up to ₹5,000']
-          ]
-        }
-      },
-      {
-        id: 'select-health-condition-management-program',
-        title: 'Health Condition Management Program',
-        iconType: 'clipboard',
-        badge: 'WELLNESS PROGRAM',
-        summary: 'Personalized wellness and disease management support to actively manage chronic conditions and improve long-term health.',
-        points: [
-          'Proactive management support for chronic conditions (Diabetes, Hypertension, Hyperlipidemia, Asthma).',
-          'Lifestyle coaching, customized diet plans, nutrition advice, and wellness guidance.',
-          'Periodic health tracking, medication reminders, and wellness support to prevent illness progression.'
-        ]
-      },
-      {
-        id: 'select-mental-wellbeing',
-        title: 'Mental Wellbeing',
-        subtitle: 'Holistic Psychological & Behavioral Healthcare',
-        iconType: 'smile',
-        badge: 'MENTAL HEALTH',
-        summary: 'Comprehensive mental health and wellbeing support covering counseling, therapy, and rehabilitation.',
-        points: [
-          '1. Mental Health Screening',
-          '2. Psychological Therapy and Procedures: Up to 10 sessions',
-          '3. Diet Consultation: Up to 4 diet consultations',
-          '4. Vocational Rehabilitation: Up to 30 days vocational rehabilitation',
-          '5. Stress Management: Unlimited stress management',
-          '6. Addiction Cessation Program: Unlimited addiction cessation'
-        ]
-      },
-      {
-        id: 'select-emergency-air-ambulance-rider',
-        title: 'Emergency Air Ambulance Rider',
-        iconType: 'truck',
-        badge: 'AIR AMBULANCE',
-        summary: '',
-        points: []
-      },
-      {
-        id: 'select-international-second-opinion',
-        title: 'International Second Opinion',
-        iconType: 'globe',
-        badge: 'GLOBAL OPINION',
-        summary: 'Avail an international second medical opinion from leading global specialists for listed illnesses.',
-        points: [
-          'Covers listed illnesses: Cancer, Kidney Failure, Myocardial Infarction, Angina, Coronary bypass surgery, Stroke/Cerebral hemorrhage, Organ failure requiring transplant, Heart Valve replacement, Brain tumors, End stage lung disease, End stage liver failure, Bone marrow transplant, Permanent paralysis of limbs, Motor neuron disease, Parkinson\'s disease.',
-          'Available once for each listed illness, per insured person, per policy year.'
-        ]
       }
     ]
   },
@@ -553,59 +344,36 @@ export const TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS = [
         id: 'select-consumables-benefit',
         title: 'Consumables Benefit',
         iconType: 'shield',
-        summary: 'Covers eligible non-medical expenses like gloves, syringes, cotton, etc., helping reduce your expenses from your own pocket.',
+        summary: 'Covers non-medical expenses like gloves, syringes, and cotton to lower out-of-pocket costs.',
         points: []
       },
       {
         id: 'select-supercharge-bonus-rider',
         title: 'Supercharge Bonus Rider',
         iconType: 'trending',
-        summary: '',
-        points: [
-          '100% to 500% Bonus',
-          'Example (Irrespective of Claims): 20 Lakh Base SI → ₹40 Lakh → ₹60 Lakh → ₹80 Lakh → ₹1 Crore → ₹1.20 Crore (Bonus increases by 100% of Base SI, up to 500%.)'
-        ]
+        summary: 'Increases the bonus by 100% to 500% of the Base Sum Insured irrespective of claims.',
+        points: []
       },
       {
         id: 'select-infinite-advantage',
         title: 'Infinite Advantage',
         iconType: 'heart',
-        summary: '',
-        points: [
-          'One unlimited claim in a lifetime.',
-          'Example: ₹10 Lakh Base SI → If an eligible claim arises in future for ₹70 Lakh, Infinite Advantage can cover the amount beyond your available Sum Insured, subject to policy terms.',
-          'Important Note: This benefit can be used only once in the lifetime of the policy. Once used, Infinite Advantage will cease and cannot be opted again on renewal.'
-        ]
+        summary: 'Provides one unlimited claim in a lifetime for amounts exceeding the available Sum Insured.',
+        points: []
       },
       {
         id: 'select-preventive-annual-health-checkup-rider',
         title: 'Preventive Annual Health Checkup Rider',
         iconType: 'clipboard',
-        summary: 'Covers the following listed medical tests, available once in a Policy Year on a cashless basis with home visit:',
-        points: [
-          'Liver Function Test',
-          'Calcium',
-          'KFT with Electrolytes',
-          'Complete Blood Count (CBC)',
-          'Erythrocyte Sedimentation Rate (ESR)',
-          'HbA1c',
-          'Lipid Profile',
-          'Phosphorus',
-          'Urine Analysis',
-          'Fasting Blood Sugar'
-        ]
+        summary: 'Offers a cashless home visit once per policy year for listed tests (e.g., CBC, Lipid Profile, Liver Function Test, HbA1c, Urine Analysis).',
+        points: []
       },
       {
         id: 'select-advanced-cover-rider',
         title: 'Advanced Cover Rider',
         iconType: 'clock',
-        summary: 'Reduces the Pre-Existing Disease waiting period from 36 months to just 30 days for:',
-        points: [
-          'Diabetes Mellitus (Type 2)',
-          'Hypertension',
-          'Hyperlipidemia',
-          'Asthma'
-        ]
+        summary: 'Reduces the pre-existing disease waiting period from 36 months to 30 days specifically for Type 2 Diabetes Mellitus, Hypertension, Hyperlipidemia, and Asthma.',
+        points: []
       },
       {
         id: 'select-maternity-care',
@@ -613,37 +381,78 @@ export const TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS = [
         iconType: 'heart',
         badge: 'OPTIONAL ADD-ON',
         isRider: true,
-        summary: 'Provides maternity cover up to 10% of the Sum Insured, maximum up to ₹1,00,000 per Policy Year, over and above the Base Sum Insured.',
-        points: [
-          'Covers up to 10% of Sum Insured, maximum ₹1,00,000 per Policy Year, over and above the Base Sum Insured.',
-          'Covers eligible maternity expenses.',
-          'Covers delivery complications.',
-          'Covers first-year newborn vaccinations.',
-          'Important Note: Total claim payout under Maternity Care is capped at a maximum limit of ₹1,00,000 per policy year.'
-        ]
-      },
-      {
-        id: 'select-reduction-maternity-waiting-period',
-        title: 'Reduction of Maternity Care Waiting Period',
-        iconType: 'clock',
-        badge: 'OPTIONAL ADD-ON',
-        isRider: true,
-        summary: 'Reduces the standard maternity waiting period from 24 months to 12 months.',
-        points: [
-          'Reduces standard maternity care waiting period: 24 months → 12 months.',
-          'Important Note: Can only be opted when Maternity Care add-on is opted.'
-        ]
+        summary: 'Provides up to ₹1,00,000 per Policy Year (over and above the Base Sum Insured) for maternity expenses, delivery complications, and first-year newborn vaccinations. An add-on is also available to reduce its waiting period from 24 months to 12 months.',
+        points: []
       },
       {
         id: 'select-accidental-death-benefit-rider',
         title: 'Accidental Death Benefit Rider',
         iconType: 'shield',
-        summary: '',
-        points: [
-          'If an Insured Person dies due to an accident during the Policy Period, 100% of the Sum Insured or ₹50,00,000, whichever is lower, will be paid.',
-          'Example: 20 Lakh Sum Insured → ₹20 Lakh payout | 75 Lakh Sum Insured → 50 Lakh payout',
-          'Important Note: The death must happen within 365 days of the accident and must be directly caused by the accident.'
-        ]
+        summary: 'Pays 100% of the Sum Insured or ₹50,00,000 (whichever is lower) if death occurs directly from an accident within 365 days.',
+        points: []
+      },
+      {
+        id: 'select-additional-si-accidental',
+        title: 'Additional Sum Insured for Accidental Hospitalization',
+        iconType: 'shield',
+        summary: 'Provides an extra limit of up to the Base Sum Insured specifically for in-patient accidental hospitalizations.',
+        points: []
+      },
+      {
+        id: 'select-cancer-benefit',
+        title: 'Cancer Benefit',
+        iconType: 'activity',
+        summary: 'Pays up to the selected Sum Insured (as a separate individual limit) upon a first-time diagnosis of specified severity cancer after a 30-day initial waiting and survival period.',
+        points: []
+      },
+      {
+        id: 'select-domestic-second-opinion',
+        title: 'Domestic Second Opinion',
+        iconType: 'users',
+        summary: 'Allows easy access to medical opinions in India from network providers via digital modes based on your documents.',
+        points: []
+      },
+      {
+        id: 'select-early-access',
+        title: 'Early Access',
+        iconType: 'zap',
+        summary: 'Lets you use your next 3 years of coverage in a single year if needed.',
+        points: []
+      },
+      {
+        id: 'select-women-suraksha',
+        title: 'Women Suraksha (EmpowerHer)',
+        iconType: 'heart',
+        summary: 'Includes consultation support (She Care+), Polycystic Ovarian Cover (evaluation and treatment limits based on slab), and Women+ Screening & Vaccination Cover for specific cancers and cervical cancer vaccination.',
+        points: []
+      },
+      {
+        id: 'select-health-condition-management-program',
+        title: 'Health Condition Management Program',
+        iconType: 'clipboard',
+        summary: 'Offers support for nutrition, weight, chronic conditions, stress, and cancer care assistance.',
+        points: []
+      },
+      {
+        id: 'select-mental-wellbeing',
+        title: 'Mental Wellbeing',
+        iconType: 'smile',
+        summary: 'Includes annual mental health screenings (with psychiatrist evaluations and diagnostic tests), psychological therapy/talking therapy sessions (up to 10 sessions), a diet consultation rider (up to 4 sessions), vocational rehabilitation, a stress management rider, and an addiction cessation program.',
+        points: []
+      },
+      {
+        id: 'select-emergency-air-ambulance-rider',
+        title: 'Emergency Air Ambulance Rider',
+        iconType: 'truck',
+        summary: 'Reimburses airplane or helicopter emergency air ambulance expenses within India when advised by a doctor.',
+        points: []
+      },
+      {
+        id: 'select-international-second-opinion',
+        title: 'International Second Opinion',
+        iconType: 'globe',
+        summary: 'Offers second opinions from empanelled service providers for listed major illnesses (e.g., Cancer, Kidney Failure, Myocardial Infarction, Bone Marrow Transplant).',
+        points: []
       }
     ]
   },
@@ -660,35 +469,22 @@ export const TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS = [
         id: 'select-room-category-select',
         title: 'Room Category Select',
         iconType: 'home',
-        summary: 'Choose Twin Sharing Room – A lower premium option.',
+        summary: 'Choose a Twin Sharing Room option for a lower premium.',
         points: []
       },
       {
         id: 'select-introduction-vpn',
-        title: 'Introduction of Valued Provider Network',
+        title: 'Valued Provider Network',
         iconType: 'activity',
-        summary: 'Choose Valued Provider Network – If you want a lower premium.',
-        points: [
-          'Important Note: If treatment is taken outside the Valued Provider - Pan India network, a 30% co-payment will apply to the respective claim. This applies to treatment at a Hospital, Day Care Centre or AYUSH Hospital.',
-          'Example 1 - Valued Provider Network: If you take an eligible treatment at a Valued Provider - Pan India network hospital, no 30% co-payment will apply. (Eligible Claim ₹1,00,000 → Insurance Company: ₹1,00,000 | Co-payment: ₹0)',
-          'Example 2 - Outside Valued Provider Network: If you take an eligible treatment outside the Valued Provider - Pan India network, 30% co-payment will apply. (Eligible Claim ₹1,00,000 → Insurance Company: ₹70,000 | You Pay: ₹30,000)'
-        ]
+        summary: 'Opting for a Valued Provider Network lowers premiums, but taking treatments outside this network incurs a 30% co-payment.',
+        points: []
       },
       {
         id: 'select-aggregate-deductible-discount',
         title: 'Aggregate Deductible Discount',
         iconType: 'dollar',
-        summary: '',
-        points: [
-          'Choose your deductible: ₹10,000 | ₹25,000 | ₹50,000 | ₹1,00,000',
-          'Higher Deductible = Higher Premium Discount',
-          "The selected deductible is applicable once during a Policy Year. Once the selected amount is paid through your claims, you don't have to pay the same deductible again for eligible claims during that year.",
-          'Example: 10 Lakh Base SI + ₹1 Lakh Deductible',
-          '1st Claim: ₹60,000 → You Pay ₹60,000',
-          '2nd Claim: ₹70,000 → You Pay ₹40,000 + Insurance covers ₹30,000 (Deductible Completed: ₹1,00,000)',
-          '3rd Claim: ₹2,00,000 → No further ₹1,00,000 deductible → Eligible claim covered as per policy terms.',
-          'Next Policy Year → Deductible starts again.'
-        ]
+        summary: 'Choose a deductible tier (₹10,000, ₹25,000, ₹50,000, or ₹1,00,000) to receive a higher premium discount, applicable once per policy year.',
+        points: []
       }
     ]
   },
@@ -699,42 +495,34 @@ export const TATA_AIG_MEDICARE_SELECT_FEATURES_SECTIONS = [
   {
     id: 'limitations-waiting-periods',
     title: 'LIMITATIONS & WAITING PERIODS',
-    gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+    gridCols: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2',
     items: [
       {
-        id: 'select-terms-waiting-exclusions',
-        title: 'Terms, Waiting Periods & Exclusions',
-        iconType: 'clipboard',
-        summary: '',
-        points: [],
-        hideExpandedBody: true
-      },
-      {
         id: 'select-initial-waiting-period',
-        title: 'Initial Waiting Period (except accident) (30 days):',
+        title: 'Initial Waiting Period',
         iconType: 'clock',
-        summary: 'Generally, illness-related claims are not covered during the first 30 days of the policy; accidental claims are covered as per policy terms.',
+        summary: '30 days for illness-related claims (accidents are covered as per policy terms).',
         points: []
       },
       {
         id: 'select-pre-existing-diseases-waiting-period',
-        title: 'Pre-Existing Diseases Waiting Period (36 Months):',
+        title: 'Pre-Existing Diseases Waiting Period',
         iconType: 'heart',
-        summary: 'Pre-existing diseases are covered after completion of the 36-month waiting period, subject to policy terms.',
+        summary: '36 months.',
         points: []
       },
       {
         id: 'select-specified-disease-waiting-period',
-        title: 'Specified Disease/Procedure Waiting Period (24 Months):',
+        title: 'Specified Disease/Procedure Waiting Period',
         iconType: 'activity',
-        summary: 'A 24-month waiting period applies to the specified diseases and procedures listed under the policy.',
+        summary: '24 months for listed diseases and procedures.',
         points: []
       },
       {
         id: 'select-permanent-exclusions',
-        title: 'Permanent Exclusions:',
+        title: 'Permanent Exclusions',
         iconType: 'shield',
-        summary: 'Any existing disease specifically mentioned as a Permanent Exclusion in the Policy Schedule is not covered.',
+        summary: 'Any existing diseases specifically outlined as permanent exclusions in the policy schedule are not covered.',
         points: []
       }
     ]
@@ -750,38 +538,30 @@ export const TATA_AIG_MEDICARE_SELECT_LIMITATIONS = {
   description: 'Terms, Waiting Periods & Exclusions',
   items: [
     {
-      id: 'terms-waiting-exclusions',
-      title: 'Terms, Waiting Periods & Exclusions',
-      summary: '',
-      points: [],
-      hideExpandedBody: true
-    },
-    {
       id: 'initial',
-      title: 'Initial Waiting Period (except accident) (30 days)',
-      summary: 'Generally, illness-related claims are not covered during the first 30 days of the policy; accidental claims are covered as per policy terms.',
+      title: 'Initial Waiting Period',
+      summary: '30 days for illness-related claims (accidents are covered as per policy terms).',
       policyRef: 'Tata AIG MediCare Select Policy Terms',
       durationTag: '30 Days'
     },
     {
       id: 'ped',
-      title: 'Pre-Existing Diseases Waiting Period (36 Months)',
-      summary: 'Pre-existing diseases are covered after completion of the 36-month waiting period, subject to policy terms.',
+      title: 'Pre-Existing Diseases Waiting Period',
+      summary: '36 months.',
       policyRef: 'Tata AIG MediCare Select Terms',
       durationTag: '36 Months'
     },
     {
       id: 'specific',
-      title: 'Specified Disease/Procedure Waiting Period (24 Months)',
-      summary: 'A 24-month waiting period applies to the specified diseases and procedures listed under the policy.',
-      highlight: '[View List of Specified Diseases/Procedures → file:///C:/Users/xylo/Downloads/TATA%20AIG%20(Medicare%20Select)%20-%202%20Yrs%20waiting%20period%20list.pdf]',
+      title: 'Specified Disease/Procedure Waiting Period',
+      summary: '24 months for listed diseases and procedures.',
       policyRef: 'Tata AIG Specific Illness Schedule',
       durationTag: '24 Months'
     },
     {
       id: 'permanent',
       title: 'Permanent Exclusions',
-      summary: 'Any existing disease specifically mentioned as a Permanent Exclusion in the Policy Schedule is not covered.',
+      summary: 'Any existing diseases specifically outlined as permanent exclusions in the policy schedule are not covered.',
       policyRef: 'Standard IRDAI & Tata AIG Guidelines',
       durationTag: 'Never Covered'
     }
@@ -801,25 +581,25 @@ export const TATA_AIG_MEDICARE_SELECT_MUST_KNOW = {
       id: 'cashless-network',
       icon: '💳',
       title: '100% CASHLESS POLICY',
-      summary: 'Cashless treatment at network hospitals for eligible hospitalisation expenses with 0% co-pay and no sub-limits on treatments.'
+      summary: 'Enjoy cashless treatments at network hospitals for eligible hospitalization expenses. It features No Co-pay (no fixed percentage of the bill to pay) and No Sublimits (no separate fixed limits on specific surgeries or treatments).'
     },
     {
       id: 'room-rent',
       icon: '🏥',
-      title: 'SINGLE PRIVATE ROOM & SHARED ROOM OPTION',
-      summary: 'Single Private Room covered with zero room rent capping. You can also choose a Shared Room for lower premium rates.'
+      title: 'ROOM CATEGORY',
+      summary: 'Features specific room choices as outlined in the policy terms.'
     },
     {
       id: 'restore-infinity',
       icon: '🔄',
       title: 'RESTORE INFINITY PLUS',
-      summary: 'Unlimited 100% Base Sum Insured restoration for subsequent hospitalizations in a policy year.'
+      summary: 'Provides unlimited 100% restorations of the Base Sum Insured for subsequent related or unrelated claims within the same policy year for future hospitalizations.'
     },
     {
       id: 'pre-post',
       icon: '📅',
-      title: 'PRE & POST HOSPITALIZATION (90 & 90 DAYS)',
-      summary: 'Covers doctor consultations, pharmacy bills, and lab tests 90 days before admission and 90 days after discharge if hospitalization claim is admissible.'
+      title: 'PRE & POST HOSPITALIZATION EXPENSES',
+      summary: 'Covers eligible medical costs like consultations, pharmacy, and lab tests up to 90 days before admission and up to 90 days after discharge (only applicable if the hospitalization claim is covered).'
     }
   ]
 };
